@@ -10,6 +10,7 @@
 - **Mobile-First**: Touch-optimized for field technicians using mobile devices
 
 ## Color Palette
+
 **Primary Brand Colors:**
 - Primary Blue: 210 85% 25% (deep industrial blue for headers, CTAs)
 - Secondary Blue: 210 60% 45% (lighter blue for accents, links)
@@ -21,65 +22,71 @@
 - Warning Orange: 25 85% 55% (low stock alerts)
 - Error Red: 0 75% 45% (out of stock)
 
+**Dark Mode Variations:**
+- Dark Background: 210 20% 8%
+- Dark Surface: 210 15% 12%
+- Dark Text: 210 10% 90%
+
 **Background Treatments:**
-Subtle gradient overlays on hero sections using primary blue tones (210 85% 25% to 210 60% 45%). Clean white/light gray backgrounds for product grids to ensure maximum product photo clarity.
+Subtle gradient overlays on hero sections using primary blue tones (210 85% 25% to 210 60% 45%). Clean white/light gray backgrounds for product grids ensuring maximum product photo clarity.
 
 ## Typography
-- **Primary Font**: Inter (clean, technical readability)
-- **Secondary Font**: Roboto Mono (for technical specifications, part numbers)
+- **Primary Font**: Inter via Google Fonts (clean, technical readability)
+- **Secondary Font**: Roboto Mono via Google Fonts (technical specifications, part numbers)
 - **Hierarchy**: Large headings (2xl-4xl), readable body text (base-lg), compact technical data (sm)
 
 ## Layout System
-**Spacing Units**: Consistent use of Tailwind units 2, 4, 8, 12, 16
-- Tight spacing (2-4) for technical specifications
-- Medium spacing (8-12) for product cards and sections
-- Generous spacing (16+) for section breaks and hero areas
+**Spacing Units**: Consistent use of Tailwind units 2, 4, 8, 12
+- Tight spacing (2-4) for technical specifications and compact data
+- Medium spacing (8) for product cards and component separation
+- Generous spacing (12) for section breaks and content grouping
 
 ## Component Library
 
 ### Navigation
-- Sticky header with mega menu for category hierarchy
-- Breadcrumb navigation for deep product browsing
-- Search bar with autocomplete and filters
+- Sticky header with mega menu for deep category hierarchy
+- Prominent search bar with autocomplete and technical filters
+- Breadcrumb navigation for complex product browsing paths
 
 ### Product Display
-- Grid/list toggle views with product cards showing key specs
-- High-quality product imagery with zoom functionality
-- Technical specification tables with collapsible sections
-- Related products carousel
+- Grid/list toggle views with detailed specification previews
+- High-resolution product imagery with zoom and multiple angles
+- Collapsible technical specification tables
+- Related products and cross-sell recommendations
 
 ### Interactive Elements
-- Filter sidebar with category, price, specifications
-- Pagination with product count display
-- Quick view modals for product comparison
-- Add to quote/cart functionality
+- Advanced filter sidebar with category, price, and technical specifications
+- Pagination with clear product count indicators
+- Quick view modals for rapid product comparison
+- Professional quote request and bulk order functionality
 
 ### Forms & Data
-- Professional quote request forms
-- Technical specification filters
-- Inventory status indicators
-- Bulk order capabilities
+- Multi-step quote request forms with technical requirements
+- Dynamic specification filters with real-time results
+- Clear inventory status with delivery timeframes
+- Account management for repeat B2B customers
 
 ## Images
-**Hero Section**: Large hero image showcasing modern HVAC installation or industrial facility (1920x800px) with subtle blue gradient overlay. Features outline buttons with blurred backgrounds.
 
-**Product Images**: High-resolution product photos on white backgrounds (800x800px minimum) with multiple angles and detail shots.
+**Hero Section**: Large industrial facility or modern HVAC installation (1920x800px) with subtle blue gradient overlay. Features outline buttons with blurred backgrounds for professional CTAs.
 
-**Category Images**: Industrial lifestyle images showing products in real-world applications (600x400px).
+**Product Images**: High-resolution equipment photos on clean white backgrounds (800x800px minimum) with multiple angles, cutaway views, and installation contexts.
 
-**Technical Diagrams**: Clean, technical illustrations for installation guides and specifications.
+**Category Images**: Industrial application photos showing equipment in real commercial/industrial settings (600x400px) emphasizing professional use cases.
+
+**Technical Assets**: Clean diagrams, installation guides, and specification charts supporting product information.
 
 ## Animations
-Minimal, professional animations using GSAP:
-- Subtle page load transitions
-- Smooth product card hover effects (slight elevation)
-- Filter panel slide animations
-- Image gallery transitions
+Minimal, professional interactions:
+- Subtle hover elevations on product cards
+- Smooth filter panel transitions
+- Professional page load sequences
+- Image gallery navigation effects
 
 ## Mobile Optimization
-- Touch-friendly filter controls
-- Swipeable product galleries
-- Collapsible specification sections
-- Simplified navigation for small screens
+- Touch-optimized filter controls and navigation
+- Swipeable product galleries for detailed viewing
+- Collapsible specification sections for mobile screens
+- Simplified checkout flow for field ordering
 
-This design framework creates a professional, trustworthy e-commerce experience that serves both field technicians needing quick product lookup and procurement professionals requiring detailed technical specifications.
+This framework creates a professional, trustworthy e-commerce experience serving both field technicians requiring quick product identification and procurement professionals needing comprehensive technical specifications.
