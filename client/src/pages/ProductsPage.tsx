@@ -64,10 +64,10 @@ export default function ProductsPage() {
           </div>
 
           {/* Mobile Filter Button */}
-          <div className="lg:hidden fixed bottom-4 right-4 z-40">
+          <div className="lg:hidden fixed bottom-6 right-6 z-40">
             <Button
               onClick={() => setFilterSidebarOpen(true)}
-              className="rounded-full shadow-lg"
+              className="rounded-full shadow-lg h-12 px-6 active-elevate-2"
               data-testid="button-mobile-filter"
             >
               <Filter className="w-4 h-4 mr-2" />

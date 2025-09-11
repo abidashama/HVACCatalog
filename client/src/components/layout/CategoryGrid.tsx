@@ -2,6 +2,7 @@ import { ArrowRight, Wrench, Thermometer, Gauge, Zap, Droplets, Settings } from 
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { useFadeIn, useStaggerAnimation } from '@/hooks/useGSAPAnimations'
 
 const categories = [
   {
@@ -63,6 +64,10 @@ const categories = [
 ]
 
 export default function CategoryGrid() {
+  // Animation hooks
+  const headerRef = useFadeIn(0.6)
+  const gridRef = useStaggerAnimation(0.1, 0.5)
+  
   // todo: remove mock functionality - integrate with real navigation
   const handleCategoryClick = (href: string, name: string) => {
     console.log('Navigate to category:', href, name)
@@ -72,7 +77,7 @@ export default function CategoryGrid() {
     <section className="py-16 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-12">
+        <div ref={headerRef} className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Shop by Category
           </h2>
@@ -82,7 +87,7 @@ export default function CategoryGrid() {
         </div>
 
         {/* Categories Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories.map((category) => (
             <Card 
               key={category.id}

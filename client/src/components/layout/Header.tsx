@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Search, Menu, ShoppingCart, User, Phone, Mail, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
 const categories = [
   { id: 1, name: 'Pressure Switches', href: '/category/pressure-switches', subcategories: ['LF55 Series', 'LF32 Series', 'LFSV-D Series'] },
@@ -16,6 +17,30 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [megaMenuOpen, setMegaMenuOpen] = useState<number | null>(null)
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = 'unset'
+      }
+    }
+  }, [mobileMenuOpen])
+
+  // Handle escape key to close mobile menu
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false)
+      }
+    }
+    
+    if (mobileMenuOpen) {
+      document.addEventListener('keydown', handleEscape)
+      return () => document.removeEventListener('keydown', handleEscape)
+    }
+  }, [mobileMenuOpen])
 
   // todo: remove mock functionality - integrate with real search
   const handleSearch = () => {
@@ -85,23 +110,25 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Actions */}
+          {/* Actions - Larger mobile touch targets */}
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="md:hidden">
+            <Button variant="ghost" size="icon" className="md:hidden active-elevate-2 h-11 w-11 md:h-9 md:w-9" data-testid="button-mobile-search">
               <Search className="w-5 h-5" />
             </Button>
-            <Button variant="ghost" size="icon" className="relative">
+            <ThemeToggle />
+            <Button variant="ghost" size="icon" className="relative active-elevate-2 h-11 w-11 md:h-9 md:w-9" data-testid="button-user-menu">
               <User className="w-5 h-5" />
             </Button>
-            <Button variant="ghost" size="icon" className="relative">
+            <Button variant="ghost" size="icon" className="relative active-elevate-2 h-11 w-11 md:h-9 md:w-9" data-testid="button-cart">
               <ShoppingCart className="w-5 h-5" />
-              <Badge className="absolute -top-2 -right-2 w-5 h-5 p-0 text-xs">3</Badge>
+              <Badge className="absolute -top-2 -right-2 w-5 h-5 p-0 text-xs flex items-center justify-center" data-testid="badge-cart-count">3</Badge>
             </Button>
             <Button 
               variant="ghost" 
               size="icon" 
-              className="md:hidden"
+              className="md:hidden active-elevate-2 h-11 w-11"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              data-testid="button-mobile-menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </Button>
@@ -156,7 +183,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-border">
+        <div className="md:hidden border-t border-border animate-slide-in">
           <div className="px-4 py-4 space-y-4">
             <div className="relative">
               <Input
@@ -164,22 +191,35 @@ export default function Header() {
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-4 pr-12"
+                className="w-full pl-4 pr-12 h-12 text-base"
+                data-testid="input-mobile-search"
               />
-              <Button size="icon" className="absolute right-1 top-1 h-8" onClick={handleSearch}>
+              <Button size="icon" className="absolute right-1 top-1 h-10" onClick={handleSearch}>
                 <Search className="w-4 h-4" />
               </Button>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 max-h-64 overflow-y-auto">
               {categories.map((category) => (
                 <button 
                   key={category.id}
-                  className="block w-full text-left py-2 text-foreground hover:text-primary font-medium"
+                  className="block w-full text-left py-3 px-2 text-foreground hover:text-primary hover:bg-muted rounded-md font-medium transition-colors active-elevate-2"
                   onClick={() => handleCategoryClick(category.href)}
+                  data-testid={`button-mobile-category-${category.id}`}
                 >
                   {category.name}
                 </button>
               ))}
+            </div>
+            {/* Mobile-specific actions */}
+            <div className="pt-4 border-t border-border">
+              <div className="grid grid-cols-2 gap-3">
+                <Button variant="outline" size="sm" className="w-full">
+                  Account
+                </Button>
+                <Button variant="outline" size="sm" className="w-full">
+                  Support
+                </Button>
+              </div>
             </div>
           </div>
         </div>

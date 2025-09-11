@@ -2,6 +2,8 @@ import { Heart, ShoppingCart, Eye, Star, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import { useFadeIn, useHoverAnimation } from '@/hooks/useGSAPAnimations'
+import { useRef } from 'react'
 
 interface ProductCardProps {
   id: string
@@ -40,6 +42,11 @@ export default function ProductCard({
   isCompact = false
 }: ProductCardProps) {
   
+  // Animation hooks
+  const cardRef = useRef<HTMLDivElement>(null)
+  const fadeRef = useFadeIn(0.5)
+  useHoverAnimation(cardRef)
+  
   // todo: remove mock functionality - integrate with real product actions
   const handleAddToCart = () => {
     console.log('Add to cart:', id, title)
@@ -71,7 +78,7 @@ export default function ProductCard({
   const savings = originalPrice ? ((originalPrice - price) / originalPrice * 100).toFixed(0) : null
 
   return (
-    <Card className="group hover-elevate transition-all duration-300 overflow-hidden">
+    <Card ref={cardRef} className="group hover-elevate transition-all duration-300 overflow-hidden">
       {/* Image Section */}
       <div className="relative overflow-hidden bg-card">
         <div className="aspect-square p-6 flex items-center justify-center bg-gradient-to-br from-card to-muted">
@@ -82,8 +89,8 @@ export default function ProductCard({
           />
         </div>
         
-        {/* Overlay Actions */}
-        <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
+        {/* Overlay Actions - Hidden on Mobile for Touch Interaction */}
+        <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2 hidden md:flex">
           <Button size="icon" variant="secondary" onClick={handleQuickView} data-testid={`button-quickview-${id}`}>
             <Eye className="w-4 h-4" />
           </Button>
@@ -91,6 +98,16 @@ export default function ProductCard({
             <Heart className="w-4 h-4" />
           </Button>
           <Button size="icon" variant="secondary" onClick={handleDownload} data-testid={`button-download-${id}`}>
+            <Download className="w-4 h-4" />
+          </Button>
+        </div>
+
+        {/* Mobile Action Bar - Larger touch targets for field use */}
+        <div className="md:hidden absolute top-2 right-2 flex gap-1">
+          <Button size="icon" variant="secondary" className="h-11 w-11" onClick={handleWishlist} data-testid={`button-mobile-wishlist-${id}`}>
+            <Heart className="w-4 h-4" />
+          </Button>
+          <Button size="icon" variant="secondary" className="h-11 w-11" onClick={handleDownload} data-testid={`button-mobile-download-${id}`}>
             <Download className="w-4 h-4" />
           </Button>
         </div>
@@ -182,14 +199,16 @@ export default function ProductCard({
           <span className="text-xs text-muted-foreground">per unit</span>
         </div>
 
-        {/* Add to Cart */}
+        {/* Add to Cart - Responsive sizing with larger mobile touch targets */}
         <Button 
           onClick={handleAddToCart}
           disabled={stockStatus === 'out_of_stock'}
+          size={isCompact ? "sm" : "default"}
+          className={`${isCompact ? "text-xs px-3" : ""} h-11 md:h-9`}
           data-testid={`button-addcart-${id}`}
         >
-          <ShoppingCart className="w-4 h-4 mr-2" />
-          Add to Cart
+          <ShoppingCart className={`${isCompact ? "w-3 h-3" : "w-4 h-4"} mr-1 md:mr-2`} />
+          <span className="hidden sm:inline">Add to </span>Cart
         </Button>
       </CardFooter>
     </Card>

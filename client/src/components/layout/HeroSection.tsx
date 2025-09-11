@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Search, ArrowRight, Shield, Truck, Award, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useFadeIn, useStaggerAnimation, useCountAnimation } from '@/hooks/useGSAPAnimations'
 import heroImage from '@assets/generated_images/Industrial_HVAC_facility_hero_6fd485c8.png'
 
 const stats = [
@@ -21,6 +22,17 @@ const features = [
 export default function HeroSection() {
   const [searchQuery, setSearchQuery] = useState('')
   const [currentStatIndex, setCurrentStatIndex] = useState(0)
+  
+  // Animation refs
+  const heroContentRef = useFadeIn(0.8)
+  const featuresRef = useStaggerAnimation(0.2, 0.6)
+  const statsRef = useRef<HTMLDivElement>(null)
+
+  // Animate stats counters
+  useCountAnimation(2500, 2, useRef<HTMLSpanElement>(null))
+  useCountAnimation(15, 1.5, useRef<HTMLSpanElement>(null))
+  useCountAnimation(25, 2.2, useRef<HTMLSpanElement>(null))
+  useCountAnimation(10000, 2.5, useRef<HTMLSpanElement>(null))
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -52,7 +64,7 @@ export default function HeroSection() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 py-24 md:py-32">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Column */}
-          <div className="text-white space-y-8">
+          <div ref={heroContentRef} className="text-white space-y-8">
             <div className="space-y-4">
               <h1 className="text-4xl md:text-6xl font-bold leading-tight">
                 Professional
@@ -64,41 +76,45 @@ export default function HeroSection() {
               </p>
             </div>
 
-            {/* Search Bar */}
-            <div className="relative max-w-lg">
+            {/* Search Bar - Responsive */}
+            <div className="relative max-w-lg w-full">
               <Input
                 type="search"
                 placeholder="Search by model, category, or specification..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="h-14 pl-6 pr-16 text-lg bg-white/95 border-0 text-foreground placeholder:text-muted-foreground"
+                className="h-12 md:h-14 pl-4 md:pl-6 pr-12 md:pr-16 text-base md:text-lg bg-white/95 border-0 text-foreground placeholder:text-muted-foreground w-full"
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                data-testid="input-hero-search"
               />
               <Button 
                 size="icon" 
-                className="absolute right-2 top-2 h-10 w-10"
+                className="absolute right-1 md:right-2 top-1 md:top-2 h-8 w-8 md:h-10 md:w-10"
                 onClick={handleSearch}
+                data-testid="button-hero-search"
               >
-                <Search className="w-5 h-5" />
+                <Search className="w-4 h-4 md:w-5 md:h-5" />
               </Button>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            {/* CTA Buttons - Mobile Responsive */}
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 w-full sm:w-auto">
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-primary backdrop-blur-sm"
+                className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-primary backdrop-blur-sm active-elevate-2 h-12 md:h-14"
                 onClick={() => handleCategoryClick('/products')}
+                data-testid="button-browse-catalog"
               >
                 Browse Catalog
-                <ArrowRight className="ml-2 w-5 h-5" />
+                <ArrowRight className="ml-2 w-4 h-4 md:w-5 md:h-5" />
               </Button>
               <Button 
                 size="lg" 
                 variant="outline"
-                className="border-white/30 text-white hover:bg-white hover:text-primary backdrop-blur-sm"
+                className="border-white/30 text-white hover:bg-white hover:text-primary backdrop-blur-sm active-elevate-2 h-12 md:h-14"
                 onClick={() => console.log('Request quote clicked')}
+                data-testid="button-request-quote"
               >
                 Request Quote
               </Button>
@@ -121,12 +137,11 @@ export default function HeroSection() {
           </div>
 
           {/* Right Column - Features */}
-          <div className="space-y-6">
+          <div ref={featuresRef} className="space-y-6">
             {features.map((feature, index) => (
               <div 
                 key={feature.title}
                 className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 hover-elevate transition-all duration-300"
-                style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-white/20 rounded-lg">

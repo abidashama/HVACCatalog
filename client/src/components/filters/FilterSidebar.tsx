@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { X, ChevronDown, ChevronUp, SlidersHorizontal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -64,6 +64,30 @@ export default function FilterSidebar({ isOpen, onClose }: FilterSidebarProps) {
     certifications: false,
     voltages: false
   })
+
+  // Lock body scroll when mobile sidebar is open
+  useEffect(() => {
+    if (isOpen && window.innerWidth < 1024) { // lg breakpoint
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.overflow = 'unset'
+      }
+    }
+  }, [isOpen])
+
+  // Handle escape key to close
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose()
+      }
+    }
+    
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape)
+      return () => document.removeEventListener('keydown', handleEscape)
+    }
+  }, [isOpen, onClose])
 
   // todo: remove mock functionality - integrate with real filter logic
   const handleCategoryChange = (categoryId: string, checked: boolean) => {
@@ -159,27 +183,31 @@ export default function FilterSidebar({ isOpen, onClose }: FilterSidebarProps) {
     <>
       {/* Mobile Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 lg:hidden" onClick={onClose} />
+        <div 
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 lg:hidden animate-fade-in" 
+          onClick={onClose}
+          data-testid="overlay-filter-sidebar"
+        />
       )}
       
-      {/* Sidebar */}
+      {/* Sidebar - Full width on mobile for better usability */}
       <div className={`
-        fixed lg:sticky lg:top-4 inset-y-0 left-0 z-50 w-80 bg-card border-r border-border
+        fixed lg:sticky lg:top-4 inset-y-0 left-0 z-50 w-full max-w-full lg:w-80 lg:max-w-80 bg-card border-r border-border
         transform transition-transform duration-300 ease-in-out overflow-y-auto
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-      `}>
+      `} data-testid="sidebar-filters">
         <div className="p-6 space-y-6">
-          {/* Header */}
+          {/* Header - Larger close button on mobile */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <SlidersHorizontal className="w-5 h-5 text-primary" />
               <h2 className="text-lg font-semibold text-foreground">Filters</h2>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" onClick={clearAllFilters}>
+              <Button variant="ghost" size="sm" onClick={clearAllFilters} className="h-11 md:h-8">
                 Clear All
               </Button>
-              <Button variant="ghost" size="icon" onClick={onClose} className="lg:hidden">
+              <Button variant="ghost" size="icon" onClick={onClose} className="lg:hidden h-11 w-11">
                 <X className="w-5 h-5" />
               </Button>
             </div>
