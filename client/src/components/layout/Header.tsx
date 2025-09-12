@@ -29,7 +29,6 @@ export default function Header() {
   const [location] = useLocation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [megaMenuOpen, setMegaMenuOpen] = useState<number | null>(null)
   const [inquiryModalOpen, setInquiryModalOpen] = useState(false)
 
   // Lock body scroll when mobile menu is open
@@ -126,6 +125,7 @@ export default function Header() {
                 size="icon" 
                 className="absolute right-1 top-1 h-10"
                 onClick={handleSearch}
+                data-testid="button-header-search"
               >
                 <Search className="w-4 h-4" />
               </Button>
@@ -176,22 +176,16 @@ export default function Header() {
               {/* Divider */}
               <div className="w-px h-6 bg-border"></div>
               
-              {/* Product Categories with Mega Menu */}
+              {/* Product Categories - Direct links to avoid layout shifts */}
               {categories.map((category) => (
-                <div
+                <button 
                   key={category.id}
-                  className="relative"
-                  onMouseEnter={() => setMegaMenuOpen(category.id)}
-                  onMouseLeave={() => setMegaMenuOpen(null)}
+                  className="text-foreground hover:text-primary font-medium transition-colors px-2 py-1 rounded-md"
+                  onClick={() => handleCategoryClick(category.name)}
+                  data-testid={`nav-category-${category.id}`}
                 >
-                  <button 
-                    className="text-foreground hover:text-primary font-medium transition-colors px-2 py-1 rounded-md"
-                    onClick={() => handleCategoryClick(category.name)}
-                    data-testid={`nav-category-${category.id}`}
-                  >
-                    {category.name}
-                  </button>
-                </div>
+                  {category.name}
+                </button>
               ))}
             </div>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
