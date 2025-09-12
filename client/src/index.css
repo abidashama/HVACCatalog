@@ -31,6 +31,37 @@
   animation: fade-in 0.2s ease-out;
 }
 
+/* Enhanced Collapsible Animations */
+[data-state="open"] [data-collapsible="content"] {
+  animation: collapsible-down 0.2s ease-out;
+}
+
+[data-state="closed"] [data-collapsible="content"] {
+  animation: collapsible-up 0.2s ease-out;
+}
+
+@keyframes collapsible-down {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--radix-collapsible-content-height);
+    opacity: 1;
+  }
+}
+
+@keyframes collapsible-up {
+  from {
+    height: var(--radix-collapsible-content-height);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+
 /* LIGHT MODE */
 :root {
   --button-outline: rgba(0,0,0, .10);

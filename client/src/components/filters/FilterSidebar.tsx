@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { X, ChevronDown, ChevronUp, SlidersHorizontal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -53,11 +53,12 @@ const filterData = {
 }
 
 export default function FilterSidebar({ isOpen, onClose, filters = {}, onFiltersChange }: FilterSidebarProps) {
+  // Utility to create DOM-safe IDs (remove spaces and special chars)
+  const createSlug = (str: string) => str.toLowerCase().replace(/[^a-z0-9]+/g, '-')
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [selectedSeries, setSelectedSeries] = useState<string[]>([])
-  const [selectedApplications, setSelectedApplications] = useState<string[]>([])
-  const [selectedCertifications, setSelectedCertifications] = useState<string[]>([])
-  const [selectedVoltages, setSelectedVoltages] = useState<string[]>([])
+  // Removed unused filter states for applications, certifications, voltages
+  // These are not implemented in the backend yet
   const [priceRange, setPriceRange] = useState([0, 2000])
   
   // Initialize filters from props
@@ -88,10 +89,7 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
   const [openSections, setOpenSections] = useState({
     categories: true,
     series: true,
-    price: true,
-    applications: false,
-    certifications: false,
-    voltages: false
+    price: true
   })
 
   // Lock body scroll when mobile sidebar is open
@@ -169,38 +167,22 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
     }
   }
 
-  const handleApplicationChange = (appId: string, checked: boolean) => {
-    if (checked) {
-      setSelectedApplications([...selectedApplications, appId])
-    } else {
-      setSelectedApplications(selectedApplications.filter(id => id !== appId))
-    }
-    // Note: Applications not implemented in backend yet
-  }
+  // Removed unused filter handlers for applications, certifications, voltages
+  // These will be added when backend support is implemented
 
-  const handleCertificationChange = (certId: string, checked: boolean) => {
-    if (checked) {
-      setSelectedCertifications([...selectedCertifications, certId])
-    } else {
-      setSelectedCertifications(selectedCertifications.filter(id => id !== certId))
-    }
-    // Note: Certifications not implemented in backend yet
-  }
-
-  const handleVoltageChange = (voltageId: string, checked: boolean) => {
-    if (checked) {
-      setSelectedVoltages([...selectedVoltages, voltageId])
-    } else {
-      setSelectedVoltages(selectedVoltages.filter(id => id !== voltageId))
-    }
-    // Note: Voltages not implemented in backend yet
-  }
+  // Debounce timeout ref to prevent memory leaks
+  const priceDebounceRef = useRef<NodeJS.Timeout | null>(null)
 
   const handlePriceRangeChange = (value: number[]) => {
     setPriceRange(value)
     
-    // Debounce price range changes
-    const timeoutId = setTimeout(() => {
+    // Clear existing timeout to prevent memory leaks
+    if (priceDebounceRef.current) {
+      clearTimeout(priceDebounceRef.current)
+    }
+    
+    // Debounce price range changes with proper cleanup
+    priceDebounceRef.current = setTimeout(() => {
       if (onFiltersChange) {
         const newFilters: Partial<ProductFilters> = {
           ...filters,
@@ -209,17 +191,21 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
         }
         onFiltersChange(newFilters)
       }
-    }, 500)
-    
-    return () => clearTimeout(timeoutId)
+    }, 300) // Reduced debounce time for better UX
   }
+
+  // Cleanup debounce timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (priceDebounceRef.current) {
+        clearTimeout(priceDebounceRef.current)
+      }
+    }
+  }, [])
 
   const clearAllFilters = () => {
     setSelectedCategories([])
     setSelectedSeries([])
-    setSelectedApplications([])
-    setSelectedCertifications([])
-    setSelectedVoltages([])
     setPriceRange([0, 2000])
     
     if (onFiltersChange) {
@@ -246,11 +232,16 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
     children: React.ReactNode
   }) => (
     <Collapsible open={isOpen} onOpenChange={onToggle}>
-      <CollapsibleTrigger className="flex w-full items-center justify-between p-2 hover:bg-muted rounded-md">
+      <CollapsibleTrigger 
+        className="flex w-full items-center justify-between p-3 hover:bg-muted rounded-md transition-colors relative z-10"
+        data-testid={`toggle-${title.toLowerCase().replace(/\s+/g, '-')}`}
+      >
         <h3 className="font-semibold text-foreground">{title}</h3>
-        {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+        <div className="transition-transform duration-200">
+          {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+        </div>
       </CollapsibleTrigger>
-      <CollapsibleContent className="pt-3 space-y-3">
+      <CollapsibleContent className="pt-3 space-y-3 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" data-collapsible="content">
         {children}
       </CollapsibleContent>
     </Collapsible>
@@ -269,7 +260,7 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
       
       {/* Sidebar - Full width on mobile for better usability */}
       <div className={`
-        fixed lg:sticky lg:top-4 inset-y-0 left-0 z-50 w-full max-w-full lg:w-80 lg:max-w-80 bg-card border-r border-border
+        fixed lg:sticky lg:top-4 inset-y-0 left-0 z-[60] w-full max-w-full lg:w-80 lg:max-w-80 bg-card border-r border-border
         transform transition-transform duration-300 ease-in-out overflow-y-auto
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `} data-testid="sidebar-filters">
@@ -340,7 +331,7 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
                 <div key={category.id} className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <Checkbox
-                      id={`category-${category.id}`}
+                      id={`category-${createSlug(category.id)}`}
                       checked={selectedCategories.includes(category.id)}
                       onCheckedChange={(checked) => 
                         handleCategoryChange(category.id, checked as boolean)
@@ -348,7 +339,7 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
                       data-testid={`checkbox-category-${category.id}`}
                     />
                     <Label 
-                      htmlFor={`category-${category.id}`}
+                      htmlFor={`category-${createSlug(category.id)}`}
                       className="text-sm cursor-pointer"
                     >
                       {category.name}
@@ -375,7 +366,7 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
                 <div key={series.id} className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <Checkbox
-                      id={`series-${series.id}`}
+                      id={`series-${createSlug(series.id)}`}
                       checked={selectedSeries.includes(series.id)}
                       onCheckedChange={(checked) => 
                         handleSeriesChange(series.id, checked as boolean)
@@ -383,7 +374,7 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
                       data-testid={`checkbox-series-${series.id}`}
                     />
                     <Label 
-                      htmlFor={`series-${series.id}`}
+                      htmlFor={`series-${createSlug(series.id)}`}
                       className="text-sm cursor-pointer"
                     >
                       {series.name}
@@ -421,107 +412,8 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
             </div>
           </FilterSection>
 
-          <Separator />
-
-          {/* Applications */}
-          <FilterSection 
-            title="Applications" 
-            isOpen={openSections.applications} 
-            onToggle={() => toggleSection('applications')}
-          >
-            <div className="space-y-3">
-              {filterData.applications.map((app) => (
-                <div key={app.id} className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`app-${app.id}`}
-                      checked={selectedApplications.includes(app.id)}
-                      onCheckedChange={(checked) => 
-                        handleApplicationChange(app.id, checked as boolean)
-                      }
-                    />
-                    <Label 
-                      htmlFor={`app-${app.id}`}
-                      className="text-sm cursor-pointer"
-                    >
-                      {app.name}
-                    </Label>
-                  </div>
-                  <span className="text-xs text-muted-foreground">
-                    {app.count}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </FilterSection>
-
-          <Separator />
-
-          {/* Certifications */}
-          <FilterSection 
-            title="Certifications" 
-            isOpen={openSections.certifications} 
-            onToggle={() => toggleSection('certifications')}
-          >
-            <div className="space-y-3">
-              {filterData.certifications.map((cert) => (
-                <div key={cert.id} className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`cert-${cert.id}`}
-                      checked={selectedCertifications.includes(cert.id)}
-                      onCheckedChange={(checked) => 
-                        handleCertificationChange(cert.id, checked as boolean)
-                      }
-                    />
-                    <Label 
-                      htmlFor={`cert-${cert.id}`}
-                      className="text-sm cursor-pointer"
-                    >
-                      {cert.name}
-                    </Label>
-                  </div>
-                  <span className="text-xs text-muted-foreground">
-                    {cert.count}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </FilterSection>
-
-          <Separator />
-
-          {/* Voltage Options */}
-          <FilterSection 
-            title="Voltage" 
-            isOpen={openSections.voltages} 
-            onToggle={() => toggleSection('voltages')}
-          >
-            <div className="space-y-3">
-              {filterData.voltages.map((voltage) => (
-                <div key={voltage.id} className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`voltage-${voltage.id}`}
-                      checked={selectedVoltages.includes(voltage.id)}
-                      onCheckedChange={(checked) => 
-                        handleVoltageChange(voltage.id, checked as boolean)
-                      }
-                    />
-                    <Label 
-                      htmlFor={`voltage-${voltage.id}`}
-                      className="text-sm cursor-pointer"
-                    >
-                      {voltage.name}
-                    </Label>
-                  </div>
-                  <span className="text-xs text-muted-foreground">
-                    {voltage.count}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </FilterSection>
+          {/* Unused filter sections (applications, certifications, voltages) removed
+               These will be added when backend support is implemented */}
         </div>
       </div>
     </>
