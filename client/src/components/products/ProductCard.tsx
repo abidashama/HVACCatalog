@@ -44,14 +44,11 @@ export default function ProductCard({
   isCompact = false
 }: ProductCardProps) {
   
-  // Animation hooks
   const cardRef = useRef<HTMLDivElement>(null)
   useHoverAnimation(cardRef)
   
-  // Modal state
   const [inquiryModalOpen, setInquiryModalOpen] = useState(false)
   
-  // Convert props to SelectProduct format for the modal
   const productForModal: SelectProduct = {
     id,
     title,
@@ -77,11 +74,9 @@ export default function ProductCard({
 
   const handleQuickView = () => {
     console.log('Quick view:', id, title)
-    // TODO: Implement quick view modal
   }
 
   const handleDownload = () => {
-    // Generate a simple specification sheet download
     const specData = {
       product: title,
       model: modelNumber,
@@ -119,8 +114,7 @@ export default function ProductCard({
   const savings = originalPrice ? ((originalPrice - price) / originalPrice * 100).toFixed(0) : null
 
   return (
-    <Card ref={cardRef} className="group hover-elevate transition-all duration-300 overflow-hidden" data-testid={`product-card-${id}`}>
-      {/* Image Section */}
+    <Card ref={cardRef} className="group hover-elevate transition-all duration-300 overflow-hidden h-full flex flex-col" data-testid={`product-card-${id}`}>
       <div className="relative overflow-hidden bg-card">
         <div className="aspect-square p-6 flex items-center justify-center bg-gradient-to-br from-card to-muted">
           <img 
@@ -130,7 +124,6 @@ export default function ProductCard({
           />
         </div>
         
-        {/* Overlay Actions - Hidden on Mobile for Touch Interaction */}
         <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2 hidden md:flex">
           <Button size="icon" variant="secondary" onClick={handleQuickView} data-testid={`button-quickview-${id}`}>
             <Eye className="w-4 h-4" />
@@ -143,7 +136,6 @@ export default function ProductCard({
           </Button>
         </div>
 
-        {/* Mobile Action Bar - Larger touch targets for field use */}
         <div className="md:hidden absolute top-2 right-2 flex gap-1">
           <Button size="icon" variant="secondary" className="h-11 w-11" onClick={handleRequestQuote} data-testid={`button-mobile-quote-${id}`}>
             <MessageSquare className="w-4 h-4" />
@@ -153,10 +145,9 @@ export default function ProductCard({
           </Button>
         </div>
 
-        {/* Badges */}
         <div className="absolute top-2 left-2 flex flex-col gap-1">
           {savings && (
-            <Badge className="bg-destructive text-destructive-foreground">
+            <Badge className="bg-accent text-accent-foreground">
               -{savings}%
             </Badge>
           )}
@@ -170,18 +161,15 @@ export default function ProductCard({
         </div>
       </div>
 
-      <CardContent className="p-4 space-y-3">
-        {/* Category */}
+      <CardContent className="p-4 space-y-3 flex-1">
         <div className="text-sm text-muted-foreground font-medium">
           {category}
         </div>
-
-        {/* Title & Model */}
         <div>
           <h3 className="font-semibold text-foreground leading-tight mb-1">
             <a 
               href={`/product/${id}`}
-              className="hover:text-primary transition-colors cursor-pointer"
+              className="hover:text-accent transition-colors cursor-pointer"
               data-testid={`product-card-title`}
             >
               {title}
@@ -191,21 +179,17 @@ export default function ProductCard({
             Model: {modelNumber}
           </p>
         </div>
-
-        {/* Rating */}
         <div className="flex items-center gap-2">
           <div className="flex items-center">
             {[...Array(5)].map((_, i) => (
               <Star 
                 key={i} 
-                className={`w-4 h-4 ${i < Math.floor(rating) ? 'fill-chart-3 text-chart-3' : 'text-muted'}`}
+                className={`w-4 h-4 ${i < Math.floor(rating) ? 'fill-accent text-accent' : 'text-muted'}`}
               />
             ))}
           </div>
           <span className="text-sm text-muted-foreground">({reviewCount})</span>
         </div>
-
-        {/* Key Specifications */}
         {!isCompact && (
           <div className="space-y-1 text-xs text-muted-foreground">
             {specifications.workingTemp && (
@@ -231,10 +215,9 @@ export default function ProductCard({
       </CardContent>
 
       <CardFooter className="p-4 pt-0 flex items-center justify-between">
-        {/* Price */}
         <div className="flex flex-col">
           <div className="flex items-baseline gap-2">
-            <span className="text-lg font-bold text-primary" data-testid={`text-price-${id}`}>
+            <span className="text-lg font-bold text-foreground" data-testid={`text-price-${id}`}>
               ${price.toFixed(2)}
             </span>
             {originalPrice && (
@@ -246,14 +229,12 @@ export default function ProductCard({
           <span className="text-xs text-muted-foreground">per unit</span>
         </div>
 
-        {/* Inquiry Modal */}
         <InquiryModal 
           product={productForModal}
           defaultOpen={inquiryModalOpen}
           onOpenChange={setInquiryModalOpen}
         />
         
-        {/* Request Quote - Responsive sizing with larger mobile touch targets */}
         <Button 
           onClick={handleRequestQuote}
           disabled={stockStatus === 'out_of_stock'}

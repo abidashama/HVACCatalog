@@ -58,6 +58,7 @@ export default function HeroSection() {
         style={{ backgroundImage: `url(${heroImage})` }}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/50"></div>
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background/40 to-transparent"></div>
       </div>
 
       {/* Content */}
@@ -86,12 +87,14 @@ export default function HeroSection() {
                 className="h-12 md:h-14 pl-4 md:pl-6 pr-12 md:pr-16 text-base md:text-lg bg-white/95 border-0 text-foreground placeholder:text-muted-foreground w-full"
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                 data-testid="input-hero-search"
+                aria-label="Search catalog"
               />
               <Button 
                 size="icon" 
                 className="absolute right-1 md:right-2 top-1 md:top-2 h-8 w-8 md:h-10 md:w-10"
                 onClick={handleSearch}
                 data-testid="button-hero-search"
+                aria-label="Search"
               >
                 <Search className="w-4 h-4 md:w-5 md:h-5" />
               </Button>

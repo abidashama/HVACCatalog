@@ -242,7 +242,7 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
       
       {/* Products Grid/List */}
       {isLoading ? (
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-6">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
           {[...Array(8)].map((_, i) => (
             <div key={`skeleton-${i}`} className="space-y-4">
               <Skeleton className="h-48 w-full" />
@@ -263,7 +263,7 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
       ) : (
         <div className={
           viewMode === 'grid' 
-            ? 'grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-6'
+            ? 'grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6'
             : 'space-y-4'
         } data-testid="container-products" ref={gridRef}>
           {products.map((product: SelectProduct) => (

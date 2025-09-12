@@ -97,8 +97,9 @@
   --secondary-foreground: 210 15% 25%;
   --muted: 210 12% 90%;
   --muted-foreground: 210 15% 45%;
-  --accent: 210 20% 92%;
-  --accent-foreground: 210 15% 25%;
+  /* Introduce a richer accent color (teal) */
+  --accent: 168 84% 35%;
+  --accent-foreground: 168 15% 96%;
   --destructive: 0 75% 45%;
   --destructive-foreground: 0 10% 95%;
   --input: 210 15% 75%;
@@ -217,6 +218,26 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+  }
+
+  h1 {
+    @apply tracking-tight;
+  }
+
+  h2, h3, h4 {
+    @apply tracking-tight;
+  }
+
+  p {
+    @apply leading-relaxed;
+  }
+
+  a {
+    @apply underline-offset-4 decoration-transparent hover:decoration-primary transition-[text-decoration-color] duration-200;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
   }
 }
 

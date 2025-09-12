@@ -252,7 +252,7 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
       {/* Mobile Overlay */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 lg:hidden animate-fade-in" 
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-30 lg:hidden animate-fade-in" 
           onClick={onClose}
           data-testid="overlay-filter-sidebar"
         />
@@ -260,7 +260,7 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
       
       {/* Sidebar - Full width on mobile for better usability */}
       <div className={`
-        fixed lg:sticky lg:top-4 inset-y-0 left-0 z-[60] w-full max-w-full lg:w-80 lg:max-w-80 bg-card border-r border-border
+        fixed lg:sticky lg:top-4 inset-y-0 left-0 z-30 lg:z-20 w-full max-w-full lg:w-80 lg:max-w-80 bg-card border-r border-border
         transform transition-transform duration-300 ease-in-out overflow-y-auto
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `} data-testid="sidebar-filters">

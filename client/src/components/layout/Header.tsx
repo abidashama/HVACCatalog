@@ -1,23 +1,25 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'wouter'
-import { Search, Menu, User, Phone, Mail, X } from 'lucide-react'
+import { Search, Menu, User, Phone, Mail, X, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Badge } from '@/components/ui/badge'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import InquiryModal from '@/components/modals/InquiryModal'
 import { PRODUCT_CATEGORIES } from '@shared/schema'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 const mainNavigation = [
   { name: 'Home', href: '/' },
   { name: 'Products', href: '/products' },
   { name: 'About', href: '/about' },
-  { name: 'Services', href: '/services' },
-  { name: 'Resources', href: '/resources' },
   { name: 'Contact', href: '/contact' }
 ]
 
-// Use canonical categories from shared schema
 const categories = PRODUCT_CATEGORIES.map((category, index) => ({
   id: index + 1,
   name: category.name,
@@ -29,9 +31,15 @@ export default function Header() {
   const [location] = useLocation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [inquiryModalOpen, setInquiryModalOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
 
-  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden'
@@ -41,14 +49,12 @@ export default function Header() {
     }
   }, [mobileMenuOpen])
 
-  // Handle escape key to close mobile menu
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && mobileMenuOpen) {
         setMobileMenuOpen(false)
       }
     }
-    
     if (mobileMenuOpen) {
       document.addEventListener('keydown', handleEscape)
       return () => document.removeEventListener('keydown', handleEscape)
@@ -69,8 +75,7 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-background border-b border-border">
-      {/* Top Bar */}
+    <header className={`sticky top-0 z-50 border-b border-border backdrop-blur supports-[backdrop-filter]:bg-background/75 ${scrolled ? 'shadow-sm' : ''}`}>
       <div className="bg-primary text-primary-foreground py-2 px-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center text-sm">
           <div className="flex items-center gap-6">
@@ -96,10 +101,8 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Main Header */}
-      <div className="px-4 py-4">
+      <div className="px-4 py-2">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          {/* Logo */}
           <Link href="/" className="flex items-center gap-2 hover-elevate rounded-md p-2" data-testid="link-home-logo">
             <div className="w-10 h-10 bg-primary text-primary-foreground rounded-md flex items-center justify-center font-bold text-lg">
               IH
@@ -110,7 +113,6 @@ export default function Header() {
             </div>
           </Link>
 
-          {/* Search Bar */}
           <div className="hidden md:flex flex-1 max-w-2xl mx-8">
             <div className="relative w-full">
               <Input
@@ -123,22 +125,22 @@ export default function Header() {
               />
               <Button 
                 size="icon" 
-                className="absolute right-1 top-1 h-10"
+                className="absolute right-1 top-1/2 -translate-y-1/2 h-10"
                 onClick={handleSearch}
                 data-testid="button-header-search"
+                aria-label="Search"
               >
                 <Search className="w-4 h-4" />
               </Button>
             </div>
           </div>
 
-          {/* Actions - Larger mobile touch targets */}
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="md:hidden active-elevate-2 h-11 w-11 md:h-9 md:w-9" data-testid="button-mobile-search">
+            <Button variant="ghost" size="icon" className="md:hidden active-elevate-2 h-11 w-11 md:h-9 md:w-9" data-testid="button-mobile-search" aria-label="Open search">
               <Search className="w-5 h-5" />
             </Button>
             <ThemeToggle />
-            <Button variant="ghost" size="icon" className="relative active-elevate-2 h-11 w-11 md:h-9 md:w-9" data-testid="button-user-menu">
+            <Button variant="ghost" size="icon" className="relative active-elevate-2 h-11 w-11 md:h-9 md:w-9" data-testid="button-user-menu" aria-label="User menu">
               <User className="w-5 h-5" />
             </Button>
             <Button 
@@ -147,6 +149,9 @@ export default function Header() {
               className="md:hidden active-elevate-2 h-11 w-11"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               data-testid="button-mobile-menu"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
+              aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </Button>
@@ -154,39 +159,55 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Navigation */}
       <div className="border-t border-border">
         <div className="max-w-7xl mx-auto px-4">
-          <nav className="hidden md:flex items-center justify-between py-3">
-            <div className="flex items-center space-x-6">
-              {/* Main Navigation Links */}
-              {mainNavigation.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`text-foreground hover:text-primary font-medium transition-colors px-2 py-1 rounded-md ${
-                    location === item.href ? 'text-primary font-semibold' : ''
-                  }`}
-                  data-testid={`nav-link-${item.name.toLowerCase()}`}
-                >
-                  {item.name}
-                </Link>
-              ))}
-              
-              {/* Divider */}
-              <div className="w-px h-6 bg-border"></div>
-              
-              {/* Product Categories - Direct links to avoid layout shifts */}
-              {categories.map((category) => (
-                <button 
-                  key={category.id}
-                  className="text-foreground hover:text-primary font-medium transition-colors px-2 py-1 rounded-md"
-                  onClick={() => handleCategoryClick(category.name)}
-                  data-testid={`nav-category-${category.id}`}
-                >
-                  {category.name}
-                </button>
-              ))}
+          <nav className="hidden md:flex items-center justify-between py-2">
+            <div className="flex items-center space-x-2">
+              {mainNavigation.map((item) => {
+                const active = location === item.href
+                if (item.name === 'Products') {
+                  return (
+                    <DropdownMenu key={item.href}>
+                      <DropdownMenuTrigger asChild>
+                        <button
+                          className={`relative inline-flex items-center gap-1 text-foreground hover:text-primary font-medium transition-colors px-3 py-1.5 rounded-md ${active ? 'text-primary' : ''}`}
+                          data-testid={`nav-link-${item.name.toLowerCase()}`}
+                        >
+                          {item.name}
+                          <ChevronDown className="w-4 h-4" />
+                          <span className={`pointer-events-none absolute left-3 right-3 -bottom-1 h-0.5 rounded bg-accent transition-opacity ${active ? 'opacity-100' : 'opacity-0'}`} />
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start" className="min-w-56">
+                        {categories.map((category) => (
+                          <DropdownMenuItem key={category.id} asChild>
+                            <a
+                              href={`/products?category=${encodeURIComponent(category.name)}`}
+                              data-testid={`nav-subcategory-${category.id}`}
+                            >
+                              {category.name}
+                            </a>
+                          </DropdownMenuItem>
+                        ))}
+                        <DropdownMenuItem asChild>
+                          <a href="/products">All Products</a>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )
+                }
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`relative text-foreground hover:text-primary font-medium transition-colors px-3 py-1.5 rounded-md ${active ? 'text-primary' : ''}`}
+                    data-testid={`nav-link-${item.name.toLowerCase()}`}
+                  >
+                    {item.name}
+                    <span className={`pointer-events-none absolute left-3 right-3 -bottom-1 h-0.5 rounded bg-accent transition-opacity ${active ? 'opacity-100' : 'opacity-0'}`} />
+                  </Link>
+                )
+              })}
             </div>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <span>Need help? Call 1-800-HVAC-PRO</span>
@@ -195,9 +216,8 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-border animate-slide-in">
+        <div id="mobile-menu" className="md:hidden border-t border-border animate-slide-in">
           <div className="px-4 py-4 space-y-4">
             <div className="relative">
               <Input
@@ -208,21 +228,17 @@ export default function Header() {
                 className="w-full pl-4 pr-12 h-12 text-base"
                 data-testid="input-mobile-search"
               />
-              <Button size="icon" className="absolute right-1 top-1 h-10" onClick={handleSearch}>
+              <Button size="icon" className="absolute right-1 top-1/2 -translate-y-1/2 h-10" onClick={handleSearch} aria-label="Search">
                 <Search className="w-4 h-4" />
               </Button>
             </div>
-            
-            {/* Main Navigation */}
             <div className="space-y-2">
               <h3 className="text-sm font-semibold text-muted-foreground px-2 uppercase tracking-wide">Navigation</h3>
               {mainNavigation.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`block w-full text-left py-3 px-2 text-foreground hover:text-primary hover:bg-muted rounded-md font-medium transition-colors active-elevate-2 ${
-                    location === item.href ? 'text-primary bg-muted' : ''
-                  }`}
+                  className={`block w-full text-left py-3 px-2 text-foreground hover:text-primary hover:bg-muted rounded-md font-medium transition-colors active-elevate-2 ${location === item.href ? 'text-primary bg-muted' : ''}`}
                   onClick={() => setMobileMenuOpen(false)}
                   data-testid={`mobile-nav-${item.name.toLowerCase()}`}
                 >
@@ -230,8 +246,6 @@ export default function Header() {
                 </Link>
               ))}
             </div>
-            
-            {/* Product Categories */}
             <div className="space-y-2 max-h-64 overflow-y-auto">
               <h3 className="text-sm font-semibold text-muted-foreground px-2 uppercase tracking-wide">Product Categories</h3>
               {categories.map((category) => (
@@ -248,8 +262,6 @@ export default function Header() {
                 </button>
               ))}
             </div>
-            
-            {/* Mobile-specific actions */}
             <div className="pt-4 border-t border-border">
               <div className="grid grid-cols-2 gap-3">
                 <Button variant="outline" size="sm" className="w-full" data-testid="mobile-account-button">

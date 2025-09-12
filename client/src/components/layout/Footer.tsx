@@ -18,20 +18,17 @@ const footerLinks = {
     { name: 'Refrigeration Components', href: '/category/refrigeration' }
   ],
   support: [
-    { name: 'Services', href: '/services' },
-    { name: 'Resources', href: '/resources' },
     { name: 'Technical Support', href: '/contact' },
-    { name: 'Documentation', href: '/resources' }
+    { name: 'Documentation', href: '/products' }
   ],
   quickLinks: [
     { name: 'Home', href: '/' },
     { name: 'Products', href: '/products' },
-    { name: 'Services', href: '/services' },
-    { name: 'Resources', href: '/resources' }
+    { name: 'About', href: '/about' },
+    { name: 'Contact', href: '/contact' }
   ]
 }
 
-// Ensure all footer link arrays are properly initialized
 const safeFooterLinks = {
   company: footerLinks?.company || [],
   products: footerLinks?.products || [],
@@ -40,7 +37,6 @@ const safeFooterLinks = {
 }
 
 export default function Footer() {
-  // todo: remove mock functionality - integrate with real newsletter signup
   const handleNewsletterSignup = (email: string) => {
     console.log('Newsletter signup:', email)
   }
@@ -51,10 +47,8 @@ export default function Footer() {
 
   return (
     <footer className="bg-primary text-primary-foreground">
-      {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
-          {/* Company Info */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-2">
               <div className="w-10 h-10 bg-primary-foreground text-primary rounded-md flex items-center justify-center font-bold text-lg">
@@ -90,7 +84,6 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Social Links */}
             <div className="flex gap-2 pt-4">
               <Button variant="ghost" size="icon" className="text-primary-foreground hover:text-primary hover:bg-primary-foreground">
                 <Facebook className="w-4 h-4" />
@@ -107,7 +100,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Company Links */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Company</h3>
             <ul className="space-y-2">
@@ -125,7 +117,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Products Links */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Products</h3>
             <ul className="space-y-2">
@@ -143,7 +134,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Support Links */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Support</h3>
             <ul className="space-y-2">
@@ -161,7 +151,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Quick Links & Newsletter */}
           <div className="space-y-6">
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">Quick Links</h3>
@@ -217,7 +206,6 @@ export default function Footer() {
 
       <Separator className="bg-primary-foreground/20" />
 
-      {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-primary-foreground/80">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
