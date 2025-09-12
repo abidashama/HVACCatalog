@@ -1,146 +1,107 @@
-import { useState } from 'react'
-import { Grid, List, Filter, SortDesc } from 'lucide-react'
+import { useState, useMemo } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { Grid, List, Filter, SortDesc, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Skeleton } from '@/components/ui/skeleton'
 import ProductCard from './ProductCard'
-import pressureSwitchImage from '@assets/generated_images/Pressure_switch_product_photo_6632abba.png'
-import heatExchangerImage from '@assets/generated_images/Heat_exchanger_product_photo_ba077dc1.png'
-import compressorImage from '@assets/generated_images/Refrigeration_compressor_photo_e9d26f6e.png'
+import type { SelectProduct, ProductFilters } from '@shared/schema'
 
-// todo: remove mock data - integrate with real product API
-const mockProducts = [
-  {
-    id: 'lf5532-auto',
-    title: 'LF5532 Automatic Reset Pressure Switch',
-    modelNumber: 'LF5532-AUTO-24V',
-    image: pressureSwitchImage,
-    price: 89.99,
-    originalPrice: 109.99,
-    category: 'Pressure Switches',
-    series: 'LF55 Series',
-    stockStatus: 'in_stock' as const,
-    rating: 4.5,
-    reviewCount: 24,
-    specifications: {
-      workingTemp: '-40°C to 120°C',
-      pressure: '0.5-16 bar',
-      voltage: '24V AC/DC',
-      connection: '1/4" NPT'
-    }
-  },
-  {
-    id: 'he-plate-20',
-    title: 'Plate Heat Exchanger 20 Plates',
-    modelNumber: 'PHE-20-STEEL',
-    image: heatExchangerImage,
-    price: 445.00,
-    category: 'Heat Exchangers',
-    series: 'PHE Series',
-    stockStatus: 'in_stock' as const,
-    rating: 4.8,
-    reviewCount: 12,
-    specifications: {
-      workingTemp: '-20°C to 180°C',
-      pressure: '10-25 bar',
-      connection: '1" NPT'
-    }
-  },
-  {
-    id: 'comp-scroll-5hp',
-    title: 'Scroll Compressor 5HP R410A',
-    modelNumber: 'SC-5HP-R410A',
-    image: compressorImage,
-    price: 1299.99,
-    originalPrice: 1499.99,
-    category: 'Refrigeration Components',
-    series: 'Scroll Series',
-    stockStatus: 'on_order' as const,
-    rating: 4.7,
-    reviewCount: 8,
-    specifications: {
-      workingTemp: '-10°C to 65°C',
-      voltage: '220V/3Ph/50Hz'
-    }
-  },
-  {
-    id: 'lf32-manual',
-    title: 'LF32 Manual Reset Pressure Switch',
-    modelNumber: 'LF32-MAN-120V',
-    image: pressureSwitchImage,
-    price: 67.50,
-    category: 'Pressure Switches',
-    series: 'LF32 Series',
-    stockStatus: 'in_stock' as const,
-    rating: 4.3,
-    reviewCount: 18,
-    specifications: {
-      workingTemp: '-25°C to 85°C',
-      pressure: '0.8-12 bar',
-      voltage: '120V AC'
-    }
-  },
-  {
-    id: 'he-coaxial-15',
-    title: 'Coaxial Heat Exchanger 15kW',
-    modelNumber: 'CHE-15KW-CU',
-    image: heatExchangerImage,
-    price: 289.99,
-    category: 'Heat Exchangers',
-    series: 'Coaxial Series',
-    stockStatus: 'out_of_stock' as const,
-    rating: 4.6,
-    reviewCount: 15,
-    specifications: {
-      workingTemp: '-15°C to 120°C',
-      pressure: '8-20 bar',
-      connection: '3/4" NPT'
-    }
-  },
-  {
-    id: 'comp-recip-3hp',
-    title: 'Reciprocating Compressor 3HP',
-    modelNumber: 'RC-3HP-R134A',
-    image: compressorImage,
-    price: 899.99,
-    category: 'Refrigeration Components',
-    series: 'Reciprocating Series',
-    stockStatus: 'in_stock' as const,
-    rating: 4.4,
-    reviewCount: 22,
-    specifications: {
-      workingTemp: '-15°C to 55°C',
-      voltage: '110V/1Ph/60Hz'
-    }
-  }
-]
+interface ProductGridProps {
+  filters?: Partial<ProductFilters>
+  searchQuery?: string
+}
 
 type ViewMode = 'grid' | 'list'
 type SortOption = 'name' | 'price_asc' | 'price_desc' | 'newest' | 'rating'
 
-export default function ProductGrid() {
+export default function ProductGrid({ filters, searchQuery }: ProductGridProps) {
   const [viewMode, setViewMode] = useState<ViewMode>('grid')
   const [sortBy, setSortBy] = useState<SortOption>('name')
   const [currentPage, setCurrentPage] = useState(1)
-  const [isLoading, setIsLoading] = useState(false)
+  
+  // Build query parameters for API
+  const queryParams = useMemo(() => {
+    const params: ProductFilters = {
+      page: currentPage,
+      limit: 12,
+      sortBy,
+      ...filters
+    }
+    
+    if (searchQuery?.trim()) {
+      params.search = searchQuery.trim()
+    }
+    
+    return params
+  }, [currentPage, sortBy, filters, searchQuery])
+  
+  // Fetch products from API
+  const {
+    data: productsResponse,
+    isLoading,
+    error,
+    refetch
+  } = useQuery({
+    queryKey: ['/api/products', queryParams],
+    queryFn: async () => {
+      const searchParams = new URLSearchParams()
+      Object.entries(queryParams).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+          searchParams.append(key, value.toString())
+        }
+      })
+      
+      const response = await fetch(`/api/products?${searchParams}`)
+      if (!response.ok) {
+        throw new Error('Failed to fetch products')
+      }
+      
+      return response.json()
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000    // 10 minutes
+  })
+  
+  const products = productsResponse?.products || []
+  const totalProducts = productsResponse?.total || 0
+  const productsPerPage = 12
+  const totalPages = Math.ceil(totalProducts / productsPerPage)
+  
+  // Convert API product data to component props format
+  const transformProduct = (product: SelectProduct) => {
+    const specifications = product.specifications 
+      ? JSON.parse(product.specifications) 
+      : {}
+    
+    return {
+      id: product.id,
+      title: product.title,
+      modelNumber: product.modelNumber,
+      image: product.image,
+      price: parseFloat(product.price),
+      originalPrice: product.originalPrice ? parseFloat(product.originalPrice) : undefined,
+      category: product.category,
+      series: product.series,
+      stockStatus: product.stockStatus,
+      rating: parseFloat(product.rating),
+      reviewCount: product.reviewCount,
+      specifications
+    }
+  }
 
-  // todo: remove mock functionality - integrate with real sorting logic
   const handleSort = (value: SortOption) => {
     setSortBy(value)
-    console.log('Sort by:', value)
+    setCurrentPage(1) // Reset to first page when sorting
   }
 
   const handlePageChange = (page: number) => {
-    setIsLoading(true)
     setCurrentPage(page)
-    console.log('Page change:', page)
-    // Simulate loading
-    setTimeout(() => setIsLoading(false), 500)
+    // Scroll to top of product grid
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
-
-  const totalProducts = mockProducts.length
-  const productsPerPage = 12
-  const totalPages = Math.ceil(totalProducts / productsPerPage)
 
   return (
     <div className="space-y-6">
@@ -204,23 +165,49 @@ export default function ProductGrid() {
         </Button>
       </div>
 
+      {/* Error State */}
+      {error && (
+        <Alert className="mb-6" data-testid="alert-products-error">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>
+            Failed to load products. 
+            <Button variant="ghost" onClick={() => refetch()} className="ml-2 p-0 h-auto" data-testid="button-retry-products">
+              Try again
+            </Button>
+          </AlertDescription>
+        </Alert>
+      )}
+      
       {/* Products Grid/List */}
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {[...Array(8)].map((_, i) => (
-            <div key={i} className="h-96 bg-muted animate-pulse rounded-lg" />
+            <div key={`skeleton-${i}`} className="space-y-4">
+              <Skeleton className="h-48 w-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+                <Skeleton className="h-6 w-1/4" />
+              </div>
+            </div>
           ))}
+        </div>
+      ) : products.length === 0 ? (
+        <div className="text-center py-12" data-testid="message-no-products">
+          <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+          <h3 className="text-lg font-semibold mb-2">No products found</h3>
+          <p className="text-muted-foreground">Try adjusting your search or filter criteria.</p>
         </div>
       ) : (
         <div className={
           viewMode === 'grid' 
             ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'
             : 'space-y-4'
-        }>
-          {mockProducts.map((product) => (
+        } data-testid="container-products">
+          {products.map((product: SelectProduct) => (
             <ProductCard
               key={product.id}
-              {...product}
+              {...transformProduct(product)}
               isCompact={viewMode === 'list'}
             />
           ))}
@@ -232,27 +219,35 @@ export default function ProductGrid() {
         <Button
           variant="outline"
           onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
+          disabled={currentPage === 1 || isLoading}
           data-testid="button-prev-page"
         >
           Previous
         </Button>
         
-        {[...Array(totalPages)].map((_, i) => (
-          <Button
-            key={i + 1}
-            variant={currentPage === i + 1 ? 'default' : 'outline'}
-            onClick={() => handlePageChange(i + 1)}
-            data-testid={`button-page-${i + 1}`}
-          >
-            {i + 1}
-          </Button>
-        ))}
+        {totalPages > 0 && [...Array(Math.min(totalPages, 10))].map((_, i) => {
+          const pageNum = i + 1
+          // Show first 5 pages, then ellipsis logic for large page counts
+          if (totalPages <= 10 || pageNum <= 5 || pageNum > totalPages - 5 || Math.abs(pageNum - currentPage) <= 2) {
+            return (
+              <Button
+                key={pageNum}
+                variant={currentPage === pageNum ? 'default' : 'outline'}
+                onClick={() => handlePageChange(pageNum)}
+                disabled={isLoading}
+                data-testid={`button-page-${pageNum}`}
+              >
+                {pageNum}
+              </Button>
+            )
+          }
+          return null
+        })}
         
         <Button
           variant="outline"
           onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
+          disabled={currentPage === totalPages || isLoading || totalPages === 0}
           data-testid="button-next-page"
         >
           Next

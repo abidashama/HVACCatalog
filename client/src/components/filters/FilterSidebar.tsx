@@ -7,10 +7,13 @@ import { Slider } from '@/components/ui/slider'
 import { Badge } from '@/components/ui/badge'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { Separator } from '@/components/ui/separator'
+import type { ProductFilters } from '@shared/schema'
 
 interface FilterSidebarProps {
   isOpen: boolean
   onClose: () => void
+  filters?: Partial<ProductFilters>
+  onFiltersChange?: (filters: Partial<ProductFilters>) => void
 }
 
 // todo: remove mock data - integrate with real filter API
@@ -49,13 +52,39 @@ const filterData = {
   ]
 }
 
-export default function FilterSidebar({ isOpen, onClose }: FilterSidebarProps) {
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(['pressure-switches'])
+export default function FilterSidebar({ isOpen, onClose, filters = {}, onFiltersChange }: FilterSidebarProps) {
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [selectedSeries, setSelectedSeries] = useState<string[]>([])
   const [selectedApplications, setSelectedApplications] = useState<string[]>([])
   const [selectedCertifications, setSelectedCertifications] = useState<string[]>([])
   const [selectedVoltages, setSelectedVoltages] = useState<string[]>([])
   const [priceRange, setPriceRange] = useState([0, 2000])
+  
+  // Initialize filters from props
+  useEffect(() => {
+    if (filters.category) {
+      setSelectedCategories([filters.category])
+    } else {
+      setSelectedCategories([])
+    }
+    
+    if (filters.series) {
+      setSelectedSeries([filters.series])
+    } else {
+      setSelectedSeries([])
+    }
+    
+    if (filters.priceMin !== undefined || filters.priceMax !== undefined) {
+      setPriceRange([
+        filters.priceMin || 0,
+        filters.priceMax || 2000
+      ])
+    }
+    
+    if (filters.stockStatus) {
+      // Handle stock status if needed
+    }
+  }, [filters])
   const [openSections, setOpenSections] = useState({
     categories: true,
     series: true,
@@ -89,23 +118,55 @@ export default function FilterSidebar({ isOpen, onClose }: FilterSidebarProps) {
     }
   }, [isOpen, onClose])
 
-  // todo: remove mock functionality - integrate with real filter logic
-  const handleCategoryChange = (categoryId: string, checked: boolean) => {
-    if (checked) {
-      setSelectedCategories([...selectedCategories, categoryId])
-    } else {
-      setSelectedCategories(selectedCategories.filter(id => id !== categoryId))
+  const applyFilters = () => {
+    if (!onFiltersChange) return
+    
+    const newFilters: Partial<ProductFilters> = {
+      category: selectedCategories.length > 0 ? selectedCategories[0] : undefined,
+      series: selectedSeries.length > 0 ? selectedSeries[0] : undefined,
+      priceMin: priceRange[0] > 0 ? priceRange[0] : undefined,
+      priceMax: priceRange[1] < 2000 ? priceRange[1] : undefined,
     }
-    console.log('Category filter changed:', categoryId, checked)
+    
+    onFiltersChange(newFilters)
+  }
+  
+  const handleCategoryChange = (categoryId: string, checked: boolean) => {
+    let newCategories: string[]
+    if (checked) {
+      newCategories = [categoryId] // Only allow single category selection
+    } else {
+      newCategories = selectedCategories.filter(id => id !== categoryId)
+    }
+    setSelectedCategories(newCategories)
+    
+    // Apply filter immediately
+    if (onFiltersChange) {
+      const newFilters: Partial<ProductFilters> = {
+        ...filters,
+        category: newCategories.length > 0 ? categoryId : undefined
+      }
+      onFiltersChange(newFilters)
+    }
   }
 
   const handleSeriesChange = (seriesId: string, checked: boolean) => {
+    let newSeries: string[]
     if (checked) {
-      setSelectedSeries([...selectedSeries, seriesId])
+      newSeries = [seriesId] // Only allow single series selection
     } else {
-      setSelectedSeries(selectedSeries.filter(id => id !== seriesId))
+      newSeries = selectedSeries.filter(id => id !== seriesId)
     }
-    console.log('Series filter changed:', seriesId, checked)
+    setSelectedSeries(newSeries)
+    
+    // Apply filter immediately
+    if (onFiltersChange) {
+      const newFilters: Partial<ProductFilters> = {
+        ...filters,
+        series: newSeries.length > 0 ? seriesId : undefined
+      }
+      onFiltersChange(newFilters)
+    }
   }
 
   const handleApplicationChange = (appId: string, checked: boolean) => {
@@ -114,7 +175,7 @@ export default function FilterSidebar({ isOpen, onClose }: FilterSidebarProps) {
     } else {
       setSelectedApplications(selectedApplications.filter(id => id !== appId))
     }
-    console.log('Application filter changed:', appId, checked)
+    // Note: Applications not implemented in backend yet
   }
 
   const handleCertificationChange = (certId: string, checked: boolean) => {
@@ -123,7 +184,7 @@ export default function FilterSidebar({ isOpen, onClose }: FilterSidebarProps) {
     } else {
       setSelectedCertifications(selectedCertifications.filter(id => id !== certId))
     }
-    console.log('Certification filter changed:', certId, checked)
+    // Note: Certifications not implemented in backend yet
   }
 
   const handleVoltageChange = (voltageId: string, checked: boolean) => {
@@ -132,12 +193,25 @@ export default function FilterSidebar({ isOpen, onClose }: FilterSidebarProps) {
     } else {
       setSelectedVoltages(selectedVoltages.filter(id => id !== voltageId))
     }
-    console.log('Voltage filter changed:', voltageId, checked)
+    // Note: Voltages not implemented in backend yet
   }
 
   const handlePriceRangeChange = (value: number[]) => {
     setPriceRange(value)
-    console.log('Price range changed:', value)
+    
+    // Debounce price range changes
+    const timeoutId = setTimeout(() => {
+      if (onFiltersChange) {
+        const newFilters: Partial<ProductFilters> = {
+          ...filters,
+          priceMin: value[0] > 0 ? value[0] : undefined,
+          priceMax: value[1] < 2000 ? value[1] : undefined
+        }
+        onFiltersChange(newFilters)
+      }
+    }, 500)
+    
+    return () => clearTimeout(timeoutId)
   }
 
   const clearAllFilters = () => {
@@ -147,7 +221,10 @@ export default function FilterSidebar({ isOpen, onClose }: FilterSidebarProps) {
     setSelectedCertifications([])
     setSelectedVoltages([])
     setPriceRange([0, 2000])
-    console.log('All filters cleared')
+    
+    if (onFiltersChange) {
+      onFiltersChange({})
+    }
   }
 
   const toggleSection = (section: keyof typeof openSections) => {

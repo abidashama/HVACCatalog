@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import { Search, Menu, ShoppingCart, User, Phone, Mail, X } from 'lucide-react'
+import { Search, Menu, User, Phone, Mail, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import InquiryModal from '@/components/modals/InquiryModal'
 
 const categories = [
   { id: 1, name: 'Pressure Switches', href: '/category/pressure-switches', subcategories: ['LF55 Series', 'LF32 Series', 'LFSV-D Series'] },
@@ -17,6 +18,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [megaMenuOpen, setMegaMenuOpen] = useState<number | null>(null)
+  const [inquiryModalOpen, setInquiryModalOpen] = useState(false)
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -68,9 +70,13 @@ export default function Header() {
           </div>
           <div className="hidden md:flex items-center gap-4">
             <span>Free shipping on orders over $500</span>
-            <Button variant="ghost" size="sm" className="text-primary-foreground hover:text-primary-foreground">
-              Request Quote
-            </Button>
+            <InquiryModal 
+              trigger={
+                <Button variant="ghost" size="sm" className="text-primary-foreground hover:text-primary-foreground" data-testid="button-header-request-quote">
+                  Request Quote
+                </Button>
+              }
+            />
           </div>
         </div>
       </div>
@@ -118,10 +124,6 @@ export default function Header() {
             <ThemeToggle />
             <Button variant="ghost" size="icon" className="relative active-elevate-2 h-11 w-11 md:h-9 md:w-9" data-testid="button-user-menu">
               <User className="w-5 h-5" />
-            </Button>
-            <Button variant="ghost" size="icon" className="relative active-elevate-2 h-11 w-11 md:h-9 md:w-9" data-testid="button-cart">
-              <ShoppingCart className="w-5 h-5" />
-              <Badge className="absolute -top-2 -right-2 w-5 h-5 p-0 text-xs flex items-center justify-center" data-testid="badge-cart-count">3</Badge>
             </Button>
             <Button 
               variant="ghost" 

@@ -37,28 +37,17 @@ export const products = pgTable('products', {
   updatedAt: timestamp('updated_at').defaultNow()
 })
 
-// Cart items table schema
-export const cartItems = pgTable('cart_items', {
-  id: serial('id').primaryKey(),
-  sessionId: text('session_id').notNull(),
-  productId: text('product_id').notNull(),
-  quantity: integer('quantity').notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
-  updatedAt: timestamp('updated_at').defaultNow()
-})
-
-// Quote requests table schema
-export const quoteRequests = pgTable('quote_requests', {
+// Product inquiries table schema
+export const productInquiries = pgTable('product_inquiries', {
   id: serial('id').primaryKey(),
   name: text('name').notNull(),
   email: text('email').notNull(),
   company: text('company'),
   phone: text('phone'),
-  message: text('message'),
-  productIds: text('product_ids'), // JSON array as string
-  status: text('status', { enum: ['pending', 'reviewed', 'quoted', 'closed'] }).default('pending'),
-  createdAt: timestamp('created_at').defaultNow(),
-  updatedAt: timestamp('updated_at').defaultNow()
+  message: text('message').notNull(),
+  productId: text('product_id').notNull(), // Single product inquiry
+  status: text('status', { enum: ['pending', 'reviewed', 'responded'] }).default('pending'),
+  createdAt: timestamp('created_at').defaultNow()
 })
 
 // Product insert/select schemas
@@ -69,24 +58,14 @@ export const insertProductSchema = createInsertSchema(products).omit({
 export type InsertProduct = z.infer<typeof insertProductSchema>
 export type SelectProduct = typeof products.$inferSelect
 
-// Cart item insert/select schemas
-export const insertCartItemSchema = createInsertSchema(cartItems).omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true
-})
-export type InsertCartItem = z.infer<typeof insertCartItemSchema>
-export type SelectCartItem = typeof cartItems.$inferSelect
-
-// Quote request insert/select schemas
-export const insertQuoteRequestSchema = createInsertSchema(quoteRequests).omit({
+// Product inquiry insert/select schemas
+export const insertProductInquirySchema = createInsertSchema(productInquiries).omit({
   id: true,
   status: true,
-  createdAt: true,
-  updatedAt: true
+  createdAt: true
 })
-export type InsertQuoteRequest = z.infer<typeof insertQuoteRequestSchema>
-export type SelectQuoteRequest = typeof quoteRequests.$inferSelect
+export type InsertProductInquiry = z.infer<typeof insertProductInquirySchema>
+export type SelectProductInquiry = typeof productInquiries.$inferSelect
 
 // API response schemas
 export const productSpecificationsSchema = z.object({
@@ -102,28 +81,6 @@ export const productSpecificationsSchema = z.object({
 
 export type ProductSpecifications = z.infer<typeof productSpecificationsSchema>
 
-// Cart with product details
-export const cartItemWithProductSchema = z.object({
-  id: z.number(),
-  sessionId: z.string(),
-  productId: z.string(),
-  quantity: z.number(),
-  product: z.object({
-    id: z.string(),
-    title: z.string(),
-    modelNumber: z.string(),
-    image: z.string(),
-    price: z.string(),
-    originalPrice: z.string().optional(),
-    category: z.string(),
-    series: z.string(),
-    stockStatus: z.enum(['in_stock', 'out_of_stock', 'on_order'])
-  }),
-  createdAt: z.string(),
-  updatedAt: z.string()
-})
-
-export type CartItemWithProduct = z.infer<typeof cartItemWithProductSchema>
 
 // Product search/filter schemas
 export const productFiltersSchema = z.object({

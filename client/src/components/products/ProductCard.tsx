@@ -1,9 +1,11 @@
-import { Heart, ShoppingCart, Eye, Star, Download } from 'lucide-react'
+import { MessageSquare, Eye, Star, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { useFadeIn, useHoverAnimation } from '@/hooks/useGSAPAnimations'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
+import InquiryModal from '@/components/modals/InquiryModal'
+import type { SelectProduct } from '@shared/schema'
 
 interface ProductCardProps {
   id: string
@@ -47,21 +49,61 @@ export default function ProductCard({
   const fadeRef = useFadeIn(0.5)
   useHoverAnimation(cardRef)
   
-  // todo: remove mock functionality - integrate with real product actions
-  const handleAddToCart = () => {
-    console.log('Add to cart:', id, title)
+  // Modal state
+  const [inquiryModalOpen, setInquiryModalOpen] = useState(false)
+  
+  // Convert props to SelectProduct format for the modal
+  const productForModal: SelectProduct = {
+    id,
+    title,
+    modelNumber,
+    image,
+    price: price.toString(),
+    originalPrice: originalPrice?.toString() || null,
+    category,
+    series,
+    stockStatus,
+    rating: rating.toString(),
+    reviewCount,
+    specifications: JSON.stringify(specifications),
+    description: null,
+    tags: null,
+    createdAt: new Date(),
+    updatedAt: new Date()
   }
-
-  const handleWishlist = () => {
-    console.log('Add to wishlist:', id, title)
+  
+  const handleRequestQuote = () => {
+    setInquiryModalOpen(true)
   }
 
   const handleQuickView = () => {
     console.log('Quick view:', id, title)
+    // TODO: Implement quick view modal
   }
 
   const handleDownload = () => {
-    console.log('Download spec sheet:', id, title)
+    // Generate a simple specification sheet download
+    const specData = {
+      product: title,
+      model: modelNumber,
+      category,
+      series,
+      price: `$${price.toFixed(2)}`,
+      specifications
+    }
+    
+    const dataStr = JSON.stringify(specData, null, 2)
+    const dataBlob = new Blob([dataStr], { type: 'application/json' })
+    const url = URL.createObjectURL(dataBlob)
+    
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `${modelNumber}-specifications.json`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    
+    URL.revokeObjectURL(url)
   }
 
   const getStockBadge = () => {
@@ -94,8 +136,8 @@ export default function ProductCard({
           <Button size="icon" variant="secondary" onClick={handleQuickView} data-testid={`button-quickview-${id}`}>
             <Eye className="w-4 h-4" />
           </Button>
-          <Button size="icon" variant="secondary" onClick={handleWishlist} data-testid={`button-wishlist-${id}`}>
-            <Heart className="w-4 h-4" />
+          <Button size="icon" variant="secondary" onClick={handleRequestQuote} data-testid={`button-quote-${id}`}>
+            <MessageSquare className="w-4 h-4" />
           </Button>
           <Button size="icon" variant="secondary" onClick={handleDownload} data-testid={`button-download-${id}`}>
             <Download className="w-4 h-4" />
@@ -104,8 +146,8 @@ export default function ProductCard({
 
         {/* Mobile Action Bar - Larger touch targets for field use */}
         <div className="md:hidden absolute top-2 right-2 flex gap-1">
-          <Button size="icon" variant="secondary" className="h-11 w-11" onClick={handleWishlist} data-testid={`button-mobile-wishlist-${id}`}>
-            <Heart className="w-4 h-4" />
+          <Button size="icon" variant="secondary" className="h-11 w-11" onClick={handleRequestQuote} data-testid={`button-mobile-quote-${id}`}>
+            <MessageSquare className="w-4 h-4" />
           </Button>
           <Button size="icon" variant="secondary" className="h-11 w-11" onClick={handleDownload} data-testid={`button-mobile-download-${id}`}>
             <Download className="w-4 h-4" />
@@ -199,16 +241,23 @@ export default function ProductCard({
           <span className="text-xs text-muted-foreground">per unit</span>
         </div>
 
-        {/* Add to Cart - Responsive sizing with larger mobile touch targets */}
+        {/* Inquiry Modal */}
+        <InquiryModal 
+          product={productForModal}
+          defaultOpen={inquiryModalOpen}
+          onOpenChange={setInquiryModalOpen}
+        />
+        
+        {/* Request Quote - Responsive sizing with larger mobile touch targets */}
         <Button 
-          onClick={handleAddToCart}
+          onClick={handleRequestQuote}
           disabled={stockStatus === 'out_of_stock'}
           size={isCompact ? "sm" : "default"}
           className={`${isCompact ? "text-xs px-3" : ""} h-11 md:h-9`}
-          data-testid={`button-addcart-${id}`}
+          data-testid={`button-quote-${id}`}
         >
-          <ShoppingCart className={`${isCompact ? "w-3 h-3" : "w-4 h-4"} mr-1 md:mr-2`} />
-          <span className="hidden sm:inline">Add to </span>Cart
+          <MessageSquare className={`${isCompact ? "w-3 h-3" : "w-4 h-4"} mr-1 md:mr-2`} />
+          <span className="hidden sm:inline">Request </span>Quote
         </Button>
       </CardFooter>
     </Card>

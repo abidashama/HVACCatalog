@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type SelectProduct, type InsertProduct, type SelectCartItem, type InsertCartItem, type CartItemWithProduct, type SelectQuoteRequest, type InsertQuoteRequest, type ProductFilters } from "@shared/schema";
+import { type User, type InsertUser, type SelectProduct, type InsertProduct, type SelectProductInquiry, type InsertProductInquiry, type ProductFilters } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 // modify the interface with any CRUD methods
@@ -14,32 +14,21 @@ export interface IStorage {
   getProduct(id: string): Promise<SelectProduct | undefined>;
   createProduct(product: InsertProduct): Promise<SelectProduct>;
   
-  // Cart methods
-  getCartItems(sessionId: string): Promise<CartItemWithProduct[]>;
-  addToCart(sessionId: string, productId: string, quantity: number): Promise<SelectCartItem>;
-  updateCartItem(sessionId: string, productId: string, quantity: number): Promise<SelectCartItem | undefined>;
-  removeFromCart(sessionId: string, productId: string): Promise<boolean>;
-  clearCart(sessionId: string): Promise<void>;
-  getCartCount(sessionId: string): Promise<number>;
-  
-  // Quote methods
-  createQuoteRequest(quote: InsertQuoteRequest): Promise<SelectQuoteRequest>;
-  getQuoteRequests(): Promise<SelectQuoteRequest[]>;
+  // Inquiry methods
+  createInquiry(inquiry: InsertProductInquiry): Promise<SelectProductInquiry>;
+  getInquiries(): Promise<SelectProductInquiry[]>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<string, User>;
   private products: Map<string, SelectProduct>;
-  private cartItems: Map<string, SelectCartItem[]>; // sessionId -> cart items
-  private quoteRequests: SelectQuoteRequest[];
-  private nextCartItemId: number = 1;
-  private nextQuoteId: number = 1;
+  private inquiries: SelectProductInquiry[];
+  private nextInquiryId: number = 1;
 
   constructor() {
     this.users = new Map();
     this.products = new Map();
-    this.cartItems = new Map();
-    this.quoteRequests = [];
+    this.inquiries = [];
     this.initializeProducts();
   }
 
@@ -66,7 +55,7 @@ export class MemStorage implements IStorage {
         id: 'lf5532-auto-24v',
         title: 'LF5532 Automatic Reset Pressure Switch',
         modelNumber: 'LF5532-AUTO-24V',
-        image: '/api/placeholder/300/300',
+        image: '/assets/generated_images/Pressure_switch_product_photo_6632abba.png',
         price: '89.99',
         originalPrice: '109.99',
         category: 'Pressure Switches',
@@ -93,7 +82,7 @@ export class MemStorage implements IStorage {
         id: 'ts4000-temp-sensor',
         title: 'TS4000 Temperature Sensor',
         modelNumber: 'TS4000-PT100',
-        image: '/api/placeholder/300/300',
+        image: '/assets/generated_images/Heat_exchanger_product_photo_ba077dc1.png',
         price: '124.99',
         originalPrice: null,
         category: 'Temperature Sensors',
@@ -120,7 +109,7 @@ export class MemStorage implements IStorage {
         id: 'vf200-flow-valve',
         title: 'VF200 Flow Control Valve',
         modelNumber: 'VF200-DN25',
-        image: '/api/placeholder/300/300',
+        image: '/assets/generated_images/Refrigeration_compressor_photo_e9d26f6e.png',
         price: '245.00',
         originalPrice: '275.00',
         category: 'Valves',
@@ -233,6 +222,10 @@ export class MemStorage implements IStorage {
   async createProduct(product: InsertProduct): Promise<SelectProduct> {
     const newProduct: SelectProduct = {
       ...product,
+      originalPrice: product.originalPrice ?? null,
+      specifications: product.specifications ?? null,
+      description: product.description ?? null,
+      tags: product.tags ?? null,
       createdAt: new Date(),
       updatedAt: new Date()
     };
@@ -240,124 +233,22 @@ export class MemStorage implements IStorage {
     return newProduct;
   }
 
-  // Cart methods
-  async getCartItems(sessionId: string): Promise<CartItemWithProduct[]> {
-    const items = this.cartItems.get(sessionId) || [];
-    const cartWithProducts: CartItemWithProduct[] = [];
-
-    for (const item of items) {
-      const product = this.products.get(item.productId);
-      if (product) {
-        cartWithProducts.push({
-          id: item.id!,
-          sessionId: item.sessionId,
-          productId: item.productId,
-          quantity: item.quantity,
-          product: {
-            id: product.id,
-            title: product.title,
-            modelNumber: product.modelNumber,
-            image: product.image,
-            price: product.price,
-            originalPrice: product.originalPrice,
-            category: product.category,
-            series: product.series,
-            stockStatus: product.stockStatus
-          },
-          createdAt: item.createdAt!.toISOString(),
-          updatedAt: item.updatedAt!.toISOString()
-        });
-      }
-    }
-
-    return cartWithProducts;
-  }
-
-  async addToCart(sessionId: string, productId: string, quantity: number): Promise<SelectCartItem> {
-    const items = this.cartItems.get(sessionId) || [];
-    const existingItemIndex = items.findIndex(item => item.productId === productId);
-
-    if (existingItemIndex >= 0) {
-      // Update existing item
-      items[existingItemIndex].quantity += quantity;
-      items[existingItemIndex].updatedAt = new Date();
-      this.cartItems.set(sessionId, items);
-      return items[existingItemIndex];
-    } else {
-      // Add new item
-      const newItem: SelectCartItem = {
-        id: this.nextCartItemId++,
-        sessionId,
-        productId,
-        quantity,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
-      items.push(newItem);
-      this.cartItems.set(sessionId, items);
-      return newItem;
-    }
-  }
-
-  async updateCartItem(sessionId: string, productId: string, quantity: number): Promise<SelectCartItem | undefined> {
-    const items = this.cartItems.get(sessionId) || [];
-    const itemIndex = items.findIndex(item => item.productId === productId);
-
-    if (itemIndex >= 0) {
-      if (quantity <= 0) {
-        // Remove item if quantity is 0 or less
-        items.splice(itemIndex, 1);
-        this.cartItems.set(sessionId, items);
-        return undefined;
-      } else {
-        // Update quantity
-        items[itemIndex].quantity = quantity;
-        items[itemIndex].updatedAt = new Date();
-        this.cartItems.set(sessionId, items);
-        return items[itemIndex];
-      }
-    }
-
-    return undefined;
-  }
-
-  async removeFromCart(sessionId: string, productId: string): Promise<boolean> {
-    const items = this.cartItems.get(sessionId) || [];
-    const itemIndex = items.findIndex(item => item.productId === productId);
-
-    if (itemIndex >= 0) {
-      items.splice(itemIndex, 1);
-      this.cartItems.set(sessionId, items);
-      return true;
-    }
-
-    return false;
-  }
-
-  async clearCart(sessionId: string): Promise<void> {
-    this.cartItems.set(sessionId, []);
-  }
-
-  async getCartCount(sessionId: string): Promise<number> {
-    const items = this.cartItems.get(sessionId) || [];
-    return items.reduce((total, item) => total + item.quantity, 0);
-  }
-
-  // Quote methods
-  async createQuoteRequest(quote: InsertQuoteRequest): Promise<SelectQuoteRequest> {
-    const newQuote: SelectQuoteRequest = {
-      id: this.nextQuoteId++,
-      ...quote,
+  // Inquiry methods
+  async createInquiry(inquiry: InsertProductInquiry): Promise<SelectProductInquiry> {
+    const newInquiry: SelectProductInquiry = {
+      id: this.nextInquiryId++,
+      ...inquiry,
+      company: inquiry.company ?? null,
+      phone: inquiry.phone ?? null,
       status: 'pending',
-      createdAt: new Date(),
-      updatedAt: new Date()
+      createdAt: new Date()
     };
-    this.quoteRequests.push(newQuote);
-    return newQuote;
+    this.inquiries.push(newInquiry);
+    return newInquiry;
   }
 
-  async getQuoteRequests(): Promise<SelectQuoteRequest[]> {
-    return this.quoteRequests;
+  async getInquiries(): Promise<SelectProductInquiry[]> {
+    return this.inquiries;
   }
 }
 
