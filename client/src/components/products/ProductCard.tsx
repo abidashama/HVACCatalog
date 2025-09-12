@@ -179,8 +179,14 @@ export default function ProductCard({
 
         {/* Title & Model */}
         <div>
-          <h3 className="font-semibold text-foreground leading-tight mb-1" data-testid={`text-title-${id}`}>
-            {title}
+          <h3 className="font-semibold text-foreground leading-tight mb-1">
+            <a 
+              href={`/product/${id}`}
+              className="hover:text-primary transition-colors cursor-pointer"
+              data-testid={`product-card-title`}
+            >
+              {title}
+            </a>
           </h3>
           <p className="text-sm text-muted-foreground font-mono" data-testid={`text-model-${id}`}>
             Model: {modelNumber}

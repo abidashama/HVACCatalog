@@ -72,9 +72,15 @@ export default function ProductGrid({ filters, searchQuery }: ProductGridProps) 
   
   // Convert API product data to component props format
   const transformProduct = (product: SelectProduct) => {
-    const specifications = product.specifications 
-      ? JSON.parse(product.specifications) 
-      : {}
+    let specifications = {}
+    try {
+      specifications = product.specifications 
+        ? JSON.parse(product.specifications) 
+        : {}
+    } catch (error) {
+      console.warn('Failed to parse product specifications:', error)
+      specifications = {}
+    }
     
     return {
       id: product.id,
@@ -109,7 +115,7 @@ export default function ProductGrid({ filters, searchQuery }: ProductGridProps) 
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-card rounded-lg border">
         <div className="flex items-center gap-4">
           <span className="text-sm text-muted-foreground" data-testid="text-product-count">
-            Showing {Math.min((currentPage - 1) * productsPerPage + 1, totalProducts)}-{Math.min(currentPage * productsPerPage, totalProducts)} of {totalProducts} products
+            {isLoading ? 'Loading products...' : `Showing ${Math.min((currentPage - 1) * productsPerPage + 1, totalProducts)}-${Math.min(currentPage * productsPerPage, totalProducts)} of ${totalProducts} products`}
           </span>
         </div>
         
@@ -152,18 +158,29 @@ export default function ProductGrid({ filters, searchQuery }: ProductGridProps) 
       </div>
 
       {/* Active Filters */}
-      <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-sm text-muted-foreground">Active filters:</span>
-        <Badge variant="outline" className="cursor-pointer hover:bg-destructive hover:text-destructive-foreground">
-          Category: Pressure Switches ✕
-        </Badge>
-        <Badge variant="outline" className="cursor-pointer hover:bg-destructive hover:text-destructive-foreground">
-          In Stock ✕
-        </Badge>
-        <Button variant="ghost" size="sm" className="text-primary">
-          Clear all filters
-        </Button>
-      </div>
+      {(filters?.category || filters?.series || filters?.search || searchQuery) && (
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-sm text-muted-foreground">Active filters:</span>
+          {filters?.category && (
+            <Badge variant="outline" className="cursor-pointer hover:bg-destructive hover:text-destructive-foreground">
+              Category: {filters.category} ✕
+            </Badge>
+          )}
+          {filters?.series && (
+            <Badge variant="outline" className="cursor-pointer hover:bg-destructive hover:text-destructive-foreground">
+              Series: {filters.series} ✕
+            </Badge>
+          )}
+          {(filters?.search || searchQuery) && (
+            <Badge variant="outline" className="cursor-pointer hover:bg-destructive hover:text-destructive-foreground">
+              Search: {filters?.search || searchQuery} ✕
+            </Badge>
+          )}
+          <Button variant="ghost" size="sm" className="text-primary">
+            Clear all filters
+          </Button>
+        </div>
+      )}
 
       {/* Error State */}
       {error && (
@@ -192,7 +209,7 @@ export default function ProductGrid({ filters, searchQuery }: ProductGridProps) 
             </div>
           ))}
         </div>
-      ) : products.length === 0 ? (
+      ) : (!isLoading && products.length === 0) ? (
         <div className="text-center py-12" data-testid="message-no-products">
           <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
           <h3 className="text-lg font-semibold mb-2">No products found</h3>
