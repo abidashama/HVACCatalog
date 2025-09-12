@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useLocation } from 'wouter'
 import { Filter, Search } from 'lucide-react'
 import Header from '@/components/layout/Header'
@@ -9,12 +9,22 @@ import { NavigationBreadcrumb } from '@/components/ui/NavigationBreadcrumb'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import type { ProductFilters } from '@shared/schema'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function ProductsPage() {
   const [location, setLocation] = useLocation()
   const [filterSidebarOpen, setFilterSidebarOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [filters, setFilters] = useState<Partial<ProductFilters>>({})
+  
+  // Refs for GSAP animations
+  const containerRef = useRef<HTMLDivElement>(null)
+  const heroRef = useRef<HTMLDivElement>(null)
+  const searchRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
   
   // Parse URL parameters on component mount
   useEffect(() => {
@@ -84,12 +94,37 @@ export default function ProductsPage() {
     window.history.pushState({}, '', newUrl)
   }
 
+  // GSAP Animations
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Hero section animation
+      gsap.fromTo(heroRef.current, 
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }
+      )
+
+      // Search bar animation
+      gsap.fromTo(searchRef.current,
+        { opacity: 0, scale: 0.95 },
+        { opacity: 1, scale: 1, duration: 0.6, delay: 0.2, ease: "power2.out" }
+      )
+
+      // Main content animation
+      gsap.fromTo(contentRef.current,
+        { opacity: 0, y: 40 },
+        { opacity: 1, y: 0, duration: 0.7, delay: 0.3, ease: "power2.out" }
+      )
+    }, containerRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <div className="min-h-screen bg-background">
+    <div ref={containerRef} className="min-h-screen bg-background">
       <Header />
       
       {/* Page Header */}
-      <div className="bg-muted py-12 px-4">
+      <div ref={heroRef} className="bg-muted py-12 px-4">
         <div className="max-w-7xl mx-auto">
           <NavigationBreadcrumb className="mb-6" />
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -100,7 +135,7 @@ export default function ProductsPage() {
           </p>
           
           {/* Search Bar */}
-          <div className="max-w-2xl">
+          <div ref={searchRef} className="max-w-2xl">
             <div className="relative">
               <Input
                 type="search"
@@ -125,11 +160,19 @@ export default function ProductsPage() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="flex gap-8">
-          {/* Desktop Filter Sidebar Placeholder - Reserve space on desktop */}
-          <div className="hidden lg:block w-80 flex-shrink-0">
-            {/* Space reserved for desktop filter sidebar */}
+      <div ref={contentRef} className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex gap-8 relative">
+          {/* Filter Sidebar - LEFT SIDE */}
+          <FilterSidebar 
+            isOpen={filterSidebarOpen} 
+            onClose={() => setFilterSidebarOpen(false)}
+            filters={filters}
+            onFiltersChange={handleFiltersChange}
+          />
+
+          {/* Products Grid - Takes remaining space */}
+          <div className="flex-1 min-w-0 lg:ml-0">
+            <ProductGrid filters={filters} searchQuery={searchQuery} />
           </div>
 
           {/* Mobile Filter Button */}
@@ -143,19 +186,6 @@ export default function ProductsPage() {
               Filters
             </Button>
           </div>
-
-          {/* Products Grid */}
-          <div className="flex-1 min-w-0">
-            <ProductGrid filters={filters} searchQuery={searchQuery} />
-          </div>
-
-          {/* Single FilterSidebar - Responsive for both mobile and desktop */}
-          <FilterSidebar 
-            isOpen={filterSidebarOpen} // Controls mobile visibility, desktop always visible via CSS
-            onClose={() => setFilterSidebarOpen(false)}
-            filters={filters}
-            onFiltersChange={handleFiltersChange}
-          />
         </div>
       </div>
 
