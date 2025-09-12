@@ -56,7 +56,7 @@ export default function InquiryModal({
       message: product 
         ? `I'm interested in learning more about the ${product.title} (Model: ${product.modelNumber}). Please provide additional information including pricing and availability.`
         : 'I would like to request information about your HVAC products and services.',
-      productId: product?.id || ''
+      productId: product?.id
     }
   })
 
@@ -66,7 +66,7 @@ export default function InquiryModal({
       form.setValue('productId', product.id)
       form.setValue('message', `I'm interested in learning more about the ${product.title} (Model: ${product.modelNumber}). Please provide additional information including pricing and availability.`)
     } else {
-      form.setValue('productId', '')
+      form.setValue('productId', undefined)
       form.setValue('message', 'I would like to request information about your HVAC products and services.')
     }
   }, [product, form])

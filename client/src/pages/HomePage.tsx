@@ -2,70 +2,43 @@ import Header from '@/components/layout/Header'
 import HeroSection from '@/components/layout/HeroSection'
 import CategoryGrid from '@/components/layout/CategoryGrid'
 import Footer from '@/components/layout/Footer'
-import { ArrowRight, Shield, Truck, Clock, Award } from 'lucide-react'
+import { SEOHead, seoConfigs } from '@/components/seo/SEOHead'
+import { ArrowRight, Shield, Truck, Clock, Award, Star, Quote } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import ProductCard from '@/components/products/ProductCard'
-import pressureSwitchImage from '@assets/generated_images/Pressure_switch_product_photo_6632abba.png'
-import heatExchangerImage from '@assets/generated_images/Heat_exchanger_product_photo_ba077dc1.png'
-import compressorImage from '@assets/generated_images/Refrigeration_compressor_photo_e9d26f6e.png'
+import { useQuery } from '@tanstack/react-query'
+import { LoadingSkeleton } from '@/components/ui/LoadingSkeleton'
+import { type SelectProduct } from '@shared/schema'
 
-// todo: remove mock data - integrate with real featured products API
-const featuredProducts = [
-  {
-    id: 'lf5532-auto',
-    title: 'LF5532 Automatic Reset Pressure Switch',
-    modelNumber: 'LF5532-AUTO-24V',
-    image: pressureSwitchImage,
-    price: 89.99,
-    originalPrice: 109.99,
-    category: 'Pressure Switches',
-    series: 'LF55 Series',
-    stockStatus: 'in_stock' as const,
-    rating: 4.5,
-    reviewCount: 24,
-    specifications: {
-      workingTemp: '-40°C to 120°C',
-      pressure: '0.5-16 bar',
-      voltage: '24V AC/DC',
-      connection: '1/4" NPT'
-    }
-  },
-  {
-    id: 'he-plate-20',
-    title: 'Plate Heat Exchanger 20 Plates',
-    modelNumber: 'PHE-20-STEEL',
-    image: heatExchangerImage,
-    price: 445.00,
-    category: 'Heat Exchangers',
-    series: 'PHE Series',
-    stockStatus: 'in_stock' as const,
-    rating: 4.8,
-    reviewCount: 12,
-    specifications: {
-      workingTemp: '-20°C to 180°C',
-      pressure: '10-25 bar',
-      connection: '1" NPT'
-    }
-  },
-  {
-    id: 'comp-scroll-5hp',
-    title: 'Scroll Compressor 5HP R410A',
-    modelNumber: 'SC-5HP-R410A',
-    image: compressorImage,
-    price: 1299.99,
-    originalPrice: 1499.99,
-    category: 'Refrigeration Components',
-    series: 'Scroll Series',
-    stockStatus: 'on_order' as const,
-    rating: 4.7,
-    reviewCount: 8,
-    specifications: {
-      workingTemp: '-10°C to 65°C',
-      voltage: '220V/3Ph/50Hz'
+// Transform backend product data for ProductCard component
+const transformProduct = (product: SelectProduct) => {
+  let specifications = {}
+  
+  if (product.specifications) {
+    try {
+      specifications = JSON.parse(product.specifications)
+    } catch (error) {
+      console.warn('Failed to parse product specifications:', error)
+      specifications = {}
     }
   }
-]
+    
+  return {
+    id: product.id,
+    title: product.title,
+    modelNumber: product.modelNumber,
+    image: product.image,
+    price: parseFloat(product.price),
+    originalPrice: product.originalPrice ? parseFloat(product.originalPrice) : undefined,
+    category: product.category,
+    series: product.series,
+    stockStatus: product.stockStatus,
+    rating: parseFloat(product.rating),
+    reviewCount: product.reviewCount,
+    specifications
+  }
+}
 
 const whyChooseUs = [
   {
@@ -90,14 +63,65 @@ const whyChooseUs = [
   }
 ]
 
+const customerTestimonials = [
+  {
+    id: 1,
+    name: 'Robert Martinez',
+    title: 'Senior HVAC Technician',
+    company: 'Metro Refrigeration Services',
+    content: 'Industrial HVAC has been our go-to supplier for over 8 years. Their Lefoo pressure switches are incredibly reliable, and when we need technical support, their team always delivers expert guidance.',
+    rating: 5,
+    location: 'Phoenix, AZ',
+    projectType: 'Commercial Refrigeration'
+  },
+  {
+    id: 2,
+    name: 'Jennifer Chen',
+    title: 'Facility Manager',
+    company: 'FoodSafe Processing Corp',
+    content: 'The plate heat exchangers we purchased exceeded our efficiency expectations. The installation support was outstanding, and the equipment has been running flawlessly for two years.',
+    rating: 5,
+    location: 'Chicago, IL',
+    projectType: 'Food Processing Facility'
+  },
+  {
+    id: 3,
+    name: 'David Thompson',
+    title: 'Project Engineer',
+    company: 'Arctic Industrial Solutions',
+    content: 'Fast delivery and exceptional technical documentation. Their engineering team helped us select the perfect compressor for our industrial cooling application. Highly recommended.',
+    rating: 5,
+    location: 'Denver, CO',
+    projectType: 'Industrial Process Cooling'
+  }
+]
+
 export default function HomePage() {
-  // todo: remove mock functionality - integrate with real navigation
+  // Fetch featured products from backend (first 3 products, sorted by rating)
+  const { data: productsResponse, isLoading: productsLoading } = useQuery({
+    queryKey: ['/api/products', { sortBy: 'rating', limit: 3 }],
+    queryFn: async () => {
+      const params = new URLSearchParams({
+        sortBy: 'rating',
+        limit: '3'  // Pass as string since query params are strings
+      })
+      const response = await fetch(`/api/products?${params}`)
+      if (!response.ok) {
+        throw new Error('Failed to fetch featured products')
+      }
+      return response.json()
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  })
+
+  const featuredProducts = productsResponse?.products?.map(transformProduct) || []
+
   const handleViewAllProducts = () => {
-    console.log('Navigate to products page')
+    window.location.href = '/products'
   }
 
   const handleContactUs = () => {
-    console.log('Navigate to contact page')
+    window.location.href = '/contact'
   }
 
   return (
@@ -162,6 +186,61 @@ export default function HomePage() {
                   <p className="text-muted-foreground leading-relaxed">
                     {feature.description}
                   </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Customer Testimonials Section */}
+      <section className="py-16 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Trusted by HVAC Professionals
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              See what our customers say about our products and service quality.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {customerTestimonials.map((testimonial) => (
+              <Card key={testimonial.id} className="hover-elevate">
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-4">
+                    <Quote className="w-8 h-8 text-primary mr-3" />
+                    <div className="flex">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <p className="text-muted-foreground leading-relaxed mb-6 italic">
+                    "{testimonial.content}"
+                  </p>
+                  
+                  <div className="border-t pt-4">
+                    <h4 className="font-semibold text-foreground text-lg">
+                      {testimonial.name}
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      {testimonial.title}
+                    </p>
+                    <p className="text-sm font-medium text-primary">
+                      {testimonial.company}
+                    </p>
+                    <div className="flex justify-between items-center mt-2">
+                      <span className="text-xs text-muted-foreground">
+                        {testimonial.location}
+                      </span>
+                      <span className="text-xs bg-muted text-muted-foreground px-2 py-1 rounded">
+                        {testimonial.projectType}
+                      </span>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             ))}

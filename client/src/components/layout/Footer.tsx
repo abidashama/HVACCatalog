@@ -1,3 +1,4 @@
+import { Link } from 'wouter'
 import { Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Youtube } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -6,28 +7,36 @@ import { Separator } from '@/components/ui/separator'
 const footerLinks = {
   company: [
     { name: 'About Us', href: '/about' },
+    { name: 'Contact', href: '/contact' },
     { name: 'Careers', href: '/careers' },
-    { name: 'Press Releases', href: '/press' },
-    { name: 'Sustainability', href: '/sustainability' }
+    { name: 'Press Releases', href: '/press' }
   ],
   products: [
+    { name: 'All Products', href: '/products' },
     { name: 'Pressure Switches', href: '/category/pressure-switches' },
     { name: 'Heat Exchangers', href: '/category/heat-exchangers' },
-    { name: 'Refrigeration Components', href: '/category/refrigeration' },
-    { name: 'HVAC Controls', href: '/category/hvac-controls' }
+    { name: 'Refrigeration Components', href: '/category/refrigeration' }
   ],
   support: [
-    { name: 'Technical Support', href: '/support' },
-    { name: 'Installation Guides', href: '/guides' },
-    { name: 'Product Manuals', href: '/manuals' },
-    { name: 'Warranty Information', href: '/warranty' }
+    { name: 'Services', href: '/services' },
+    { name: 'Resources', href: '/resources' },
+    { name: 'Technical Support', href: '/contact' },
+    { name: 'Documentation', href: '/resources' }
   ],
-  services: [
-    { name: 'Custom Solutions', href: '/custom' },
-    { name: 'Bulk Pricing', href: '/bulk' },
-    { name: 'Technical Consultation', href: '/consultation' },
-    { name: 'Training Programs', href: '/training' }
+  quickLinks: [
+    { name: 'Home', href: '/' },
+    { name: 'Products', href: '/products' },
+    { name: 'Services', href: '/services' },
+    { name: 'Resources', href: '/resources' }
   ]
+}
+
+// Ensure all footer link arrays are properly initialized
+const safeFooterLinks = {
+  company: footerLinks?.company || [],
+  products: footerLinks?.products || [],
+  support: footerLinks?.support || [],
+  quickLinks: footerLinks?.quickLinks || []
 }
 
 export default function Footer() {
@@ -102,14 +111,15 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Company</h3>
             <ul className="space-y-2">
-              {footerLinks.company.map((link) => (
+              {safeFooterLinks.company.map((link) => (
                 <li key={link.name}>
-                  <button 
+                  <Link 
+                    href={link.href}
                     className="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors"
-                    onClick={() => handleLinkClick(link.href, link.name)}
+                    data-testid={`footer-link-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
                   >
                     {link.name}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -119,14 +129,15 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Products</h3>
             <ul className="space-y-2">
-              {footerLinks.products.map((link) => (
+              {safeFooterLinks.products.map((link) => (
                 <li key={link.name}>
-                  <button 
+                  <Link 
+                    href={link.href}
                     className="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors"
-                    onClick={() => handleLinkClick(link.href, link.name)}
+                    data-testid={`footer-product-link-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
                   >
                     {link.name}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -136,32 +147,34 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Support</h3>
             <ul className="space-y-2">
-              {footerLinks.support.map((link) => (
+              {safeFooterLinks.support.map((link) => (
                 <li key={link.name}>
-                  <button 
+                  <Link 
+                    href={link.href}
                     className="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors"
-                    onClick={() => handleLinkClick(link.href, link.name)}
+                    data-testid={`footer-support-link-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
                   >
                     {link.name}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Services & Newsletter */}
+          {/* Quick Links & Newsletter */}
           <div className="space-y-6">
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Services</h3>
+              <h3 className="text-lg font-semibold">Quick Links</h3>
               <ul className="space-y-2">
-                {footerLinks.services.map((link) => (
+                {safeFooterLinks.quickLinks.map((link) => (
                   <li key={link.name}>
-                    <button 
+                    <Link 
+                      href={link.href}
                       className="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors"
-                      onClick={() => handleLinkClick(link.href, link.name)}
+                      data-testid={`footer-quick-link-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
                     >
                       {link.name}
-                    </button>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -210,24 +223,27 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <span>&copy; 2024 Industrial HVAC Solutions. All rights reserved.</span>
             <div className="flex gap-4">
-              <button 
+              <Link 
+                href="/privacy"
                 className="hover:text-primary-foreground transition-colors"
-                onClick={() => handleLinkClick('/privacy', 'Privacy Policy')}
+                data-testid="footer-privacy-link"
               >
                 Privacy Policy
-              </button>
-              <button 
+              </Link>
+              <Link 
+                href="/terms"
                 className="hover:text-primary-foreground transition-colors"
-                onClick={() => handleLinkClick('/terms', 'Terms of Service')}
+                data-testid="footer-terms-link"
               >
                 Terms of Service
-              </button>
-              <button 
+              </Link>
+              <Link 
+                href="/cookies"
                 className="hover:text-primary-foreground transition-colors"
-                onClick={() => handleLinkClick('/cookies', 'Cookie Policy')}
+                data-testid="footer-cookies-link"
               >
                 Cookie Policy
-              </button>
+              </Link>
             </div>
           </div>
 

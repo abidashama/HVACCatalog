@@ -16,21 +16,21 @@ interface FilterSidebarProps {
   onFiltersChange?: (filters: Partial<ProductFilters>) => void
 }
 
-// todo: remove mock data - integrate with real filter API
+// Filter data that matches backend category/series names exactly
 const filterData = {
   categories: [
-    { id: 'pressure-switches', name: 'Pressure Switches', count: 156 },
-    { id: 'heat-exchangers', name: 'Heat Exchangers', count: 89 },
-    { id: 'refrigeration', name: 'Refrigeration Components', count: 234 },
-    { id: 'hvac-controls', name: 'HVAC Controls', count: 178 },
-    { id: 'valves', name: 'Valves & Fittings', count: 298 }
+    { id: 'Pressure Switches', name: 'Pressure Switches', count: 1 },
+    { id: 'Temperature Sensors', name: 'Temperature Sensors', count: 1 },
+    { id: 'Valves', name: 'Valves', count: 1 },
+    { id: 'Heat Exchangers', name: 'Heat Exchangers', count: 0 },
+    { id: 'Refrigeration Components', name: 'Refrigeration Components', count: 0 }
   ],
   series: [
-    { id: 'lf55', name: 'LF55 Series', count: 45 },
-    { id: 'lf32', name: 'LF32 Series', count: 38 },
-    { id: 'lfsv-d', name: 'LFSV-D Series', count: 28 },
-    { id: 'phe', name: 'PHE Series', count: 22 },
-    { id: 'scroll', name: 'Scroll Series', count: 15 }
+    { id: 'LF55 Series', name: 'LF55 Series', count: 1 },
+    { id: 'TS4000 Series', name: 'TS4000 Series', count: 1 },
+    { id: 'VF200 Series', name: 'VF200 Series', count: 1 },
+    { id: 'LFSV-D Series', name: 'LFSV-D Series', count: 0 },
+    { id: 'PHE Series', name: 'PHE Series', count: 0 }
   ],
   applications: [
     { id: 'refrigeration', name: 'Refrigeration', count: 187 },

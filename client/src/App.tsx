@@ -6,6 +6,12 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import HomePage from "@/pages/HomePage";
 import ProductsPage from "@/pages/ProductsPage";
+import AboutPage from "@/pages/AboutPage";
+import ContactPage from "@/pages/ContactPage";
+import ServicesPage from "@/pages/ServicesPage";
+import ResourcesPage from "@/pages/ResourcesPage";
+import ProductDetailPage from "@/pages/ProductDetailPage";
+import CategoryPage from "@/pages/CategoryPage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -13,8 +19,12 @@ function Router() {
     <Switch>
       <Route path="/" component={HomePage} />
       <Route path="/products" component={ProductsPage} />
-      <Route path="/category/:slug" component={() => <div>Category Page Coming Soon</div>} />
-      <Route path="/product/:slug" component={() => <div>Product Detail Page Coming Soon</div>} />
+      <Route path="/about" component={AboutPage} />
+      <Route path="/contact" component={ContactPage} />
+      <Route path="/services" component={ServicesPage} />
+      <Route path="/resources" component={ResourcesPage} />
+      <Route path="/category/:slug" component={CategoryPage} />
+      <Route path="/product/:slug" component={ProductDetailPage} />
       <Route component={NotFound} />
     </Switch>
   );

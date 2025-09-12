@@ -5,6 +5,7 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import FilterSidebar from '@/components/filters/FilterSidebar'
 import ProductGrid from '@/components/products/ProductGrid'
+import { NavigationBreadcrumb } from '@/components/ui/NavigationBreadcrumb'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import type { ProductFilters } from '@shared/schema'
@@ -90,6 +91,7 @@ export default function ProductsPage() {
       {/* Page Header */}
       <div className="bg-muted py-12 px-4">
         <div className="max-w-7xl mx-auto">
+          <NavigationBreadcrumb className="mb-6" />
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             HVAC & Refrigeration Products
           </h1>

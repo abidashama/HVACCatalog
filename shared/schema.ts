@@ -45,7 +45,7 @@ export const productInquiries = pgTable('product_inquiries', {
   company: text('company'),
   phone: text('phone'),
   message: text('message').notNull(),
-  productId: text('product_id').notNull(), // Single product inquiry
+  productId: text('product_id'), // Single product inquiry - optional for general inquiries
   status: text('status', { enum: ['pending', 'reviewed', 'responded'] }).default('pending'),
   createdAt: timestamp('created_at').defaultNow()
 })
@@ -63,6 +63,8 @@ export const insertProductInquirySchema = createInsertSchema(productInquiries).o
   id: true,
   status: true,
   createdAt: true
+}).extend({
+  productId: z.string().optional()
 })
 export type InsertProductInquiry = z.infer<typeof insertProductInquirySchema>
 export type SelectProductInquiry = typeof productInquiries.$inferSelect
@@ -97,3 +99,49 @@ export const productFiltersSchema = z.object({
 })
 
 export type ProductFilters = z.infer<typeof productFiltersSchema>
+
+// Canonical category and series definitions based on actual backend data
+export const PRODUCT_CATEGORIES = [
+  {
+    id: 'Pressure Switches',
+    name: 'Pressure Switches', 
+    slug: 'pressure-switches',
+    description: 'Precision pressure control switches for HVAC and refrigeration systems'
+  },
+  {
+    id: 'Temperature Sensors',
+    name: 'Temperature Sensors',
+    slug: 'temperature-sensors', 
+    description: 'High-accuracy temperature monitoring devices for industrial applications'
+  },
+  {
+    id: 'Valves',
+    name: 'Valves',
+    slug: 'valves',
+    description: 'Flow control valves and fittings for HVAC and refrigeration systems'
+  }
+] as const
+
+export const PRODUCT_SERIES = [
+  {
+    id: 'LF55 Series',
+    name: 'LF55 Series',
+    category: 'Pressure Switches',
+    description: 'Professional-grade pressure switches for demanding applications'
+  },
+  {
+    id: 'TS4000 Series', 
+    name: 'TS4000 Series',
+    category: 'Temperature Sensors',
+    description: 'Precision temperature sensors with fast response times'
+  },
+  {
+    id: 'VF200 Series',
+    name: 'VF200 Series', 
+    category: 'Valves',
+    description: 'Flow control valves with precise regulation capabilities'
+  }
+] as const
+
+export type ProductCategory = typeof PRODUCT_CATEGORIES[number]
+export type ProductSeries = typeof PRODUCT_SERIES[number]

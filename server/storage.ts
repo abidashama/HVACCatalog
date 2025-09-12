@@ -240,6 +240,7 @@ export class MemStorage implements IStorage {
       ...inquiry,
       company: inquiry.company ?? null,
       phone: inquiry.phone ?? null,
+      productId: inquiry.productId ?? null,
       status: 'pending',
       createdAt: new Date()
     };

@@ -1,20 +1,32 @@
 import { useState, useEffect } from 'react'
+import { Link, useLocation } from 'wouter'
 import { Search, Menu, User, Phone, Mail, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import InquiryModal from '@/components/modals/InquiryModal'
+import { PRODUCT_CATEGORIES } from '@shared/schema'
 
-const categories = [
-  { id: 1, name: 'Pressure Switches', href: '/category/pressure-switches', subcategories: ['LF55 Series', 'LF32 Series', 'LFSV-D Series'] },
-  { id: 2, name: 'Heat Exchangers', href: '/category/heat-exchangers', subcategories: ['Plate Heat Exchangers', 'Coaxial Exchangers', 'Shell & Tube'] },
-  { id: 3, name: 'Refrigeration Components', href: '/category/refrigeration', subcategories: ['Compressors', 'Condensers', 'Evaporators'] },
-  { id: 4, name: 'HVAC Controls', href: '/category/hvac-controls', subcategories: ['Thermostats', 'Sensors', 'Actuators'] },
-  { id: 5, name: 'Valves & Fittings', href: '/category/valves', subcategories: ['Ball Valves', 'Check Valves', 'Fittings'] },
+const mainNavigation = [
+  { name: 'Home', href: '/' },
+  { name: 'Products', href: '/products' },
+  { name: 'About', href: '/about' },
+  { name: 'Services', href: '/services' },
+  { name: 'Resources', href: '/resources' },
+  { name: 'Contact', href: '/contact' }
 ]
 
+// Use canonical categories from shared schema
+const categories = PRODUCT_CATEGORIES.map((category, index) => ({
+  id: index + 1,
+  name: category.name,
+  href: `/products?category=${encodeURIComponent(category.id)}`,
+  description: category.description
+}))
+
 export default function Header() {
+  const [location] = useLocation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [megaMenuOpen, setMegaMenuOpen] = useState<number | null>(null)
@@ -44,13 +56,17 @@ export default function Header() {
     }
   }, [mobileMenuOpen])
 
-  // todo: remove mock functionality - integrate with real search
   const handleSearch = () => {
-    console.log('Search triggered:', searchQuery)
+    if (searchQuery.trim()) {
+      window.location.href = `/products?search=${encodeURIComponent(searchQuery.trim())}`
+    }
   }
 
-  const handleCategoryClick = (category: string) => {
-    console.log('Navigate to category:', category)
+  const handleCategoryClick = (categoryName: string) => {
+    const category = PRODUCT_CATEGORIES.find(cat => cat.name === categoryName)
+    if (category) {
+      window.location.href = `/products?category=${encodeURIComponent(category.id)}`
+    }
   }
 
   return (
@@ -85,7 +101,7 @@ export default function Header() {
       <div className="px-4 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 hover-elevate rounded-md p-2" data-testid="link-home-logo">
             <div className="w-10 h-10 bg-primary text-primary-foreground rounded-md flex items-center justify-center font-bold text-lg">
               IH
             </div>
@@ -93,7 +109,7 @@ export default function Header() {
               <h1 className="text-xl font-bold text-foreground">Industrial HVAC</h1>
               <p className="text-xs text-muted-foreground">Professional Equipment</p>
             </div>
-          </div>
+          </Link>
 
           {/* Search Bar */}
           <div className="hidden md:flex flex-1 max-w-2xl mx-8">
@@ -142,7 +158,25 @@ export default function Header() {
       <div className="border-t border-border">
         <div className="max-w-7xl mx-auto px-4">
           <nav className="hidden md:flex items-center justify-between py-3">
-            <div className="flex items-center space-x-8">
+            <div className="flex items-center space-x-6">
+              {/* Main Navigation Links */}
+              {mainNavigation.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`text-foreground hover:text-primary font-medium transition-colors px-2 py-1 rounded-md ${
+                    location === item.href ? 'text-primary font-semibold' : ''
+                  }`}
+                  data-testid={`nav-link-${item.name.toLowerCase()}`}
+                >
+                  {item.name}
+                </Link>
+              ))}
+              
+              {/* Divider */}
+              <div className="w-px h-6 bg-border"></div>
+              
+              {/* Product Categories with Mega Menu */}
               {categories.map((category) => (
                 <div
                   key={category.id}
@@ -151,28 +185,12 @@ export default function Header() {
                   onMouseLeave={() => setMegaMenuOpen(null)}
                 >
                   <button 
-                    className="text-foreground hover:text-primary font-medium transition-colors"
-                    onClick={() => handleCategoryClick(category.href)}
+                    className="text-foreground hover:text-primary font-medium transition-colors px-2 py-1 rounded-md"
+                    onClick={() => handleCategoryClick(category.name)}
+                    data-testid={`nav-category-${category.id}`}
                   >
                     {category.name}
                   </button>
-                  
-                  {/* Mega Menu */}
-                  {megaMenuOpen === category.id && (
-                    <div className="absolute top-full left-0 w-64 bg-popover border border-popover-border rounded-md shadow-lg p-4 mt-1">
-                      <div className="space-y-2">
-                        {category.subcategories.map((sub) => (
-                          <button 
-                            key={sub}
-                            className="block w-full text-left px-2 py-1 text-sm text-popover-foreground hover:bg-accent hover:text-accent-foreground rounded-sm"
-                            onClick={() => handleCategoryClick(`${category.href}/${sub.toLowerCase().replace(/\s+/g, '-')}`)}
-                          >
-                            {sub}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
                 </div>
               ))}
             </div>
@@ -200,27 +218,54 @@ export default function Header() {
                 <Search className="w-4 h-4" />
               </Button>
             </div>
+            
+            {/* Main Navigation */}
+            <div className="space-y-2">
+              <h3 className="text-sm font-semibold text-muted-foreground px-2 uppercase tracking-wide">Navigation</h3>
+              {mainNavigation.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`block w-full text-left py-3 px-2 text-foreground hover:text-primary hover:bg-muted rounded-md font-medium transition-colors active-elevate-2 ${
+                    location === item.href ? 'text-primary bg-muted' : ''
+                  }`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  data-testid={`mobile-nav-${item.name.toLowerCase()}`}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+            
+            {/* Product Categories */}
             <div className="space-y-2 max-h-64 overflow-y-auto">
+              <h3 className="text-sm font-semibold text-muted-foreground px-2 uppercase tracking-wide">Product Categories</h3>
               {categories.map((category) => (
                 <button 
                   key={category.id}
                   className="block w-full text-left py-3 px-2 text-foreground hover:text-primary hover:bg-muted rounded-md font-medium transition-colors active-elevate-2"
-                  onClick={() => handleCategoryClick(category.href)}
+                  onClick={() => {
+                    handleCategoryClick(category.name)
+                    setMobileMenuOpen(false)
+                  }}
                   data-testid={`button-mobile-category-${category.id}`}
                 >
                   {category.name}
                 </button>
               ))}
             </div>
+            
             {/* Mobile-specific actions */}
             <div className="pt-4 border-t border-border">
               <div className="grid grid-cols-2 gap-3">
-                <Button variant="outline" size="sm" className="w-full">
+                <Button variant="outline" size="sm" className="w-full" data-testid="mobile-account-button">
                   Account
                 </Button>
-                <Button variant="outline" size="sm" className="w-full">
-                  Support
-                </Button>
+                <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="outline" size="sm" className="w-full" data-testid="mobile-support-button">
+                    Support
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

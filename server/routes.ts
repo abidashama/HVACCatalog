@@ -7,7 +7,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Products API routes
   app.get("/api/products", async (req, res) => {
     try {
-      const filters = productFiltersSchema.parse(req.query);
+      // Convert string query parameters to appropriate types
+      const queryParams: any = { ...req.query };
+      
+      // Convert numeric fields from strings to numbers, handling both string and number inputs
+      if (queryParams.priceMin && typeof queryParams.priceMin === 'string') {
+        const parsed = parseFloat(queryParams.priceMin);
+        queryParams.priceMin = !isNaN(parsed) ? parsed : undefined;
+      }
+      if (queryParams.priceMax && typeof queryParams.priceMax === 'string') {
+        const parsed = parseFloat(queryParams.priceMax);
+        queryParams.priceMax = !isNaN(parsed) ? parsed : undefined;
+      }
+      if (queryParams.rating && typeof queryParams.rating === 'string') {
+        const parsed = parseFloat(queryParams.rating);
+        queryParams.rating = !isNaN(parsed) ? parsed : undefined;
+      }
+      if (queryParams.page && typeof queryParams.page === 'string') {
+        const parsed = parseInt(queryParams.page, 10);
+        queryParams.page = !isNaN(parsed) ? parsed : undefined;
+      }
+      if (queryParams.limit && typeof queryParams.limit === 'string') {
+        const parsed = parseInt(queryParams.limit, 10);
+        queryParams.limit = !isNaN(parsed) ? parsed : undefined;
+      }
+      
+      const filters = productFiltersSchema.parse(queryParams);
       const result = await storage.getProducts(filters);
       res.json(result);
     } catch (error) {
@@ -34,10 +59,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const inquiryData = insertProductInquirySchema.parse(req.body);
       
-      // Verify the product exists
-      const product = await storage.getProduct(inquiryData.productId);
-      if (!product) {
-        return res.status(404).json({ error: "Product not found" });
+      // Only verify the product exists if productId is provided (for product-specific inquiries)
+      if (inquiryData.productId) {
+        const product = await storage.getProduct(inquiryData.productId);
+        if (!product) {
+          return res.status(404).json({ error: "Product not found" });
+        }
       }
 
       const inquiry = await storage.createInquiry(inquiryData);
