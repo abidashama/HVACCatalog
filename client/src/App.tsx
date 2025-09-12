@@ -13,6 +13,7 @@ import ResourcesPage from "@/pages/ResourcesPage";
 import ProductDetailPage from "@/pages/ProductDetailPage";
 import CategoryPage from "@/pages/CategoryPage";
 import NotFound from "@/pages/not-found";
+import GitHubSyncPage from "@/pages/GitHubSyncPage";
 
 function Router() {
   return (
@@ -25,6 +26,7 @@ function Router() {
       <Route path="/resources" component={ResourcesPage} />
       <Route path="/category/:slug" component={CategoryPage} />
       <Route path="/product/:slug" component={ProductDetailPage} />
+      <Route path="/github" component={GitHubSyncPage} />
       <Route component={NotFound} />
     </Switch>
   );
