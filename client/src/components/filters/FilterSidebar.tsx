@@ -281,10 +281,28 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
               <h2 className="text-lg font-semibold text-foreground">Filters</h2>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" onClick={clearAllFilters} className="h-11 md:h-8">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => {
+                  clearAllFilters()
+                  // Also close sidebar on mobile after clearing
+                  if (window.innerWidth < 1024) {
+                    onClose()
+                  }
+                }} 
+                className="h-11 md:h-8"
+                data-testid="button-clear-all-filters"
+              >
                 Clear All
               </Button>
-              <Button variant="ghost" size="icon" onClick={onClose} className="lg:hidden h-11 w-11">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={onClose} 
+                className="lg:hidden h-11 w-11"
+                data-testid="button-close-sidebar"
+              >
                 <X className="w-5 h-5" />
               </Button>
             </div>

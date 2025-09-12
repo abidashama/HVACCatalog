@@ -46,7 +46,6 @@ export default function ProductCard({
   
   // Animation hooks
   const cardRef = useRef<HTMLDivElement>(null)
-  const fadeRef = useFadeIn(0.5)
   useHoverAnimation(cardRef)
   
   // Modal state
@@ -120,7 +119,7 @@ export default function ProductCard({
   const savings = originalPrice ? ((originalPrice - price) / originalPrice * 100).toFixed(0) : null
 
   return (
-    <Card ref={cardRef} className="group hover-elevate transition-all duration-300 overflow-hidden">
+    <Card ref={cardRef} className="group hover-elevate transition-all duration-300 overflow-hidden" data-testid={`product-card-${id}`}>
       {/* Image Section */}
       <div className="relative overflow-hidden bg-card">
         <div className="aspect-square p-6 flex items-center justify-center bg-gradient-to-br from-card to-muted">

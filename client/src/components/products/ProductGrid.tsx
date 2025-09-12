@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Grid, List, Filter, SortDesc, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -8,6 +8,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Skeleton } from '@/components/ui/skeleton'
 import ProductCard from './ProductCard'
 import type { SelectProduct, ProductFilters } from '@shared/schema'
+import { gsap } from 'gsap'
 
 interface ProductGridProps {
   filters?: Partial<ProductFilters>
@@ -21,6 +22,9 @@ export default function ProductGrid({ filters, searchQuery }: ProductGridProps) 
   const [viewMode, setViewMode] = useState<ViewMode>('grid')
   const [sortBy, setSortBy] = useState<SortOption>('name')
   const [currentPage, setCurrentPage] = useState(1)
+  
+  // Refs for GSAP animations
+  const gridRef = useRef<HTMLDivElement>(null)
   
   // Build query parameters for API
   const queryParams = useMemo(() => {
@@ -108,6 +112,34 @@ export default function ProductGrid({ filters, searchQuery }: ProductGridProps) 
     // Scroll to top of product grid
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
+  // GSAP Stagger Animation for product cards
+  useEffect(() => {
+    if (!isLoading && products.length > 0 && gridRef.current) {
+      const cards = gridRef.current.querySelectorAll('[data-testid^="product-card-"]')
+      
+      // Only animate if we have cards
+      if (cards.length > 0) {
+        // Set initial state immediately
+        gsap.set(cards, { 
+          opacity: 0, 
+          y: 30,
+          scale: 0.9
+        })
+        
+        // Then animate to visible state with stagger
+        gsap.to(cards, {
+          opacity: 1, 
+          y: 0,
+          scale: 1,
+          duration: 0.5,
+          stagger: 0.08, // 80ms delay between each card
+          ease: "power2.out",
+          delay: 0.1 // Small delay to ensure DOM is ready
+        })
+      }
+    }
+  }, [isLoading, products.length])
 
   return (
     <div className="space-y-6">
@@ -197,7 +229,7 @@ export default function ProductGrid({ filters, searchQuery }: ProductGridProps) 
       
       {/* Products Grid/List */}
       {isLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-6">
           {[...Array(8)].map((_, i) => (
             <div key={`skeleton-${i}`} className="space-y-4">
               <Skeleton className="h-48 w-full" />
@@ -218,9 +250,9 @@ export default function ProductGrid({ filters, searchQuery }: ProductGridProps) 
       ) : (
         <div className={
           viewMode === 'grid' 
-            ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'
+            ? 'grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-6'
             : 'space-y-4'
-        } data-testid="container-products">
+        } data-testid="container-products" ref={gridRef}>
           {products.map((product: SelectProduct) => (
             <ProductCard
               key={product.id}
