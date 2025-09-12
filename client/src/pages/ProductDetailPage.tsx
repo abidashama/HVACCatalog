@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRoute } from 'wouter'
 import { useQuery } from '@tanstack/react-query'
-import { Star, Heart, Share2, ShoppingCart, Download, FileText, Zap, Shield, Truck, Phone, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react'
+import { Star, Heart, Share2, ShoppingCart, Download, FileText, Zap, Shield, Truck, Phone, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
+import { gsap } from 'gsap'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import ProductCard from '@/components/products/ProductCard'
@@ -10,8 +11,8 @@ import { NavigationBreadcrumb } from '@/components/ui/NavigationBreadcrumb'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Separator } from '@/components/ui/separator'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { useToast } from '@/hooks/use-toast'
 import { type SelectProduct } from '@shared/schema'
 import { LoadingSkeleton } from '@/components/ui/LoadingSkeleton'
@@ -115,10 +116,20 @@ const getDefaultDownloads = (): Array<{name: string, type: string, size: string}
 export default function ProductDetailPage() {
   const [, params] = useRoute('/product/:slug')
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const [activeTab, setActiveTab] = useState('specifications')
   const [quantity, setQuantity] = useState(1)
   const [isFavorited, setIsFavorited] = useState(false)
+  const [openSections, setOpenSections] = useState({
+    specifications: true,
+    features: false,
+    applications: false,
+    downloads: false
+  })
   const { toast } = useToast()
+
+  // Animation refs
+  const galleryRef = useRef<HTMLDivElement>(null)
+  const productInfoRef = useRef<HTMLDivElement>(null)
+  const detailsRef = useRef<HTMLDivElement>(null)
 
   // Get product data from backend API
   const slug = params?.slug || ''
@@ -137,6 +148,41 @@ export default function ProductDetailPage() {
   // Convert string prices to numbers for calculations
   const price = product ? parseFloat(product.price) : 0
   const originalPrice = product?.originalPrice ? parseFloat(product.originalPrice) : null
+
+  // Toggle accordion sections
+  const toggleSection = (section: keyof typeof openSections) => {
+    setOpenSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }))
+  }
+
+  // GSAP Entrance Animations
+  useEffect(() => {
+    if (!product) return
+
+    const ctx = gsap.context(() => {
+      // Gallery entrance animation
+      gsap.fromTo(galleryRef.current, 
+        { opacity: 0, x: -50 },
+        { opacity: 1, x: 0, duration: 0.8, ease: "power2.out" }
+      )
+
+      // Product info staggered animation
+      gsap.fromTo(productInfoRef.current?.children || [], 
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, delay: 0.2, ease: "power2.out" }
+      )
+
+      // Details section fade in
+      gsap.fromTo(detailsRef.current,
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 0.8, delay: 0.5, ease: "power2.out" }
+      )
+    })
+
+    return () => ctx.revert()
+  }, [product])
 
   const handlePreviousImage = () => {
     setCurrentImageIndex((prev) => 
@@ -244,9 +290,9 @@ export default function ProductDetailPage() {
 
       {/* Product Detail */}
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Product Images */}
-          <div className="space-y-4">
+          <div className="space-y-4" ref={galleryRef}>
             <div className="relative">
               <img
                 src={images[currentImageIndex]}
@@ -258,8 +304,7 @@ export default function ProductDetailPage() {
                 <>
                   <Button
                     variant="outline"
-                    size="icon"
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-background/80 backdrop-blur-sm"
+                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-background/80 backdrop-blur-sm min-h-[44px] min-w-[44px]"
                     onClick={handlePreviousImage}
                     data-testid="button-previous-image"
                   >
@@ -267,8 +312,7 @@ export default function ProductDetailPage() {
                   </Button>
                   <Button
                     variant="outline"
-                    size="icon"
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-background/80 backdrop-blur-sm"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-background/80 backdrop-blur-sm min-h-[44px] min-w-[44px]"
                     onClick={handleNextImage}
                     data-testid="button-next-image"
                   >
@@ -296,7 +340,7 @@ export default function ProductDetailPage() {
           </div>
 
           {/* Product Information */}
-          <div className="space-y-6">
+          <div className="space-y-6" ref={productInfoRef}>
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <Badge variant="outline">{product.series}</Badge>
@@ -367,7 +411,7 @@ export default function ProductDetailPage() {
                   <div className="flex items-center gap-2">
                     <Button
                       variant="outline"
-                      size="icon"
+                      className="min-h-[44px] min-w-[44px]"
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
                       disabled={quantity <= 1}
                       data-testid="button-quantity-decrease"
@@ -377,7 +421,7 @@ export default function ProductDetailPage() {
                     <span className="w-12 text-center" data-testid="text-quantity">{quantity}</span>
                     <Button
                       variant="outline"
-                      size="icon"
+                      className="min-h-[44px] min-w-[44px]"
                       onClick={() => setQuantity(quantity + 1)}
                       data-testid="button-quantity-increase"
                     >
@@ -389,7 +433,7 @@ export default function ProductDetailPage() {
                 <div className="flex gap-2">
                   <Button 
                     size="lg" 
-                    className="flex-1"
+                    className="flex-1 min-h-[44px]"
                     onClick={handleAddToCart}
                     disabled={product.stockStatus === 'out_of_stock'}
                     data-testid="button-add-to-cart"
@@ -400,6 +444,7 @@ export default function ProductDetailPage() {
                   <Button
                     variant="outline"
                     size="lg"
+                    className="min-h-[44px] min-w-[44px]"
                     onClick={handleToggleFavorite}
                     data-testid="button-toggle-favorite"
                   >
@@ -408,6 +453,7 @@ export default function ProductDetailPage() {
                   <Button
                     variant="outline"
                     size="lg"
+                    className="min-h-[44px] min-w-[44px]"
                     onClick={handleShare}
                     data-testid="button-share"
                   >
@@ -418,7 +464,7 @@ export default function ProductDetailPage() {
                 <InquiryModal 
                   product={product}
                   trigger={
-                    <Button variant="outline" size="lg" className="w-full" data-testid="button-request-quote">
+                    <Button variant="outline" size="lg" className="w-full min-h-[44px]" data-testid="button-request-quote">
                       <Phone className="mr-2 w-4 h-4" />
                       Request Quote
                     </Button>
@@ -429,102 +475,137 @@ export default function ProductDetailPage() {
           </div>
         </div>
 
-        {/* Product Details Tabs */}
-        <div className="mt-16">
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="specifications" data-testid="tab-specifications">Specifications</TabsTrigger>
-              <TabsTrigger value="features" data-testid="tab-features">Features</TabsTrigger>
-              <TabsTrigger value="applications" data-testid="tab-applications">Applications</TabsTrigger>
-              <TabsTrigger value="downloads" data-testid="tab-downloads">Downloads</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="specifications" className="mt-8">
+        {/* Product Details Accordions */}
+        <div className="mt-16" ref={detailsRef}>
+          <h2 className="text-2xl font-bold text-foreground mb-8">Product Details</h2>
+          
+          <div className="space-y-4">
+            {/* Technical Specifications */}
+            <Collapsible open={openSections.specifications} onOpenChange={() => toggleSection('specifications')}>
               <Card>
-                <CardHeader>
-                  <CardTitle>Technical Specifications</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {Object.entries(specifications).map(([key, value]) => (
-                      <div key={key} className="flex justify-between items-center py-2 border-b border-border last:border-b-0">
-                        <span className="font-medium text-foreground">{key}:</span>
-                        <span className="text-muted-foreground text-right">{value}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="features" className="mt-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Key Features</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3">
-                    {features.map((feature, index) => (
-                      <li key={index} className="flex items-start gap-3">
-                        <Zap className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                        <span className="text-foreground">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="applications" className="mt-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Typical Applications</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {applications.map((application, index) => (
-                      <div key={index} className="flex items-center gap-3 p-3 bg-muted rounded-md">
-                        <div className="w-2 h-2 bg-primary rounded-full"></div>
-                        <span className="text-foreground">{application}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="downloads" className="mt-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Documentation & Downloads</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {downloads.map((download, index) => (
-                      <div key={index} className="flex items-center justify-between p-4 border rounded-md hover-elevate">
-                        <div className="flex items-center gap-3">
-                          <FileText className="w-5 h-5 text-primary" />
-                          <div>
-                            <h4 className="font-medium text-foreground">{download.name}</h4>
-                            <p className="text-sm text-muted-foreground">{download.type} • {download.size}</p>
-                          </div>
+                <CollapsibleTrigger className="w-full" data-testid="toggle-specifications">
+                  <CardHeader className="hover-elevate">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-left">Technical Specifications</CardTitle>
+                      <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${
+                        openSections.specifications ? 'transform rotate-180' : ''
+                      }`} />
+                    </div>
+                  </CardHeader>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {Object.entries(specifications).map(([key, value]) => (
+                        <div key={key} className="flex justify-between items-center py-2 border-b border-border last:border-b-0">
+                          <span className="font-medium text-foreground">{key}:</span>
+                          <span className="text-muted-foreground text-right">{value}</span>
                         </div>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleDownload(download.name)}
-                          data-testid={`button-download-${index}`}
-                        >
-                          <Download className="mr-2 w-4 h-4" />
-                          Download
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
+                      ))}
+                    </div>
+                  </CardContent>
+                </CollapsibleContent>
               </Card>
-            </TabsContent>
-          </Tabs>
+            </Collapsible>
+
+            {/* Key Features */}
+            <Collapsible open={openSections.features} onOpenChange={() => toggleSection('features')}>
+              <Card>
+                <CollapsibleTrigger className="w-full" data-testid="toggle-features">
+                  <CardHeader className="hover-elevate">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-left">Key Features</CardTitle>
+                      <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${
+                        openSections.features ? 'transform rotate-180' : ''
+                      }`} />
+                    </div>
+                  </CardHeader>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <CardContent>
+                    <ul className="space-y-3">
+                      {features.map((feature, index) => (
+                        <li key={index} className="flex items-start gap-3">
+                          <Zap className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                          <span className="text-foreground">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </CollapsibleContent>
+              </Card>
+            </Collapsible>
+
+            {/* Typical Applications */}
+            <Collapsible open={openSections.applications} onOpenChange={() => toggleSection('applications')}>
+              <Card>
+                <CollapsibleTrigger className="w-full" data-testid="toggle-applications">
+                  <CardHeader className="hover-elevate">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-left">Typical Applications</CardTitle>
+                      <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${
+                        openSections.applications ? 'transform rotate-180' : ''
+                      }`} />
+                    </div>
+                  </CardHeader>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {applications.map((application, index) => (
+                        <div key={index} className="flex items-center gap-3 p-3 bg-muted rounded-md">
+                          <div className="w-2 h-2 bg-primary rounded-full"></div>
+                          <span className="text-foreground">{application}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </CollapsibleContent>
+              </Card>
+            </Collapsible>
+
+            {/* Documentation & Downloads */}
+            <Collapsible open={openSections.downloads} onOpenChange={() => toggleSection('downloads')}>
+              <Card>
+                <CollapsibleTrigger className="w-full" data-testid="toggle-downloads">
+                  <CardHeader className="hover-elevate">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-left">Documentation & Downloads</CardTitle>
+                      <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${
+                        openSections.downloads ? 'transform rotate-180' : ''
+                      }`} />
+                    </div>
+                  </CardHeader>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {downloads.map((download, index) => (
+                        <div key={index} className="flex items-center justify-between p-4 border rounded-md hover-elevate">
+                          <div className="flex items-center gap-3">
+                            <FileText className="w-5 h-5 text-primary" />
+                            <div>
+                              <h4 className="font-medium text-foreground">{download.name}</h4>
+                              <p className="text-sm text-muted-foreground">{download.type} • {download.size}</p>
+                            </div>
+                          </div>
+                          <Button
+                            variant="outline"
+                            className="min-h-[44px] min-w-[44px]"
+                            onClick={() => handleDownload(download.name)}
+                            data-testid={`button-download-${index}`}
+                          >
+                            <Download className="mr-2 w-4 h-4" />
+                            Download
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </CollapsibleContent>
+              </Card>
+            </Collapsible>
+          </div>
         </div>
 
         {/* Related Products - TODO: Implement related products API */}
