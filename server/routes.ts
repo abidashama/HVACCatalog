@@ -85,29 +85,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // GitHub integration routes
-  app.post("/api/github/push", async (req, res) => {
-    try {
-      const { getUncachableGitHubClient } = await import('./github')
-      const octokit = await getUncachableGitHubClient()
-      
-      // Get user info
-      const { data: user } = await octokit.rest.users.getAuthenticated()
-      
-      res.json({ 
-        success: true, 
-        message: `Connected to GitHub as ${user.login}`,
-        user: user.login 
-      })
-    } catch (error: any) {
-      console.error('GitHub push error:', error)
-      res.status(500).json({ 
-        success: false, 
-        error: error.message 
-      })
-    }
-  })
-
   const httpServer = createServer(app);
 
   return httpServer;
