@@ -10,15 +10,18 @@ import ProductCard from './ProductCard'
 import type { SelectProduct, ProductFilters } from '@shared/schema'
 import { gsap } from 'gsap'
 
-interface ProductGridProps {
-  filters?: Partial<ProductFilters>
-  searchQuery?: string
-}
 
 type ViewMode = 'grid' | 'list'
 type SortOption = 'name' | 'price_asc' | 'price_desc' | 'newest' | 'rating'
 
-export default function ProductGrid({ filters, searchQuery }: ProductGridProps) {
+interface ProductGridProps {
+  filters?: Partial<ProductFilters>
+  searchQuery?: string
+  onFiltersChange?: (filters: Partial<ProductFilters>) => void
+  onSearchChange?: (search: string) => void
+}
+
+export default function ProductGrid({ filters, searchQuery, onFiltersChange, onSearchChange }: ProductGridProps) {
   const [viewMode, setViewMode] = useState<ViewMode>('grid')
   const [sortBy, setSortBy] = useState<SortOption>('name')
   const [currentPage, setCurrentPage] = useState(1)
@@ -208,7 +211,17 @@ export default function ProductGrid({ filters, searchQuery }: ProductGridProps) 
               Search: {filters?.search || searchQuery} ✕
             </Badge>
           )}
-          <Button variant="ghost" size="sm" className="text-primary">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="text-primary" 
+            onClick={() => {
+              onFiltersChange?.({})
+              onSearchChange?.('')
+              setCurrentPage(1)
+            }}
+            data-testid="button-clear-all-filters-grid"
+          >
             Clear all filters
           </Button>
         </div>

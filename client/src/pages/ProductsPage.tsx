@@ -94,6 +94,22 @@ export default function ProductsPage() {
     window.history.pushState({}, '', newUrl)
   }
 
+  const handleSearchChange = (newSearch: string) => {
+    setSearchQuery(newSearch)
+    
+    // Update URL parameters
+    const urlParams = new URLSearchParams(window.location.search)
+    
+    if (newSearch.trim()) {
+      urlParams.set('search', newSearch.trim())
+    } else {
+      urlParams.delete('search')
+    }
+    
+    const newUrl = `${window.location.pathname}?${urlParams.toString()}`
+    window.history.pushState({}, '', newUrl)
+  }
+
   // GSAP Animations
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -172,7 +188,12 @@ export default function ProductsPage() {
 
           {/* Products Grid - Takes remaining space */}
           <div className="flex-1 min-w-0 lg:ml-0">
-            <ProductGrid filters={filters} searchQuery={searchQuery} />
+            <ProductGrid 
+              filters={filters} 
+              searchQuery={searchQuery} 
+              onFiltersChange={handleFiltersChange}
+              onSearchChange={handleSearchChange}
+            />
           </div>
 
           {/* Mobile Filter Button */}
