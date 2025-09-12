@@ -127,14 +127,9 @@ export default function ProductsPage() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex gap-8">
-          {/* Desktop Filter Sidebar */}
+          {/* Desktop Filter Sidebar Placeholder - Reserve space on desktop */}
           <div className="hidden lg:block w-80 flex-shrink-0">
-            <FilterSidebar 
-              isOpen={true} 
-              onClose={() => {}} 
-              filters={filters}
-              onFiltersChange={handleFiltersChange}
-            />
+            {/* Space reserved for desktop filter sidebar */}
           </div>
 
           {/* Mobile Filter Button */}
@@ -149,18 +144,18 @@ export default function ProductsPage() {
             </Button>
           </div>
 
-          {/* Mobile Filter Sidebar */}
-          <FilterSidebar 
-            isOpen={filterSidebarOpen} 
-            onClose={() => setFilterSidebarOpen(false)}
-            filters={filters}
-            onFiltersChange={handleFiltersChange}
-          />
-
           {/* Products Grid */}
           <div className="flex-1 min-w-0">
             <ProductGrid filters={filters} searchQuery={searchQuery} />
           </div>
+
+          {/* Single FilterSidebar - Responsive for both mobile and desktop */}
+          <FilterSidebar 
+            isOpen={filterSidebarOpen} // Controls mobile visibility, desktop always visible via CSS
+            onClose={() => setFilterSidebarOpen(false)}
+            filters={filters}
+            onFiltersChange={handleFiltersChange}
+          />
         </div>
       </div>
 
