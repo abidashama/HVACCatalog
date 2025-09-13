@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
-import { Search, ArrowRight, Shield, Truck, Award, Clock } from 'lucide-react'
+import { ArrowRight, Shield, Truck, Award, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { useFadeIn, useStaggerAnimation, useCountAnimation } from '@/hooks/useGSAPAnimations'
 import heroImage from '@assets/generated_images/Industrial_HVAC_facility_hero_6fd485c8.png'
 
@@ -20,7 +19,6 @@ const features = [
 ]
 
 export default function HeroSection() {
-  const [searchQuery, setSearchQuery] = useState('')
   const [currentStatIndex, setCurrentStatIndex] = useState(0)
   
   // Animation refs
@@ -40,11 +38,6 @@ export default function HeroSection() {
     }, 2000)
     return () => clearInterval(interval)
   }, [])
-
-  // todo: remove mock functionality - integrate with real search
-  const handleSearch = () => {
-    console.log('Hero search triggered:', searchQuery)
-  }
 
   const handleCategoryClick = (category: string) => {
     console.log('Navigate to category:', category)
@@ -75,29 +68,6 @@ export default function HeroSection() {
               <p className="text-xl md:text-2xl text-blue-100 max-w-2xl">
                 Discover premium Axeon & Lefoo industrial components with technical precision and reliable performance.
               </p>
-            </div>
-
-            {/* Search Bar - Responsive */}
-            <div className="relative max-w-lg w-full">
-              <Input
-                type="search"
-                placeholder="Search by model, category, or specification..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="h-12 md:h-14 pl-4 md:pl-6 pr-12 md:pr-16 text-base md:text-lg bg-white/95 border-0 text-foreground placeholder:text-muted-foreground w-full"
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                data-testid="input-hero-search"
-                aria-label="Search catalog"
-              />
-              <Button 
-                size="icon" 
-                className="absolute right-1 md:right-2 top-1 md:top-2 h-8 w-8 md:h-10 md:w-10"
-                onClick={handleSearch}
-                data-testid="button-hero-search"
-                aria-label="Search"
-              >
-                <Search className="w-4 h-4 md:w-5 md:h-5" />
-              </Button>
             </div>
 
             {/* CTA Buttons - Mobile Responsive */}

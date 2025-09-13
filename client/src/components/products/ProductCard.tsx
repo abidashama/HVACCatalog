@@ -1,6 +1,5 @@
 import { MessageSquare, Eye, Star, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { useFadeIn, useHoverAnimation } from '@/hooks/useGSAPAnimations'
 import { useRef, useState } from 'react'
@@ -100,19 +99,6 @@ export default function ProductCard({
     URL.revokeObjectURL(url)
   }
 
-  const getStockBadge = () => {
-    switch (stockStatus) {
-      case 'in_stock':
-        return <Badge className="bg-chart-2 text-white">In Stock</Badge>
-      case 'out_of_stock':
-        return <Badge variant="destructive">Out of Stock</Badge>
-      case 'on_order':
-        return <Badge className="bg-chart-3 text-white">On Order</Badge>
-    }
-  }
-
-  const savings = originalPrice ? ((originalPrice - price) / originalPrice * 100).toFixed(0) : null
-
   return (
     <Card ref={cardRef} className="group hover-elevate transition-all duration-300 overflow-hidden h-full flex flex-col" data-testid={`product-card-${id}`}>
       <div className="relative overflow-hidden bg-card">
@@ -146,18 +132,9 @@ export default function ProductCard({
         </div>
 
         <div className="absolute top-2 left-2 flex flex-col gap-1">
-          {savings && (
-            <Badge className="bg-accent text-accent-foreground">
-              -{savings}%
-            </Badge>
-          )}
-          <Badge variant="outline" className="bg-background/90">
-            {series}
-          </Badge>
         </div>
 
         <div className="absolute top-2 right-2">
-          {getStockBadge()}
         </div>
       </div>
 
@@ -214,21 +191,7 @@ export default function ProductCard({
         )}
       </CardContent>
 
-      <CardFooter className="p-4 pt-0 flex items-center justify-between">
-        <div className="flex flex-col">
-          <div className="flex items-baseline gap-2">
-            <span className="text-lg font-bold text-foreground" data-testid={`text-price-${id}`}>
-              ${price.toFixed(2)}
-            </span>
-            {originalPrice && (
-              <span className="text-sm text-muted-foreground line-through">
-                ${originalPrice.toFixed(2)}
-              </span>
-            )}
-          </div>
-          <span className="text-xs text-muted-foreground">per unit</span>
-        </div>
-
+      <CardFooter className="p-4 pt-0 flex items-center justify-end">
         <InquiryModal 
           product={productForModal}
           defaultOpen={inquiryModalOpen}

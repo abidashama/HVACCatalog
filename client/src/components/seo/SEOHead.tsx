@@ -15,9 +15,9 @@ interface SEOHeadProps {
 }
 
 const defaultSEO = {
-  title: 'Industrial HVAC Solutions - Professional HVAC & Refrigeration Equipment',
-  description: 'Leading supplier of professional HVAC and refrigeration equipment. Pressure switches, heat exchangers, compressors, and technical support for contractors and engineers.',
-  keywords: 'HVAC equipment, refrigeration, pressure switches, heat exchangers, compressors, Lefoo, Axeon, commercial HVAC, industrial cooling',
+  title: 'Axeon Corporation - Professional HVAC & Refrigeration Equipment',
+  description: 'Leading supplier of professional HVAC and refrigeration equipment in India. Pressure switches, heat exchangers, compressors, and technical support for contractors and engineers.',
+  keywords: 'HVAC equipment, refrigeration, pressure switches, heat exchangers, compressors, Lefoo, Axeon, Invotech, commercial HVAC, industrial cooling, India',
   ogImage: '/og-image.jpg',
   ogType: 'website',
   twitterCard: 'summary_large_image'
@@ -37,7 +37,7 @@ export function SEOHead({
   noIndex = false
 }: SEOHeadProps) {
   
-  const finalTitle = title ? `${title} | Industrial HVAC Solutions` : defaultSEO.title
+  const finalTitle = title ? `${title} | Axeon Corporation` : defaultSEO.title
   const finalDescription = description || defaultSEO.description
   const finalKeywords = keywords || defaultSEO.keywords
   const finalOgTitle = ogTitle || title || defaultSEO.title
@@ -77,7 +77,7 @@ export function SEOHead({
     setMetaTag('og:description', finalOgDescription, true)
     setMetaTag('og:image', finalOgImage, true)
     setMetaTag('og:type', ogType, true)
-    setMetaTag('og:site_name', 'Industrial HVAC Solutions', true)
+    setMetaTag('og:site_name', 'Axeon Corporation', true)
     
     if (canonical) {
       setMetaTag('og:url', canonical, true)
@@ -88,7 +88,7 @@ export function SEOHead({
     setMetaTag('twitter:title', finalOgTitle)
     setMetaTag('twitter:description', finalOgDescription)
     setMetaTag('twitter:image', finalOgImage)
-    setMetaTag('twitter:site', '@IndustrialHVAC')
+    setMetaTag('twitter:site', '@AxeonCorp')
 
     // Canonical URL
     if (canonical) {
@@ -114,8 +114,8 @@ export function SEOHead({
 
     // Industry-specific meta tags
     setMetaTag('industry', 'HVAC, Refrigeration, Industrial Equipment')
-    setMetaTag('geo.region', 'US')
-    setMetaTag('geo.country', 'United States')
+    setMetaTag('geo.region', 'IN-MH')
+    setMetaTag('geo.country', 'India')
     setMetaTag('target-audience', 'HVAC Contractors, Technicians, Engineers')
     
   }, [finalTitle, finalDescription, finalKeywords, canonical, finalOgTitle, finalOgDescription, finalOgImage, ogType, twitterCard, structuredData, noIndex])
@@ -132,17 +132,25 @@ export const seoConfigs = {
     structuredData: {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "Industrial HVAC Solutions",
-      "url": "https://industrialhvac.com",
-      "logo": "https://industrialhvac.com/logo.png",
-      "description": "Professional HVAC and refrigeration equipment supplier",
+      "name": "Axeon Corporation",
+      "url": "https://axeoncorporation.com",
+      "logo": "https://axeoncorporation.com/logo.png",
+      "description": "Professional HVAC and refrigeration equipment supplier in India",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Gajanan Colony, Cs. no. 6629, Old Kupwad Road",
+        "addressLocality": "Sangli",
+        "postalCode": "416416",
+        "addressCountry": "IN"
+      },
       "sameAs": [
-        "https://linkedin.com/company/industrial-hvac-solutions",
-        "https://twitter.com/IndustrialHVAC"
+        "https://linkedin.com/company/axeon-corporation",
+        "https://twitter.com/AxeonCorp"
       ],
       "contactPoint": {
         "@type": "ContactPoint",
-        "telephone": "+1-800-482-2776",
+        "telephone": "+91-9096354646",
+        "email": "axeoncorporation@gmail.com",
         "contactType": "customer service",
         "availableLanguage": "English"
       }
@@ -180,14 +188,14 @@ export const seoConfigs = {
   }),
   
   about: {
-    title: 'About Us - Industrial HVAC Solutions',
-    description: 'Over 25 years of experience providing professional HVAC and refrigeration equipment. Meet our expert team and learn about our commitment to quality and service.',
-    keywords: 'HVAC company, refrigeration specialists, HVAC expertise, technical support, professional team'
+    title: 'About Us - Axeon Corporation',
+    description: 'Learn about Axeon Corporation, India\'s trusted partner for premium HVAC and refrigeration equipment. Representing global brands like Lefoo, Invotech, and our own Axeon line.',
+    keywords: 'HVAC company, refrigeration specialists, Axeon Corporation, Lefoo distributor, Invotech partner, HVAC expertise, technical support'
   },
   
   contact: {
     title: 'Contact Us - Technical Support & Sales',
-    description: 'Get expert technical support and sales assistance for your HVAC and refrigeration projects. Call 1-800-HVAC-PRO or email our professional team.',
+    description: 'Get expert technical support and sales assistance for your HVAC and refrigeration projects. Call +91 9096354646 or email our professional team.',
     keywords: 'HVAC support, technical assistance, HVAC sales, equipment consultation, customer service'
   }
 }

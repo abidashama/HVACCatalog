@@ -1,7 +1,6 @@
 import { ArrowRight, Wrench, Thermometer, Gauge, Zap, Droplets, Settings } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { useFadeIn, useStaggerAnimation } from '@/hooks/useGSAPAnimations'
 
 const categories = [
@@ -12,8 +11,7 @@ const categories = [
     icon: Gauge,
     productCount: 156,
     href: '/category/pressure-switches',
-    color: 'bg-primary',
-    popular: true
+    color: 'bg-primary'
   },
   {
     id: 2,
@@ -31,8 +29,7 @@ const categories = [
     icon: Settings,
     productCount: 234,
     href: '/category/refrigeration',
-    color: 'bg-chart-3',
-    popular: true
+    color: 'bg-chart-3'
   },
   {
     id: 4,
@@ -100,11 +97,6 @@ export default function CategoryGrid() {
                   <div className={`p-3 rounded-lg ${category.color} text-white`}>
                     <category.icon className="w-6 h-6" />
                   </div>
-                  {category.popular && (
-                    <Badge className="bg-destructive text-destructive-foreground">
-                      Popular
-                    </Badge>
-                  )}
                 </div>
                 
                 <div className="space-y-3">

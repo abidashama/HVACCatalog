@@ -1,8 +1,8 @@
 import { Link } from 'wouter'
 import { Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Youtube } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import axeonLogo from '@/assets/images/axeon-logo.svg'
 
 const footerLinks = {
   company: [
@@ -37,10 +37,6 @@ const safeFooterLinks = {
 }
 
 export default function Footer() {
-  const handleNewsletterSignup = (email: string) => {
-    console.log('Newsletter signup:', email)
-  }
-
   const handleLinkClick = (href: string, name: string) => {
     console.log('Navigate to:', href, name)
   }
@@ -51,12 +47,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-primary-foreground text-primary rounded-md flex items-center justify-center font-bold text-lg">
-                IH
-              </div>
+              <img 
+                src={axeonLogo} 
+                alt="Axeon Corporation Logo" 
+                className="w-10 h-10"
+              />
               <div>
-                <h3 className="text-xl font-bold">Industrial HVAC</h3>
-                <p className="text-sm text-primary-foreground/80">Professional Equipment</p>
+                <h3 className="text-xl font-bold">Axeon Corporation</h3>
+                <p className="text-sm text-primary-foreground/80">HVAC & Refrigeration Solutions</p>
               </div>
             </div>
             
@@ -68,18 +66,18 @@ export default function Footer() {
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4" />
-                <span className="text-sm">1-800-HVAC-PRO (1-800-482-2776)</span>
+                <span className="text-sm">+91 9096354646</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4" />
-                <span className="text-sm">sales@industrialhvac.com</span>
+                <span className="text-sm">axeoncorporation@gmail.com</span>
               </div>
               <div className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 mt-1 flex-shrink-0" />
                 <div className="text-sm">
-                  <div>Industrial HVAC Solutions</div>
-                  <div>1234 Equipment Drive</div>
-                  <div>Industrial City, IC 12345</div>
+                  <div>Axeon Corporation</div>
+                  <div>Gajanan Colony, Cs. no. 6629, Old Kupwad Road</div>
+                  <div>Sangli - 416416</div>
                 </div>
               </div>
             </div>
@@ -167,38 +165,6 @@ export default function Footer() {
                   </li>
                 ))}
               </ul>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Newsletter</h3>
-              <p className="text-sm text-primary-foreground/80">
-                Get the latest product updates and industry insights.
-              </p>
-              <div className="flex gap-2">
-                <Input 
-                  type="email"
-                  placeholder="Enter your email"
-                  className="bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      handleNewsletterSignup((e.target as HTMLInputElement).value)
-                    }
-                  }}
-                  data-testid="input-newsletter-email"
-                />
-                <Button 
-                  variant="secondary"
-                  onClick={() => {
-                    const input = document.querySelector('[data-testid="input-newsletter-email"]') as HTMLInputElement
-                    if (input?.value) {
-                      handleNewsletterSignup(input.value)
-                    }
-                  }}
-                  data-testid="button-newsletter-signup"
-                >
-                  Subscribe
-                </Button>
-              </div>
             </div>
           </div>
         </div>

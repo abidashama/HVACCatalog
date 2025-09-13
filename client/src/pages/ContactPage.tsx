@@ -46,8 +46,8 @@ const contactMethods = [
   {
     icon: MapPin,
     title: 'Headquarters',
-    primary: '1234 Equipment Drive',
-    secondary: 'Industrial City, IC 12345',
+    primary: 'Gajanan Colony, Cs. no. 6629, Old Kupwad Road',
+    secondary: 'Sangli - 416416',
     description: 'Visit our technical center',
     hours: 'Mon-Fri: 8:00 AM - 5:00 PM ET',
     badge: 'Product Demonstrations'
