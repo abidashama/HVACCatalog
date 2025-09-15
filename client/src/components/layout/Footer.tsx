@@ -44,25 +44,24 @@ export default function Footer() {
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
-          <div className="lg:col-span-2 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="space-y-4">
             <div className="flex items-center gap-2">
               <img 
                 src={axeonLogo} 
                 alt="Axeon Corporation Logo" 
-                className="w-10 h-10"
+                className="h-10"
               />
-              <div>
-                <h3 className="text-xl font-bold">Axeon Corporation</h3>
-                <p className="text-sm text-primary-foreground/80">HVAC & Refrigeration Solutions</p>
-              </div>
             </div>
             
             <p className="text-primary-foreground/90 leading-relaxed">
               Your trusted partner for premium HVAC and refrigeration equipment. 
               Serving professionals with quality Axeon & Lefoo products since 1998.
             </p>
+          </div>
 
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Contact Info</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4" />
@@ -81,8 +80,7 @@ export default function Footer() {
                 </div>
               </div>
             </div>
-
-            <div className="flex gap-2 pt-4">
+            <div className="flex gap-2 pt-2">
               <Button variant="ghost" size="icon" className="text-primary-foreground hover:text-primary hover:bg-primary-foreground">
                 <Facebook className="w-4 h-4" />
               </Button>
@@ -99,73 +97,20 @@ export default function Footer() {
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Company</h3>
+            <h3 className="text-lg font-semibold">Quick Links</h3>
             <ul className="space-y-2">
-              {safeFooterLinks.company.map((link) => (
+              {safeFooterLinks.quickLinks.map((link) => (
                 <li key={link.name}>
                   <Link 
                     href={link.href}
                     className="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors"
-                    data-testid={`footer-link-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
+                    data-testid={`footer-quick-link-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
                   >
                     {link.name}
                   </Link>
                 </li>
               ))}
             </ul>
-          </div>
-
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Products</h3>
-            <ul className="space-y-2">
-              {safeFooterLinks.products.map((link) => (
-                <li key={link.name}>
-                  <Link 
-                    href={link.href}
-                    className="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors"
-                    data-testid={`footer-product-link-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Support</h3>
-            <ul className="space-y-2">
-              {safeFooterLinks.support.map((link) => (
-                <li key={link.name}>
-                  <Link 
-                    href={link.href}
-                    className="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors"
-                    data-testid={`footer-support-link-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="space-y-6">
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Quick Links</h3>
-              <ul className="space-y-2">
-                {safeFooterLinks.quickLinks.map((link) => (
-                  <li key={link.name}>
-                    <Link 
-                      href={link.href}
-                      className="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors"
-                      data-testid={`footer-quick-link-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
         </div>
       </div>
@@ -174,31 +119,8 @@ export default function Footer() {
 
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-primary-foreground/80">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <span>&copy; 2024 Industrial HVAC Solutions. All rights reserved.</span>
-            <div className="flex gap-4">
-              <Link 
-                href="/privacy"
-                className="hover:text-primary-foreground transition-colors"
-                data-testid="footer-privacy-link"
-              >
-                Privacy Policy
-              </Link>
-              <Link 
-                href="/terms"
-                className="hover:text-primary-foreground transition-colors"
-                data-testid="footer-terms-link"
-              >
-                Terms of Service
-              </Link>
-              <Link 
-                href="/cookies"
-                className="hover:text-primary-foreground transition-colors"
-                data-testid="footer-cookies-link"
-              >
-                Cookie Policy
-              </Link>
-            </div>
+          <div className="flex justify-center md:justify-start">
+            <span>&copy; 2025 Axeon Corporation. All rights reserved.</span>
           </div>
 
           <div className="flex items-center gap-4">

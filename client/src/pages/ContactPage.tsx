@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react'
+import { MapPin, Phone, Mail, Send, CheckCircle } from 'lucide-react'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { NavigationBreadcrumb } from '@/components/ui/NavigationBreadcrumb'
@@ -28,17 +28,17 @@ const contactMethods = [
   {
     icon: Phone,
     title: 'Phone Support',
-    primary: '1-800-HVAC-PRO',
-    secondary: '(1-800-482-2776)',
+    primary: '+91 9096354646',
+    secondary: 'Direct Line',
     description: 'Speak with our technical experts',
-    hours: 'Mon-Fri: 7:00 AM - 7:00 PM ET',
-    badge: '24/7 Emergency Support'
+    hours: 'Mon-Fri: 9:00 AM - 6:00 PM IST',
+    badge: 'Technical Support'
   },
   {
     icon: Mail,
     title: 'Email Support',
-    primary: 'sales@industrialhvac.com',
-    secondary: 'support@industrialhvac.com',
+    primary: 'axeoncorporation@gmail.com',
+    secondary: 'Primary Contact',
     description: 'Send detailed technical inquiries',
     hours: 'Response within 2 hours',
     badge: 'Technical Documentation'
@@ -46,45 +46,11 @@ const contactMethods = [
   {
     icon: MapPin,
     title: 'Headquarters',
-    primary: 'Gajanan Colony, Cs. no. 6629, Old Kupwad Road',
-    secondary: 'Sangli - 416416',
+    primary: 'Axeon Corporation',
+    secondary: 'Gajanan Colony, Cs. no. 6629, Old Kupwad Road, Sangli - 416416',
     description: 'Visit our technical center',
-    hours: 'Mon-Fri: 8:00 AM - 5:00 PM ET',
+    hours: 'Mon-Fri: 9:00 AM - 6:00 PM IST',
     badge: 'Product Demonstrations'
-  }
-]
-
-const businessHours = [
-  { day: 'Monday - Friday', hours: '7:00 AM - 7:00 PM ET', type: 'regular' },
-  { day: 'Saturday', hours: '9:00 AM - 3:00 PM ET', type: 'limited' },
-  { day: 'Sunday', hours: 'Emergency Support Only', type: 'emergency' },
-  { day: 'Holidays', hours: 'Emergency Support Only', type: 'emergency' }
-]
-
-const departments = [
-  {
-    title: 'Sales Department',
-    phone: '1-800-482-2776 ext. 1',
-    email: 'sales@industrialhvac.com',
-    description: 'Product inquiries, quotes, and orders'
-  },
-  {
-    title: 'Technical Support',
-    phone: '1-800-482-2776 ext. 2',
-    email: 'support@industrialhvac.com',
-    description: 'Installation help and troubleshooting'
-  },
-  {
-    title: 'Engineering Services',
-    phone: '1-800-482-2776 ext. 3',
-    email: 'engineering@industrialhvac.com',
-    description: 'Custom solutions and consulting'
-  },
-  {
-    title: 'Customer Service',
-    phone: '1-800-482-2776 ext. 4',
-    email: 'service@industrialhvac.com',
-    description: 'Orders, shipping, and general inquiries'
   }
 ]
 
@@ -410,56 +376,6 @@ export default function ContactPage() {
               ))}
             </div>
 
-            {/* Business Hours */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-primary" />
-                  Business Hours
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {businessHours.map((schedule) => (
-                    <div key={schedule.day} className="flex justify-between items-center">
-                      <span className="text-foreground font-medium">{schedule.day}</span>
-                      <span className={`text-sm ${
-                        schedule.type === 'emergency' ? 'text-orange-600' :
-                        schedule.type === 'limited' ? 'text-yellow-600' :
-                        'text-muted-foreground'
-                      }`}>
-                        {schedule.hours}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-4 p-3 bg-muted rounded-md">
-                  <p className="text-sm text-muted-foreground">
-                    <strong>Emergency Support:</strong> For urgent system failures and emergency situations, 
-                    call our 24/7 emergency line at 1-800-HVAC-PRO and press 9.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Department Directory */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Department Directory</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {departments.map((dept) => (
-                    <div key={dept.title} className="space-y-1">
-                      <h4 className="font-semibold text-foreground">{dept.title}</h4>
-                      <p className="text-sm text-primary">{dept.phone}</p>
-                      <p className="text-sm text-primary">{dept.email}</p>
-                      <p className="text-xs text-muted-foreground">{dept.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </div>

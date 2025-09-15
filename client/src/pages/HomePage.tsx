@@ -6,6 +6,7 @@ import { SEOHead, seoConfigs } from '@/components/seo/SEOHead'
 import { ArrowRight, Shield, Truck, Clock, Award, Star, Quote } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
 import ProductCard from '@/components/products/ProductCard'
 import { useQuery } from '@tanstack/react-query'
 import { LoadingSkeleton } from '@/components/ui/LoadingSkeleton'
@@ -261,7 +262,7 @@ export default function HomePage() {
             <Button 
               size="lg" 
               variant="outline"
-              className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground hover:text-primary backdrop-blur-sm"
+              className="border-[#0086cd] text-white hover:bg-[#0086cd] hover:text-white hover:border-[#0086cd] bg-[#0086cd]/10 backdrop-blur-sm transition-all duration-300 shadow-lg hover:shadow-xl"
               onClick={handleContactUs}
               data-testid="button-contact-us"
             >
@@ -270,13 +271,16 @@ export default function HomePage() {
             <Button 
               size="lg" 
               variant="outline"
-              className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground hover:text-primary backdrop-blur-sm"
+              className="border-[#0086cd] text-white hover:bg-[#0086cd] hover:text-white hover:border-[#0086cd] bg-[#0086cd]/10 backdrop-blur-sm transition-all duration-300 shadow-lg hover:shadow-xl"
             >
               Request Quote
             </Button>
           </div>
         </div>
       </section>
+
+      {/* Section Separator */}
+      <Separator className="bg-primary-foreground/20" />
 
       <Footer />
     </div>

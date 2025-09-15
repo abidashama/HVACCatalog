@@ -61,13 +61,13 @@ export function NavigationBreadcrumb({ items: customItems, className }: Navigati
             <>
               <BreadcrumbItem key={item.href}>
                 {isLast ? (
-                  <BreadcrumbPage className="text-muted-foreground">
+                  <BreadcrumbPage className="text-muted-foreground flex items-center">
                     {isHome && <Home className="w-4 h-4 mr-1" />}
                     {item.label}
                   </BreadcrumbPage>
                 ) : (
                   <BreadcrumbLink asChild>
-                    <WouterLink href={item.href} className="text-muted-foreground hover:text-foreground">
+                    <WouterLink href={item.href} className="text-muted-foreground hover:text-foreground flex items-center">
                       {isHome && <Home className="w-4 h-4 mr-1" />}
                       {item.label}
                     </WouterLink>

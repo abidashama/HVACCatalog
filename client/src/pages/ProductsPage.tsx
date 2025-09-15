@@ -152,23 +152,23 @@ export default function ProductsPage() {
           
           {/* Search Bar */}
           <div ref={searchRef} className="max-w-2xl">
-            <div className="relative">
+            <div className="relative flex items-center">
               <Input
                 type="search"
                 placeholder="Search products, model numbers, specifications..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-4 pr-16 h-12 text-base"
+                className="pl-4 pr-14 h-12 text-base"
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                 data-testid="input-product-search"
               />
               <Button 
                 size="icon" 
-                className="absolute right-1 top-1 h-10"
+                className="absolute right-2 -translate-x-1/2 h-12 w-12 bg-primary hover:bg-primary/90 z-10"
                 onClick={handleSearch}
                 data-testid="button-product-search"
               >
-                <Search className="w-4 h-4" />
+                <Search className="w-4 h-4 text-white" />
               </Button>
             </div>
           </div>

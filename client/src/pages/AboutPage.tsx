@@ -6,6 +6,7 @@ import { SEOHead, seoConfigs } from '@/components/seo/SEOHead'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Separator } from '@/components/ui/separator'
 
 const brands = [
   {
@@ -140,12 +141,12 @@ export default function AboutPage() {
                         {brand.certifications && (
                           <div>
                             <h4 className="font-semibold text-foreground mb-2">Certifications</h4>
-                            <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-2">
                               {brand.certifications.map((cert) => (
-                                <Badge key={cert} variant="secondary" className="text-xs">
-                                  {cert}
-                                </Badge>
-                              ))}
+                          <Badge key={cert} variant="secondary" className="text-xs">
+                            {cert}
+                          </Badge>
+                        ))}
                             </div>
                           </div>
                         )}
@@ -230,7 +231,7 @@ export default function AboutPage() {
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto mb-4">
                   <Building2 className="w-8 h-8" />
-                </div>
+          </div>
                 <h3 className="text-3xl font-bold text-foreground mb-2">Established</h3>
                 <p className="text-lg text-muted-foreground">Trusted trading company serving India's HVAC industry</p>
               </CardContent>
@@ -240,21 +241,21 @@ export default function AboutPage() {
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto mb-4">
                   <Globe className="w-8 h-8" />
-                </div>
+                    </div>
                 <h3 className="text-3xl font-bold text-foreground mb-2">Global Reach</h3>
                 <p className="text-lg text-muted-foreground">Products trusted in 80+ countries worldwide</p>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
             
             <Card className="hover-elevate text-center">
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto mb-4">
                   <Users className="w-8 h-8" />
-                </div>
+          </div>
                 <h3 className="text-3xl font-bold text-foreground mb-2">Nationwide</h3>
                 <p className="text-lg text-muted-foreground">Strong network across India with technical support</p>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
           </div>
         </div>
       </section>
@@ -293,6 +294,9 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* Section Separator */}
+      <Separator className="bg-primary-foreground/20" />
 
       <Footer />
     </div>
