@@ -461,15 +461,16 @@ export default function ProductDetailPage() {
                   </Button>
                 </div>
 
-                <InquiryModal 
-                  product={product}
-                  trigger={
-                    <Button variant="outline" size="lg" className="w-full min-h-[44px]" data-testid="button-request-quote">
-                      <Phone className="mr-2 w-4 h-4" />
-                      Request Quote
-                    </Button>
-                  }
-                />
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="w-full min-h-[44px]" 
+                  data-testid="button-request-quote"
+                  onClick={() => window.location.href = '/contact'}
+                >
+                  <Phone className="mr-2 w-4 h-4" />
+                  Request Quote
+                </Button>
               </div>
             </div>
           </div>

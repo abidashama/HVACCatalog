@@ -2,8 +2,7 @@ import { MessageSquare, Eye, Star, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { useFadeIn, useHoverAnimation } from '@/hooks/useGSAPAnimations'
-import { useRef, useState } from 'react'
-import InquiryModal from '@/components/modals/InquiryModal'
+import { useRef } from 'react'
 import type { SelectProduct } from '@shared/schema'
 
 interface ProductCardProps {
@@ -46,29 +45,9 @@ export default function ProductCard({
   const cardRef = useRef<HTMLDivElement>(null)
   useHoverAnimation(cardRef)
   
-  const [inquiryModalOpen, setInquiryModalOpen] = useState(false)
-  
-  const productForModal: SelectProduct = {
-    id,
-    title,
-    modelNumber,
-    image,
-    price: price.toString(),
-    originalPrice: originalPrice?.toString() || null,
-    category,
-    series,
-    stockStatus,
-    rating: rating.toString(),
-    reviewCount,
-    specifications: JSON.stringify(specifications),
-    description: null,
-    tags: null,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  }
   
   const handleRequestQuote = () => {
-    setInquiryModalOpen(true)
+    window.location.href = '/contact'
   }
 
   const handleQuickView = () => {
@@ -192,12 +171,6 @@ export default function ProductCard({
       </CardContent>
 
       <CardFooter className="p-4 pt-0 flex items-center justify-end">
-        <InquiryModal 
-          product={productForModal}
-          defaultOpen={inquiryModalOpen}
-          onOpenChange={setInquiryModalOpen}
-        />
-        
         <Button 
           onClick={handleRequestQuote}
           disabled={stockStatus === 'out_of_stock'}

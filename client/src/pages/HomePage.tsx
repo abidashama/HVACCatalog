@@ -272,6 +272,7 @@ export default function HomePage() {
               size="lg" 
               variant="outline"
               className="border-[#0086cd] text-white hover:bg-[#0086cd] hover:text-white hover:border-[#0086cd] bg-[#0086cd]/10 backdrop-blur-sm transition-all duration-300 shadow-lg hover:shadow-xl"
+              onClick={() => window.location.href = '/contact'}
             >
               Request Quote
             </Button>

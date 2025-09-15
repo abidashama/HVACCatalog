@@ -133,7 +133,7 @@ export default function CategoryGrid() {
             <Button size="lg" onClick={() => handleCategoryClick('/products', 'All Products')}>
               View All Products
             </Button>
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" onClick={() => window.location.href = '/contact'}>
               Request Custom Quote
             </Button>
           </div>

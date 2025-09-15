@@ -86,7 +86,7 @@ export default function HeroSection() {
                 size="lg" 
                 variant="outline"
                 className="border-white/30 text-white hover:bg-white hover:text-primary backdrop-blur-sm active-elevate-2 h-12 md:h-14"
-                onClick={() => console.log('Request quote clicked')}
+                onClick={() => window.location.href = '/contact'}
                 data-testid="button-request-quote"
               >
                 Request Quote
