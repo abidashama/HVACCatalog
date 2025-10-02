@@ -10,6 +10,7 @@ import { Separator } from '@/components/ui/separator'
 import ProductCard from '@/components/products/ProductCard'
 import { useQuery } from '@tanstack/react-query'
 import { LoadingSkeleton } from '@/components/ui/LoadingSkeleton'
+import { useLocation } from 'wouter'
 import { type SelectProduct } from '@shared/schema'
 
 // Transform backend product data for ProductCard component
@@ -117,12 +118,14 @@ export default function HomePage() {
 
   const featuredProducts = productsResponse?.products?.map(transformProduct) || []
 
+  const [, setLocation] = useLocation()
+
   const handleViewAllProducts = () => {
-    window.location.href = '/products'
+    setLocation('/products')
   }
 
   const handleContactUs = () => {
-    window.location.href = '/contact'
+    setLocation('/contact')
   }
 
   return (
@@ -272,7 +275,7 @@ export default function HomePage() {
               size="lg" 
               variant="outline"
               className="border-[#0086cd] text-white hover:bg-[#0086cd] hover:text-white hover:border-[#0086cd] bg-[#0086cd]/10 backdrop-blur-sm transition-all duration-300 shadow-lg hover:shadow-xl"
-              onClick={() => window.location.href = '/contact'}
+              onClick={() => setLocation('/contact')}
             >
               Request Quote
             </Button>

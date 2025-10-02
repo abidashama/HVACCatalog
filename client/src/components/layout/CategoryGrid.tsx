@@ -1,6 +1,7 @@
 import { ArrowRight, Wrench, Thermometer, Gauge, Zap, Droplets, Settings } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { useLocation } from 'wouter'
 import { useFadeIn, useStaggerAnimation } from '@/hooks/useGSAPAnimations'
 
 const categories = [
@@ -133,7 +134,7 @@ export default function CategoryGrid() {
             <Button size="lg" onClick={() => handleCategoryClick('/products', 'All Products')}>
               View All Products
             </Button>
-            <Button variant="outline" size="lg" onClick={() => window.location.href = '/contact'}>
+            <Button variant="outline" size="lg" onClick={() => setLocation('/contact')}>
               Request Custom Quote
             </Button>
           </div>

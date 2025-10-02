@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { ArrowRight, Shield, Truck, Award, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useLocation } from 'wouter'
 import { useFadeIn, useStaggerAnimation, useCountAnimation } from '@/hooks/useGSAPAnimations'
 import heroImage from '@assets/generated_images/Industrial_HVAC_facility_hero_6fd485c8.png'
 
@@ -20,6 +21,7 @@ const features = [
 
 export default function HeroSection() {
   const [currentStatIndex, setCurrentStatIndex] = useState(0)
+  const [, setLocation] = useLocation()
   
   // Animation refs
   const heroContentRef = useFadeIn(0.8)
@@ -86,7 +88,7 @@ export default function HeroSection() {
                 size="lg" 
                 variant="outline"
                 className="border-white/30 text-white hover:bg-white hover:text-primary backdrop-blur-sm active-elevate-2 h-12 md:h-14"
-                onClick={() => window.location.href = '/contact'}
+                onClick={() => setLocation('/contact')}
                 data-testid="button-request-quote"
               >
                 Request Quote

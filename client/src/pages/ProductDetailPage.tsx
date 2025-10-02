@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { useRoute } from 'wouter'
+import { useRoute, useLocation } from 'wouter'
 import { useQuery } from '@tanstack/react-query'
 import { Star, Heart, Share2, ShoppingCart, Download, FileText, Zap, Shield, Truck, Phone, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
 import { gsap } from 'gsap'
@@ -115,6 +115,7 @@ const getDefaultDownloads = (): Array<{name: string, type: string, size: string}
 
 export default function ProductDetailPage() {
   const [, params] = useRoute('/product/:slug')
+  const [, setLocation] = useLocation()
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const [isFavorited, setIsFavorited] = useState(false)
@@ -218,7 +219,8 @@ export default function ProductDetailPage() {
   }
 
   const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href)
+    const url = `${window.location.origin}${window.location.pathname}`
+    navigator.clipboard.writeText(url)
     toast({
       title: "Link Copied",
       description: "Product link copied to clipboard."
@@ -470,7 +472,7 @@ export default function ProductDetailPage() {
                   size="lg" 
                   className="w-full min-h-[44px]" 
                   data-testid="button-request-quote"
-                  onClick={() => window.location.href = '/contact'}
+                  onClick={() => setLocation('/contact')}
                 >
                   <Phone className="mr-2 w-4 h-4" />
                   Request Quote

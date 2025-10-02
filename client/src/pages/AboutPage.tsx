@@ -60,12 +60,14 @@ const whyChooseUs = [
 ]
 
 export default function AboutPage() {
+  const [, setLocation] = useLocation()
+  
   const handleContactUs = () => {
-    window.location.href = '/contact'
+    setLocation('/contact')
   }
 
   const handleRequestQuote = () => {
-    window.location.href = '/contact'
+    setLocation('/contact')
   }
 
   return (

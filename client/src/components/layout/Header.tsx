@@ -28,7 +28,7 @@ const categories = PRODUCT_CATEGORIES.map((category, index) => ({
 }))
 
 export default function Header() {
-  const [location] = useLocation()
+  const [location, setLocation] = useLocation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -63,7 +63,7 @@ export default function Header() {
   const handleCategoryClick = (categoryName: string) => {
     const category = PRODUCT_CATEGORIES.find(cat => cat.name === categoryName)
     if (category) {
-      window.location.href = `/products?category=${encodeURIComponent(category.id)}`
+      setLocation(`/products?category=${encodeURIComponent(category.id)}`)
     }
   }
 

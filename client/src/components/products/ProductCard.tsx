@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { useFadeIn, useHoverAnimation } from '@/hooks/useGSAPAnimations'
 import { useRef } from 'react'
+import { useLocation } from 'wouter'
 import type { SelectProduct } from '@shared/schema'
 
 interface ProductCardProps {
@@ -14,7 +15,7 @@ interface ProductCardProps {
   originalPrice?: number
   category: string
   series: string
-  stockStatus: 'in_stock' | 'out_of_stock' | 'on_order'
+  stockStatus: 'in_stock' | 'low_stock' | 'out_of_stock' | 'on_order'
   rating: number
   reviewCount: number
   specifications: {
@@ -47,13 +48,14 @@ export default function ProductCard({
 }: ProductCardProps) {
   
   const cardRef = useRef<HTMLDivElement>(null)
+  const [, setLocation] = useLocation()
   useHoverAnimation(cardRef)
   
   const productLink = customLink || `/product/${id}`
   
   
   const handleRequestQuote = () => {
-    window.location.href = '/contact'
+    setLocation('/contact')
   }
 
   const handleQuickView = () => {

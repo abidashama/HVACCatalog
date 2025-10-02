@@ -27,7 +27,7 @@ export const products = pgTable('products', {
   originalPrice: decimal('original_price', { precision: 10, scale: 2 }),
   category: text('category').notNull(),
   series: text('series').notNull(),
-  stockStatus: text('stock_status', { enum: ['in_stock', 'out_of_stock', 'on_order'] }).notNull(),
+  stockStatus: text('stock_status', { enum: ['in_stock', 'low_stock', 'out_of_stock', 'on_order'] }).notNull(),
   rating: decimal('rating', { precision: 2, scale: 1 }).notNull(),
   reviewCount: integer('review_count').notNull(),
   specifications: text('specifications'), // JSON string
@@ -91,7 +91,7 @@ export const productFiltersSchema = z.object({
   series: z.string().optional(),
   priceMin: z.number().optional(),
   priceMax: z.number().optional(),
-  stockStatus: z.enum(['in_stock', 'out_of_stock', 'on_order']).optional(),
+  stockStatus: z.enum(['in_stock', 'low_stock', 'out_of_stock', 'on_order']).optional(),
   rating: z.number().optional(),
   sortBy: z.enum(['name', 'price_asc', 'price_desc', 'newest', 'rating']).default('name'),
   page: z.number().default(1),
