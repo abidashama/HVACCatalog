@@ -1,7 +1,7 @@
 import Header from '@/components/layout/Header'
-import HeroSection from '@/components/layout/HeroSection'
 import CategoryGrid from '@/components/layout/CategoryGrid'
 import Footer from '@/components/layout/Footer'
+import BrandShowcase from '@/components/brands/BrandShowcase'
 import { SEOHead, seoConfigs } from '@/components/seo/SEOHead'
 import { ArrowRight, Shield, Truck, Clock, Award, Star, Quote } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -132,8 +132,8 @@ export default function HomePage() {
     <div className="min-h-screen bg-background">
       <Header />
       
-      {/* Hero Section */}
-      <HeroSection />
+      {/* Brand Showcase Hero Section */}
+      <BrandShowcase />
 
       {/* Featured Products Section */}
       <section className="py-16 px-4">
