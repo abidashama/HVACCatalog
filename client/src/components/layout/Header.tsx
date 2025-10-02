@@ -69,14 +69,14 @@ export default function Header() {
 
   return (
     <header className={`sticky top-0 z-50 border-b border-border/50 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80 transition-all duration-300 ${scrolled ? 'shadow-lg' : ''}`}>
-      <div className="bg-gradient-to-r from-primary via-primary to-primary/95 text-primary-foreground py-2.5 px-4">
+      <div className="bg-gradient-to-r from-[#002C5C] via-[#003870] to-[#002C5C] text-white py-2.5 px-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center text-sm">
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2 hover:text-white/90 transition-colors">
+            <div className="flex items-center gap-2 hover:text-[#00AEEF] transition-colors">
               <Phone className="w-4 h-4" />
               <span className="font-medium">+91 9096354646</span>
             </div>
-            <div className="flex items-center gap-2 hover:text-white/90 transition-colors">
+            <div className="flex items-center gap-2 hover:text-[#00AEEF] transition-colors">
               <Mail className="w-4 h-4" />
               <span>axeoncorporation@gmail.com</span>
             </div>

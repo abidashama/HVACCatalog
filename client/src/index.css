@@ -62,7 +62,7 @@
   }
 }
 
-/* LIGHT MODE - Enhanced Modern Design */
+/* LIGHT MODE - Professional Corporate Brand Colors */
 :root {
   --button-outline: rgba(0,0,0, .10);
   --badge-outline: rgba(0,0,0, .05);
@@ -74,42 +74,49 @@
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
 
-  /* Modern Blue & Teal Color Scheme */
-  --background: 220 20% 99%;
-  --foreground: 222 47% 11%;
-  --border: 220 13% 91%;
+  /* Brand Color Scheme
+     Primary: Navy Blue #002C5C (203, 18%, 18%)
+     Secondary: Steel Grey #4A4F55 (210, 8%, 31%)
+     Accent: Bright Cyan #00AEEF (197, 100%, 47%)
+     Destructive: Lefoo Red #D62828 (0, 79%, 50%)
+     Silver: #C0C5CC (218, 12%, 77%)
+  */
+  --background: 0 0% 100%;
+  --foreground: 203 18% 18%;
+  --border: 218 12% 90%;
   --card: 0 0% 100%;
-  --card-foreground: 222 47% 11%;
-  --card-border: 220 13% 91%;
-  --sidebar: 220 14% 96%;
-  --sidebar-foreground: 222 47% 11%;
-  --sidebar-border: 220 13% 91%;
-  --sidebar-primary: 221 83% 53%;
+  --card-foreground: 203 18% 18%;
+  --card-border: 218 12% 90%;
+  --sidebar: 218 12% 96%;
+  --sidebar-foreground: 203 18% 18%;
+  --sidebar-border: 218 12% 90%;
+  --sidebar-primary: 203 100% 18%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 220 14% 92%;
-  --sidebar-accent-foreground: 222 47% 11%;
-  --sidebar-ring: 221 83% 53%;
+  --sidebar-accent: 218 12% 92%;
+  --sidebar-accent-foreground: 203 18% 18%;
+  --sidebar-ring: 197 100% 47%;
   --popover: 0 0% 100%;
-  --popover-foreground: 222 47% 11%;
-  --popover-border: 220 13% 91%;
-  --primary: 221 83% 53%;
+  --popover-foreground: 203 18% 18%;
+  --popover-border: 218 12% 90%;
+  --primary: 203 100% 18%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 220 14% 96%;
-  --secondary-foreground: 222 47% 11%;
-  --muted: 220 14% 96%;
-  --muted-foreground: 220 9% 46%;
-  /* Vibrant teal accent */
-  --accent: 187 85% 53%;
+  --secondary: 210 8% 95%;
+  --secondary-foreground: 210 8% 31%;
+  --muted: 218 12% 96%;
+  --muted-foreground: 210 8% 46%;
+  /* Bright Cyan accent */
+  --accent: 197 100% 47%;
   --accent-foreground: 0 0% 100%;
-  --destructive: 0 84% 60%;
+  /* Lefoo Red */
+  --destructive: 0 79% 50%;
   --destructive-foreground: 0 0% 100%;
-  --input: 220 13% 91%;
-  --ring: 221 83% 53%;
-  --chart-1: 221 83% 53%;
-  --chart-2: 145 75% 50%;
-  --chart-3: 25 95% 60%;
-  --chart-4: 260 85% 60%;
-  --chart-5: 187 85% 53%;
+  --input: 218 12% 90%;
+  --ring: 197 100% 47%;
+  --chart-1: 203 100% 18%;
+  --chart-2: 197 100% 47%;
+  --chart-3: 0 79% 50%;
+  --chart-4: 210 8% 31%;
+  --chart-5: 218 12% 77%;
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-serif: 'Georgia', serif;
@@ -168,41 +175,41 @@
   --elevate-1: rgba(255,255,255, .04);
   --elevate-2: rgba(255,255,255, .09);
 
-  /* Modern Dark Mode with Vibrant Accents */
-  --background: 222 47% 11%;
-  --foreground: 210 40% 98%;
-  --border: 217 33% 17%;
-  --card: 222 47% 14%;
-  --card-foreground: 210 40% 98%;
-  --card-border: 217 33% 20%;
-  --sidebar: 222 47% 11%;
-  --sidebar-foreground: 210 40% 98%;
-  --sidebar-border: 217 33% 17%;
-  --sidebar-primary: 221 83% 53%;
+  /* Dark Mode with Corporate Brand Colors */
+  --background: 203 18% 12%;
+  --foreground: 0 0% 98%;
+  --border: 210 8% 20%;
+  --card: 203 18% 15%;
+  --card-foreground: 0 0% 98%;
+  --card-border: 210 8% 22%;
+  --sidebar: 203 18% 12%;
+  --sidebar-foreground: 0 0% 98%;
+  --sidebar-border: 210 8% 20%;
+  --sidebar-primary: 203 100% 25%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 222 47% 17%;
-  --sidebar-accent-foreground: 210 40% 98%;
-  --sidebar-ring: 221 83% 53%;
-  --popover: 222 47% 14%;
-  --popover-foreground: 210 40% 98%;
-  --popover-border: 217 33% 20%;
-  --primary: 221 83% 53%;
+  --sidebar-accent: 210 8% 20%;
+  --sidebar-accent-foreground: 0 0% 98%;
+  --sidebar-ring: 197 100% 47%;
+  --popover: 203 18% 15%;
+  --popover-foreground: 0 0% 98%;
+  --popover-border: 210 8% 22%;
+  --primary: 203 100% 25%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 217 33% 17%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217 33% 17%;
-  --muted-foreground: 215 20% 65%;
-  --accent: 187 85% 53%;
+  --secondary: 210 8% 20%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 210 8% 20%;
+  --muted-foreground: 218 12% 65%;
+  --accent: 197 100% 47%;
   --accent-foreground: 0 0% 100%;
-  --destructive: 0 84% 60%;
+  --destructive: 0 79% 50%;
   --destructive-foreground: 0 0% 100%;
-  --input: 217 33% 20%;
-  --ring: 221 83% 53%;
-  --chart-1: 221 83% 65%;
-  --chart-2: 145 75% 60%;
-  --chart-3: 25 95% 70%;
-  --chart-4: 260 85% 70%;
-  --chart-5: 187 85% 60%;
+  --input: 210 8% 22%;
+  --ring: 197 100% 47%;
+  --chart-1: 203 100% 35%;
+  --chart-2: 197 100% 60%;
+  --chart-3: 0 79% 60%;
+  --chart-4: 210 8% 50%;
+  --chart-5: 218 12% 70%;
 
   --shadow-2xs: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
   --shadow-xs: 0px 2px 4px 0px rgba(0, 0, 0, 0.4);

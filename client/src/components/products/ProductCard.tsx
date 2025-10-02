@@ -92,10 +92,10 @@ export default function ProductCard({
       className="group border-0 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden h-full flex flex-col bg-card rounded-xl" 
       data-testid={`product-card-${id}`}
     >
-      <div className="relative overflow-hidden bg-gradient-to-br from-muted/30 via-card to-muted/20">
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#F5F6F8] via-white to-[#F5F6F8]">
         <div className="aspect-square p-8 flex items-center justify-center relative">
-          {/* Background pattern */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.05),rgba(255,255,255,0))]" />
+          {/* Background pattern with brand colors */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(0,174,239,0.05),rgba(255,255,255,0))]" />
           
           <img 
             src={image} 
@@ -104,15 +104,15 @@ export default function ProductCard({
           />
         </div>
         
-        {/* Hover overlay with actions - Desktop */}
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-8 gap-3 hidden md:flex">
-          <Button size="icon" variant="secondary" onClick={handleQuickView} className="shadow-lg hover:scale-110 transition-transform" data-testid={`button-quickview-${id}`}>
+        {/* Hover overlay with actions - Desktop with Navy Blue */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#002C5C]/95 via-[#002C5C]/85 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-8 gap-3 hidden md:flex">
+          <Button size="icon" className="bg-[#00AEEF] hover:bg-[#0096D1] shadow-lg hover:scale-110 transition-transform" onClick={handleQuickView} data-testid={`button-quickview-${id}`}>
             <Eye className="w-4 h-4" />
           </Button>
-          <Button size="icon" variant="secondary" onClick={handleRequestQuote} className="shadow-lg hover:scale-110 transition-transform" data-testid={`button-quote-${id}`}>
+          <Button size="icon" className="bg-[#00AEEF] hover:bg-[#0096D1] shadow-lg hover:scale-110 transition-transform" onClick={handleRequestQuote} data-testid={`button-quote-${id}`}>
             <MessageSquare className="w-4 h-4" />
           </Button>
-          <Button size="icon" variant="secondary" onClick={handleDownload} className="shadow-lg hover:scale-110 transition-transform" data-testid={`button-download-${id}`}>
+          <Button size="icon" className="bg-[#00AEEF] hover:bg-[#0096D1] shadow-lg hover:scale-110 transition-transform" onClick={handleDownload} data-testid={`button-download-${id}`}>
             <Download className="w-4 h-4" />
           </Button>
         </div>
@@ -127,13 +127,13 @@ export default function ProductCard({
           </Button>
         </div>
 
-        {/* Stock status badge */}
+        {/* Stock status badge with brand colors */}
         {stockStatus !== 'in_stock' && (
           <div className="absolute top-3 left-3">
             <span className={`px-3 py-1 rounded-full text-xs font-semibold shadow-sm ${
-              stockStatus === 'out_of_stock' ? 'bg-destructive text-destructive-foreground' :
-              stockStatus === 'low_stock' ? 'bg-orange-500 text-white' :
-              'bg-accent text-accent-foreground'
+              stockStatus === 'out_of_stock' ? 'bg-[#D62828] text-white' :
+              stockStatus === 'low_stock' ? 'bg-[#FF9500] text-white' :
+              'bg-[#00AEEF] text-white'
             }`}>
               {stockStatus === 'out_of_stock' ? 'Out of Stock' :
                stockStatus === 'low_stock' ? 'Low Stock' : 'On Order'}
@@ -143,7 +143,7 @@ export default function ProductCard({
       </div>
 
       <CardContent className="p-5 space-y-3 flex-1">
-        <div className="text-xs uppercase tracking-wider text-primary font-bold">
+        <div className="text-xs uppercase tracking-wider text-[#002C5C] font-bold">
           {category}
         </div>
         <div>
@@ -156,7 +156,7 @@ export default function ProductCard({
                   onClick()
                 }
               }}
-              className="hover:text-primary transition-colors cursor-pointer"
+              className="hover:text-[#00AEEF] transition-colors cursor-pointer"
               data-testid={`product-card-title`}
             >
               {title}
@@ -171,7 +171,7 @@ export default function ProductCard({
             {[...Array(5)].map((_, i) => (
               <Star 
                 key={i} 
-                className={`w-4 h-4 ${i < Math.floor(rating) ? 'fill-accent text-accent' : 'fill-muted/30 text-muted'}`}
+                className={`w-4 h-4 ${i < Math.floor(rating) ? 'fill-[#00AEEF] text-[#00AEEF]' : 'fill-muted/30 text-muted'}`}
               />
             ))}
           </div>

@@ -46,14 +46,14 @@ export default function HeroSection() {
   }
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary to-primary/90">
+    <section className="relative overflow-hidden bg-gradient-to-br from-[#002C5C] via-[#003870] to-[#004280]">
       {/* Hero Background with Pattern */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-15"
         style={{ backgroundImage: `url(${heroImage})` }}
       />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(0,150,255,0.15),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(0,174,239,0.15),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(192,197,204,0.1),transparent_50%)]" />
       <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background via-background/50 to-transparent"></div>
 
       {/* Content */}
@@ -62,13 +62,13 @@ export default function HeroSection() {
           {/* Left Column */}
           <div ref={heroContentRef} className="text-white space-y-10">
             <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-                <Shield className="w-4 h-4" />
-                <span className="text-sm font-semibold">Trusted by 10,000+ Professionals</span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#00AEEF]/20 backdrop-blur-sm rounded-full border border-[#00AEEF]/40">
+                <Shield className="w-4 h-4 text-[#00AEEF]" />
+                <span className="text-sm font-semibold text-white">Trusted by 10,000+ Professionals</span>
               </div>
               <h1 className="text-5xl md:text-7xl font-bold leading-[1.1]">
                 Professional
-                <span className="block bg-gradient-to-r from-white via-blue-50 to-white bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-white via-[#00AEEF] to-white bg-clip-text text-transparent">
                   HVAC & Refrigeration
                 </span>
                 <span className="block">Equipment</span>
@@ -82,7 +82,7 @@ export default function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
               <Button 
                 size="lg" 
-                className="bg-white text-primary hover:bg-white/90 shadow-xl hover:shadow-2xl backdrop-blur-sm h-14 text-lg font-bold transition-all hover:scale-105"
+                className="bg-[#00AEEF] text-white hover:bg-[#0096D1] shadow-xl hover:shadow-2xl h-14 text-lg font-bold transition-all hover:scale-105"
                 onClick={() => handleCategoryClick('/products')}
                 data-testid="button-browse-catalog"
               >
@@ -92,7 +92,7 @@ export default function HeroSection() {
               <Button 
                 size="lg" 
                 variant="outline"
-                className="border-2 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm h-14 text-lg font-semibold transition-all hover:scale-105"
+                className="border-2 border-white/40 text-white hover:bg-white/15 backdrop-blur-sm h-14 text-lg font-semibold transition-all hover:scale-105"
                 onClick={() => setLocation('/contact')}
                 data-testid="button-request-quote"
               >
@@ -121,15 +121,15 @@ export default function HeroSection() {
             {features.map((feature, index) => (
               <div 
                 key={feature.title}
-                className="group bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/20 hover:border-white/40 hover:shadow-2xl transition-all duration-300"
+                className="group bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-[#00AEEF]/30 hover:bg-white/20 hover:border-[#00AEEF]/60 hover:shadow-2xl transition-all duration-300"
               >
                 <div className="flex items-start gap-5">
-                  <div className="p-4 bg-white/20 rounded-xl group-hover:bg-white/30 group-hover:scale-110 transition-all duration-300">
+                  <div className="p-4 bg-[#00AEEF]/30 rounded-xl group-hover:bg-[#00AEEF]/50 group-hover:scale-110 transition-all duration-300">
                     <feature.icon className="w-7 h-7 text-white" />
                   </div>
                   <div className="text-white flex-1">
                     <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                    <p className="text-white/80 leading-relaxed">{feature.description}</p>
+                    <p className="text-white/90 leading-relaxed">{feature.description}</p>
                   </div>
                 </div>
               </div>
