@@ -298,35 +298,39 @@ export default function PressureSwitchDetailPage() {
 
         {/* Product Models Table - Below the main content */}
         <div ref={detailsRef} className="mt-12">
-          <Card>
+          <Card className="specs-table-card">
             <CardContent className="pt-6">
               <h2 className="text-2xl font-bold mb-6">Available Models & Specifications</h2>
               
               {/* Handle regular products array */}
               {currentSubcategory.products && Array.isArray(currentSubcategory.products) && (
-                <Table>
+                <Table className="premium-specs-table">
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Model</TableHead>
-                      <TableHead>Range</TableHead>
+                      <TableHead className="specs-table-header">Model</TableHead>
+                      <TableHead className="specs-table-header">Range</TableHead>
                       {currentSubcategory.products.some((p: any) => p.resetOption) && (
-                        <TableHead>Reset Option</TableHead>
+                        <TableHead className="specs-table-header">Reset Option</TableHead>
                       )}
                       {currentSubcategory.products.some((p: any) => p.maxOperatingPressureBar) && (
-                        <TableHead>Max Operating Pressure</TableHead>
+                        <TableHead className="specs-table-header">Max Operating Pressure</TableHead>
                       )}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {currentSubcategory.products.map((product: ProductModel, index: number) => (
-                      <TableRow key={index}>
-                        <TableCell className="font-medium font-mono">{product.model}</TableCell>
-                        <TableCell>{renderRange(product.range)}</TableCell>
+                      <TableRow key={index} className="specs-table-row" style={{'--row-index': index} as React.CSSProperties}>
+                        <TableCell className="specs-table-cell model-cell">
+                          <span className="model-badge">{product.model}</span>
+                        </TableCell>
+                        <TableCell className="specs-table-cell range-cell">
+                          <span className="range-text">{renderRange(product.range)}</span>
+                        </TableCell>
                         {currentSubcategory.products!.some((p: any) => p.resetOption) && (
-                          <TableCell>{renderResetOption(product.resetOption)}</TableCell>
+                          <TableCell className="specs-table-cell">{renderResetOption(product.resetOption)}</TableCell>
                         )}
                         {currentSubcategory.products!.some((p: any) => p.maxOperatingPressureBar) && (
-                          <TableCell>{product.maxOperatingPressureBar ? `${product.maxOperatingPressureBar} bar` : '-'}</TableCell>
+                          <TableCell className="specs-table-cell">{product.maxOperatingPressureBar ? `${product.maxOperatingPressureBar} bar` : '-'}</TableCell>
                         )}
                       </TableRow>
                     ))}
@@ -340,18 +344,20 @@ export default function PressureSwitchDetailPage() {
                   {currentSubcategory.highPressureRanges && (
                     <div>
                       <h3 className="text-lg font-semibold mb-3">High Pressure Ranges</h3>
-                      <Table>
+                      <Table className="premium-specs-table">
                         <TableHeader>
                           <TableRow>
-                            <TableHead>Model Range</TableHead>
-                            <TableHead>Contact Switch</TableHead>
+                            <TableHead className="specs-table-header">Model Range</TableHead>
+                            <TableHead className="specs-table-header">Contact Switch</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
                           {currentSubcategory.highPressureRanges.map((item: RangeItem, index: number) => (
-                            <TableRow key={index}>
-                              <TableCell className="font-medium font-mono">{item.range}</TableCell>
-                              <TableCell>
+                            <TableRow key={index} className="specs-table-row" style={{'--row-index': index} as React.CSSProperties}>
+                              <TableCell className="specs-table-cell model-cell">
+                                <span className="model-badge">{item.range}</span>
+                              </TableCell>
+                              <TableCell className="specs-table-cell">
                                 <Badge variant={item.contactSwitch === 'NC' ? 'default' : 'secondary'}>
                                   {item.contactSwitch}
                                 </Badge>
@@ -366,18 +372,20 @@ export default function PressureSwitchDetailPage() {
                   {currentSubcategory.lowPressureRanges && (
                     <div>
                       <h3 className="text-lg font-semibold mb-3">Low Pressure Ranges</h3>
-                      <Table>
+                      <Table className="premium-specs-table">
                         <TableHeader>
                           <TableRow>
-                            <TableHead>Model Range</TableHead>
-                            <TableHead>Contact Switch</TableHead>
+                            <TableHead className="specs-table-header">Model Range</TableHead>
+                            <TableHead className="specs-table-header">Contact Switch</TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
                           {currentSubcategory.lowPressureRanges.map((item: RangeItem, index: number) => (
-                            <TableRow key={index}>
-                              <TableCell className="font-medium font-mono">{item.range}</TableCell>
-                              <TableCell>
+                            <TableRow key={index} className="specs-table-row" style={{'--row-index': index} as React.CSSProperties}>
+                              <TableCell className="specs-table-cell model-cell">
+                                <span className="model-badge">{item.range}</span>
+                              </TableCell>
+                              <TableCell className="specs-table-cell">
                                 <Badge variant={item.contactSwitch === 'NO' ? 'secondary' : 'default'}>
                                   {item.contactSwitch}
                                 </Badge>
