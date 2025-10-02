@@ -62,7 +62,7 @@
   }
 }
 
-/* LIGHT MODE */
+/* LIGHT MODE - Enhanced Modern Design */
 :root {
   --button-outline: rgba(0,0,0, .10);
   --badge-outline: rgba(0,0,0, .05);
@@ -74,55 +74,57 @@
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
 
-  --background: 210 5% 98%;
-  --foreground: 210 15% 15%;
-  --border: 210 10% 85%;
-  --card: 210 5% 96%;
-  --card-foreground: 210 15% 15%;
-  --card-border: 210 10% 88%;
-  --sidebar: 210 5% 94%;
-  --sidebar-foreground: 210 15% 15%;
-  --sidebar-border: 210 8% 82%;
-  --sidebar-primary: 210 85% 35%;
-  --sidebar-primary-foreground: 210 10% 95%;
-  --sidebar-accent: 210 15% 88%;
-  --sidebar-accent-foreground: 210 15% 25%;
-  --sidebar-ring: 210 60% 45%;
-  --popover: 210 5% 92%;
-  --popover-foreground: 210 15% 15%;
-  --popover-border: 210 8% 80%;
-  --primary: 210 85% 25%;
-  --primary-foreground: 210 10% 95%;
-  --secondary: 210 8% 88%;
-  --secondary-foreground: 210 15% 25%;
-  --muted: 210 12% 90%;
-  --muted-foreground: 210 15% 45%;
-  /* Introduce a richer accent color (teal) */
-  --accent: 168 84% 35%;
-  --accent-foreground: 168 15% 96%;
-  --destructive: 0 75% 45%;
-  --destructive-foreground: 0 10% 95%;
-  --input: 210 15% 75%;
-  --ring: 210 60% 45%;
-  --chart-1: 210 85% 25%;
-  --chart-2: 145 70% 35%;
-  --chart-3: 25 85% 45%;
-  --chart-4: 260 75% 45%;
-  --chart-5: 180 65% 35%;
+  /* Modern Blue & Teal Color Scheme */
+  --background: 220 20% 99%;
+  --foreground: 222 47% 11%;
+  --border: 220 13% 91%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --card-border: 220 13% 91%;
+  --sidebar: 220 14% 96%;
+  --sidebar-foreground: 222 47% 11%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-primary: 221 83% 53%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 220 14% 92%;
+  --sidebar-accent-foreground: 222 47% 11%;
+  --sidebar-ring: 221 83% 53%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+  --popover-border: 220 13% 91%;
+  --primary: 221 83% 53%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 14% 96%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 220 14% 96%;
+  --muted-foreground: 220 9% 46%;
+  /* Vibrant teal accent */
+  --accent: 187 85% 53%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --input: 220 13% 91%;
+  --ring: 221 83% 53%;
+  --chart-1: 221 83% 53%;
+  --chart-2: 145 75% 50%;
+  --chart-3: 25 95% 60%;
+  --chart-4: 260 85% 60%;
+  --chart-5: 187 85% 53%;
 
-  --font-sans: Inter, sans-serif;
-  --font-serif: Georgia, serif;
-  --font-mono: Roboto Mono, monospace;
-  --radius: .5rem; /* 8px */
-  --shadow-2xs: 0px 1px 2px 0px hsl(210 15% 25% / 0.05);
-  --shadow-xs: 0px 1px 3px 0px hsl(210 15% 25% / 0.08);
-  --shadow-sm: 0px 1px 2px 0px hsl(210 15% 25% / 0.05), 0px 2px 4px -1px hsl(210 15% 25% / 0.05);
-  --shadow: 0px 1px 3px 0px hsl(210 15% 25% / 0.08), 0px 4px 6px -1px hsl(210 15% 25% / 0.05);
-  --shadow-md: 0px 4px 6px -1px hsl(210 15% 25% / 0.08), 0px 8px 10px -2px hsl(210 15% 25% / 0.05);
-  --shadow-lg: 0px 10px 15px -3px hsl(210 15% 25% / 0.08), 0px 20px 25px -5px hsl(210 15% 25% / 0.05);
-  --shadow-xl: 0px 20px 25px -5px hsl(210 15% 25% / 0.08), 0px 40px 50px -12px hsl(210 15% 25% / 0.05);
-  --shadow-2xl: 0px 25px 50px -12px hsl(210 15% 25% / 0.12);
-  --tracking-normal: 0em;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-serif: 'Georgia', serif;
+  --font-mono: 'Roboto Mono', monospace;
+  --radius: .75rem; /* 12px - More modern rounded corners */
+  /* Enhanced shadows for depth */
+  --shadow-2xs: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  --shadow-xs: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0px 2px 4px -1px rgba(0, 0, 0, 0.06), 0px 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-2xl: 0px 30px 60px -15px rgba(0, 0, 0, 0.3);
+  --tracking-normal: -0.01em;
   --spacing: 0.25rem;
 
   /* Automatically computed borders - intensity can be controlled by the user by the --opaque-button-border-intensity setting */
@@ -166,49 +168,50 @@
   --elevate-1: rgba(255,255,255, .04);
   --elevate-2: rgba(255,255,255, .09);
 
-  --background: 210 5% 8%;
-  --foreground: 210 10% 85%;
-  --border: 210 8% 18%;
-  --card: 210 5% 12%;
-  --card-foreground: 210 10% 85%;
-  --card-border: 210 8% 22%;
-  --sidebar: 210 5% 10%;
-  --sidebar-foreground: 210 10% 85%;
-  --sidebar-border: 210 8% 20%;
-  --sidebar-primary: 210 85% 35%;
-  --sidebar-primary-foreground: 210 10% 95%;
-  --sidebar-accent: 210 12% 16%;
-  --sidebar-accent-foreground: 210 10% 75%;
-  --sidebar-ring: 210 60% 55%;
-  --popover: 210 5% 14%;
-  --popover-foreground: 210 10% 85%;
-  --popover-border: 210 8% 24%;
-  --primary: 210 85% 25%;
-  --primary-foreground: 210 10% 95%;
-  --secondary: 210 8% 18%;
-  --secondary-foreground: 210 10% 75%;
-  --muted: 210 8% 16%;
-  --muted-foreground: 210 10% 65%;
-  --accent: 210 15% 18%;
-  --accent-foreground: 210 10% 75%;
-  --destructive: 0 75% 45%;
-  --destructive-foreground: 0 10% 95%;
-  --input: 210 15% 25%;
-  --ring: 210 60% 55%;
-  --chart-1: 210 80% 65%;
-  --chart-2: 145 65% 65%;
-  --chart-3: 25 80% 65%;
-  --chart-4: 260 70% 65%;
-  --chart-5: 180 60% 65%;
+  /* Modern Dark Mode with Vibrant Accents */
+  --background: 222 47% 11%;
+  --foreground: 210 40% 98%;
+  --border: 217 33% 17%;
+  --card: 222 47% 14%;
+  --card-foreground: 210 40% 98%;
+  --card-border: 217 33% 20%;
+  --sidebar: 222 47% 11%;
+  --sidebar-foreground: 210 40% 98%;
+  --sidebar-border: 217 33% 17%;
+  --sidebar-primary: 221 83% 53%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 222 47% 17%;
+  --sidebar-accent-foreground: 210 40% 98%;
+  --sidebar-ring: 221 83% 53%;
+  --popover: 222 47% 14%;
+  --popover-foreground: 210 40% 98%;
+  --popover-border: 217 33% 20%;
+  --primary: 221 83% 53%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 217 33% 17%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217 33% 17%;
+  --muted-foreground: 215 20% 65%;
+  --accent: 187 85% 53%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --input: 217 33% 20%;
+  --ring: 221 83% 53%;
+  --chart-1: 221 83% 65%;
+  --chart-2: 145 75% 60%;
+  --chart-3: 25 95% 70%;
+  --chart-4: 260 85% 70%;
+  --chart-5: 187 85% 60%;
 
-  --shadow-2xs: 0px 1px 2px 0px hsl(210 5% 5% / 0.15);
-  --shadow-xs: 0px 1px 3px 0px hsl(210 5% 5% / 0.20);
-  --shadow-sm: 0px 1px 2px 0px hsl(210 5% 5% / 0.15), 0px 2px 4px -1px hsl(210 5% 5% / 0.15);
-  --shadow: 0px 1px 3px 0px hsl(210 5% 5% / 0.20), 0px 4px 6px -1px hsl(210 5% 5% / 0.15);
-  --shadow-md: 0px 4px 6px -1px hsl(210 5% 5% / 0.20), 0px 8px 10px -2px hsl(210 5% 5% / 0.15);
-  --shadow-lg: 0px 10px 15px -3px hsl(210 5% 5% / 0.20), 0px 20px 25px -5px hsl(210 5% 5% / 0.15);
-  --shadow-xl: 0px 20px 25px -5px hsl(210 5% 5% / 0.20), 0px 40px 50px -12px hsl(210 5% 5% / 0.15);
-  --shadow-2xl: 0px 25px 50px -12px hsl(210 5% 5% / 0.25);
+  --shadow-2xs: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+  --shadow-xs: 0px 2px 4px 0px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0px 3px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow: 0px 5px 10px -1px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0px 10px 20px -5px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0px 20px 30px -8px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0px 30px 50px -15px rgba(0, 0, 0, 0.7);
+  --shadow-2xl: 0px 40px 70px -20px rgba(0, 0, 0, 0.8);
 }
 
 @layer base {
@@ -218,14 +221,21 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 
   h1 {
-    @apply tracking-tight;
+    @apply tracking-tight font-bold;
+    letter-spacing: -0.02em;
   }
 
-  h2, h3, h4 {
-    @apply tracking-tight;
+  h2 {
+    @apply tracking-tight font-semibold;
+    letter-spacing: -0.01em;
+  }
+
+  h3, h4 {
+    @apply tracking-tight font-semibold;
   }
 
   p {
@@ -233,11 +243,23 @@
   }
 
   a {
-    @apply underline-offset-4 decoration-transparent hover:decoration-primary transition-[text-decoration-color] duration-200;
+    @apply underline-offset-4 decoration-transparent hover:decoration-primary transition-all duration-200;
   }
 
   :focus-visible {
     @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Better text rendering */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 }
 

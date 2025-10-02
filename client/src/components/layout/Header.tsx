@@ -68,15 +68,15 @@ export default function Header() {
   }
 
   return (
-    <header className={`sticky top-0 z-50 border-b border-border backdrop-blur supports-[backdrop-filter]:bg-background/75 ${scrolled ? 'shadow-sm' : ''}`}>
-      <div className="bg-primary text-primary-foreground py-2 px-4">
+    <header className={`sticky top-0 z-50 border-b border-border/50 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80 transition-all duration-300 ${scrolled ? 'shadow-lg' : ''}`}>
+      <div className="bg-gradient-to-r from-primary via-primary to-primary/95 text-primary-foreground py-2.5 px-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center text-sm">
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 hover:text-white/90 transition-colors">
               <Phone className="w-4 h-4" />
-              <span>+91 9096354646</span>
+              <span className="font-medium">+91 9096354646</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 hover:text-white/90 transition-colors">
               <Mail className="w-4 h-4" />
               <span>axeoncorporation@gmail.com</span>
             </div>
@@ -93,18 +93,18 @@ export default function Header() {
         </div>
       </div>
 
-      <div className="px-4 py-2">
+      <div className="px-4 py-3">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          <Link href="/" className="flex items-center gap-2 hover-elevate rounded-md p-4" data-testid="link-home-logo">
+          <Link href="/" className="flex items-center gap-2 hover:scale-105 transition-transform rounded-md p-2" data-testid="link-home-logo">
             <img 
               src={axeonLogo} 
               alt="Axeon Corporation Logo" 
-              className="h-10"
+              className="h-12"
             />
           </Link>
 
           <div className="flex items-center gap-8">
-            <nav className="hidden md:flex items-center space-x-2">
+            <nav className="hidden md:flex items-center space-x-1">
               {mainNavigation.map((item) => {
                 const active = location === item.href
                 if (item.name === 'Products') {
@@ -112,12 +112,11 @@ export default function Header() {
                     <DropdownMenu key={item.href}>
                       <DropdownMenuTrigger asChild>
                         <button
-                          className={`relative inline-flex items-center gap-1 text-foreground hover:text-primary font-medium transition-colors px-3 py-1.5 rounded-md ${active ? 'text-primary' : ''}`}
+                          className={`relative inline-flex items-center gap-1 hover:bg-primary/10 font-semibold transition-all px-4 py-2 rounded-lg ${active ? 'text-primary bg-primary/5' : 'text-foreground'}`}
                           data-testid={`nav-link-${item.name.toLowerCase()}`}
                         >
                           {item.name}
                           <ChevronDown className="w-4 h-4" />
-                          <span className={`pointer-events-none absolute left-3 right-3 -bottom-1 h-0.5 rounded bg-accent transition-opacity ${active ? 'opacity-100' : 'opacity-0'}`} />
                         </button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="start" className="min-w-56">
@@ -142,19 +141,18 @@ export default function Header() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`relative text-foreground hover:text-primary font-medium transition-colors px-3 py-1.5 rounded-md ${active ? 'text-primary' : ''}`}
+                    className={`relative hover:bg-primary/10 font-semibold transition-all px-4 py-2 rounded-lg ${active ? 'text-primary bg-primary/5' : 'text-foreground'}`}
                     data-testid={`nav-link-${item.name.toLowerCase()}`}
                   >
                     {item.name}
-                    <span className={`pointer-events-none absolute left-3 right-3 -bottom-1 h-0.5 rounded bg-accent transition-opacity ${active ? 'opacity-100' : 'opacity-0'}`} />
                   </Link>
                 )
               })}
             </nav>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <ThemeToggle />
-              <Button variant="ghost" size="icon" className="relative active-elevate-2 h-11 w-11 md:h-9 md:w-9" data-testid="button-user-menu" aria-label="User menu">
+              <Button variant="default" size="icon" className="shadow-sm hover:shadow-md h-10 w-10" data-testid="button-user-menu" aria-label="User menu">
                 <User className="w-5 h-5" />
               </Button>
               <Button 

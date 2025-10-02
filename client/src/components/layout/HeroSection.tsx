@@ -46,48 +46,53 @@ export default function HeroSection() {
   }
 
   return (
-    <section className="relative overflow-hidden">
-      {/* Hero Background */}
+    <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary to-primary/90">
+      {/* Hero Background with Pattern */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
         style={{ backgroundImage: `url(${heroImage})` }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/50"></div>
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background/40 to-transparent"></div>
-      </div>
+      />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(0,150,255,0.15),transparent_50%)]" />
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background via-background/50 to-transparent"></div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 py-24 md:py-32">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 py-28 md:py-36 lg:py-44">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Column */}
-          <div ref={heroContentRef} className="text-white space-y-8">
-            <div className="space-y-4">
-              <h1 className="text-4xl md:text-6xl font-bold leading-tight">
+          <div ref={heroContentRef} className="text-white space-y-10">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+                <Shield className="w-4 h-4" />
+                <span className="text-sm font-semibold">Trusted by 10,000+ Professionals</span>
+              </div>
+              <h1 className="text-5xl md:text-7xl font-bold leading-[1.1]">
                 Professional
-                <span className="block text-blue-200">HVAC & Refrigeration</span>
-                Equipment
+                <span className="block bg-gradient-to-r from-white via-blue-50 to-white bg-clip-text text-transparent">
+                  HVAC & Refrigeration
+                </span>
+                <span className="block">Equipment</span>
               </h1>
-              <p className="text-xl md:text-2xl text-blue-100 max-w-2xl">
-                Discover premium Axeon & Lefoo industrial components with technical precision and reliable performance.
+              <p className="text-xl md:text-2xl text-white/90 max-w-2xl font-light leading-relaxed">
+                Discover premium Axeon & Lefoo industrial components with technical precision and reliable performance for your projects.
               </p>
             </div>
 
             {/* CTA Buttons - Mobile Responsive */}
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
               <Button 
                 size="lg" 
-                variant="outline" 
-                className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-primary backdrop-blur-sm active-elevate-2 h-12 md:h-14"
+                className="bg-white text-primary hover:bg-white/90 shadow-xl hover:shadow-2xl backdrop-blur-sm h-14 text-lg font-bold transition-all hover:scale-105"
                 onClick={() => handleCategoryClick('/products')}
                 data-testid="button-browse-catalog"
               >
                 Browse Catalog
-                <ArrowRight className="ml-2 w-4 h-4 md:w-5 md:h-5" />
+                <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
               <Button 
                 size="lg" 
                 variant="outline"
-                className="border-white/30 text-white hover:bg-white hover:text-primary backdrop-blur-sm active-elevate-2 h-12 md:h-14"
+                className="border-2 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm h-14 text-lg font-semibold transition-all hover:scale-105"
                 onClick={() => setLocation('/contact')}
                 data-testid="button-request-quote"
               >
@@ -96,35 +101,35 @@ export default function HeroSection() {
             </div>
 
             {/* Animated Stats */}
-            <div className="flex flex-wrap gap-8 pt-8">
+            <div className="flex flex-wrap gap-10 pt-4">
               {stats.map((stat, index) => (
                 <div 
                   key={stat.label} 
-                  className={`text-center transition-all duration-500 ${
-                    index === currentStatIndex ? 'scale-110 text-blue-200' : 'text-white/80'
+                  className={`transition-all duration-500 ${
+                    index === currentStatIndex ? 'scale-110' : 'scale-100'
                   }`}
                 >
-                  <div className="text-2xl md:text-3xl font-bold">{stat.value}</div>
-                  <div className="text-sm font-medium">{stat.label}</div>
+                  <div className="text-3xl md:text-4xl font-bold text-white">{stat.value}</div>
+                  <div className="text-sm font-semibold text-white/70 mt-1">{stat.label}</div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Right Column - Features */}
-          <div ref={featuresRef} className="space-y-6">
+          <div ref={featuresRef} className="space-y-5">
             {features.map((feature, index) => (
               <div 
                 key={feature.title}
-                className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20 hover-elevate transition-all duration-300"
+                className="group bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 hover:bg-white/20 hover:border-white/40 hover:shadow-2xl transition-all duration-300"
               >
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-white/20 rounded-lg">
-                    <feature.icon className="w-6 h-6 text-white" />
+                <div className="flex items-start gap-5">
+                  <div className="p-4 bg-white/20 rounded-xl group-hover:bg-white/30 group-hover:scale-110 transition-all duration-300">
+                    <feature.icon className="w-7 h-7 text-white" />
                   </div>
-                  <div className="text-white">
-                    <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                    <p className="text-white/80">{feature.description}</p>
+                  <div className="text-white flex-1">
+                    <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
+                    <p className="text-white/80 leading-relaxed">{feature.description}</p>
                   </div>
                 </div>
               </div>

@@ -87,50 +87,67 @@ export default function ProductCard({
   }
 
   return (
-    <Card ref={cardRef} className="group hover-elevate transition-all duration-300 overflow-hidden h-full flex flex-col" data-testid={`product-card-${id}`}>
-      <div className="relative overflow-hidden bg-card">
-        <div className="aspect-square p-6 flex items-center justify-center bg-gradient-to-br from-card to-muted">
+    <Card 
+      ref={cardRef} 
+      className="group border-0 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden h-full flex flex-col bg-card rounded-xl" 
+      data-testid={`product-card-${id}`}
+    >
+      <div className="relative overflow-hidden bg-gradient-to-br from-muted/30 via-card to-muted/20">
+        <div className="aspect-square p-8 flex items-center justify-center relative">
+          {/* Background pattern */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.05),rgba(255,255,255,0))]" />
+          
           <img 
             src={image} 
             alt={title}
-            className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-full object-contain transition-all duration-500 group-hover:scale-110 relative z-10 drop-shadow-lg"
           />
         </div>
         
-        <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2 hidden md:flex">
-          <Button size="icon" variant="secondary" onClick={handleQuickView} data-testid={`button-quickview-${id}`}>
+        {/* Hover overlay with actions - Desktop */}
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-8 gap-3 hidden md:flex">
+          <Button size="icon" variant="secondary" onClick={handleQuickView} className="shadow-lg hover:scale-110 transition-transform" data-testid={`button-quickview-${id}`}>
             <Eye className="w-4 h-4" />
           </Button>
-          <Button size="icon" variant="secondary" onClick={handleRequestQuote} data-testid={`button-quote-${id}`}>
+          <Button size="icon" variant="secondary" onClick={handleRequestQuote} className="shadow-lg hover:scale-110 transition-transform" data-testid={`button-quote-${id}`}>
             <MessageSquare className="w-4 h-4" />
           </Button>
-          <Button size="icon" variant="secondary" onClick={handleDownload} data-testid={`button-download-${id}`}>
+          <Button size="icon" variant="secondary" onClick={handleDownload} className="shadow-lg hover:scale-110 transition-transform" data-testid={`button-download-${id}`}>
             <Download className="w-4 h-4" />
           </Button>
         </div>
 
-        <div className="md:hidden absolute top-2 right-2 flex gap-1">
-          <Button size="icon" variant="secondary" className="h-11 w-11" onClick={handleRequestQuote} data-testid={`button-mobile-quote-${id}`}>
+        {/* Mobile quick actions */}
+        <div className="md:hidden absolute top-3 right-3 flex gap-2">
+          <Button size="icon" variant="secondary" className="h-9 w-9 shadow-md" onClick={handleRequestQuote} data-testid={`button-mobile-quote-${id}`}>
             <MessageSquare className="w-4 h-4" />
           </Button>
-          <Button size="icon" variant="secondary" className="h-11 w-11" onClick={handleDownload} data-testid={`button-mobile-download-${id}`}>
+          <Button size="icon" variant="secondary" className="h-9 w-9 shadow-md" onClick={handleDownload} data-testid={`button-mobile-download-${id}`}>
             <Download className="w-4 h-4" />
           </Button>
         </div>
 
-        <div className="absolute top-2 left-2 flex flex-col gap-1">
-        </div>
-
-        <div className="absolute top-2 right-2">
-        </div>
+        {/* Stock status badge */}
+        {stockStatus !== 'in_stock' && (
+          <div className="absolute top-3 left-3">
+            <span className={`px-3 py-1 rounded-full text-xs font-semibold shadow-sm ${
+              stockStatus === 'out_of_stock' ? 'bg-destructive text-destructive-foreground' :
+              stockStatus === 'low_stock' ? 'bg-orange-500 text-white' :
+              'bg-accent text-accent-foreground'
+            }`}>
+              {stockStatus === 'out_of_stock' ? 'Out of Stock' :
+               stockStatus === 'low_stock' ? 'Low Stock' : 'On Order'}
+            </span>
+          </div>
+        )}
       </div>
 
-      <CardContent className="p-4 space-y-3 flex-1">
-        <div className="text-sm text-muted-foreground font-medium">
+      <CardContent className="p-5 space-y-3 flex-1">
+        <div className="text-xs uppercase tracking-wider text-primary font-bold">
           {category}
         </div>
         <div>
-          <h3 className="font-semibold text-foreground leading-tight mb-1">
+          <h3 className="font-bold text-lg text-foreground leading-tight mb-1.5">
             <a 
               href={productLink}
               onClick={(e) => {
@@ -139,14 +156,14 @@ export default function ProductCard({
                   onClick()
                 }
               }}
-              className="hover:text-accent transition-colors cursor-pointer"
+              className="hover:text-primary transition-colors cursor-pointer"
               data-testid={`product-card-title`}
             >
               {title}
             </a>
           </h3>
-          <p className="text-sm text-muted-foreground font-mono" data-testid={`text-model-${id}`}>
-            Model: {modelNumber}
+          <p className="text-sm text-muted-foreground" data-testid={`text-model-${id}`}>
+            <span className="font-semibold">Model:</span> <span className="font-mono">{modelNumber}</span>
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -154,46 +171,46 @@ export default function ProductCard({
             {[...Array(5)].map((_, i) => (
               <Star 
                 key={i} 
-                className={`w-4 h-4 ${i < Math.floor(rating) ? 'fill-accent text-accent' : 'text-muted'}`}
+                className={`w-4 h-4 ${i < Math.floor(rating) ? 'fill-accent text-accent' : 'fill-muted/30 text-muted'}`}
               />
             ))}
           </div>
-          <span className="text-sm text-muted-foreground">({reviewCount})</span>
+          <span className="text-xs text-muted-foreground font-medium">({reviewCount})</span>
         </div>
         {!isCompact && (
-          <div className="space-y-1 text-xs text-muted-foreground">
+          <div className="space-y-2 pt-2 border-t border-border">
             {specifications.workingTemp && (
-              <div className="flex justify-between">
-                <span>Working Temp:</span>
-                <span className="font-mono">{specifications.workingTemp}</span>
+              <div className="flex justify-between text-xs">
+                <span className="text-muted-foreground">Working Temp:</span>
+                <span className="font-mono font-semibold text-foreground">{specifications.workingTemp}</span>
               </div>
             )}
             {specifications.pressure && (
-              <div className="flex justify-between">
-                <span>Pressure:</span>
-                <span className="font-mono">{specifications.pressure}</span>
+              <div className="flex justify-between text-xs">
+                <span className="text-muted-foreground">Pressure:</span>
+                <span className="font-mono font-semibold text-foreground">{specifications.pressure}</span>
               </div>
             )}
             {specifications.voltage && (
-              <div className="flex justify-between">
-                <span>Voltage:</span>
-                <span className="font-mono">{specifications.voltage}</span>
+              <div className="flex justify-between text-xs">
+                <span className="text-muted-foreground">Voltage:</span>
+                <span className="font-mono font-semibold text-foreground">{specifications.voltage}</span>
               </div>
             )}
           </div>
         )}
       </CardContent>
 
-      <CardFooter className="p-4 pt-0 flex items-center justify-end">
+      <CardFooter className="p-5 pt-0 flex items-center justify-between">
         <Button 
           onClick={handleRequestQuote}
           disabled={stockStatus === 'out_of_stock'}
           size={isCompact ? "sm" : "default"}
-          className={`${isCompact ? "text-xs px-3" : ""} h-11 md:h-9`}
+          className={`${isCompact ? "text-xs px-3" : "w-full"} font-semibold shadow-sm hover:shadow-md transition-all`}
           data-testid={`button-quote-${id}`}
         >
-          <MessageSquare className={`${isCompact ? "w-3 h-3" : "w-4 h-4"} mr-1 md:mr-2`} />
-          <span className="hidden sm:inline">Request </span>Quote
+          <MessageSquare className={`${isCompact ? "w-3 h-3" : "w-4 h-4"} mr-2`} />
+          Request Quote
         </Button>
       </CardFooter>
     </Card>
