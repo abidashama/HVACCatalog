@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footer'
 import FilterSidebar from '@/components/filters/FilterSidebar'
 import ProductGrid from '@/components/products/ProductGrid'
 import ProductCard from '@/components/products/ProductCard'
+import { SectionErrorBoundary } from '@/components/common/SectionErrorBoundary'
 import { NavigationBreadcrumb } from '@/components/ui/NavigationBreadcrumb'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -182,7 +183,9 @@ export default function ProductsPage() {
   }
   
   const handleFiltersChange = (newFilters: Partial<ProductFilters>) => {
-    setFilters(newFilters)
+    // Reset to page 1 when filters change to prevent empty results
+    const filtersWithReset = { ...newFilters, page: 1 }
+    setFilters(filtersWithReset)
     
     // Check if Pressure Switches is selected
     const isPressureSwitches = newFilters.category?.trim().toLowerCase() === 'pressure switches'
@@ -293,12 +296,14 @@ export default function ProductsPage() {
       <div ref={contentRef} className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex gap-8 relative">
           {/* Filter Sidebar - LEFT SIDE - Always visible */}
-          <FilterSidebar 
-            isOpen={filterSidebarOpen} 
-            onClose={() => setFilterSidebarOpen(false)}
-            filters={filters}
-            onFiltersChange={handleFiltersChange}
-          />
+          <SectionErrorBoundary fallbackTitle="Filters Unavailable">
+            <FilterSidebar 
+              isOpen={filterSidebarOpen} 
+              onClose={() => setFilterSidebarOpen(false)}
+              filters={filters}
+              onFiltersChange={handleFiltersChange}
+            />
+          </SectionErrorBoundary>
 
           {/* Main Content Area */}
           <div className="flex-1 min-w-0 lg:ml-0">
@@ -350,12 +355,17 @@ export default function ProductsPage() {
               </div>
             ) : (
               /* Regular Product Grid */
-              <ProductGrid 
-                filters={filters} 
-                searchQuery={searchQuery} 
-                onFiltersChange={handleFiltersChange}
-                onSearchChange={handleSearchChange}
-              />
+              <SectionErrorBoundary 
+                fallbackTitle="Products Unavailable"
+                fallbackMessage="Unable to load products. Please try refreshing the page."
+              >
+                <ProductGrid 
+                  filters={filters} 
+                  searchQuery={searchQuery} 
+                  onFiltersChange={handleFiltersChange}
+                  onSearchChange={handleSearchChange}
+                />
+              </SectionErrorBoundary>
             )}
           </div>
 

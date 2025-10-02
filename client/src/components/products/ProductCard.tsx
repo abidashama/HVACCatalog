@@ -59,8 +59,7 @@ export default function ProductCard({
   }
 
   const handleQuickView = () => {
-    // Quick view functionality to be implemented
-    // TODO: Open modal with product details
+    // Quick view functionality - see TODO.md for implementation plan
   }
 
   const handleDownload = () => {

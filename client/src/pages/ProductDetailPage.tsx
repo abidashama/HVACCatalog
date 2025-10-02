@@ -613,7 +613,7 @@ export default function ProductDetailPage() {
           </div>
         </div>
 
-        {/* Related Products - TODO: Implement related products API */}
+        {/* Related Products - See TODO.md for implementation plan */}
         <div className="mt-16">
           <h2 className="text-2xl font-bold text-foreground mb-8">Related Products</h2>
           <div className="text-center py-8">
