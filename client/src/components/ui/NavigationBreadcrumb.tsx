@@ -9,6 +9,9 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 
+// Constant for consistent URL encoding
+const PRESSURE_SWITCHES_URL = '/products?category=Pressure%20Switches'
+
 interface BreadcrumbItemData {
   label: string
   href: string
@@ -25,7 +28,8 @@ const pathToLabel: Record<string, string> = {
   'about': 'About Us',
   'contact': 'Contact',
   'category': 'Category',
-  'product': 'Product'
+  'product': 'Product',
+  'pressure-switches': 'Pressure switches'
 }
 
 function generateBreadcrumbItems(pathname: string): BreadcrumbItemData[] {
@@ -39,7 +43,14 @@ function generateBreadcrumbItems(pathname: string): BreadcrumbItemData[] {
     currentPath += `/${segment}`
     const isLast = index === segments.length - 1
     const label = pathToLabel[segment] || segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ')
-    items.push({ label, href: currentPath })
+    
+    // Special handling for pressure-switches route - redirect to products page with filter
+    let href = currentPath
+    if (segment === 'pressure-switches' && !isLast) {
+      href = PRESSURE_SWITCHES_URL
+    }
+    
+    items.push({ label, href })
   })
 
   return items

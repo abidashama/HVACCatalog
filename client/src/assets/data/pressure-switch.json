@@ -1,0 +1,209 @@
+{
+    "categories": {
+        "pressureSwitches": {
+            "name": "PRESSURE SWITCH FOR WATERLINE",
+            "products": [
+                {
+                    "model": "LF5503",
+                    "range": "-0.5 BAR TO 3 BAR"
+                },
+                {
+                    "model": "LF5506",
+                    "range": "-0.5 BAR TO 6 BAR"
+                },
+                {
+                    "model": "LF5508",
+                    "range": "-0.2 BAR TO 7.5 BAR"
+                },
+                {
+                    "model": "LF5510",
+                    "range": "1 BAR TO 10 BAR"
+                },
+                {
+                    "model": "LF5514",
+                    "range": "2 BAR TO 14 BAR"
+                },
+                {
+                    "model": "LF5520",
+                    "range": "5 BAR TO 20 BAR"
+                },
+                {
+                    "model": "LF5532",
+                    "range": "8 BAR TO 32 BAR"
+                },
+                {
+                    "model": "LF5542",
+                    "range": "8 BAR TO 42 BAR"
+                }
+            ],
+            "certifications": [
+                "UL",
+                "CE"
+            ],
+            "connection": "G1/4"
+        },
+        "lpHpRefrigerationSwitches": {
+            "name": "LP & HP PRESSURE SWITCH FOR REFRIGERATION",
+            "products": [
+                {
+                    "model": "LF5508 - LOW PRESSURE",
+                    "range": "-0.2 BAR TO 7.5 BAR",
+                    "resetOption": "AUTO RESET / MANUAL RESET"
+                },
+                {
+                    "model": "LF5532 - HIGH PRESSURE",
+                    "range": "8 BAR TO 32 BAR",
+                    "resetOption": "AUTO RESET / MANUAL RESET"
+                }
+            ],
+            "certifications": [
+                "UL",
+                "CE"
+            ],
+            "connection": "1/4 FLARE EXT"
+        },
+        "lpHpCombinedSwitches": {
+            "name": "LP-HP COMBINED PRESSURE SWITCH",
+            "products": [
+                {
+                    "model": "LF5832",
+                    "range": "LP RANGE -0.2 TO 7.5 BAR HP 5 TO 32 BAR",
+                    "resetOption": {
+                        "LP": "AUTO RESET",
+                        "HP": "AUTO RESET"
+                    }
+                },
+                {
+                    "model": "LF5832 HM",
+                    "range": "LP RANGE -0.2 TO 7.5 BAR HP 8 TO 42 BAR",
+                    "resetOption": {
+                        "LP": "AUTO RESET",
+                        "HP": "MANUAL RESET"
+                    }
+                },
+                {
+                    "model": "LF5832 HLM",
+                    "range": "LP RANGE -0.2 TO 7.5 BAR HP 8 TO 42 BAR",
+                    "resetOption": {
+                        "LP": "MANUAL RESET",
+                        "HP": "MANUAL RESET"
+                    }
+                }
+            ],
+            "certifications": [
+                "UL",
+                "CE"
+            ],
+            "connection": "7/16-20 UNF"
+        },
+        "smallFixDifferentialSwitches": {
+            "name": "SMALL FIX DIFFERENTIAL PRESSURE SWITCH ( CARTRIDGE TYPE)",
+            "model": "LF08",
+            "highPressureRanges": [
+                {
+                    "range": "LF08 (190-260)PSI",
+                    "contactSwitch": "NC"
+                },
+                {
+                    "range": "LF08 (250-449.5) PSI",
+                    "contactSwitch": "NC"
+                },
+                {
+                    "range": "LF08 (290-380)PSI",
+                    "contactSwitch": "NC"
+                },
+                {
+                    "range": "LF08 (305-405) PSI",
+                    "contactSwitch": "NC"
+                },
+                {
+                    "range": "LF08 (480-610)PSI",
+                    "contactSwitch": "NC"
+                }
+            ],
+            "lowPressureRanges": [
+                {
+                    "range": "LF08 (39-25)PSI",
+                    "contactSwitch": "NO"
+                },
+                {
+                    "range": "LF08 (22-7)PSI",
+                    "contactSwitch": "NO"
+                },
+                {
+                    "range": "LF08 (25-10)PSI",
+                    "contactSwitch": "NO"
+                },
+                {
+                    "range": "LF08 (80-40)PSI",
+                    "contactSwitch": "NO"
+                },
+                {
+                    "range": "LF08 (50-35) PSI",
+                    "contactSwitch": "NO"
+                }
+            ],
+            "certifications": [
+                "UL",
+                "CE",
+                "REACH",
+                "ROHS"
+            ],
+            "connection": "1/4 FLARE & SOLDER",
+            "refrigerants": "R134a,R404A/R407,R507,R22/R407C,R410A"
+        },
+        "oilDifferentialSwitches": {
+            "name": "OIL DIFFERENTIAL PRESSURE SWITCH",
+            "products": [
+                {
+                    "model": "LF5D2",
+                    "range": "0.5 BAR TO 2 BAR",
+                    "maxOperatingPressureBar": 16.5
+                },
+                {
+                    "model": "LF5D4",
+                    "range": "0.5 BAR TO 3.5 BAR",
+                    "maxOperatingPressureBar": 16.5
+                },
+                {
+                    "model": "LF5D4H",
+                    "range": "0.5 BAR TO 3.5 BAR",
+                    "maxOperatingPressureBar": 33
+                },
+                {
+                    "model": "LF5D6",
+                    "range": "1 BAR TO 6 BAR",
+                    "maxOperatingPressureBar": 16.5
+                },
+                {
+                    "model": "LF5D6H",
+                    "range": "1 BAR TO 6 BAR",
+                    "maxOperatingPressureBar": 33
+                }
+            ],
+            "certifications": [
+                "UL"
+            ],
+            "connection": "MALE G1/4, FLARE G1/4"
+        },
+        "airDifferentialSwitches": {
+            "name": "AIR DIFFERENTIAL PRESSURE SWITCH ",
+            "products": [
+                {
+                    "model": "LF32",
+                    "range": [
+                        "20 to 200 Pa",
+                        "30 to 300 Pa",
+                        "40 to 400 Pa",
+                        "50 to 500 Pa",
+                        "100 to 1000Pa",
+                        "200 TO 1000 Pa",
+                        "500 to 2500 Pa",
+                        "1000 to 5000 Pa"
+                    ]
+                }
+            ],
+            "certifications": ["UL", "CE", "REACH", "ROHS", "TSCA"]
+        }
+    }
+}

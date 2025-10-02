@@ -24,6 +24,8 @@ interface ProductCardProps {
     connection?: string
   }
   isCompact?: boolean
+  customLink?: string // Optional custom link for special routing
+  onClick?: () => void // Optional click handler for custom behavior
 }
 
 export default function ProductCard({
@@ -39,11 +41,15 @@ export default function ProductCard({
   rating,
   reviewCount,
   specifications,
-  isCompact = false
+  isCompact = false,
+  customLink,
+  onClick
 }: ProductCardProps) {
   
   const cardRef = useRef<HTMLDivElement>(null)
   useHoverAnimation(cardRef)
+  
+  const productLink = customLink || `/product/${id}`
   
   
   const handleRequestQuote = () => {
@@ -124,7 +130,13 @@ export default function ProductCard({
         <div>
           <h3 className="font-semibold text-foreground leading-tight mb-1">
             <a 
-              href={`/product/${id}`}
+              href={productLink}
+              onClick={(e) => {
+                if (onClick) {
+                  e.preventDefault()
+                  onClick()
+                }
+              }}
               className="hover:text-accent transition-colors cursor-pointer"
               data-testid={`product-card-title`}
             >

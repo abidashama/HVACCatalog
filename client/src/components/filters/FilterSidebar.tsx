@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { Separator } from '@/components/ui/separator'
 import type { ProductFilters } from '@shared/schema'
+import pressureSwitchData from '@/assets/data/pressure-switch.json'
 
 interface FilterSidebarProps {
   isOpen: boolean
@@ -16,21 +17,39 @@ interface FilterSidebarProps {
   onFiltersChange?: (filters: Partial<ProductFilters>) => void
 }
 
+// Calculate pressure switch product count from JSON
+const getPressureSwitchCount = () => {
+  const categories: any = pressureSwitchData.categories
+  let count = 0
+  
+  // Count products in each category
+  if (categories.pressureSwitches?.products) count += categories.pressureSwitches.products.length
+  if (categories.lpHpRefrigerationSwitches?.products) count += categories.lpHpRefrigerationSwitches.products.length
+  if (categories.lpHpCombinedSwitches?.products) count += categories.lpHpCombinedSwitches.products.length
+  if (categories.smallFixDifferentialSwitches) count += 1 // Single model with multiple ranges
+  if (categories.oilDifferentialSwitches?.products) count += categories.oilDifferentialSwitches.products.length
+  if (categories.airDifferentialSwitches?.products) count += categories.airDifferentialSwitches.products.length
+  
+  return count
+}
+
 // Filter data that matches backend category/series names exactly
 const filterData = {
   categories: [
-    { id: 'Pressure Switches', name: 'Pressure Switches', count: 1 },
+    { id: 'Pressure Switches', name: 'Pressure Switches', count: getPressureSwitchCount() },
     { id: 'Temperature Sensors', name: 'Temperature Sensors', count: 1 },
     { id: 'Valves', name: 'Valves', count: 1 },
     { id: 'Heat Exchangers', name: 'Heat Exchangers', count: 0 },
     { id: 'Refrigeration Components', name: 'Refrigeration Components', count: 0 }
   ],
   series: [
-    { id: 'LF55 Series', name: 'LF55 Series', count: 1 },
+    { id: 'LF55 Series', name: 'LF55 Series', count: (pressureSwitchData.categories.pressureSwitches?.products as any[])?.length + (pressureSwitchData.categories.lpHpRefrigerationSwitches?.products as any[])?.length || 0 },
+    { id: 'LF58 Series', name: 'LF58 Series', count: (pressureSwitchData.categories.lpHpCombinedSwitches?.products as any[])?.length || 0 },
+    { id: 'LF08 Series', name: 'LF08 Series', count: 1 },
+    { id: 'LF5D Series', name: 'LF5D Series', count: (pressureSwitchData.categories.oilDifferentialSwitches?.products as any[])?.length || 0 },
+    { id: 'LF32 Series', name: 'LF32 Series', count: (pressureSwitchData.categories.airDifferentialSwitches?.products as any[])?.length || 0 },
     { id: 'TS4000 Series', name: 'TS4000 Series', count: 1 },
-    { id: 'VF200 Series', name: 'VF200 Series', count: 1 },
-    { id: 'LFSV-D Series', name: 'LFSV-D Series', count: 0 },
-    { id: 'PHE Series', name: 'PHE Series', count: 0 }
+    { id: 'VF200 Series', name: 'VF200 Series', count: 1 }
   ],
   applications: [
     { id: 'refrigeration', name: 'Refrigeration', count: 187 },

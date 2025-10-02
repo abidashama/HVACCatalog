@@ -5,26 +5,108 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import FilterSidebar from '@/components/filters/FilterSidebar'
 import ProductGrid from '@/components/products/ProductGrid'
+import ProductCard from '@/components/products/ProductCard'
 import { NavigationBreadcrumb } from '@/components/ui/NavigationBreadcrumb'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import type { ProductFilters } from '@shared/schema'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import pressureSwitchData from '@/assets/data/pressure-switch.json'
 
 gsap.registerPlugin(ScrollTrigger)
+
+// Constant for consistent URL encoding
+const PRESSURE_SWITCHES_URL = '/products?category=Pressure%20Switches'
+
+interface PressureSwitchSubcategory {
+  id: string
+  name: string
+  description: string
+  image: string
+  modelNumber: string
+  productCount: number
+  certifications: string[]
+  connection?: string
+}
 
 export default function ProductsPage() {
   const [location, setLocation] = useLocation()
   const [filterSidebarOpen, setFilterSidebarOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [filters, setFilters] = useState<Partial<ProductFilters>>({})
+  const [showSubcategories, setShowSubcategories] = useState(false)
   
   // Refs for GSAP animations
   const containerRef = useRef<HTMLDivElement>(null)
   const heroRef = useRef<HTMLDivElement>(null)
   const searchRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+
+  // Build subcategories from JSON as product-like objects
+  const baseImage = '/assets/generated_images/Pressure_switch_product_photo_6632abba.png'
+  
+  const subcategories: PressureSwitchSubcategory[] = [
+    {
+      id: 'waterline',
+      name: 'Pressure Switch for Waterline',
+      description: 'Professional water line pressure switches with wide pressure ranges',
+      image: baseImage,
+      modelNumber: 'LF55 Series',
+      productCount: (pressureSwitchData.categories.pressureSwitches?.products as any[])?.length || 0,
+      certifications: pressureSwitchData.categories.pressureSwitches?.certifications || [],
+      connection: pressureSwitchData.categories.pressureSwitches?.connection
+    },
+    {
+      id: 'refrigeration',
+      name: 'LP & HP Refrigeration Switches',
+      description: 'Low and high pressure switches for refrigeration systems',
+      image: baseImage,
+      modelNumber: 'LF55 Series',
+      productCount: (pressureSwitchData.categories.lpHpRefrigerationSwitches?.products as any[])?.length || 0,
+      certifications: pressureSwitchData.categories.lpHpRefrigerationSwitches?.certifications || [],
+      connection: pressureSwitchData.categories.lpHpRefrigerationSwitches?.connection
+    },
+    {
+      id: 'combined',
+      name: 'LP-HP Combined Switches',
+      description: 'Combined low and high pressure switch units',
+      image: baseImage,
+      modelNumber: 'LF58 Series',
+      productCount: (pressureSwitchData.categories.lpHpCombinedSwitches?.products as any[])?.length || 0,
+      certifications: pressureSwitchData.categories.lpHpCombinedSwitches?.certifications || [],
+      connection: pressureSwitchData.categories.lpHpCombinedSwitches?.connection
+    },
+    {
+      id: 'differential',
+      name: 'Small Fix Differential Switches',
+      description: 'Cartridge type differential pressure switches',
+      image: baseImage,
+      modelNumber: 'LF08 Series',
+      productCount: 1, // Single model with multiple ranges
+      certifications: pressureSwitchData.categories.smallFixDifferentialSwitches?.certifications || [],
+      connection: pressureSwitchData.categories.smallFixDifferentialSwitches?.connection
+    },
+    {
+      id: 'oil',
+      name: 'Oil Differential Switches',
+      description: 'Oil differential pressure switches for compressor protection',
+      image: baseImage,
+      modelNumber: 'LF5D Series',
+      productCount: (pressureSwitchData.categories.oilDifferentialSwitches?.products as any[])?.length || 0,
+      certifications: pressureSwitchData.categories.oilDifferentialSwitches?.certifications || [],
+      connection: pressureSwitchData.categories.oilDifferentialSwitches?.connection
+    },
+    {
+      id: 'air',
+      name: 'Air Differential Switches',
+      description: 'Air differential pressure switches for HVAC systems',
+      image: baseImage,
+      modelNumber: 'LF32 Series',
+      productCount: (pressureSwitchData.categories.airDifferentialSwitches?.products as any[])?.length || 0,
+      certifications: pressureSwitchData.categories.airDifferentialSwitches?.certifications || []
+    }
+  ]
   
   // Parse URL parameters on component mount
   useEffect(() => {
@@ -37,7 +119,13 @@ export default function ProductsPage() {
     }
     
     if (urlParams.get('category')) {
-      initialFilters.category = urlParams.get('category') || undefined
+      const category = urlParams.get('category') || undefined
+      initialFilters.category = category
+      // Show subcategories if Pressure Switches is selected
+      const isPressureSwitches = category?.trim().toLowerCase() === 'pressure switches'
+      setShowSubcategories(isPressureSwitches)
+    } else {
+      setShowSubcategories(false)
     }
     
     if (urlParams.get('series')) {
@@ -78,6 +166,10 @@ export default function ProductsPage() {
   const handleFiltersChange = (newFilters: Partial<ProductFilters>) => {
     setFilters(newFilters)
     
+    // Check if Pressure Switches is selected
+    const isPressureSwitches = newFilters.category?.trim().toLowerCase() === 'pressure switches'
+    setShowSubcategories(isPressureSwitches)
+    
     // Update URL parameters
     const urlParams = new URLSearchParams()
     Object.entries(newFilters).forEach(([key, value]) => {
@@ -92,6 +184,10 @@ export default function ProductsPage() {
     
     const newUrl = `${window.location.pathname}?${urlParams.toString()}`
     window.history.pushState({}, '', newUrl)
+  }
+
+  const handleSubcategoryClick = (subcategoryId: string) => {
+    setLocation(`/pressure-switches/${subcategoryId}`)
   }
 
   const handleSearchChange = (newSearch: string) => {
@@ -178,7 +274,7 @@ export default function ProductsPage() {
       {/* Main Content */}
       <div ref={contentRef} className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex gap-8 relative">
-          {/* Filter Sidebar - LEFT SIDE */}
+          {/* Filter Sidebar - LEFT SIDE - Always visible */}
           <FilterSidebar 
             isOpen={filterSidebarOpen} 
             onClose={() => setFilterSidebarOpen(false)}
@@ -186,17 +282,66 @@ export default function ProductsPage() {
             onFiltersChange={handleFiltersChange}
           />
 
-          {/* Products Grid - Takes remaining space */}
+          {/* Main Content Area */}
           <div className="flex-1 min-w-0 lg:ml-0">
-            <ProductGrid 
-              filters={filters} 
-              searchQuery={searchQuery} 
-              onFiltersChange={handleFiltersChange}
-              onSearchChange={handleSearchChange}
-            />
+            {showSubcategories ? (
+              /* Subcategory Cards for Pressure Switches - Using ProductCard component */
+              <div className="space-y-6">
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h2 className="text-2xl font-bold">Pressure Switch Categories</h2>
+                    <p className="text-muted-foreground mt-1">Select a category to view products</p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setFilters({})
+                      setShowSubcategories(false)
+                      setLocation('/products')
+                    }}
+                  >
+                    View All Products
+                  </Button>
+                </div>
+
+                <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
+                  {subcategories.map((subcategory) => {
+                    return (
+                      <ProductCard
+                        key={subcategory.id}
+                        id={subcategory.id}
+                        title={subcategory.name}
+                        modelNumber={subcategory.modelNumber}
+                        image={subcategory.image}
+                        price={0}
+                        category="Pressure Switches"
+                        series={subcategory.modelNumber}
+                        stockStatus="in_stock"
+                        rating={4.7}
+                        reviewCount={subcategory.productCount}
+                        specifications={{
+                          connection: subcategory.connection,
+                          pressure: `${subcategory.productCount} models available`
+                        }}
+                        customLink={`/pressure-switches/${subcategory.id}`}
+                        onClick={() => handleSubcategoryClick(subcategory.id)}
+                      />
+                    )
+                  })}
+                </div>
+              </div>
+            ) : (
+              /* Regular Product Grid */
+              <ProductGrid 
+                filters={filters} 
+                searchQuery={searchQuery} 
+                onFiltersChange={handleFiltersChange}
+                onSearchChange={handleSearchChange}
+              />
+            )}
           </div>
 
-          {/* Mobile Filter Button */}
+          {/* Mobile Filter Button - Always visible */}
           <div className="lg:hidden fixed bottom-6 right-6 z-40">
             <Button
               onClick={() => setFilterSidebarOpen(true)}

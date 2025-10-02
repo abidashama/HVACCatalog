@@ -1,5 +1,7 @@
 import { type User, type InsertUser, type SelectProduct, type InsertProduct, type SelectProductInquiry, type InsertProductInquiry, type ProductFilters } from "@shared/schema";
 import { randomUUID } from "crypto";
+import fs from "fs";
+import path from "path";
 
 // modify the interface with any CRUD methods
 // you might need
@@ -51,33 +53,6 @@ export class MemStorage implements IStorage {
 
   private initializeProducts() {
     const sampleProducts: SelectProduct[] = [
-      {
-        id: 'lf5532-auto-24v',
-        title: 'LF5532 Automatic Reset Pressure Switch',
-        modelNumber: 'LF5532-AUTO-24V',
-        image: '/assets/generated_images/Pressure_switch_product_photo_6632abba.png',
-        price: '89.99',
-        originalPrice: '109.99',
-        category: 'Pressure Switches',
-        series: 'LF55 Series',
-        stockStatus: 'in_stock',
-        rating: '4.8',
-        reviewCount: 24,
-        specifications: JSON.stringify({
-          workingTemp: '-40°C to 120°C',
-          pressure: '0.5-16 bar',
-          voltage: '24V DC',
-          connection: '1/4" NPT',
-          dimensions: '65 x 45 x 30mm',
-          weight: '180g',
-          material: 'Stainless Steel',
-          certification: 'CE, UL Listed'
-        }),
-        description: 'High-precision automatic reset pressure switch designed for industrial HVAC applications.',
-        tags: JSON.stringify(['automatic', 'reset', 'pressure', 'switch', 'industrial']),
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
       {
         id: 'ts4000-temp-sensor',
         title: 'TS4000 Temperature Sensor',
@@ -137,6 +112,228 @@ export class MemStorage implements IStorage {
     sampleProducts.forEach(product => {
       this.products.set(product.id, product);
     });
+
+    // Load real Pressure Switches data from JSON and populate products
+    this.loadPressureSwitchProducts();
+  }
+
+  private loadPressureSwitchProducts() {
+    try {
+      const jsonPath = path.resolve(process.cwd(), 'client', 'src', 'assets', 'data', 'pressure-switch.json');
+      if (!fs.existsSync(jsonPath)) {
+        return;
+      }
+      const raw = fs.readFileSync(jsonPath, 'utf-8');
+      const data = JSON.parse(raw) as any;
+      const categories = data?.categories ?? {};
+
+      const addProduct = (p: Omit<SelectProduct, 'createdAt' | 'updatedAt'>) => {
+        const product: SelectProduct = { ...p, createdAt: new Date(), updatedAt: new Date() };
+        this.products.set(product.id, product);
+      };
+
+      const baseImage = '/assets/generated_images/Pressure_switch_product_photo_6632abba.png';
+
+      // Helper to generate price in a stable but varied way based on model text
+      const priceFor = (model: string) => {
+        const hash = Array.from(model).reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+        const base = 70 + (hash % 60); // 70 - 129
+        return base.toFixed(2);
+      };
+
+      const seriesFromModel = (model: string): string => {
+        const upper = model.replace(/\s+/g, '').toUpperCase();
+        if (upper.startsWith('LF08')) return 'LF08 Series';
+        if (upper.startsWith('LF5D')) return 'LF5D Series';
+        if (upper.startsWith('LF58')) return 'LF58 Series';
+        if (upper.startsWith('LF32')) return 'LF32 Series';
+        if (upper.startsWith('LF55') || upper.startsWith('LF 55')) return 'LF55 Series';
+        return 'LF55 Series';
+      };
+
+      // PRESSURE SWITCH FOR WATERLINE
+      const waterline = categories.pressureSwitches;
+      if (waterline?.products) {
+        for (const item of waterline.products as any[]) {
+          const model: string = item.model;
+          const title = `${waterline.name} - ${model}`;
+          addProduct({
+            id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+            title,
+            modelNumber: model,
+            image: baseImage,
+            price: priceFor(model),
+            originalPrice: null,
+            category: 'Pressure Switches',
+            series: seriesFromModel(model),
+            stockStatus: 'in_stock',
+            rating: '4.8',
+            reviewCount: 12,
+            specifications: JSON.stringify({
+              pressure: item.range,
+              connection: waterline.connection ?? undefined,
+              certification: (waterline.certifications || []).join(', ')
+            }),
+            description: `${waterline.name} model ${model} with range ${item.range}.`,
+            tags: JSON.stringify(['pressure', 'switch', 'waterline', model])
+          });
+        }
+      }
+
+      // LP & HP PRESSURE SWITCH FOR REFRIGERATION
+      const lpHp = categories.lpHpRefrigerationSwitches;
+      if (lpHp?.products) {
+        for (const item of lpHp.products as any[]) {
+          const model: string = item.model;
+          const title = `${lpHp.name} - ${model}`;
+          addProduct({
+            id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+            title,
+            modelNumber: model,
+            image: baseImage,
+            price: priceFor(model),
+            originalPrice: null,
+            category: 'Pressure Switches',
+            series: seriesFromModel(model),
+            stockStatus: 'in_stock',
+            rating: '4.7',
+            reviewCount: 9,
+            specifications: JSON.stringify({
+              pressure: item.range,
+              resetOption: item.resetOption,
+              connection: lpHp.connection ?? undefined,
+              certification: (lpHp.certifications || []).join(', ')
+            }),
+            description: `${lpHp.name} ${model}.`,
+            tags: JSON.stringify(['pressure', 'switch', 'refrigeration', model])
+          });
+        }
+      }
+
+      // LP-HP COMBINED PRESSURE SWITCH
+      const combined = categories.lpHpCombinedSwitches;
+      if (combined?.products) {
+        for (const item of combined.products as any[]) {
+          const model: string = item.model;
+          const title = `${combined.name} - ${model}`;
+          addProduct({
+            id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+            title,
+            modelNumber: model,
+            image: baseImage,
+            price: priceFor(model),
+            originalPrice: null,
+            category: 'Pressure Switches',
+            series: seriesFromModel(model),
+            stockStatus: 'in_stock',
+            rating: '4.7',
+            reviewCount: 7,
+            specifications: JSON.stringify({
+              pressure: item.range,
+              resetOption: item.resetOption ? JSON.stringify(item.resetOption) : undefined,
+              connection: combined.connection ?? undefined,
+              certification: (combined.certifications || []).join(', ')
+            }),
+            description: `${combined.name} ${model}.`,
+            tags: JSON.stringify(['pressure', 'switch', 'combined', model])
+          });
+        }
+      }
+
+      // SMALL FIX DIFFERENTIAL PRESSURE SWITCH (LF08)
+      const smallFix = categories.smallFixDifferentialSwitches;
+      if (smallFix) {
+        const model: string = smallFix.model ?? 'LF08';
+        const title = `${smallFix.name} - ${model}`;
+        const ranges: string[] = [
+          ...(smallFix.highPressureRanges?.map((r: any) => r.range) || []),
+          ...(smallFix.lowPressureRanges?.map((r: any) => r.range) || [])
+        ];
+        addProduct({
+          id: `${model.toLowerCase()}-cartridge`.replace(/[^a-z0-9]+/g, '-'),
+          title,
+          modelNumber: model,
+          image: baseImage,
+          price: priceFor(model),
+          originalPrice: null,
+          category: 'Pressure Switches',
+          series: seriesFromModel(model),
+          stockStatus: 'in_stock',
+          rating: '4.6',
+          reviewCount: 11,
+          specifications: JSON.stringify({
+            pressure: ranges.join(' | '),
+            connection: smallFix.connection ?? undefined,
+            certification: (smallFix.certifications || []).join(', '),
+            refrigerants: smallFix.refrigerants ?? undefined
+          }),
+          description: `${smallFix.name} ${model}.`,
+          tags: JSON.stringify(['pressure', 'switch', 'differential', model])
+        });
+      }
+
+      // OIL DIFFERENTIAL PRESSURE SWITCH (LF5D)
+      const oilDiff = categories.oilDifferentialSwitches;
+      if (oilDiff?.products) {
+        for (const item of oilDiff.products as any[]) {
+          const model: string = item.model;
+          const title = `${oilDiff.name} - ${model}`;
+          addProduct({
+            id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+            title,
+            modelNumber: model,
+            image: baseImage,
+            price: priceFor(model),
+            originalPrice: null,
+            category: 'Pressure Switches',
+            series: seriesFromModel(model),
+            stockStatus: 'in_stock',
+            rating: '4.5',
+            reviewCount: 8,
+            specifications: JSON.stringify({
+              pressure: item.range,
+              maxOperatingPressureBar: item.maxOperatingPressureBar,
+              connection: oilDiff.connection ?? undefined,
+              certification: (oilDiff.certifications || []).join(', ')
+            }),
+            description: `${oilDiff.name} ${model}.`,
+            tags: JSON.stringify(['pressure', 'switch', 'oil', model])
+          });
+        }
+      }
+
+      // AIR DIFFERENTIAL PRESSURE SWITCH (LF32)
+      const air = categories.airDifferentialSwitches;
+      if (air?.products) {
+        for (const item of air.products as any[]) {
+          const model: string = item.model;
+          const title = `${air.name} - ${model}`;
+          const range = Array.isArray(item.range) ? item.range.join(' | ') : item.range;
+          addProduct({
+            id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+            title,
+            modelNumber: model,
+            image: baseImage,
+            price: priceFor(model),
+            originalPrice: null,
+            category: 'Pressure Switches',
+            series: seriesFromModel(model),
+            stockStatus: 'in_stock',
+            rating: '4.7',
+            reviewCount: 13,
+            specifications: JSON.stringify({
+              pressure: range,
+              certification: (air.certifications || []).join(', ')
+            }),
+            description: `${air.name} ${model}.`,
+            tags: JSON.stringify(['pressure', 'switch', 'air', model])
+          });
+        }
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to load pressure switch data:', err);
+    }
   }
 
   // Product methods

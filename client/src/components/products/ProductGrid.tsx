@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import ProductCard from './ProductCard'
 import type { SelectProduct, ProductFilters } from '@shared/schema'
 import { gsap } from 'gsap'
+import pressureSwitchData from '@/assets/data/pressure-switch.json'
 
 
 type ViewMode = 'grid' | 'list'
@@ -72,8 +73,163 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
     gcTime: 10 * 60 * 1000    // 10 minutes
   })
   
-  const products = productsResponse?.products || []
-  const totalProducts = productsResponse?.total || 0
+  const apiProducts = productsResponse?.products || []
+
+  // Build local products from pressure-switch.json when category is Pressure Switches
+  const pressureSwitchProducts = useMemo(() => {
+    const baseImage = '/assets/generated_images/Pressure_switch_product_photo_6632abba.png'
+    const out: Array<SelectProduct> = [] as any
+    const categories: any = (pressureSwitchData as any)?.categories || {}
+
+    const add = (p: Partial<SelectProduct> & { id: string }) => {
+      out.push({
+        id: p.id,
+        title: p.title ?? '',
+        modelNumber: p.modelNumber ?? '',
+        image: p.image ?? baseImage,
+        price: p.price ?? '99.00',
+        originalPrice: (p as any).originalPrice ?? null,
+        category: 'Pressure Switches',
+        series: p.series ?? 'LF55 Series',
+        stockStatus: p.stockStatus ?? 'in_stock',
+        rating: p.rating ?? '4.7',
+        reviewCount: p.reviewCount ?? 10,
+        specifications: p.specifications ?? null,
+        description: p.description ?? null,
+        tags: p.tags ?? null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      } as SelectProduct)
+    }
+
+    const seriesFromModel = (model: string): string => {
+      const upper = model.replace(/\s+/g, '').toUpperCase()
+      if (upper.startsWith('LF08')) return 'LF08 Series'
+      if (upper.startsWith('LF5D')) return 'LF5D Series'
+      if (upper.startsWith('LF58')) return 'LF58 Series'
+      if (upper.startsWith('LF32')) return 'LF32 Series'
+      if (upper.startsWith('LF55') || upper.startsWith('LF55')) return 'LF55 Series'
+      return 'LF55 Series'
+    }
+
+    const priceFor = (model: string) => {
+      const hash = Array.from(model).reduce((acc, ch) => acc + ch.charCodeAt(0), 0)
+      const base = 70 + (hash % 60)
+      return base.toFixed(2)
+    }
+
+    // Waterline
+    const water = categories.pressureSwitches
+    if (water?.products) {
+      for (const item of water.products as any[]) {
+        const model = item.model as string
+        add({
+          id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          title: `${water.name} - ${model}`,
+          modelNumber: model,
+          image: baseImage,
+          price: priceFor(model),
+          series: seriesFromModel(model),
+          specifications: JSON.stringify({ pressure: item.range, connection: water.connection, certification: (water.certifications||[]).join(', ') })
+        })
+      }
+    }
+
+    // LP & HP refrigeration
+    const lpHp = categories.lpHpRefrigerationSwitches
+    if (lpHp?.products) {
+      for (const item of lpHp.products as any[]) {
+        const model = item.model as string
+        add({
+          id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          title: `${lpHp.name} - ${model}`,
+          modelNumber: model,
+          image: baseImage,
+          price: priceFor(model),
+          series: seriesFromModel(model),
+          specifications: JSON.stringify({ pressure: item.range, resetOption: item.resetOption, connection: lpHp.connection, certification: (lpHp.certifications||[]).join(', ') })
+        })
+      }
+    }
+
+    // Combined
+    const combined = categories.lpHpCombinedSwitches
+    if (combined?.products) {
+      for (const item of combined.products as any[]) {
+        const model = item.model as string
+        add({
+          id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          title: `${combined.name} - ${model}`,
+          modelNumber: model,
+          image: baseImage,
+          price: priceFor(model),
+          series: seriesFromModel(model),
+          specifications: JSON.stringify({ pressure: item.range, resetOption: item.resetOption ? JSON.stringify(item.resetOption) : undefined, connection: combined.connection, certification: (combined.certifications||[]).join(', ') })
+        })
+      }
+    }
+
+    // Small fix differential (LF08)
+    const smallFix = categories.smallFixDifferentialSwitches
+    if (smallFix) {
+      const model = (smallFix.model as string) ?? 'LF08'
+      const ranges: string[] = [
+        ...(smallFix.highPressureRanges?.map((r: any) => r.range) || []),
+        ...(smallFix.lowPressureRanges?.map((r: any) => r.range) || [])
+      ]
+      add({
+        id: `${model.toLowerCase()}-cartridge`.replace(/[^a-z0-9]+/g, '-'),
+        title: `${smallFix.name} - ${model}`,
+        modelNumber: model,
+        image: baseImage,
+        price: priceFor(model),
+        series: seriesFromModel(model),
+        specifications: JSON.stringify({ pressure: ranges.join(' | '), connection: smallFix.connection, certification: (smallFix.certifications||[]).join(', '), refrigerants: smallFix.refrigerants })
+      })
+    }
+
+    // Oil differential (LF5D)
+    const oil = categories.oilDifferentialSwitches
+    if (oil?.products) {
+      for (const item of oil.products as any[]) {
+        const model = item.model as string
+        add({
+          id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          title: `${oil.name} - ${model}`,
+          modelNumber: model,
+          image: baseImage,
+          price: priceFor(model),
+          series: seriesFromModel(model),
+          specifications: JSON.stringify({ pressure: item.range, maxOperatingPressureBar: item.maxOperatingPressureBar, connection: oil.connection, certification: (oil.certifications||[]).join(', ') })
+        })
+      }
+    }
+
+    // Air differential (LF32)
+    const air = categories.airDifferentialSwitches
+    if (air?.products) {
+      for (const item of air.products as any[]) {
+        const model = item.model as string
+        const range = Array.isArray(item.range) ? item.range.join(' | ') : item.range
+        add({
+          id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          title: `${air.name} - ${model}`,
+          modelNumber: model,
+          image: baseImage,
+          price: priceFor(model),
+          series: seriesFromModel(model),
+          specifications: JSON.stringify({ pressure: range, certification: (air.certifications||[]).join(', ') })
+        })
+      }
+    }
+
+    return out
+  }, [])
+
+  const isPressureSwitchCategory = (filters?.category || '').toLowerCase() === 'pressure switches'.toLowerCase()
+
+  const products = isPressureSwitchCategory ? pressureSwitchProducts : apiProducts
+  const totalProducts = isPressureSwitchCategory ? pressureSwitchProducts.length : (productsResponse?.total || 0)
   const productsPerPage = 12
   const totalPages = Math.ceil(totalProducts / productsPerPage)
   
