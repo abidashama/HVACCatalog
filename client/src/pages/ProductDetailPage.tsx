@@ -159,7 +159,9 @@ export default function ProductDetailPage() {
 
   // GSAP Entrance Animations
   useEffect(() => {
-    if (!product) return
+    if (!product || !galleryRef.current || !productInfoRef.current || !detailsRef.current) {
+      return
+    }
 
     const ctx = gsap.context(() => {
       // Gallery entrance animation
@@ -181,7 +183,9 @@ export default function ProductDetailPage() {
       )
     })
 
-    return () => ctx.revert()
+    return () => {
+      ctx.revert()
+    }
   }, [product])
 
   const handlePreviousImage = () => {

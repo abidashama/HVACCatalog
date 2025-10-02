@@ -74,12 +74,6 @@ export default function PressureSwitchDetailPage() {
   const detailsRef = useRef<HTMLDivElement>(null)
 
   const subcategoryId = params?.subcategoryId
-
-  // Guard: early return if no subcategoryId
-  if (!subcategoryId) {
-    return null
-  }
-
   const categories: any = pressureSwitchData.categories
 
   // Map subcategory IDs to data
@@ -92,10 +86,12 @@ export default function PressureSwitchDetailPage() {
     air: categories.airDifferentialSwitches
   }
 
-  const currentSubcategory = subcategoryMap[subcategoryId]
+  const currentSubcategory = subcategoryId ? subcategoryMap[subcategoryId] : null
 
   useEffect(() => {
-    if (!currentSubcategory) return
+    if (!currentSubcategory || !galleryRef.current || !productInfoRef.current || !detailsRef.current) {
+      return
+    }
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -117,10 +113,13 @@ export default function PressureSwitchDetailPage() {
       )
     })
 
-    return () => ctx.revert()
+    return () => {
+      ctx.revert()
+    }
   }, [currentSubcategory])
 
-  if (!currentSubcategory) {
+  // Guard: render fallback if no valid subcategory
+  if (!subcategoryId || !currentSubcategory) {
     return (
       <div className="min-h-screen bg-background">
         <Header />

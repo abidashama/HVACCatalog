@@ -9,7 +9,7 @@ export function useFadeIn<T extends HTMLElement = HTMLDivElement>(duration: numb
     const element = ref.current
     if (!element) return
 
-    gsap.fromTo(
+    const tween = gsap.fromTo(
       element,
       { 
         opacity: 0, 
@@ -23,6 +23,10 @@ export function useFadeIn<T extends HTMLElement = HTMLDivElement>(duration: numb
         ease: 'power2.out'
       }
     )
+
+    return () => {
+      tween.kill()
+    }
   }, [duration, delay])
 
   return ref
@@ -38,7 +42,7 @@ export function useStaggerAnimation<T extends HTMLElement = HTMLDivElement>(stag
 
     const children = container.children
     
-    gsap.fromTo(
+    const tween = gsap.fromTo(
       children,
       {
         opacity: 0,
@@ -54,6 +58,10 @@ export function useStaggerAnimation<T extends HTMLElement = HTMLDivElement>(stag
         ease: 'power2.out'
       }
     )
+
+    return () => {
+      tween.kill()
+    }
   }, [staggerDelay, duration])
 
   return containerRef
@@ -123,7 +131,11 @@ export function useSlideIn<T extends HTMLElement = HTMLDivElement>(direction: 'l
         break
     }
 
-    gsap.fromTo(element, fromProps, toProps)
+    const tween = gsap.fromTo(element, fromProps, toProps)
+
+    return () => {
+      tween.kill()
+    }
   }, [direction, duration])
 
   return ref
@@ -135,20 +147,22 @@ export function useLoadingAnimation<T extends HTMLElement = HTMLDivElement>(isLo
     const element = ref.current
     if (!element) return
 
-    if (isLoading) {
-      gsap.to(element, {
-        opacity: 0.6,
-        scale: 0.98,
-        duration: 0.3,
-        ease: 'power2.out'
-      })
-    } else {
-      gsap.to(element, {
-        opacity: 1,
-        scale: 1,
-        duration: 0.3,
-        ease: 'power2.out'
-      })
+    const tween = isLoading
+      ? gsap.to(element, {
+          opacity: 0.6,
+          scale: 0.98,
+          duration: 0.3,
+          ease: 'power2.out'
+        })
+      : gsap.to(element, {
+          opacity: 1,
+          scale: 1,
+          duration: 0.3,
+          ease: 'power2.out'
+        })
+
+    return () => {
+      tween.kill()
     }
   }, [isLoading, ref])
 }
@@ -165,7 +179,7 @@ export function useCountAnimation<T extends HTMLElement = HTMLSpanElement>(
 
     const obj = { value: 0 }
 
-    gsap.to(obj, {
+    const tween = gsap.to(obj, {
       value: targetValue,
       duration,
       ease: 'power2.out',
@@ -173,6 +187,10 @@ export function useCountAnimation<T extends HTMLElement = HTMLSpanElement>(
         element.textContent = Math.round(obj.value).toLocaleString()
       }
     })
+
+    return () => {
+      tween.kill()
+    }
   }, [targetValue, duration, ref])
 }
 
@@ -182,7 +200,7 @@ export function useTextReveal<T extends HTMLElement = HTMLDivElement>(ref: RefOb
     const element = ref.current
     if (!element) return
 
-    gsap.fromTo(
+    const tween = gsap.fromTo(
       element,
       {
         y: '100%',
@@ -196,5 +214,9 @@ export function useTextReveal<T extends HTMLElement = HTMLDivElement>(ref: RefOb
         ease: 'power2.out'
       }
     )
+
+    return () => {
+      tween.kill()
+    }
   }, [ref, delay])
 }
