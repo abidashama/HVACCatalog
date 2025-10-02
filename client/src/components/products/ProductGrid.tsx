@@ -121,7 +121,7 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
     // Waterline
     const water = categories.pressureSwitches
     if (water?.products) {
-      for (const item of water.products as any[]) {
+      for (const item of water.products as Array<{model: string, range: string}>) {
         const model = item.model as string
         add({
           id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
@@ -138,7 +138,7 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
     // LP & HP refrigeration
     const lpHp = categories.lpHpRefrigerationSwitches
     if (lpHp?.products) {
-      for (const item of lpHp.products as any[]) {
+      for (const item of lpHp.products as Array<{model: string, range: string, resetOption?: string}>) {
         const model = item.model as string
         add({
           id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
@@ -155,7 +155,7 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
     // Combined
     const combined = categories.lpHpCombinedSwitches
     if (combined?.products) {
-      for (const item of combined.products as any[]) {
+      for (const item of combined.products as Array<{model: string, range: string, resetOption?: {LP: string, HP: string}}>) {
         const model = item.model as string
         add({
           id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
@@ -191,7 +191,7 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
     // Oil differential (LF5D)
     const oil = categories.oilDifferentialSwitches
     if (oil?.products) {
-      for (const item of oil.products as any[]) {
+      for (const item of oil.products as Array<{model: string, range: string, maxOperatingPressureBar?: number}>) {
         const model = item.model as string
         add({
           id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
@@ -208,7 +208,7 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
     // Air differential (LF32)
     const air = categories.airDifferentialSwitches
     if (air?.products) {
-      for (const item of air.products as any[]) {
+      for (const item of air.products as Array<{model: string, range: string | string[]}>) {
         const model = item.model as string
         const range = Array.isArray(item.range) ? item.range.join(' | ') : item.range
         add({

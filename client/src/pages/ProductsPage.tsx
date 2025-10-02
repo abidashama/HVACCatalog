@@ -53,7 +53,7 @@ export default function ProductsPage() {
       description: 'Professional water line pressure switches with wide pressure ranges',
       image: baseImage,
       modelNumber: 'LF55 Series',
-      productCount: (pressureSwitchData.categories.pressureSwitches?.products as any[])?.length || 0,
+      productCount: (pressureSwitchData.categories.pressureSwitches?.products as Array<{model: string, range: string}>)?.length || 0,
       certifications: pressureSwitchData.categories.pressureSwitches?.certifications || [],
       connection: pressureSwitchData.categories.pressureSwitches?.connection
     },
@@ -63,7 +63,7 @@ export default function ProductsPage() {
       description: 'Low and high pressure switches for refrigeration systems',
       image: baseImage,
       modelNumber: 'LF55 Series',
-      productCount: (pressureSwitchData.categories.lpHpRefrigerationSwitches?.products as any[])?.length || 0,
+      productCount: (pressureSwitchData.categories.lpHpRefrigerationSwitches?.products as Array<{model: string, range: string}>)?.length || 0,
       certifications: pressureSwitchData.categories.lpHpRefrigerationSwitches?.certifications || [],
       connection: pressureSwitchData.categories.lpHpRefrigerationSwitches?.connection
     },
@@ -73,7 +73,7 @@ export default function ProductsPage() {
       description: 'Combined low and high pressure switch units',
       image: baseImage,
       modelNumber: 'LF58 Series',
-      productCount: (pressureSwitchData.categories.lpHpCombinedSwitches?.products as any[])?.length || 0,
+      productCount: (pressureSwitchData.categories.lpHpCombinedSwitches?.products as Array<{model: string, range: string}>)?.length || 0,
       certifications: pressureSwitchData.categories.lpHpCombinedSwitches?.certifications || [],
       connection: pressureSwitchData.categories.lpHpCombinedSwitches?.connection
     },
@@ -93,7 +93,7 @@ export default function ProductsPage() {
       description: 'Oil differential pressure switches for compressor protection',
       image: baseImage,
       modelNumber: 'LF5D Series',
-      productCount: (pressureSwitchData.categories.oilDifferentialSwitches?.products as any[])?.length || 0,
+      productCount: (pressureSwitchData.categories.oilDifferentialSwitches?.products as Array<{model: string, range: string}>)?.length || 0,
       certifications: pressureSwitchData.categories.oilDifferentialSwitches?.certifications || [],
       connection: pressureSwitchData.categories.oilDifferentialSwitches?.connection
     },
@@ -103,48 +103,66 @@ export default function ProductsPage() {
       description: 'Air differential pressure switches for HVAC systems',
       image: baseImage,
       modelNumber: 'LF32 Series',
-      productCount: (pressureSwitchData.categories.airDifferentialSwitches?.products as any[])?.length || 0,
+      productCount: (pressureSwitchData.categories.airDifferentialSwitches?.products as Array<{model: string, range: string | string[]}>)?.length || 0,
       certifications: pressureSwitchData.categories.airDifferentialSwitches?.certifications || []
     }
   ]
   
-  // Parse URL parameters on component mount
+  // Parse URL parameters on component mount and when URL changes
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search)
-    const initialFilters: Partial<ProductFilters> = {}
-    
-    if (urlParams.get('search')) {
-      setSearchQuery(urlParams.get('search') || '')
-      initialFilters.search = urlParams.get('search') || undefined
+    const parseUrlParams = () => {
+      const urlParams = new URLSearchParams(window.location.search)
+      const initialFilters: Partial<ProductFilters> = {}
+      
+      if (urlParams.get('search')) {
+        setSearchQuery(urlParams.get('search') || '')
+        initialFilters.search = urlParams.get('search') || undefined
+      }
+      
+      if (urlParams.get('category')) {
+        const category = urlParams.get('category') || undefined
+        initialFilters.category = category
+        // Show subcategories if Pressure Switches is selected
+        const isPressureSwitches = category?.trim().toLowerCase() === 'pressure switches'
+        setShowSubcategories(isPressureSwitches)
+      } else {
+        setShowSubcategories(false)
+      }
+      
+      if (urlParams.get('series')) {
+        initialFilters.series = urlParams.get('series') || undefined
+      }
+      
+      if (urlParams.get('priceMin')) {
+        initialFilters.priceMin = parseFloat(urlParams.get('priceMin') || '0')
+      }
+      
+      if (urlParams.get('priceMax')) {
+        initialFilters.priceMax = parseFloat(urlParams.get('priceMax') || '0')
+      }
+      
+      if (urlParams.get('stockStatus')) {
+        const status = urlParams.get('stockStatus')
+        if (status === 'in_stock' || status === 'low_stock' || status === 'out_of_stock' || status === 'on_order') {
+          initialFilters.stockStatus = status
+        }
+      }
+      
+      setFilters(initialFilters)
     }
     
-    if (urlParams.get('category')) {
-      const category = urlParams.get('category') || undefined
-      initialFilters.category = category
-      // Show subcategories if Pressure Switches is selected
-      const isPressureSwitches = category?.trim().toLowerCase() === 'pressure switches'
-      setShowSubcategories(isPressureSwitches)
-    } else {
-      setShowSubcategories(false)
+    // Parse on mount and location change
+    parseUrlParams()
+    
+    // Listen for browser back/forward navigation
+    const handlePopState = () => {
+      parseUrlParams()
     }
     
-    if (urlParams.get('series')) {
-      initialFilters.series = urlParams.get('series') || undefined
+    window.addEventListener('popstate', handlePopState)
+    return () => {
+      window.removeEventListener('popstate', handlePopState)
     }
-    
-    if (urlParams.get('priceMin')) {
-      initialFilters.priceMin = parseFloat(urlParams.get('priceMin') || '0')
-    }
-    
-    if (urlParams.get('priceMax')) {
-      initialFilters.priceMax = parseFloat(urlParams.get('priceMax') || '0')
-    }
-    
-    if (urlParams.get('stockStatus')) {
-      initialFilters.stockStatus = urlParams.get('stockStatus') as any
-    }
-    
-    setFilters(initialFilters)
   }, [location])
   
   const handleSearch = () => {

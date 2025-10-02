@@ -74,7 +74,7 @@ export default function PressureSwitchDetailPage() {
   const detailsRef = useRef<HTMLDivElement>(null)
 
   const subcategoryId = params?.subcategoryId
-  const categories: any = pressureSwitchData.categories
+  const categories = pressureSwitchData.categories as Record<string, SubcategoryData>
 
   // Map subcategory IDs to data
   const subcategoryMap: Record<string, SubcategoryData> = {

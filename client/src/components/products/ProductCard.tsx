@@ -59,7 +59,8 @@ export default function ProductCard({
   }
 
   const handleQuickView = () => {
-    console.log('Quick view:', id, title)
+    // Quick view functionality to be implemented
+    // TODO: Open modal with product details
   }
 
   const handleDownload = () => {

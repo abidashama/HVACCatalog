@@ -203,7 +203,6 @@ export default function ProductDetailPage() {
 
   const handleAddToCart = () => {
     if (!product) return
-    console.log('Add to cart:', product.id, quantity)
     toast({
       title: "Added to Cart",
       description: `${quantity}x ${product.title} added to your cart.`
@@ -228,7 +227,6 @@ export default function ProductDetailPage() {
   }
 
   const handleDownload = (fileName: string) => {
-    console.log('Download:', fileName)
     toast({
       title: "Download Started",
       description: `Downloading ${fileName}...`
