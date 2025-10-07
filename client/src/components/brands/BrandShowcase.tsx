@@ -265,7 +265,7 @@ export default function BrandShowcase({
   return (
     <section 
       ref={slideRef}
-      className="relative h-[calc(100vh-80px)] min-h-[500px] max-h-[800px] overflow-hidden"
+      className="relative overflow-clip min-h-[620px] md:min-h-[calc(100dvh-80px)] xl:min-h-0 2xl:min-h-0 max-h-[780px] xl:max-h-[760px]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -294,18 +294,10 @@ export default function BrandShowcase({
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 py-12 md:py-16 pb-24 md:pb-28 h-full flex items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 py-10 md:py-14 pb-16 md:pb-20 lg:pb-22 xl:pb-24 2xl:pb-24 flex items-center">
         <div ref={contentRef} className="w-full grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Column - Content */}
           <div className="text-white space-y-4 md:space-y-5">
-            {/* Brand Icon */}
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20">
-              {(() => {
-                const BrandIcon = currentBrand.icon
-                return <BrandIcon className="w-8 h-8" />
-              })()}
-            </div>
-
             {/* Tagline */}
             <div className="space-y-3">
               <h3 className="text-base font-semibold text-white/80">{currentBrand.tagline}</h3>
@@ -399,7 +391,7 @@ export default function BrandShowcase({
 
           {/* Right Column - Visual Element */}
           <div className="hidden lg:flex items-center justify-center">
-            <div className="relative w-full h-96">
+            <div className="relative w-full h-full min-h-[22rem]">
               {/* Floating elements based on brand */}
               {currentBrand.id === 'lefoo' && (
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -464,9 +456,9 @@ export default function BrandShowcase({
       </div>
 
       {/* Navigation Controls */}
-      <div className="absolute bottom-6 left-0 right-0 z-20">
+      <div className="absolute bottom-6 left-0 right-0 z-20 pointer-events-none">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pointer-events-auto">
             {/* Brand Logo Navigation */}
             <div className="flex items-center gap-2 sm:gap-4">
               {brandSlides.map((brand, index) => {
