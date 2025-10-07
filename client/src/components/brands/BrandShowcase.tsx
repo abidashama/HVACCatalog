@@ -264,11 +264,14 @@ export default function BrandShowcase({
 
   return (
     <section 
+      id="brand-hero"
       ref={slideRef}
       className="relative overflow-clip min-h-[620px] md:min-h-[calc(100dvh-80px)] xl:min-h-0 2xl:min-h-0 max-h-[780px] xl:max-h-[760px]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* Spacer to offset fixed header height */}
+      <div style={{ height: 'var(--header-height, 80px)' }} aria-hidden />
       {/* Dynamic Background */}
       <div
         ref={backgroundRef}
@@ -294,7 +297,7 @@ export default function BrandShowcase({
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 py-10 md:py-14 pb-16 md:pb-20 lg:pb-22 xl:pb-24 2xl:pb-24 flex items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 py-10 md:py-14 pb-36 md:pb-40 lg:pb-44 xl:pb-48 2xl:pb-52 flex items-center">
         <div ref={contentRef} className="w-full grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left Column - Content */}
           <div className="text-white space-y-4 md:space-y-5">

@@ -98,6 +98,9 @@ const customerTestimonials = [
   }
 ]
 
+// Use the return shape of transformProduct for strong typing in maps
+type ProductCardData = ReturnType<typeof transformProduct>
+
 export default function HomePage() {
   // Fetch featured products from backend (first 3 products, sorted by rating)
   const { data: productsResponse, isLoading: productsLoading } = useQuery({
@@ -116,7 +119,7 @@ export default function HomePage() {
     staleTime: 5 * 60 * 1000, // 5 minutes
   })
 
-  const featuredProducts = productsResponse?.products?.map(transformProduct) || []
+  const featuredProducts: ProductCardData[] = productsResponse?.products?.map(transformProduct) || []
 
   const [, setLocation] = useLocation()
 
@@ -136,7 +139,7 @@ export default function HomePage() {
       <BrandShowcase />
 
       {/* Featured Products Section */}
-      <section className="py-16 px-4">
+      <section id="featured-products" className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">

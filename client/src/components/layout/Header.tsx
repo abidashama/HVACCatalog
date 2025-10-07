@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useLayoutEffect, useRef } from 'react'
 import { Link, useLocation } from 'wouter'
 import { Menu, User, Phone, Mail, X, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -31,12 +31,55 @@ export default function Header() {
   const [location, setLocation] = useLocation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [glassOnHero, setGlassOnHero] = useState(false)
+  const headerRef = useRef<HTMLElement | null>(null)
+  const [headerHeight, setHeaderHeight] = useState(0)
+  const isHome = location === '/'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // Keep glass header until the scroll position reaches featured products minus header height and small buffer
+  useLayoutEffect(() => {
+    if (location !== '/') {
+      setGlassOnHero(false)
+      return
+    }
+    const featured = document.getElementById('featured-products')
+    if (!featured || headerHeight === 0) {
+      return
+    }
+    const buffer = 16 // px
+    const threshold = Math.max(0, featured.offsetTop - headerHeight - buffer)
+    const onScroll = () => {
+      setGlassOnHero(window.scrollY < threshold)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [location, headerHeight])
+
+  // Measure header height to create a spacer and avoid layout shift
+  useLayoutEffect(() => {
+    const measure = () => {
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight)
+        // expose height to other components (e.g., hero) via CSS variable
+        document.documentElement.style.setProperty('--header-height', `${headerRef.current.offsetHeight}px`)
+      }
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    if (headerRef.current) ro.observe(headerRef.current)
+    window.addEventListener('resize', measure)
+    return () => {
+      window.removeEventListener('resize', measure)
+      ro.disconnect()
+    }
   }, [])
 
   useEffect(() => {
@@ -68,8 +111,16 @@ export default function Header() {
   }
 
   return (
-    <header className={`sticky top-0 z-50 border-b border-border/50 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80 transition-all duration-300 ${scrolled ? 'shadow-lg' : ''}`}>
-      <div className="bg-gradient-to-r from-[#002C5C] via-[#003870] to-[#002C5C] text-white py-2.5 px-4">
+    <>
+    <header
+      ref={headerRef}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all ease-out duration-300 ${
+        glassOnHero
+          ? 'bg-transparent border-b border-white/10 backdrop-blur-md text-white'
+          : 'border-b border-border/50 backdrop-blur-xl supports-[backdrop-filter]:bg-background/80'
+      } ${scrolled && !glassOnHero ? 'shadow-lg' : ''}`}
+    >
+      <div className={`py-2.5 px-4 ${glassOnHero ? 'bg-gradient-to-r from-white/10 via-white/10 to-white/10 text-white' : 'bg-gradient-to-r from-[#002C5C] via-[#003870] to-[#002C5C] text-white'}`}>
         <div className="max-w-7xl mx-auto flex justify-between items-center text-sm">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2 hover:text-[#00AEEF] transition-colors">
@@ -93,7 +144,7 @@ export default function Header() {
         </div>
       </div>
 
-      <div className="px-4 py-3">
+      <div className={`px-4 py-3 ${glassOnHero ? 'text-white' : ''}`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2 hover:scale-105 transition-transform rounded-md p-2" data-testid="link-home-logo">
             <img 
@@ -112,7 +163,11 @@ export default function Header() {
                     <DropdownMenu key={item.href}>
                       <DropdownMenuTrigger asChild>
                         <button
-                          className={`relative inline-flex items-center gap-1 hover:bg-primary/10 font-semibold transition-all px-4 py-2 rounded-lg ${active ? 'text-primary bg-primary/5' : 'text-foreground'}`}
+                          className={`relative inline-flex items-center gap-1 font-semibold transition-all px-4 py-2 rounded-lg ${
+                            glassOnHero
+                              ? `${active ? 'bg-white/15 text-white' : 'text-white hover:bg-white/10'}`
+                              : `hover:bg-primary/10 ${active ? 'text-primary bg-primary/5' : 'text-foreground'}`
+                          }`}
                           data-testid={`nav-link-${item.name.toLowerCase()}`}
                         >
                           {item.name}
@@ -141,7 +196,11 @@ export default function Header() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`relative hover:bg-primary/10 font-semibold transition-all px-4 py-2 rounded-lg ${active ? 'text-primary bg-primary/5' : 'text-foreground'}`}
+                    className={`relative font-semibold transition-all px-4 py-2 rounded-lg ${
+                      glassOnHero
+                        ? `${active ? 'bg-white/15 text-white' : 'text-white hover:bg-white/10'}`
+                        : `hover:bg-primary/10 ${active ? 'text-primary bg-primary/5' : 'text-foreground'}`
+                    }`}
                     data-testid={`nav-link-${item.name.toLowerCase()}`}
                   >
                     {item.name}
@@ -152,7 +211,7 @@ export default function Header() {
 
             <div className="flex items-center gap-3">
               <ThemeToggle />
-              <Button variant="default" size="icon" className="shadow-sm hover:shadow-md h-10 w-10" data-testid="button-user-menu" aria-label="User menu">
+              <Button variant="default" size="icon" className={`shadow-sm hover:shadow-md h-10 w-10 ${glassOnHero ? 'bg-white/10 hover:bg-white/20 text-white border border-white/20' : ''}`} data-testid="button-user-menu" aria-label="User menu">
                 <User className="w-5 h-5" />
               </Button>
               <Button 
@@ -221,5 +280,8 @@ export default function Header() {
         </div>
       )}
     </header>
+    {/* Spacer only when header is not overlaying the hero */}
+    {!glassOnHero && <div style={{ height: headerHeight }} aria-hidden />}
+    </>
   )
 }
