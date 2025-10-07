@@ -63,7 +63,6 @@ const brandSlides: BrandSlide[] = [
       { label: 'Patents', value: 130, suffix: '+' },
       { label: 'Countries', value: 80, suffix: '+' }
     ],
-    certifications: ['ISO9001', 'ISO16949', 'ISO45001', 'ISO14001', 'CE', 'UL', 'CSA', 'RoHS'],
     cta: 'Explore Lefoo Solutions',
     ctaLink: '/products?brand=lefoo',
     colors: {
@@ -85,7 +84,6 @@ const brandSlides: BrandSlide[] = [
       { label: 'Countries Served', value: 30, suffix: '+' },
       { label: 'Solutions Delivered', value: 500, suffix: '+' }
     ],
-    applications: ['Heat Pump Water Heaters', 'Refrigeration Systems', 'Chillers', 'Air Conditioning Units'],
     cta: 'Discover Invotech Technology',
     ctaLink: '/products?brand=invotech',
     colors: {
@@ -115,6 +113,7 @@ export default function BrandShowcase({
   const contentRef = useRef<HTMLDivElement>(null)
   const statsRefs = useRef<(HTMLSpanElement | null)[]>([])
   const backgroundRef = useRef<HTMLDivElement>(null)
+  const [bgOpacity, setBgOpacity] = useState(1)
   const timelineRef = useRef<gsap.core.Timeline | null>(null)
   const autoPlayTimerRef = useRef<NodeJS.Timeout | null>(null)
 
@@ -136,7 +135,9 @@ export default function BrandShowcase({
   }
 
   // Slide transition animations
-  const animateSlideTransition = (direction: 'next' | 'prev' | 'direct') => {
+  const animateSlideTransition = (
+    direction: 'next' | 'prev' | 'direct'
+  ) => {
     if (timelineRef.current) {
       timelineRef.current.kill()
     }
@@ -144,25 +145,13 @@ export default function BrandShowcase({
     const tl = gsap.timeline()
     timelineRef.current = tl
 
-    // Animate out current content
+    // Animate out current content (fade down)
     tl.to(contentRef.current, {
       opacity: 0,
       y: direction === 'prev' ? 50 : -50,
       duration: 0.4,
       ease: 'power2.in'
     })
-
-    // Background transition
-    tl.to(
-      backgroundRef.current,
-      {
-        scale: 1.1,
-        opacity: 0.5,
-        duration: 0.4,
-        ease: 'power2.inOut'
-      },
-      '<'
-    )
 
     // Animate in new content
     tl.fromTo(
@@ -174,7 +163,7 @@ export default function BrandShowcase({
       {
         opacity: 1,
         y: 0,
-        duration: 0.6,
+        duration: 0.55,
         ease: 'power3.out',
         onStart: () => {
           // Animate stats numbers
@@ -190,17 +179,6 @@ export default function BrandShowcase({
       }
     )
 
-    tl.to(
-      backgroundRef.current,
-      {
-        scale: 1,
-        opacity: 1,
-        duration: 0.6,
-        ease: 'power3.out'
-      },
-      '<'
-    )
-
     return tl
   }
 
@@ -208,7 +186,11 @@ export default function BrandShowcase({
   const goToSlide = (index: number) => {
     if (index === currentSlide) return
     const direction = index > currentSlide ? 'next' : 'prev'
+    // switch slide; soften background change by starting at 70% opacity then ramp up
     setCurrentSlide(index)
+    setBgOpacity(0.5)
+    requestAnimationFrame(() => setBgOpacity(1))
+    // content transition
     animateSlideTransition(direction)
   }
 
@@ -275,8 +257,9 @@ export default function BrandShowcase({
       {/* Dynamic Background */}
       <div
         ref={backgroundRef}
-        className="absolute inset-0 transition-all duration-1000"
+        className="absolute inset-0 transition-opacity duration-700 delay-100"
         style={{
+          opacity: bgOpacity,
           background: `linear-gradient(135deg, ${currentBrand.colors.primary} 0%, ${currentBrand.colors.secondary} 50%, ${currentBrand.colors.primary} 100%)`
         }}
       >
