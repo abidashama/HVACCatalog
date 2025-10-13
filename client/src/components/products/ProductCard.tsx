@@ -1,4 +1,4 @@
-import { MessageSquare, Eye, Star, Download } from 'lucide-react'
+import { MessageSquare, Eye, Star, Download, Scale } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { useFadeIn, useHoverAnimation } from '@/hooks/useGSAPAnimations'
@@ -58,8 +58,36 @@ export default function ProductCard({
     setLocation('/contact')
   }
 
+  const handleAddToCompare = () => {
+    // Add to comparison functionality
+    const compareData = {
+      id,
+      title,
+      modelNumber,
+      image,
+      price,
+      category,
+      specifications
+    }
+    
+    // Store in localStorage for comparison
+    const existingCompare = JSON.parse(localStorage.getItem('productCompare') || '[]')
+    const isAlreadyAdded = existingCompare.some((item: any) => item.id === id)
+    
+    if (!isAlreadyAdded) {
+      existingCompare.push(compareData)
+      localStorage.setItem('productCompare', JSON.stringify(existingCompare))
+      
+      // Show success message (you could add a toast notification here)
+      alert(`${title} added to comparison!`)
+    } else {
+      alert(`${title} is already in comparison!`)
+    }
+  }
+
   const handleQuickView = () => {
-    // Quick view functionality - see TODO.md for implementation plan
+    // Navigate to product detail page for quick view
+    setLocation(productLink)
   }
 
   const handleDownload = () => {
@@ -92,38 +120,41 @@ export default function ProductCard({
       className="group border-0 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden h-full flex flex-col bg-card rounded-xl" 
       data-testid={`product-card-${id}`}
     >
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#F5F6F8] via-white to-[#F5F6F8]">
-        <div className="aspect-square p-8 flex items-center justify-center relative">
+      <div 
+        className="relative overflow-hidden bg-gradient-to-br from-[#F5F6F8] via-white to-[#F5F6F8] cursor-pointer"
+        onClick={handleQuickView}
+      >
+        <div className="aspect-square p-4 flex items-center justify-center relative">
           {/* Background pattern with brand colors */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(0,174,239,0.05),rgba(255,255,255,0))]" />
           
           <img 
             src={image} 
             alt={title}
-            className="w-full h-full object-contain transition-all duration-500 group-hover:scale-110 relative z-10 drop-shadow-lg"
+            className="w-4/5 h-4/5 object-contain transition-all duration-500 group-hover:scale-110 relative z-10 drop-shadow-lg"
           />
         </div>
         
-        {/* Hover overlay with actions - Desktop with Navy Blue */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#002C5C]/95 via-[#002C5C]/85 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-8 gap-3 hidden md:flex">
-          <Button size="icon" className="bg-[#00AEEF] hover:bg-[#0096D1] shadow-lg hover:scale-110 transition-transform" onClick={handleQuickView} data-testid={`button-quickview-${id}`}>
+        {/* Hover overlay with eye icon - Desktop */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#002C5C]/95 via-[#002C5C]/85 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-8 hidden md:flex">
+          <Button 
+            size="icon" 
+            className="bg-[#00AEEF] hover:bg-[#0096D1] shadow-lg hover:scale-110 transition-transform" 
+            onClick={(e) => {
+              e.stopPropagation() // Prevent triggering the parent onClick
+              handleQuickView()
+            }} 
+            data-testid={`button-quickview-${id}`}
+            title="Quick View"
+          >
             <Eye className="w-4 h-4" />
-          </Button>
-          <Button size="icon" className="bg-[#00AEEF] hover:bg-[#0096D1] shadow-lg hover:scale-110 transition-transform" onClick={handleRequestQuote} data-testid={`button-quote-${id}`}>
-            <MessageSquare className="w-4 h-4" />
-          </Button>
-          <Button size="icon" className="bg-[#00AEEF] hover:bg-[#0096D1] shadow-lg hover:scale-110 transition-transform" onClick={handleDownload} data-testid={`button-download-${id}`}>
-            <Download className="w-4 h-4" />
           </Button>
         </div>
 
-        {/* Mobile quick actions */}
-        <div className="md:hidden absolute top-3 right-3 flex gap-2">
-          <Button size="icon" variant="secondary" className="h-9 w-9 shadow-md" onClick={handleRequestQuote} data-testid={`button-mobile-quote-${id}`}>
-            <MessageSquare className="w-4 h-4" />
-          </Button>
-          <Button size="icon" variant="secondary" className="h-9 w-9 shadow-md" onClick={handleDownload} data-testid={`button-mobile-download-${id}`}>
-            <Download className="w-4 h-4" />
+        {/* Mobile quick view action */}
+        <div className="md:hidden absolute top-3 right-3">
+          <Button size="icon" variant="secondary" className="h-9 w-9 shadow-md" onClick={handleQuickView} data-testid={`button-mobile-quickview-${id}`}>
+            <Eye className="w-4 h-4" />
           </Button>
         </div>
 

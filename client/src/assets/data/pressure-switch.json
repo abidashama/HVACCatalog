@@ -40,7 +40,8 @@
                 "UL",
                 "CE"
             ],
-            "connection": "G1/4"
+            "connection": "G1/4",
+            "image": "/assets/images/waterline.png"
         },
         "lpHpRefrigerationSwitches": {
             "name": "LP & HP PRESSURE SWITCH FOR REFRIGERATION",
@@ -60,7 +61,8 @@
                 "UL",
                 "CE"
             ],
-            "connection": "1/4 FLARE EXT"
+            "connection": "1/4 FLARE EXT",
+            "image": "/assets/images/refrigeration.webp"
         },
         "lpHpCombinedSwitches": {
             "name": "LP-HP COMBINED PRESSURE SWITCH",
@@ -94,7 +96,8 @@
                 "UL",
                 "CE"
             ],
-            "connection": "7/16-20 UNF"
+            "connection": "7/16-20 UNF",
+            "image": "/assets/images/dual_hp_lp.png"
         },
         "smallFixDifferentialSwitches": {
             "name": "SMALL FIX DIFFERENTIAL PRESSURE SWITCH ( CARTRIDGE TYPE)",
@@ -150,7 +153,8 @@
                 "ROHS"
             ],
             "connection": "1/4 FLARE & SOLDER",
-            "refrigerants": "R134a,R404A/R407,R507,R22/R407C,R410A"
+            "refrigerants": "R134a,R404A/R407,R507,R22/R407C,R410A",
+            "image": "/assets/images/small_fix.png"
         },
         "oilDifferentialSwitches": {
             "name": "OIL DIFFERENTIAL PRESSURE SWITCH",
@@ -184,7 +188,8 @@
             "certifications": [
                 "UL"
             ],
-            "connection": "MALE G1/4, FLARE G1/4"
+            "connection": "MALE G1/4, FLARE G1/4",
+            "image": "/assets/images/oil_diffrential.png"
         },
         "airDifferentialSwitches": {
             "name": "AIR DIFFERENTIAL PRESSURE SWITCH ",
@@ -203,7 +208,8 @@
                     ]
                 }
             ],
-            "certifications": ["UL", "CE", "REACH", "ROHS", "TSCA"]
+            "certifications": ["UL", "CE", "REACH", "ROHS", "TSCA"],
+            "image": "/assets/images/air_differential.png"
         }
     }
 }

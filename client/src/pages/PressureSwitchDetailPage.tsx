@@ -56,6 +56,7 @@ interface RangeItem {
 
 interface SubcategoryData {
   name: string
+  image: string
   products?: ProductModel[]
   model?: string
   highPressureRanges?: RangeItem[]
@@ -89,6 +90,9 @@ export default function PressureSwitchDetailPage() {
   const currentSubcategory = subcategoryId ? subcategoryMap[subcategoryId] : null
 
   useEffect(() => {
+    // Scroll to top when component mounts or subcategory changes
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+
     if (!currentSubcategory || !galleryRef.current || !productInfoRef.current || !detailsRef.current) {
       return
     }
@@ -137,7 +141,8 @@ export default function PressureSwitchDetailPage() {
     )
   }
 
-  const baseImage = '/assets/generated_images/Pressure_switch_product_photo_6632abba.png'
+  // Get the image from the current subcategory data
+  const productImage = currentSubcategory.image
 
   const renderRange = (range: string | string[]) => {
     if (typeof range === 'string') {
@@ -205,11 +210,11 @@ export default function PressureSwitchDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Product Image - Left Side */}
           <div className="space-y-4" ref={galleryRef}>
-            <div className="relative">
+            <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg border overflow-hidden shadow-lg">
               <img
-                src={baseImage}
+                src={productImage}
                 alt={currentSubcategory.name}
-                className="w-full h-96 object-cover rounded-lg border"
+                className="w-full h-96 object-contain p-6 transition-transform duration-300 hover:scale-105"
               />
             </div>
           </div>

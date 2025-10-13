@@ -44,15 +44,13 @@ export default function ProductsPage() {
   const searchRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
 
-  // Build subcategories from JSON as product-like objects
-  const baseImage = '/assets/generated_images/Pressure_switch_product_photo_6632abba.png'
-  
+  // Build subcategories from JSON as product-like objects - directly reading image from JSON
   const subcategories: PressureSwitchSubcategory[] = [
     {
       id: 'waterline',
       name: 'Pressure Switch for Waterline',
       description: 'Professional water line pressure switches with wide pressure ranges',
-      image: baseImage,
+      image: (pressureSwitchData.categories.pressureSwitches as any).image,
       modelNumber: 'LF55 Series',
       productCount: (pressureSwitchData.categories.pressureSwitches?.products as Array<{model: string, range: string}>)?.length || 0,
       certifications: pressureSwitchData.categories.pressureSwitches?.certifications || [],
@@ -62,7 +60,7 @@ export default function ProductsPage() {
       id: 'refrigeration',
       name: 'LP & HP Refrigeration Switches',
       description: 'Low and high pressure switches for refrigeration systems',
-      image: baseImage,
+      image: (pressureSwitchData.categories.lpHpRefrigerationSwitches as any).image,
       modelNumber: 'LF55 Series',
       productCount: (pressureSwitchData.categories.lpHpRefrigerationSwitches?.products as Array<{model: string, range: string}>)?.length || 0,
       certifications: pressureSwitchData.categories.lpHpRefrigerationSwitches?.certifications || [],
@@ -72,7 +70,7 @@ export default function ProductsPage() {
       id: 'combined',
       name: 'LP-HP Combined Switches',
       description: 'Combined low and high pressure switch units',
-      image: baseImage,
+      image: (pressureSwitchData.categories.lpHpCombinedSwitches as any).image,
       modelNumber: 'LF58 Series',
       productCount: (pressureSwitchData.categories.lpHpCombinedSwitches?.products as Array<{model: string, range: string}>)?.length || 0,
       certifications: pressureSwitchData.categories.lpHpCombinedSwitches?.certifications || [],
@@ -82,7 +80,7 @@ export default function ProductsPage() {
       id: 'differential',
       name: 'Small Fix Differential Switches',
       description: 'Cartridge type differential pressure switches',
-      image: baseImage,
+      image: (pressureSwitchData.categories.smallFixDifferentialSwitches as any).image,
       modelNumber: 'LF08 Series',
       productCount: 1, // Single model with multiple ranges
       certifications: pressureSwitchData.categories.smallFixDifferentialSwitches?.certifications || [],
@@ -92,7 +90,7 @@ export default function ProductsPage() {
       id: 'oil',
       name: 'Oil Differential Switches',
       description: 'Oil differential pressure switches for compressor protection',
-      image: baseImage,
+      image: (pressureSwitchData.categories.oilDifferentialSwitches as any).image,
       modelNumber: 'LF5D Series',
       productCount: (pressureSwitchData.categories.oilDifferentialSwitches?.products as Array<{model: string, range: string}>)?.length || 0,
       certifications: pressureSwitchData.categories.oilDifferentialSwitches?.certifications || [],
@@ -102,7 +100,7 @@ export default function ProductsPage() {
       id: 'air',
       name: 'Air Differential Switches',
       description: 'Air differential pressure switches for HVAC systems',
-      image: baseImage,
+      image: (pressureSwitchData.categories.airDifferentialSwitches as any).image,
       modelNumber: 'LF32 Series',
       productCount: (pressureSwitchData.categories.airDifferentialSwitches?.products as Array<{model: string, range: string | string[]}>)?.length || 0,
       certifications: pressureSwitchData.categories.airDifferentialSwitches?.certifications || []
@@ -229,6 +227,9 @@ export default function ProductsPage() {
 
   // GSAP Animations
   useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+
     const ctx = gsap.context(() => {
       // Hero section animation
       gsap.fromTo(heroRef.current, 
