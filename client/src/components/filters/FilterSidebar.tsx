@@ -1,14 +1,14 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { X, ChevronDown, ChevronUp, SlidersHorizontal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
-import { Slider } from '@/components/ui/slider'
 import { Badge } from '@/components/ui/badge'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { Separator } from '@/components/ui/separator'
 import type { ProductFilters } from '@shared/schema'
 import pressureSwitchData from '@/assets/data/pressure-switch.json'
+import valveData from '@/assets/data/valves.json'
 
 interface FilterSidebarProps {
   isOpen: boolean
@@ -33,41 +33,35 @@ const getPressureSwitchCount = () => {
   return count
 }
 
-// Filter data that matches backend category/series names exactly
+// Calculate valve product count from JSON
+const getValveCount = () => {
+  const categories: any = valveData.categories
+  let count = 0
+  
+  // Count products in each category
+  Object.values(categories).forEach((category: any) => {
+    if (category.products) {
+      count += category.products.length
+    } else if (category.subcategories) {
+      Object.values(category.subcategories).forEach((subcategory: any) => {
+        if (subcategory.products) {
+          count += subcategory.products.length
+        }
+      })
+    }
+  })
+  
+  return count
+}
+
+// Filter data that matches backend category names exactly
 const filterData = {
   categories: [
     { id: 'Pressure Switches', name: 'Pressure Switches', count: getPressureSwitchCount() },
     { id: 'Temperature Sensors', name: 'Temperature Sensors', count: 1 },
-    { id: 'Valves', name: 'Valves', count: 1 },
+    { id: 'Valves', name: 'Valves', count: getValveCount() },
     { id: 'Heat Exchangers', name: 'Heat Exchangers', count: 0 },
     { id: 'Refrigeration Components', name: 'Refrigeration Components', count: 0 }
-  ],
-  series: [
-    { id: 'LF55 Series', name: 'LF55 Series', count: (pressureSwitchData.categories.pressureSwitches?.products as any[])?.length + (pressureSwitchData.categories.lpHpRefrigerationSwitches?.products as any[])?.length || 0 },
-    { id: 'LF58 Series', name: 'LF58 Series', count: (pressureSwitchData.categories.lpHpCombinedSwitches?.products as any[])?.length || 0 },
-    { id: 'LF08 Series', name: 'LF08 Series', count: 1 },
-    { id: 'LF5D Series', name: 'LF5D Series', count: (pressureSwitchData.categories.oilDifferentialSwitches?.products as any[])?.length || 0 },
-    { id: 'LF32 Series', name: 'LF32 Series', count: (pressureSwitchData.categories.airDifferentialSwitches?.products as any[])?.length || 0 },
-    { id: 'TS4000 Series', name: 'TS4000 Series', count: 1 },
-    { id: 'VF200 Series', name: 'VF200 Series', count: 1 }
-  ],
-  applications: [
-    { id: 'refrigeration', name: 'Refrigeration', count: 187 },
-    { id: 'hvac', name: 'HVAC', count: 165 },
-    { id: 'water-systems', name: 'Water Systems', count: 94 },
-    { id: 'industrial', name: 'Industrial Process', count: 76 }
-  ],
-  certifications: [
-    { id: 'ce', name: 'CE Certified', count: 298 },
-    { id: 'ul', name: 'UL Listed', count: 245 },
-    { id: 'rohs', name: 'RoHS Compliant', count: 189 },
-    { id: 'iso', name: 'ISO 9001', count: 156 }
-  ],
-  voltages: [
-    { id: '24v', name: '24V AC/DC', count: 89 },
-    { id: '110v', name: '110V AC', count: 76 },
-    { id: '220v', name: '220V AC', count: 65 },
-    { id: '12v', name: '12V DC', count: 43 }
   ]
 }
 
@@ -75,10 +69,6 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
   // Utility to create DOM-safe IDs (remove spaces and special chars)
   const createSlug = (str: string) => str.toLowerCase().replace(/[^a-z0-9]+/g, '-')
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  const [selectedSeries, setSelectedSeries] = useState<string[]>([])
-  // Removed unused filter states for applications, certifications, voltages
-  // These are not implemented in the backend yet
-  const [priceRange, setPriceRange] = useState([0, 2000])
   
   // Initialize filters from props
   useEffect(() => {
@@ -87,28 +77,10 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
     } else {
       setSelectedCategories([])
     }
-    
-    if (filters.series) {
-      setSelectedSeries([filters.series])
-    } else {
-      setSelectedSeries([])
-    }
-    
-    if (filters.priceMin !== undefined || filters.priceMax !== undefined) {
-      setPriceRange([
-        filters.priceMin || 0,
-        filters.priceMax || 2000
-      ])
-    }
-    
-    if (filters.stockStatus) {
-      // Handle stock status if needed
-    }
   }, [filters])
+  
   const [openSections, setOpenSections] = useState({
-    categories: true,
-    series: true,
-    price: true
+    categories: true
   })
 
   // Lock body scroll when mobile sidebar is open
@@ -140,9 +112,6 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
     
     const newFilters: Partial<ProductFilters> = {
       category: selectedCategories.length > 0 ? selectedCategories[0] : undefined,
-      series: selectedSeries.length > 0 ? selectedSeries[0] : undefined,
-      priceMin: priceRange[0] > 0 ? priceRange[0] : undefined,
-      priceMax: priceRange[1] < 2000 ? priceRange[1] : undefined,
     }
     
     onFiltersChange(newFilters)
@@ -167,65 +136,9 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
     }
   }
 
-  const handleSeriesChange = (seriesId: string, checked: boolean) => {
-    let newSeries: string[]
-    if (checked) {
-      newSeries = [seriesId] // Only allow single series selection
-    } else {
-      newSeries = selectedSeries.filter(id => id !== seriesId)
-    }
-    setSelectedSeries(newSeries)
-    
-    // Apply filter immediately
-    if (onFiltersChange) {
-      const newFilters: Partial<ProductFilters> = {
-        ...filters,
-        series: newSeries.length > 0 ? seriesId : undefined
-      }
-      onFiltersChange(newFilters)
-    }
-  }
-
-  // Removed unused filter handlers for applications, certifications, voltages
-  // These will be added when backend support is implemented
-
-  // Debounce timeout ref to prevent memory leaks
-  const priceDebounceRef = useRef<NodeJS.Timeout | null>(null)
-
-  const handlePriceRangeChange = (value: number[]) => {
-    setPriceRange(value)
-    
-    // Clear existing timeout to prevent memory leaks
-    if (priceDebounceRef.current) {
-      clearTimeout(priceDebounceRef.current)
-    }
-    
-    // Debounce price range changes with proper cleanup
-    priceDebounceRef.current = setTimeout(() => {
-      if (onFiltersChange) {
-        const newFilters: Partial<ProductFilters> = {
-          ...filters,
-          priceMin: value[0] > 0 ? value[0] : undefined,
-          priceMax: value[1] < 2000 ? value[1] : undefined
-        }
-        onFiltersChange(newFilters)
-      }
-    }, 300) // Reduced debounce time for better UX
-  }
-
-  // Cleanup debounce timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (priceDebounceRef.current) {
-        clearTimeout(priceDebounceRef.current)
-      }
-    }
-  }, [])
 
   const clearAllFilters = () => {
     setSelectedCategories([])
-    setSelectedSeries([])
-    setPriceRange([0, 2000])
     
     if (onFiltersChange) {
       onFiltersChange({})
@@ -322,17 +235,7 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
           <div className="flex flex-wrap gap-2">
             {selectedCategories.length > 0 && (
               <Badge variant="secondary">
-                {selectedCategories.length} Categories
-              </Badge>
-            )}
-            {selectedSeries.length > 0 && (
-              <Badge variant="secondary">
-                {selectedSeries.length} Series
-              </Badge>
-            )}
-            {(priceRange[0] > 0 || priceRange[1] < 2000) && (
-              <Badge variant="secondary">
-                Price Range
+                {selectedCategories.length} {selectedCategories.length === 1 ? 'Category' : 'Categories'}
               </Badge>
             )}
           </div>
@@ -371,68 +274,6 @@ export default function FilterSidebar({ isOpen, onClose, filters = {}, onFilters
               ))}
             </div>
           </FilterSection>
-
-          <Separator />
-
-          {/* Series */}
-          <FilterSection 
-            title="Product Series" 
-            isOpen={openSections.series} 
-            onToggle={() => toggleSection('series')}
-          >
-            <div className="space-y-3">
-              {filterData.series.map((series) => (
-                <div key={series.id} className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`series-${createSlug(series.id)}`}
-                      checked={selectedSeries.includes(series.id)}
-                      onCheckedChange={(checked) => 
-                        handleSeriesChange(series.id, checked as boolean)
-                      }
-                      data-testid={`checkbox-series-${series.id}`}
-                    />
-                    <Label 
-                      htmlFor={`series-${createSlug(series.id)}`}
-                      className="text-sm cursor-pointer"
-                    >
-                      {series.name}
-                    </Label>
-                  </div>
-                  <span className="text-xs text-muted-foreground">
-                    {series.count}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </FilterSection>
-
-          <Separator />
-
-          {/* Price Range */}
-          <FilterSection 
-            title="Price Range" 
-            isOpen={openSections.price} 
-            onToggle={() => toggleSection('price')}
-          >
-            <div className="space-y-4">
-              <Slider
-                value={priceRange}
-                onValueChange={handlePriceRangeChange}
-                max={2000}
-                step={10}
-                className="w-full"
-                data-testid="slider-price-range"
-              />
-              <div className="flex items-center justify-between text-sm text-muted-foreground">
-                <span>${priceRange[0]}</span>
-                <span>${priceRange[1]}</span>
-              </div>
-            </div>
-          </FilterSection>
-
-          {/* Unused filter sections (applications, certifications, voltages) removed
-               These will be added when backend support is implemented */}
         </div>
       </div>
     </>

@@ -216,12 +216,6 @@ export default function ProductCard({
                 <span className="font-mono font-semibold text-foreground">{specifications.workingTemp}</span>
               </div>
             )}
-            {specifications.pressure && (
-              <div className="flex justify-between text-xs">
-                <span className="text-muted-foreground">Pressure:</span>
-                <span className="font-mono font-semibold text-foreground">{specifications.pressure}</span>
-              </div>
-            )}
             {specifications.voltage && (
               <div className="flex justify-between text-xs">
                 <span className="text-muted-foreground">Voltage:</span>

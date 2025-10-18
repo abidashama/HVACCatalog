@@ -12,6 +12,7 @@ import ContactPage from "@/pages/ContactPage";
 import ProductDetailPage from "@/pages/ProductDetailPage";
 import CategoryPage from "@/pages/CategoryPage";
 import PressureSwitchDetailPage from "@/pages/PressureSwitchDetailPage";
+import ValveDetailPage from "@/pages/ValveDetailPage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -24,6 +25,7 @@ function Router() {
       <Route path="/category/:slug" component={CategoryPage} />
       <Route path="/product/:slug" component={ProductDetailPage} />
       <Route path="/pressure-switches/:subcategoryId" component={PressureSwitchDetailPage} />
+      <Route path="/valves/:categoryId" component={ValveDetailPage} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -52,69 +52,9 @@ export class MemStorage implements IStorage {
   }
 
   private initializeProducts() {
-    const sampleProducts: SelectProduct[] = [
-      {
-        id: 'ts4000-temp-sensor',
-        title: 'TS4000 Temperature Sensor',
-        modelNumber: 'TS4000-PT100',
-        image: '/assets/generated_images/Heat_exchanger_product_photo_ba077dc1.png',
-        price: '124.99',
-        originalPrice: null,
-        category: 'Temperature Sensors',
-        series: 'TS4000 Series',
-        stockStatus: 'in_stock',
-        rating: '4.9',
-        reviewCount: 18,
-        specifications: JSON.stringify({
-          workingTemp: '-50°C to 200°C',
-          accuracy: '±0.1°C',
-          response: '0.5 seconds',
-          connection: '1/2" NPT',
-          dimensions: '100 x 12mm',
-          weight: '75g',
-          material: 'Stainless Steel',
-          certification: 'CE, ATEX'
-        }),
-        description: 'Precision PT100 temperature sensor for critical HVAC monitoring applications.',
-        tags: JSON.stringify(['temperature', 'sensor', 'pt100', 'precision']),
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id: 'vf200-flow-valve',
-        title: 'VF200 Flow Control Valve',
-        modelNumber: 'VF200-DN25',
-        image: '/assets/generated_images/Refrigeration_compressor_photo_e9d26f6e.png',
-        price: '245.00',
-        originalPrice: '275.00',
-        category: 'Valves',
-        series: 'VF200 Series',
-        stockStatus: 'on_order',
-        rating: '4.7',
-        reviewCount: 31,
-        specifications: JSON.stringify({
-          workingTemp: '-20°C to 150°C',
-          pressure: '0-25 bar',
-          flow: '0.5-50 l/min',
-          connection: 'DN25 Flange',
-          dimensions: '120 x 80 x 95mm',
-          weight: '2.1kg',
-          material: 'Brass/Steel',
-          certification: 'CE, ISO 9001'
-        }),
-        description: 'Motorized flow control valve with precise regulation for HVAC systems.',
-        tags: JSON.stringify(['flow', 'control', 'valve', 'motorized']),
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-    ];
-
-    sampleProducts.forEach(product => {
-      this.products.set(product.id, product);
-    });
-
-    // Load real Pressure Switches data from JSON and populate products
+    // Load real data from JSON files
     this.loadPressureSwitchProducts();
+    this.loadValveProducts();
   }
 
   private loadPressureSwitchProducts() {
@@ -132,7 +72,25 @@ export class MemStorage implements IStorage {
         this.products.set(product.id, product);
       };
 
-      const baseImage = '/assets/generated_images/Pressure_switch_product_photo_6632abba.png';
+      // Different images for different pressure switch types
+      const getImageForCategory = (categoryKey: string): string => {
+        switch (categoryKey) {
+          case 'pressureSwitches':
+            return '/assets/images/waterline.png';
+          case 'lpHpRefrigerationSwitches':
+            return '/assets/images/refrigeration.webp';
+          case 'lpHpCombinedSwitches':
+            return '/assets/images/dual_hp_lp.png';
+          case 'smallFixDifferentialSwitches':
+            return '/assets/images/small_fix.png';
+          case 'oilDifferentialSwitches':
+            return '/assets/images/oil_diffrential.png';
+          case 'airDifferentialSwitches':
+            return '/assets/images/air_differential.png';
+          default:
+            return '/assets/images/waterline.png';
+        }
+      };
 
       // Helper to generate price in a stable but varied way based on model text
       const priceFor = (model: string) => {
@@ -161,7 +119,7 @@ export class MemStorage implements IStorage {
             id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
             title,
             modelNumber: model,
-            image: baseImage,
+            image: getImageForCategory('pressureSwitches'),
             price: priceFor(model),
             originalPrice: null,
             category: 'Pressure Switches',
@@ -190,7 +148,7 @@ export class MemStorage implements IStorage {
             id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
             title,
             modelNumber: model,
-            image: baseImage,
+            image: getImageForCategory('lpHpRefrigerationSwitches'),
             price: priceFor(model),
             originalPrice: null,
             category: 'Pressure Switches',
@@ -220,7 +178,7 @@ export class MemStorage implements IStorage {
             id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
             title,
             modelNumber: model,
-            image: baseImage,
+            image: getImageForCategory('lpHpRefrigerationSwitches'),
             price: priceFor(model),
             originalPrice: null,
             category: 'Pressure Switches',
@@ -253,7 +211,7 @@ export class MemStorage implements IStorage {
           id: `${model.toLowerCase()}-cartridge`.replace(/[^a-z0-9]+/g, '-'),
           title,
           modelNumber: model,
-          image: baseImage,
+          image: getImageForCategory('smallFixDifferentialSwitches'),
           price: priceFor(model),
           originalPrice: null,
           category: 'Pressure Switches',
@@ -282,7 +240,7 @@ export class MemStorage implements IStorage {
             id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
             title,
             modelNumber: model,
-            image: baseImage,
+            image: getImageForCategory('lpHpRefrigerationSwitches'),
             price: priceFor(model),
             originalPrice: null,
             category: 'Pressure Switches',
@@ -313,7 +271,7 @@ export class MemStorage implements IStorage {
             id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
             title,
             modelNumber: model,
-            image: baseImage,
+            image: getImageForCategory('airDifferentialSwitches'),
             price: priceFor(model),
             originalPrice: null,
             category: 'Pressure Switches',
@@ -333,6 +291,116 @@ export class MemStorage implements IStorage {
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error('Failed to load pressure switch data:', err);
+    }
+  }
+
+  private loadValveProducts() {
+    try {
+      const jsonPath = path.resolve(process.cwd(), 'client', 'src', 'assets', 'data', 'valves.json');
+      if (!fs.existsSync(jsonPath)) {
+        return;
+      }
+      const raw = fs.readFileSync(jsonPath, 'utf-8');
+      const data = JSON.parse(raw) as any;
+      const categories = data?.categories ?? {};
+
+      const addProduct = (p: Omit<SelectProduct, 'createdAt' | 'updatedAt'>) => {
+        const product: SelectProduct = { ...p, createdAt: new Date(), updatedAt: new Date() };
+        this.products.set(product.id, product);
+      };
+
+      // Helper to generate price in a stable but varied way based on model text
+      const priceFor = (model: string) => {
+        const hash = Array.from(model).reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+        const base = 80 + (hash % 80); // 80 - 159
+        return base.toFixed(2);
+      };
+
+      const seriesFromModel = (model: string): string => {
+        const upper = model.replace(/\s+/g, '').toUpperCase();
+        if (upper.startsWith('LFSV-D')) return 'LFSV-D Series';
+        if (upper.startsWith('LFSV-K')) return 'LFSV-K Series';
+        if (upper.startsWith('TX') || upper.startsWith('TEX')) return 'TX/TEX Series';
+        if (upper.startsWith('LFTGEX')) return 'LFTGEX Series';
+        if (upper.startsWith('LFFDF')) return 'LFFDF Series';
+        if (upper.startsWith('LFDBV')) return 'LFDBV Series';
+        if (upper.startsWith('LFBV')) return 'LFBV Series';
+        if (upper.startsWith('FS')) return 'FS Series';
+        if (upper.startsWith('LFSG')) return 'LFSG Series';
+        return 'Valve Series';
+      };
+
+      // Load all valve categories
+      Object.entries(categories).forEach(([categoryKey, category]: [string, any]) => {
+        if (!category) return;
+
+        // Handle categories with subcategories (like LFSV-D, LFSV-K, Ball Valves, Sight Glass)
+        if (category.subcategories) {
+          Object.entries(category.subcategories).forEach(([subKey, subcategory]: [string, any]) => {
+            if (subcategory?.products) {
+              for (const product of subcategory.products) {
+                const model = product.model;
+                const title = `${category.name} - ${subcategory.name} - ${model}`;
+                addProduct({
+                  id: `${categoryKey}-${subKey}-${model}`.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+                  title,
+                  modelNumber: model,
+                  image: '/assets/Heat_exchanger_product_photo_ba077dc1-CYKyi31B.png',
+                  price: priceFor(model),
+                  originalPrice: null,
+                  category: 'Valves',
+                  series: seriesFromModel(model),
+                  stockStatus: 'in_stock',
+                  rating: '4.6',
+                  reviewCount: Math.floor(Math.random() * 20) + 5,
+                  specifications: JSON.stringify({
+                    connection: product.connection,
+                    voltage: product.voltage,
+                    power: product.power,
+                    refrigerant: product.refrigerant,
+                    capacity: product.capacity,
+                    type: product.type
+                  }),
+                  description: `${category.name} ${subcategory.name} model ${model}.`,
+                  tags: JSON.stringify(['valve', model.toLowerCase(), categoryKey, subKey])
+                });
+              }
+            }
+          });
+        }
+        // Handle categories with direct products
+        else if (category.products) {
+          for (const product of category.products) {
+            const model = product.model;
+            const title = `${category.name} - ${model}`;
+            addProduct({
+              id: `${categoryKey}-${model}`.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+              title,
+              modelNumber: model,
+              image: '/assets/Heat_exchanger_product_photo_ba077dc1-CYKyi31B.png',
+              price: priceFor(model),
+              originalPrice: null,
+              category: 'Valves',
+              series: seriesFromModel(model),
+              stockStatus: 'in_stock',
+              rating: '4.5',
+              reviewCount: Math.floor(Math.random() * 25) + 8,
+              specifications: JSON.stringify({
+                connection: product.connection,
+                refrigerant: product.refrigerant,
+                capacity: product.capacity,
+                type: product.type,
+                certification: category.certifications ? category.certifications.join(', ') : undefined
+              }),
+              description: `${category.name} model ${model}.`,
+              tags: JSON.stringify(['valve', model.toLowerCase(), categoryKey])
+            });
+          }
+        }
+      });
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to load valve data:', err);
     }
   }
 
@@ -398,6 +466,33 @@ export class MemStorage implements IStorage {
         default:
           products.sort((a, b) => a.title.localeCompare(b.title));
           break;
+      }
+
+      // Special handling for featured products (limit=3, sortBy=rating)
+      // Return 3 pressure switch products from different subcategories to show different images
+      if (filters.limit === 3 && filters.sortBy === 'rating') {
+        // Filter only pressure switches
+        const pressureSwitches = products.filter(p => p.category === 'Pressure Switches');
+        
+        // Group by series to get different types
+        const seriesGroups = new Map<string, SelectProduct[]>();
+        pressureSwitches.forEach(product => {
+          if (!seriesGroups.has(product.series)) {
+            seriesGroups.set(product.series, []);
+          }
+          seriesGroups.get(product.series)!.push(product);
+        });
+        
+        // Get one product from each series (different pressure switch types)
+        const featuredProducts: SelectProduct[] = [];
+        for (const [series, seriesProducts] of seriesGroups) {
+          const bestProduct = seriesProducts.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating))[0];
+          featuredProducts.push(bestProduct);
+        }
+        
+        // Sort by rating and take top 3
+        featuredProducts.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+        products = featuredProducts.slice(0, 3);
       }
 
       // Apply pagination

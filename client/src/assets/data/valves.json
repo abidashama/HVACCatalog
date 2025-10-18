@@ -1,0 +1,464 @@
+{
+    "categories": {
+        "solenoidValvesLFSVD": {
+            "name": "SOLENOID VALVE & COIL LFSV-D",
+            "subcategories": {
+                "smallBodyODF": {
+                    "name": "SMALL BODY (ODF/SOLDER TYPE)",
+                    "products": [
+                        {
+                            "model": "LFSV-D-2H",
+                            "connection": "1/4"
+                        },
+                        {
+                            "model": "LFSV-D-3HS",
+                            "connection": "3/8"
+                        },
+                        {
+                            "model": "LFSV-D-4HS",
+                            "connection": "1/2"
+                        },
+                        {
+                            "model": "LFSV-D-5HS",
+                            "connection": "5/8"
+                        }
+                    ]
+                },
+                "smallBodySAE": {
+                    "name": "SMALL BODY (SAE/FLARE TYPE)",
+                    "products": [
+                        {
+                            "model": "LFSV-D-2LS",
+                            "connection": "1/4"
+                        },
+                        {
+                            "model": "LFSV-D-3LS",
+                            "connection": "3/8"
+                        },
+                        {
+                            "model": "LFSV-D-4LS",
+                            "connection": "1/2"
+                        },
+                        {
+                            "model": "LFSV-D-5LS",
+                            "connection": "5/8"
+                        }
+                    ]
+                },
+                "bigBodyODF": {
+                    "name": "BIG BODY (ODF/SOLDER TYPE)",
+                    "products": [
+                        {
+                            "model": "LFSV-D-3HB",
+                            "connection": "3/8"
+                        },
+                        {
+                            "model": "LFSV-D-4HB",
+                            "connection": "1/2"
+                        },
+                        {
+                            "model": "LFSV-D-5HB",
+                            "connection": "5/8"
+                        },
+                        {
+                            "model": "LFSV-D-7HB",
+                            "connection": "7/8"
+                        },
+                        {
+                            "model": "LFSV-D-9HB",
+                            "connection": "1-1/8"
+                        }
+                    ]
+                },
+                "bigBodySAE": {
+                    "name": "BIG BODY (SAE/FLARE TYPE)",
+                    "products": [
+                        {
+                            "model": "LFSV-D-3LB",
+                            "connection": "3/8"
+                        },
+                        {
+                            "model": "LFSV-D-4LB",
+                            "connection": "1/2"
+                        },
+                        {
+                            "model": "LFSV-D-5LB",
+                            "connection": "5/8"
+                        },
+                        {
+                            "model": "LFSV-D-7LB",
+                            "connection": "7/8"
+                        }
+                    ]
+                },
+                "coils": {
+                    "name": "LFSV-D COIL",
+                    "products": [
+                        {
+                            "model": "XQ06",
+                            "voltage": "AC220V"
+                        }
+                    ]
+                }
+            },
+            "image": "/assets/images/solenoid_valve_lfsv_d.png"
+        },
+        "solenoidValvesLFSVK": {
+            "name": "SOLENOID VALVE LFSV-K",
+            "subcategories": {
+                "smallBodyODF": {
+                    "name": "SMALL BODY (ODF/SOLDER)",
+                    "products": [
+                        {
+                            "model": "LFSV-K-2H",
+                            "connection": "1/4"
+                        },
+                        {
+                            "model": "LFSV-K-3HS",
+                            "connection": "3/8"
+                        },
+                        {
+                            "model": "LFSV-K-4HS",
+                            "connection": "1/2"
+                        },
+                        {
+                            "model": "LFSV-K-5H",
+                            "connection": "5/8"
+                        }
+                    ]
+                },
+                "bigBodyODF": {
+                    "name": "BIG BODY (ODF/SOLDER TYPE)",
+                    "products": [
+                        {
+                            "model": "LFSV-K-7HB",
+                            "connection": "7/8"
+                        }
+                    ]
+                },
+                "smallBodySAE": {
+                    "name": "SMALL BODY (SAE/FLARE TYPE)",
+                    "products": [
+                        {
+                            "model": "LFSV-K-2L",
+                            "connection": "1/4"
+                        },
+                        {
+                            "model": "LFSV-K-3LS",
+                            "connection": "3/8"
+                        },
+                        {
+                            "model": "LFSV-K-4LS",
+                            "connection": "1/2"
+                        }
+                    ]
+                },
+                "coils": {
+                    "name": "LFSV-K COIL",
+                    "products": [
+                        {
+                            "model": "110V",
+                            "voltage": "110V"
+                        },
+                        {
+                            "model": "24V AC 9W",
+                            "voltage": "24V AC",
+                            "power": "9W"
+                        },
+                        {
+                            "model": "24V DC 20W",
+                            "voltage": "24V DC",
+                            "power": "20W"
+                        },
+                        {
+                            "model": "12V DC 20W",
+                            "voltage": "12V DC",
+                            "power": "20W"
+                        },
+                        {
+                            "model": "220AC",
+                            "voltage": "220V AC"
+                        }
+                    ]
+                }
+            },
+            "image": "/assets/images/solenoid_valve_lfsv_k.png"
+        },
+        "expansionValves": {
+            "name": "EXPANSION VALVE",
+            "products": [
+                {
+                    "model": "TX2",
+                    "refrigerant": "R22/R407"
+                },
+                {
+                    "model": "TEX2",
+                    "refrigerant": "R22/R407"
+                },
+                {
+                    "model": "TZ2",
+                    "refrigerant": "R22/R407"
+                },
+                {
+                    "model": "TEZ2",
+                    "refrigerant": "R22/R407"
+                },
+                {
+                    "model": "TN2",
+                    "refrigerant": "R134a"
+                },
+                {
+                    "model": "TEN2",
+                    "refrigerant": "R134a"
+                },
+                {
+                    "model": "TS2",
+                    "refrigerant": "R404A/R507"
+                },
+                {
+                    "model": "TES2",
+                    "refrigerant": "R404A/R507"
+                },
+                {
+                    "model": "TL2",
+                    "refrigerant": "R410A"
+                },
+                {
+                    "model": "TEL2",
+                    "refrigerant": "R410A"
+                }
+            ],
+            "note": "ORIFICE AVAILABLE",
+            "image": "/assets/images/expansion_valve.png"
+        },
+        "expansionValvesBrazing": {
+            "name": "EXPANSION VALVE BRAZING TYPE",
+            "products": [
+                {
+                    "model": "LFTGEX3",
+                    "capacity": "3 TR",
+                    "refrigerant": "R22/R407"
+                },
+                {
+                    "model": "LFTGEX6",
+                    "capacity": "6 TR",
+                    "refrigerant": "R22/R407"
+                },
+                {
+                    "model": "LFTGEX7.5",
+                    "capacity": "7.5 TR",
+                    "refrigerant": "R22/R407"
+                },
+                {
+                    "model": "LFTGEX11",
+                    "capacity": "11 TR",
+                    "refrigerant": "R22/R407"
+                },
+                {
+                    "model": "LFTGEX12",
+                    "capacity": "12 TR",
+                    "refrigerant": "R22/R407"
+                },
+                {
+                    "model": "LFTGEX15",
+                    "capacity": "15 TR",
+                    "refrigerant": "R22/R407"
+                },
+                {
+                    "model": "LFTGEX18",
+                    "capacity": "18 TR",
+                    "refrigerant": "R22/R407"
+                }
+            ],
+            "image": "/assets/images/expansion_valve_brazing.png"
+        },
+        "solenoidValvesLFFDF": {
+            "name": "SOLENOID VALVE LFFDF",
+            "products": [
+                {
+                    "model": "LFFDF-4A-001",
+                    "connection": "1/4"
+                },
+                {
+                    "model": "LFFDF-6A-01",
+                    "connection": "5/16"
+                }
+            ],
+            "image": "/assets/images/solenoid_valve_lffdf.png"
+        },
+        "bypassValves": {
+            "name": "BYPASS VALVE LFDBV",
+            "products": [
+                {
+                    "model": "LFDBV NO-0.5"
+                },
+                {
+                    "model": "LFDBV NO-1"
+                },
+                {
+                    "model": "LFDBV NO-2"
+                },
+                {
+                    "model": "LFDBV NO-3"
+                },
+                {
+                    "model": "LFDBV NO-4"
+                },
+                {
+                    "model": "LFDBV NO-5"
+                }
+            ],
+            "image": "/assets/images/bypass_valve.png"
+        },
+        "ballValves": {
+            "name": "BALL VALVE",
+            "subcategories": {
+                "withPort": {
+                    "name": "WITH PORT SERIES",
+                    "products": [
+                        {
+                            "model": "LFBV-6-1",
+                            "connection": "1/4"
+                        },
+                        {
+                            "model": "LFBV-10-1",
+                            "connection": "3/8"
+                        },
+                        {
+                            "model": "LFBV-12-1",
+                            "connection": "1/2"
+                        },
+                        {
+                            "model": "LFBV-16-1",
+                            "connection": "5/8"
+                        },
+                        {
+                            "model": "LFBV-22-1",
+                            "connection": "7/8"
+                        },
+                        {
+                            "model": "LFBV-28-1",
+                            "connection": "1-1/8"
+                        }
+                    ]
+                },
+                "withoutPort": {
+                    "name": "WITHOUT PORT SERIES",
+                    "products": [
+                        {
+                            "model": "LFBV-6-2",
+                            "connection": "1/4"
+                        },
+                        {
+                            "model": "LFBV-10-2",
+                            "connection": "3/8"
+                        },
+                        {
+                            "model": "LFBV-12-2",
+                            "connection": "1/2"
+                        },
+                        {
+                            "model": "LFBV-16-2",
+                            "connection": "5/8"
+                        },
+                        {
+                            "model": "LFBV-22-2",
+                            "connection": "7/8"
+                        },
+                        {
+                            "model": "LFBV-28-2",
+                            "connection": "1-1/8"
+                        },
+                        {
+                            "model": "LFBV",
+                            "connection": "1-5/8"
+                        },
+                        {
+                            "model": "LFBV",
+                            "connection": "2-1/8"
+                        },
+                        {
+                            "model": "LFBV",
+                            "connection": "2-5/8"
+                        }
+                    ]
+                }
+            },
+            "certifications": [
+                "UL",
+                "CE"
+            ],
+            "image": "/assets/images/ball_valve.png"
+        },
+        "flowSwitches": {
+            "name": "FLOW SWITCH",
+            "products": [
+                {
+                    "model": "FS52",
+                    "type": "Standard"
+                },
+                {
+                    "model": "FS51-11",
+                    "type": "Standard"
+                },
+                {
+                    "model": "FS51-ECO",
+                    "type": "ECO"
+                }
+            ],
+            "connection": "1\" NPT BOTTOM CONNECTION",
+            "certifications": [
+                "CE"
+            ],
+            "image": "/assets/images/flow_switch.png"
+        },
+        "sightGlass": {
+            "name": "SIGHT GLASS",
+            "subcategories": {
+                "odfSolder": {
+                    "name": "ODF/SOLDER CONNECTION",
+                    "products": [
+                        {
+                            "model": "LFSG-4",
+                            "connection": "1/4"
+                        },
+                        {
+                            "model": "LFSG-6",
+                            "connection": "3/8"
+                        },
+                        {
+                            "model": "LFSG-8",
+                            "connection": "1/2"
+                        },
+                        {
+                            "model": "LFSG-10",
+                            "connection": "5/8"
+                        },
+                        {
+                            "model": "LFSG-14",
+                            "connection": "7/8"
+                        }
+                    ]
+                },
+                "mfConnection": {
+                    "name": "MF CONNECTION",
+                    "products": [
+                        {
+                            "model": "LFSG-6-2",
+                            "connection": "3/8"
+                        },
+                        {
+                            "model": "LFSG-8-2",
+                            "connection": "1/2"
+                        }
+                    ]
+                }
+            },
+            "certifications": [
+                "UL",
+                "CE"
+            ],
+            "image": "/assets/images/sight_glass.png"
+        }
+    }
+}

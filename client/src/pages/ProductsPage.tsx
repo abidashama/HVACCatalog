@@ -14,6 +14,7 @@ import type { ProductFilters } from '@shared/schema'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import pressureSwitchData from '@/assets/data/pressure-switch.json'
+import valveData from '@/assets/data/valves.json'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -37,6 +38,7 @@ export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [filters, setFilters] = useState<Partial<ProductFilters>>({})
   const [showSubcategories, setShowSubcategories] = useState(false)
+  const [subcategoryType, setSubcategoryType] = useState<'pressure-switches' | 'valves' | null>(null)
   
   // Refs for GSAP animations
   const containerRef = useRef<HTMLDivElement>(null)
@@ -106,6 +108,91 @@ export default function ProductsPage() {
       certifications: pressureSwitchData.categories.airDifferentialSwitches?.certifications || []
     }
   ]
+
+  // Build valve subcategories from JSON
+  const valveSubcategories: PressureSwitchSubcategory[] = [
+    {
+      id: 'solenoid-lfsv-d',
+      name: 'Solenoid Valve & Coil LFSV-D',
+      description: 'Small and big body solenoid valves with coils for refrigeration',
+      image: (valveData.categories.solenoidValvesLFSVD as any).image,
+      modelNumber: 'LFSV-D Series',
+      productCount: Object.values((valveData.categories.solenoidValvesLFSVD as any).subcategories || {}).reduce((total: number, sub: any) => total + (sub.products?.length || 0), 0),
+      certifications: []
+    },
+    {
+      id: 'solenoid-lfsv-k',
+      name: 'Solenoid Valve LFSV-K',
+      description: 'Small and big body solenoid valves for HVAC applications',
+      image: (valveData.categories.solenoidValvesLFSVK as any).image,
+      modelNumber: 'LFSV-K Series',
+      productCount: Object.values((valveData.categories.solenoidValvesLFSVK as any).subcategories || {}).reduce((total: number, sub: any) => total + (sub.products?.length || 0), 0),
+      certifications: []
+    },
+    {
+      id: 'expansion',
+      name: 'Expansion Valve',
+      description: 'Thermostatic expansion valves for various refrigerants',
+      image: (valveData.categories.expansionValves as any).image,
+      modelNumber: 'TX/TEX Series',
+      productCount: (valveData.categories.expansionValves?.products as Array<any>)?.length || 0,
+      certifications: []
+    },
+    {
+      id: 'expansion-brazing',
+      name: 'Expansion Valve Brazing Type',
+      description: 'Brazing type expansion valves with various capacities',
+      image: (valveData.categories.expansionValvesBrazing as any).image,
+      modelNumber: 'LFTGEX Series',
+      productCount: (valveData.categories.expansionValvesBrazing?.products as Array<any>)?.length || 0,
+      certifications: []
+    },
+    {
+      id: 'solenoid-lffdf',
+      name: 'Solenoid Valve LFFDF',
+      description: 'Compact solenoid valves for refrigeration systems',
+      image: (valveData.categories.solenoidValvesLFFDF as any).image,
+      modelNumber: 'LFFDF Series',
+      productCount: (valveData.categories.solenoidValvesLFFDF?.products as Array<any>)?.length || 0,
+      certifications: []
+    },
+    {
+      id: 'bypass',
+      name: 'Bypass Valve LFDBV',
+      description: 'Bypass valves for refrigeration capacity control',
+      image: (valveData.categories.bypassValves as any).image,
+      modelNumber: 'LFDBV Series',
+      productCount: (valveData.categories.bypassValves?.products as Array<any>)?.length || 0,
+      certifications: []
+    },
+    {
+      id: 'ball',
+      name: 'Ball Valve',
+      description: 'Ball valves with and without port for refrigeration lines',
+      image: (valveData.categories.ballValves as any).image,
+      modelNumber: 'LFBV Series',
+      productCount: Object.values((valveData.categories.ballValves as any).subcategories || {}).reduce((total: number, sub: any) => total + (sub.products?.length || 0), 0),
+      certifications: (valveData.categories.ballValves as any).certifications || []
+    },
+    {
+      id: 'flow-switch',
+      name: 'Flow Switch',
+      description: 'Flow switches for monitoring water flow in HVAC systems',
+      image: (valveData.categories.flowSwitches as any).image,
+      modelNumber: 'FS Series',
+      productCount: (valveData.categories.flowSwitches?.products as Array<any>)?.length || 0,
+      certifications: (valveData.categories.flowSwitches as any).certifications || []
+    },
+    {
+      id: 'sight-glass',
+      name: 'Sight Glass',
+      description: 'Sight glasses for visual refrigerant inspection',
+      image: (valveData.categories.sightGlass as any).image,
+      modelNumber: 'LFSG Series',
+      productCount: Object.values((valveData.categories.sightGlass as any).subcategories || {}).reduce((total: number, sub: any) => total + (sub.products?.length || 0), 0),
+      certifications: (valveData.categories.sightGlass as any).certifications || []
+    }
+  ]
   
   // Parse URL parameters on component mount and when URL changes
   useEffect(() => {
@@ -121,11 +208,20 @@ export default function ProductsPage() {
       if (urlParams.get('category')) {
         const category = urlParams.get('category') || undefined
         initialFilters.category = category
-        // Show subcategories if Pressure Switches is selected
+        // Show subcategories if Pressure Switches or Valves is selected
         const isPressureSwitches = category?.trim().toLowerCase() === 'pressure switches'
-        setShowSubcategories(isPressureSwitches)
+        const isValves = category?.trim().toLowerCase() === 'valves'
+        setShowSubcategories(isPressureSwitches || isValves)
+        if (isPressureSwitches) {
+          setSubcategoryType('pressure-switches')
+        } else if (isValves) {
+          setSubcategoryType('valves')
+        } else {
+          setSubcategoryType(null)
+        }
       } else {
         setShowSubcategories(false)
+        setSubcategoryType(null)
       }
       
       if (urlParams.get('series')) {
@@ -185,9 +281,17 @@ export default function ProductsPage() {
     const filtersWithReset = { ...newFilters, page: 1 }
     setFilters(filtersWithReset)
     
-    // Check if Pressure Switches is selected
+    // Check if Pressure Switches or Valves is selected
     const isPressureSwitches = newFilters.category?.trim().toLowerCase() === 'pressure switches'
-    setShowSubcategories(isPressureSwitches)
+    const isValves = newFilters.category?.trim().toLowerCase() === 'valves'
+    setShowSubcategories(isPressureSwitches || isValves)
+    if (isPressureSwitches) {
+      setSubcategoryType('pressure-switches')
+    } else if (isValves) {
+      setSubcategoryType('valves')
+    } else {
+      setSubcategoryType(null)
+    }
     
     // Update URL parameters
     const urlParams = new URLSearchParams()
@@ -206,7 +310,11 @@ export default function ProductsPage() {
   }
 
   const handleSubcategoryClick = (subcategoryId: string) => {
-    setLocation(`/pressure-switches/${subcategoryId}`)
+    if (subcategoryType === 'pressure-switches') {
+      setLocation(`/pressure-switches/${subcategoryId}`)
+    } else if (subcategoryType === 'valves') {
+      setLocation(`/valves/${subcategoryId}`)
+    }
   }
 
   const handleSearchChange = (newSearch: string) => {
@@ -309,11 +417,13 @@ export default function ProductsPage() {
           {/* Main Content Area */}
           <div className="flex-1 min-w-0 lg:ml-0">
             {showSubcategories ? (
-              /* Subcategory Cards for Pressure Switches - Using ProductCard component */
+              /* Subcategory Cards - Using ProductCard component */
               <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
                   <div>
-                    <h2 className="text-2xl font-bold">Pressure Switch Categories</h2>
+                    <h2 className="text-2xl font-bold">
+                      {subcategoryType === 'pressure-switches' ? 'Pressure Switch Categories' : 'Valve Categories'}
+                    </h2>
                     <p className="text-muted-foreground mt-1">Select a category to view products</p>
                   </div>
                   <Button
@@ -321,6 +431,7 @@ export default function ProductsPage() {
                     onClick={() => {
                       setFilters({})
                       setShowSubcategories(false)
+                      setSubcategoryType(null)
                       setLocation('/products')
                     }}
                   >
@@ -329,7 +440,12 @@ export default function ProductsPage() {
                 </div>
 
                 <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
-                  {subcategories.map((subcategory) => {
+                  {(subcategoryType === 'pressure-switches' ? subcategories : valveSubcategories).map((subcategory) => {
+                    const categoryName = subcategoryType === 'pressure-switches' ? 'Pressure Switches' : 'Valves'
+                    const linkPath = subcategoryType === 'pressure-switches' 
+                      ? `/pressure-switches/${subcategory.id}` 
+                      : `/valves/${subcategory.id}`
+                    
                     return (
                       <ProductCard
                         key={subcategory.id}
@@ -338,7 +454,7 @@ export default function ProductsPage() {
                         modelNumber={subcategory.modelNumber}
                         image={subcategory.image}
                         price={0}
-                        category="Pressure Switches"
+                        category={categoryName}
                         series={subcategory.modelNumber}
                         stockStatus="in_stock"
                         rating={4.7}
@@ -347,7 +463,7 @@ export default function ProductsPage() {
                           connection: subcategory.connection,
                           pressure: `${subcategory.productCount} models available`
                         }}
-                        customLink={`/pressure-switches/${subcategory.id}`}
+                        customLink={linkPath}
                         onClick={() => handleSubcategoryClick(subcategory.id)}
                       />
                     )
