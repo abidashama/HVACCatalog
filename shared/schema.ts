@@ -69,21 +69,6 @@ export const insertProductInquirySchema = createInsertSchema(productInquiries).o
 export type InsertProductInquiry = z.infer<typeof insertProductInquirySchema>
 export type SelectProductInquiry = typeof productInquiries.$inferSelect
 
-// API response schemas
-export const productSpecificationsSchema = z.object({
-  workingTemp: z.string().optional(),
-  pressure: z.string().optional(),
-  voltage: z.string().optional(),
-  connection: z.string().optional(),
-  dimensions: z.string().optional(),
-  weight: z.string().optional(),
-  material: z.string().optional(),
-  certification: z.string().optional()
-})
-
-export type ProductSpecifications = z.infer<typeof productSpecificationsSchema>
-
-
 // Product search/filter schemas
 export const productFiltersSchema = z.object({
   search: z.string().optional(),
@@ -122,26 +107,4 @@ export const PRODUCT_CATEGORIES = [
   }
 ] as const
 
-export const PRODUCT_SERIES = [
-  {
-    id: 'LF55 Series',
-    name: 'LF55 Series',
-    category: 'Pressure Switches',
-    description: 'Professional-grade pressure switches for demanding applications'
-  },
-  {
-    id: 'TS4000 Series', 
-    name: 'TS4000 Series',
-    category: 'Temperature Sensors',
-    description: 'Precision temperature sensors with fast response times'
-  },
-  {
-    id: 'VF200 Series',
-    name: 'VF200 Series', 
-    category: 'Valves',
-    description: 'Flow control valves with precise regulation capabilities'
-  }
-] as const
-
 export type ProductCategory = typeof PRODUCT_CATEGORIES[number]
-export type ProductSeries = typeof PRODUCT_SERIES[number]
