@@ -109,16 +109,16 @@ export const PRODUCT_CATEGORIES = [
     description: 'Precision pressure control switches for HVAC and refrigeration systems'
   },
   {
-    id: 'Temperature Sensors',
-    name: 'Temperature Sensors',
-    slug: 'temperature-sensors', 
-    description: 'High-accuracy temperature monitoring devices for industrial applications'
-  },
-  {
     id: 'Valves',
     name: 'Valves',
     slug: 'valves',
     description: 'Flow control valves and fittings for HVAC and refrigeration systems'
+  },
+  {
+    id: 'Temperature Sensors',
+    name: 'Temperature Sensors',
+    slug: 'temperature-sensors', 
+    description: 'High-accuracy temperature monitoring devices for industrial applications'
   }
 ] as const
 
