@@ -183,7 +183,10 @@ export default function ValveDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Product Image - Left Side */}
           <div className="space-y-4" ref={galleryRef}>
-            <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg border overflow-hidden shadow-lg">
+            <div 
+              className="relative rounded-lg border overflow-hidden shadow-lg"
+              style={{ background: 'radial-gradient(circle, white 15%, rgb(221 221 221) 70%)' }}
+            >
               <img
                 src={productImage}
                 alt={currentCategory.name}

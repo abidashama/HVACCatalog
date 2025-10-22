@@ -297,11 +297,14 @@ export default function ProductDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Product Images */}
           <div className="space-y-4" ref={galleryRef}>
-            <div className="relative">
+            <div 
+              className="relative rounded-lg border overflow-hidden shadow-lg"
+              style={{ background: 'radial-gradient(circle, white 15%, rgb(221 221 221) 70%)' }}
+            >
               <img
                 src={images[currentImageIndex]}
                 alt={product.title}
-                className="w-full h-96 object-cover rounded-lg border"
+                className="w-full h-96 object-contain p-6 transition-transform duration-300 hover:scale-105"
                 data-testid="product-main-image"
               />
               {images.length > 1 && (
