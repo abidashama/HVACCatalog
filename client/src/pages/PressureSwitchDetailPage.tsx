@@ -292,14 +292,6 @@ export default function PressureSwitchDetailPage() {
               <Button className="w-full" size="lg">
                 Request Quote
               </Button>
-              <div className="flex gap-3">
-                <Button variant="outline" className="flex-1" size="lg">
-                  Download Specs
-                </Button>
-                <Button variant="outline" className="flex-1" size="lg">
-                  Compare Models
-                </Button>
-              </div>
             </div>
           </div>
         </div>

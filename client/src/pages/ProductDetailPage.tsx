@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useRoute, useLocation } from 'wouter'
 import { useQuery } from '@tanstack/react-query'
-import { Star, Heart, Share2, ShoppingCart, Download, FileText, Zap, Shield, Truck, Phone, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
+import { Heart, Share2, ShoppingCart, Download, FileText, Zap, Shield, Truck, Phone, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
 import { gsap } from 'gsap'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
@@ -356,22 +356,6 @@ export default function ProductDetailPage() {
               <h1 className="text-3xl font-bold text-foreground mb-2">{product.title}</h1>
               <p className="text-muted-foreground mb-2">Model: {product.modelNumber}</p>
               
-              <div className="flex items-center gap-4 mb-4">
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`w-5 h-5 ${
-                        i < Math.floor(parseFloat(product.rating)) ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                      }`}
-                    />
-                  ))}
-                  <span className="text-sm text-muted-foreground ml-2">
-                    {parseFloat(product.rating).toFixed(1)} ({product.reviewCount} reviews)
-                  </span>
-                </div>
-              </div>
-
               <p className="text-muted-foreground leading-relaxed mb-6">{product.description}</p>
             </div>
 

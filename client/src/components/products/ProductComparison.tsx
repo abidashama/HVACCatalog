@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { X, Star, Download, ShoppingCart, Info } from 'lucide-react'
+import { X, Download, ShoppingCart, Info } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -166,21 +166,6 @@ export default function ProductComparison({ products, onRemoveProduct, onClearAl
                       >
                         {stockConfig.label}
                       </Badge>
-                    </div>
-                    
-                    {/* Rating */}
-                    <div className="flex items-center justify-center gap-2">
-                      <div className="flex">
-                        {[...Array(5)].map((_, i) => (
-                          <Star 
-                            key={i} 
-                            className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
-                          />
-                        ))}
-                      </div>
-                      <span className="text-sm text-muted-foreground">
-                        ({product.reviewCount})
-                      </span>
                     </div>
                     
                     {/* Series */}

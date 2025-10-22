@@ -1,4 +1,4 @@
-import { MessageSquare, Eye, Star, Download, Scale } from 'lucide-react'
+import { MessageSquare, Eye, Download, Scale } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { useFadeIn, useHoverAnimation } from '@/hooks/useGSAPAnimations'
@@ -196,17 +196,6 @@ export default function ProductCard({
           <p className="text-sm text-muted-foreground" data-testid={`text-model-${id}`}>
             <span className="font-semibold">Model:</span> <span className="font-mono">{modelNumber}</span>
           </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="flex items-center">
-            {[...Array(5)].map((_, i) => (
-              <Star 
-                key={i} 
-                className={`w-4 h-4 ${i < Math.floor(rating) ? 'fill-[#00AEEF] text-[#00AEEF]' : 'fill-muted/30 text-muted'}`}
-              />
-            ))}
-          </div>
-          <span className="text-xs text-muted-foreground font-medium">({reviewCount})</span>
         </div>
         {!isCompact && (
           <div className="space-y-2 pt-2 border-t border-border">
