@@ -100,6 +100,12 @@ export const PRODUCT_CATEGORIES = [
     description: 'Flow control valves and fittings for HVAC and refrigeration systems'
   },
   {
+    id: 'Pressure Transmitters',
+    name: 'Pressure Transmitters',
+    slug: 'pressure-transmitters',
+    description: 'High-precision pressure transmitters with 4-20 mA output for industrial applications'
+  },
+  {
     id: 'Temperature Sensors',
     name: 'Temperature Sensors',
     slug: 'temperature-sensors', 

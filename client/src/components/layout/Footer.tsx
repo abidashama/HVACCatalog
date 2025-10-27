@@ -2,7 +2,7 @@ import { Link } from 'wouter'
 import { Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Youtube } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import axeonLogo from '@/assets/images/axeon-logo.svg'
+// Logo removed - using static path
 
 const footerLinks = {
   company: [
@@ -48,7 +48,7 @@ export default function Footer() {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <img 
-                src={axeonLogo} 
+                src="/assets/images/axeon-logo.svg" 
                 alt="Axeon Corporation Logo" 
                 className="h-10"
               />

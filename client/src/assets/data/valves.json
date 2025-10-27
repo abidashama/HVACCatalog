@@ -101,7 +101,8 @@
                     ]
                 }
             },
-            "image": "/assets/images/solenoid_valve_lfsv_d.png"
+            "image": "/assets/images/solenoid_valve_lfsv_d.png",
+            "document": "/assets/documents/lfsv-d_solenoid_valve.pdf"
         },
         "solenoidValvesLFSVK": {
             "name": "SOLENOID VALVE LFSV-K",
@@ -182,7 +183,8 @@
                     ]
                 }
             },
-            "image": "/assets/images/solenoid_valve_lfsv_k.png"
+            "image": "/assets/images/solenoid_valve_lfsv_k.png",
+            "document": "/assets/documents/lfsv-k_solenoid_valve.pdf"
         },
         "expansionValves": {
             "name": "EXPANSION VALVE",
@@ -229,7 +231,8 @@
                 }
             ],
             "note": "ORIFICE AVAILABLE",
-            "image": "/assets/images/expansion_valve.png"
+            "image": "/assets/images/expansion_valve.png",
+            "document": "/assets/documents/expansion_valve.pdf"
         },
         "expansionValvesBrazing": {
             "name": "EXPANSION VALVE BRAZING TYPE",
@@ -284,7 +287,8 @@
                     "connection": "5/16"
                 }
             ],
-            "image": "/assets/images/solenoid_valve_lffdf.png"
+            "image": "/assets/images/solenoid_valve_lffdf.png",
+            "document": "/assets/documents/solenoid_valve.pdf"
         },
         "bypassValves": {
             "name": "BYPASS VALVE LFDBV",
@@ -308,7 +312,8 @@
                     "model": "LFDBV NO-5"
                 }
             ],
-            "image": "/assets/images/bypass_valve.png"
+            "image": "/assets/images/bypass_valve.png",
+            "document": "/assets/documents/bypass_valve.pdf"
         },
         "ballValves": {
             "name": "BALL VALVE",
@@ -388,7 +393,8 @@
                 "UL",
                 "CE"
             ],
-            "image": "/assets/images/ball_valve.png"
+            "image": "/assets/images/ball_valve.png",
+            "document": "/assets/documents/ball_valve.pdf"
         },
         "flowSwitches": {
             "name": "FLOW SWITCH",
@@ -410,7 +416,8 @@
             "certifications": [
                 "CE"
             ],
-            "image": "/assets/images/flow_switch.png"
+            "image": "/assets/images/flow_switch.png",
+            "document": "/assets/documents/flow_switch.pdf"
         },
         "sightGlass": {
             "name": "SIGHT GLASS",
@@ -458,7 +465,8 @@
                 "UL",
                 "CE"
             ],
-            "image": "/assets/images/sight_glass.png"
+            "image": "/assets/images/sight_glass.png",
+            "document": "/assets/documents/sight_glass.pdf"
         }
     }
 }

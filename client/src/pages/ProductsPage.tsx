@@ -15,6 +15,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import pressureSwitchData from '@/assets/data/pressure-switch.json'
 import valveData from '@/assets/data/valves.json'
+import pressureTransmitterData from '@/assets/data/pressure_transmitters.json'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -38,7 +39,7 @@ export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [filters, setFilters] = useState<Partial<ProductFilters>>({})
   const [showSubcategories, setShowSubcategories] = useState(false)
-  const [subcategoryType, setSubcategoryType] = useState<'pressure-switches' | 'valves' | null>(null)
+  const [subcategoryType, setSubcategoryType] = useState<'pressure-switches' | 'valves' | 'pressure-transmitters' | null>(null)
   
   // Refs for GSAP animations
   const containerRef = useRef<HTMLDivElement>(null)
@@ -193,6 +194,28 @@ export default function ProductsPage() {
       certifications: (valveData.categories.sightGlass as any).certifications || []
     }
   ]
+
+  // Build pressure transmitter subcategories from JSON
+  const pressureTransmitterSubcategories: PressureSwitchSubcategory[] = [
+    {
+      id: 't2000-series',
+      name: 'T2000 Series',
+      description: 'High-precision pressure transmitters with 4-20 mA output',
+      image: (pressureTransmitterData.categories.t2000Series as any).image,
+      modelNumber: 'T2000 Series',
+      productCount: (pressureTransmitterData.categories.t2000Series?.products as Array<any>)?.length || 0,
+      certifications: []
+    },
+    {
+      id: 't2800-series',
+      name: 'T2800 Series',
+      description: 'Pressure transmitters with negative pressure capability',
+      image: (pressureTransmitterData.categories.t2800Series as any).image,
+      modelNumber: 'T2800 Series',
+      productCount: (pressureTransmitterData.categories.t2800Series?.products as Array<any>)?.length || 0,
+      certifications: []
+    }
+  ]
   
   // Parse URL parameters on component mount and when URL changes
   useEffect(() => {
@@ -208,14 +231,17 @@ export default function ProductsPage() {
       if (urlParams.get('category')) {
         const category = urlParams.get('category') || undefined
         initialFilters.category = category
-        // Show subcategories if Pressure Switches or Valves is selected
+        // Show subcategories if Pressure Switches, Valves, or Pressure Transmitters is selected
         const isPressureSwitches = category?.trim().toLowerCase() === 'pressure switches'
         const isValves = category?.trim().toLowerCase() === 'valves'
-        setShowSubcategories(isPressureSwitches || isValves)
+        const isPressureTransmitters = category?.trim().toLowerCase() === 'pressure transmitters'
+        setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters)
         if (isPressureSwitches) {
           setSubcategoryType('pressure-switches')
         } else if (isValves) {
           setSubcategoryType('valves')
+        } else if (isPressureTransmitters) {
+          setSubcategoryType('pressure-transmitters')
         } else {
           setSubcategoryType(null)
         }
@@ -281,14 +307,17 @@ export default function ProductsPage() {
     const filtersWithReset = { ...newFilters, page: 1 }
     setFilters(filtersWithReset)
     
-    // Check if Pressure Switches or Valves is selected
+    // Check if Pressure Switches, Valves, or Pressure Transmitters is selected
     const isPressureSwitches = newFilters.category?.trim().toLowerCase() === 'pressure switches'
     const isValves = newFilters.category?.trim().toLowerCase() === 'valves'
-    setShowSubcategories(isPressureSwitches || isValves)
+    const isPressureTransmitters = newFilters.category?.trim().toLowerCase() === 'pressure transmitters'
+    setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters)
     if (isPressureSwitches) {
       setSubcategoryType('pressure-switches')
     } else if (isValves) {
       setSubcategoryType('valves')
+    } else if (isPressureTransmitters) {
+      setSubcategoryType('pressure-transmitters')
     } else {
       setSubcategoryType(null)
     }
@@ -314,6 +343,8 @@ export default function ProductsPage() {
       setLocation(`/pressure-switches/${subcategoryId}`)
     } else if (subcategoryType === 'valves') {
       setLocation(`/valves/${subcategoryId}`)
+    } else if (subcategoryType === 'pressure-transmitters') {
+      setLocation(`/pressure-transmitters/${subcategoryId}`)
     }
   }
 
@@ -422,7 +453,9 @@ export default function ProductsPage() {
                 <div className="flex items-center justify-between mb-6">
                   <div>
                     <h2 className="text-2xl font-bold">
-                      {subcategoryType === 'pressure-switches' ? 'Pressure Switch Categories' : 'Valve Categories'}
+                      {subcategoryType === 'pressure-switches' ? 'Pressure Switch Categories' : 
+                       subcategoryType === 'valves' ? 'Valve Categories' : 
+                       subcategoryType === 'pressure-transmitters' ? 'Pressure Transmitter Categories' : 'Categories'}
                     </h2>
                     <p className="text-muted-foreground mt-1">Select a category to view products</p>
                   </div>
@@ -440,11 +473,19 @@ export default function ProductsPage() {
                 </div>
 
                 <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
-                  {(subcategoryType === 'pressure-switches' ? subcategories : valveSubcategories).map((subcategory) => {
-                    const categoryName = subcategoryType === 'pressure-switches' ? 'Pressure Switches' : 'Valves'
+                  {(subcategoryType === 'pressure-switches' ? subcategories : 
+                    subcategoryType === 'valves' ? valveSubcategories : 
+                    subcategoryType === 'pressure-transmitters' ? pressureTransmitterSubcategories : []).map((subcategory) => {
+                    const categoryName = subcategoryType === 'pressure-switches' ? 'Pressure Switches' : 
+                                       subcategoryType === 'valves' ? 'Valves' : 
+                                       subcategoryType === 'pressure-transmitters' ? 'Pressure Transmitters' : 'Products'
                     const linkPath = subcategoryType === 'pressure-switches' 
                       ? `/pressure-switches/${subcategory.id}` 
-                      : `/valves/${subcategory.id}`
+                      : subcategoryType === 'valves'
+                      ? `/valves/${subcategory.id}`
+                      : subcategoryType === 'pressure-transmitters'
+                      ? `/pressure-transmitters/${subcategory.id}`
+                      : `/products`
                     
                     return (
                       <ProductCard

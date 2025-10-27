@@ -9,6 +9,7 @@ import { Separator } from '@/components/ui/separator'
 import type { ProductFilters } from '@shared/schema'
 import pressureSwitchData from '@/assets/data/pressure-switch.json'
 import valveData from '@/assets/data/valves.json'
+import pressureTransmitterData from '@/assets/data/pressure_transmitters.json'
 
 interface FilterSidebarProps {
   isOpen: boolean
@@ -54,12 +55,28 @@ const getValveCount = () => {
   return count
 }
 
+// Calculate pressure transmitter product count from JSON
+const getPressureTransmitterCount = () => {
+  const categories: any = pressureTransmitterData.categories
+  let count = 0
+  
+  // Count products in each category
+  Object.values(categories).forEach((category: any) => {
+    if (category.products) {
+      count += category.products.length
+    }
+  })
+  
+  return count
+}
+
 // Filter data that matches backend category names exactly
 const filterData = {
   categories: [
     { id: 'Pressure Switches', name: 'Pressure Switches', count: getPressureSwitchCount() },
     { id: 'Temperature Sensors', name: 'Temperature Sensors', count: 1 },
     { id: 'Valves', name: 'Valves', count: getValveCount() },
+    { id: 'Pressure Transmitters', name: 'Pressure Transmitters', count: getPressureTransmitterCount() },
     { id: 'Heat Exchangers', name: 'Heat Exchangers', count: 0 },
     { id: 'Refrigeration Components', name: 'Refrigeration Components', count: 0 }
   ]

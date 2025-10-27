@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import InquiryModal from '@/components/modals/InquiryModal'
 import { PRODUCT_CATEGORIES } from '@shared/schema'
-import axeonLogo from '@/assets/images/axeon-logo.svg'
+// Logo removed - using static path
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -148,7 +148,7 @@ export default function Header() {
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2 hover:scale-105 transition-transform rounded-md p-2" data-testid="link-home-logo">
             <img 
-              src={axeonLogo} 
+              src="/assets/images/axeon-logo.svg" 
               alt="Axeon Corporation Logo" 
               className="h-12"
             />

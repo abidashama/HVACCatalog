@@ -1,0 +1,28 @@
+{
+    "categories": {
+        "t2000Series": {
+            "name": "T2000 SERIES",
+            "products": [
+                {
+                    "model": "T2000",
+                    "range": "ALL RANGE FROM 0-6 BAR UPTO 0-600 BAR",
+                    "output": "4-20 ma"
+                }
+            ],
+            "image": "/assets/images/t2000_series.png",
+            "document": "/assets/documents/T2000_series.pdf"
+        },
+        "t2800Series": {
+            "name": "T2800 SERIES",
+            "products": [
+                {
+                    "model": "T2800",
+                    "range": "ALL RANGE FROM NEGATIVE 1-0 BAR UPTO 0-600 BAR",
+                    "output": "4-20 ma"
+                }
+            ],
+            "image": "/assets/images/t2800_series.png",
+            "document": "/assets/documents/T2800_series.pdf"
+        }
+    }
+}

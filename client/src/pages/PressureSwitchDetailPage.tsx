@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useRoute, useLocation } from 'wouter'
-import { ArrowLeft, CheckCircle2, Package } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, Package, Download } from 'lucide-react'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { Button } from '@/components/ui/button'
@@ -57,6 +57,7 @@ interface RangeItem {
 interface SubcategoryData {
   name: string
   image: string
+  document?: string
   products?: ProductModel[]
   model?: string
   highPressureRanges?: RangeItem[]
@@ -292,6 +293,25 @@ export default function PressureSwitchDetailPage() {
               <Button className="w-full" size="lg">
                 Request Quote
               </Button>
+              {currentSubcategory.document && (
+                <Button 
+                  variant="outline" 
+                  className="w-full" 
+                  size="lg"
+                  asChild
+                >
+                  <a 
+                    href={currentSubcategory.document} 
+                    download={currentSubcategory.document.split('/').pop()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <Download className="w-4 h-4" />
+                    Download Technical Document
+                  </a>
+                </Button>
+              )}
             </div>
           </div>
         </div>
