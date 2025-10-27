@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { ErrorBoundary } from "@/components/common/ErrorBoundary";
+import ScrollToTop from "@/components/ScrollToTop";
 import HomePage from "@/pages/HomePage";
 import ProductsPage from "@/pages/ProductsPage";
 import AboutPage from "@/pages/AboutPage";
@@ -39,6 +40,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider defaultTheme="light" storageKey="industrial-hvac-theme">
           <TooltipProvider>
+            <ScrollToTop />
             <Router />
             <Toaster />
           </TooltipProvider>

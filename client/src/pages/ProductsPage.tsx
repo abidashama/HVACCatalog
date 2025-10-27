@@ -338,8 +338,22 @@ export default function ProductsPage() {
     window.history.pushState({}, '', newUrl)
   }
 
-  const handleSubcategoryClick = (subcategoryId: string) => {
-    if (subcategoryType === 'pressure-switches') {
+  const handleSubcategoryClick = (subcategoryId: string, categoryType?: string) => {
+    // Determine category type from subcategoryId if not provided
+    const type = categoryType || (() => {
+      if (subcategories.find(s => s.id === subcategoryId)) return 'pressure-switches'
+      if (valveSubcategories.find(s => s.id === subcategoryId)) return 'valves'
+      if (pressureTransmitterSubcategories.find(s => s.id === subcategoryId)) return 'pressure-transmitters'
+      return subcategoryType
+    })()
+    
+    if (type === 'pressure-switches') {
+      setLocation(`/pressure-switches/${subcategoryId}`)
+    } else if (type === 'valves') {
+      setLocation(`/valves/${subcategoryId}`)
+    } else if (type === 'pressure-transmitters') {
+      setLocation(`/pressure-transmitters/${subcategoryId}`)
+    } else if (subcategoryType === 'pressure-switches') {
       setLocation(`/pressure-switches/${subcategoryId}`)
     } else if (subcategoryType === 'valves') {
       setLocation(`/valves/${subcategoryId}`)
@@ -512,18 +526,99 @@ export default function ProductsPage() {
                 </div>
               </div>
             ) : (
-              /* Regular Product Grid */
-              <SectionErrorBoundary 
-                fallbackTitle="Products Unavailable"
-                fallbackMessage="Unable to load products. Please try refreshing the page."
-              >
-                <ProductGrid 
-                  filters={filters} 
-                  searchQuery={searchQuery} 
-                  onFiltersChange={handleFiltersChange}
-                  onSearchChange={handleSearchChange}
-                />
-              </SectionErrorBoundary>
+              /* Show all categories when no filters are applied */
+              !filters.category && !searchQuery ? (
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="text-2xl font-bold">Browse by Category</h2>
+                    <p className="text-muted-foreground mt-1">Select a category to view products</p>
+                  </div>
+
+                  <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
+                    {/* Pressure Switches Categories */}
+                    {subcategories.map((subcategory) => (
+                      <ProductCard
+                        key={`pressure-switch-${subcategory.id}`}
+                        id={subcategory.id}
+                        title={subcategory.name}
+                        modelNumber={subcategory.modelNumber}
+                        image={subcategory.image}
+                        price={0}
+                        category="Pressure Switches"
+                        series={subcategory.modelNumber}
+                        stockStatus="in_stock"
+                        rating={4.7}
+                        reviewCount={subcategory.productCount}
+                        specifications={{
+                          connection: subcategory.connection,
+                          pressure: `${subcategory.productCount} models available`
+                        }}
+                        customLink={`/pressure-switches/${subcategory.id}`}
+                        onClick={() => handleSubcategoryClick(subcategory.id, 'pressure-switches')}
+                      />
+                    ))}
+
+                    {/* Valves Categories */}
+                    {valveSubcategories.map((subcategory) => (
+                      <ProductCard
+                        key={`valve-${subcategory.id}`}
+                        id={subcategory.id}
+                        title={subcategory.name}
+                        modelNumber={subcategory.modelNumber}
+                        image={subcategory.image}
+                        price={0}
+                        category="Valves"
+                        series={subcategory.modelNumber}
+                        stockStatus="in_stock"
+                        rating={4.7}
+                        reviewCount={subcategory.productCount}
+                        specifications={{
+                          connection: subcategory.connection,
+                          pressure: `${subcategory.productCount} models available`
+                        }}
+                        customLink={`/valves/${subcategory.id}`}
+                        onClick={() => handleSubcategoryClick(subcategory.id, 'valves')}
+                      />
+                    ))}
+
+                    {/* Pressure Transmitters Categories */}
+                    {pressureTransmitterSubcategories.map((subcategory) => (
+                      <ProductCard
+                        key={`pressure-transmitter-${subcategory.id}`}
+                        id={subcategory.id}
+                        title={subcategory.name}
+                        modelNumber={subcategory.modelNumber}
+                        image={subcategory.image}
+                        price={0}
+                        category="Pressure Transmitters"
+                        series={subcategory.modelNumber}
+                        stockStatus="in_stock"
+                        rating={4.7}
+                        reviewCount={subcategory.productCount}
+                        specifications={{
+                          connection: subcategory.connection,
+                          pressure: `${subcategory.productCount} models available`
+                        }}
+                        customLink={`/pressure-transmitters/${subcategory.id}`}
+                        onClick={() => handleSubcategoryClick(subcategory.id, 'pressure-transmitters')}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                /* Regular Product Grid when filters/search are applied */
+                <SectionErrorBoundary 
+                  fallbackTitle="Products Unavailable"
+                  fallbackMessage="Unable to load products. Please try refreshing the page."
+                >
+                  <ProductGrid 
+                    filters={filters} 
+                    searchQuery={searchQuery} 
+                    onFiltersChange={handleFiltersChange}
+                    onSearchChange={handleSearchChange}
+                  />
+                </SectionErrorBoundary>
+              )
             )}
           </div>
 

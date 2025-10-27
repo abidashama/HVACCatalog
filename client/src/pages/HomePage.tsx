@@ -12,6 +12,9 @@ import { useQuery } from '@tanstack/react-query'
 import { LoadingSkeleton } from '@/components/ui/LoadingSkeleton'
 import { useLocation } from 'wouter'
 import { type SelectProduct } from '@shared/schema'
+import pressureSwitchData from '@/assets/data/pressure-switch.json'
+import valveData from '@/assets/data/valves.json'
+import pressureTransmitterData from '@/assets/data/pressure_transmitters.json'
 
 // Transform backend product data for ProductCard component
 const transformProduct = (product: SelectProduct) => {
@@ -102,26 +105,69 @@ const customerTestimonials = [
 type ProductCardData = ReturnType<typeof transformProduct>
 
 export default function HomePage() {
-  // Fetch featured products from backend (first 3 products, sorted by rating)
-  const { data: productsResponse, isLoading: productsLoading } = useQuery({
-    queryKey: ['/api/products', { sortBy: 'rating', limit: 3 }],
-    queryFn: async () => {
-      const params = new URLSearchParams({
-        sortBy: 'rating',
-        limit: '3'  // Pass as string since query params are strings
-      })
-      const response = await fetch(`/api/products?${params}`)
-      if (!response.ok) {
-        throw new Error('Failed to fetch featured products')
-      }
-      return response.json()
-    },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  })
-
-  const featuredProducts: ProductCardData[] = productsResponse?.products?.map(transformProduct) || []
-
   const [, setLocation] = useLocation()
+
+  // Show one category from each type: Pressure Switches, Valves, and Pressure Transmitters
+  const featuredCategories = [
+    {
+      id: 'waterline',
+      title: 'Pressure Switch for Waterline',
+      modelNumber: 'LF55 Series',
+      image: (pressureSwitchData.categories.pressureSwitches as any).image,
+      price: 0,
+      category: 'Pressure Switches',
+      series: 'LF55',
+      stockStatus: 'in_stock' as const,
+      rating: 4.7,
+      reviewCount: (pressureSwitchData.categories.pressureSwitches?.products as Array<any>)?.length || 0,
+      specifications: {
+        connection: 'G1/4',
+        pressure: `${(pressureSwitchData.categories.pressureSwitches?.products as Array<any>)?.length || 0} models available`
+      }
+    },
+    {
+      id: 'solenoid-lfsv-d',
+      title: 'Solenoid Valve & Coil LFSV-D',
+      modelNumber: 'LFSV-D Series',
+      image: (valveData.categories.solenoidValvesLFSVD as any).image,
+      price: 0,
+      category: 'Valves',
+      series: 'LFSV-D',
+      stockStatus: 'in_stock' as const,
+      rating: 4.7,
+      reviewCount: Object.values((valveData.categories.solenoidValvesLFSVD as any).subcategories || {}).reduce((total: number, sub: any) => total + (sub.products?.length || 0), 0),
+      specifications: {
+        connection: 'Multiple sizes',
+        pressure: `${Object.values((valveData.categories.solenoidValvesLFSVD as any).subcategories || {}).reduce((total: number, sub: any) => total + (sub.products?.length || 0), 0)} models available`
+      }
+    },
+    {
+      id: 't2000-series',
+      title: 'T2000 Series Pressure Transmitter',
+      modelNumber: 'T2000 Series',
+      image: (pressureTransmitterData.categories.t2000Series as any).image,
+      price: 0,
+      category: 'Pressure Transmitters',
+      series: 'T2000',
+      stockStatus: 'in_stock' as const,
+      rating: 4.7,
+      reviewCount: (pressureTransmitterData.categories.t2000Series?.products as Array<any>)?.length || 0,
+      specifications: {
+        output: '4-20 mA',
+        pressure: `${(pressureTransmitterData.categories.t2000Series?.products as Array<any>)?.length || 0} models available`
+      }
+    }
+  ]
+
+  const handleCategoryClick = (categoryId: string, categoryType: string) => {
+    if (categoryType === 'pressure-switches') {
+      setLocation(`/pressure-switches/${categoryId}`)
+    } else if (categoryType === 'valves') {
+      setLocation(`/valves/${categoryId}`)
+    } else if (categoryType === 'pressure-transmitters') {
+      setLocation(`/pressure-transmitters/${categoryId}`)
+    }
+  }
 
   const handleViewAllProducts = () => {
     setLocation('/products')
@@ -151,9 +197,33 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} {...product} />
-            ))}
+            {featuredCategories.map((category, index) => {
+              const categoryType = index === 0 ? 'pressure-switches' : index === 1 ? 'valves' : 'pressure-transmitters'
+              const linkPath = index === 0 
+                ? `/pressure-switches/${category.id}` 
+                : index === 1
+                ? `/valves/${category.id}`
+                : `/pressure-transmitters/${category.id}`
+              
+              return (
+                <ProductCard
+                  key={category.id}
+                  id={category.id}
+                  title={category.title}
+                  modelNumber={category.modelNumber}
+                  image={category.image}
+                  price={category.price}
+                  category={category.category}
+                  series={category.series}
+                  stockStatus={category.stockStatus}
+                  rating={category.rating}
+                  reviewCount={category.reviewCount}
+                  specifications={category.specifications}
+                  customLink={linkPath}
+                  onClick={() => handleCategoryClick(category.id, categoryType)}
+                />
+              )
+            })}
           </div>
 
           <div className="text-center">

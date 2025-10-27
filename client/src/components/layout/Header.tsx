@@ -1,6 +1,6 @@
 import { useState, useEffect, useLayoutEffect, useRef } from 'react'
 import { Link, useLocation } from 'wouter'
-import { Menu, User, Phone, Mail, X, ChevronDown } from 'lucide-react'
+import { Menu, Phone, Mail, X, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import InquiryModal from '@/components/modals/InquiryModal'
@@ -211,9 +211,6 @@ export default function Header() {
 
             <div className="flex items-center gap-3">
               <ThemeToggle />
-              <Button variant="default" size="icon" className={`shadow-sm hover:shadow-md h-10 w-10 ${glassOnHero ? 'bg-white/10 hover:bg-white/20 text-white border border-white/20' : ''}`} data-testid="button-user-menu" aria-label="User menu">
-                <User className="w-5 h-5" />
-              </Button>
               <Button 
                 variant="ghost" 
                 size="icon" 
