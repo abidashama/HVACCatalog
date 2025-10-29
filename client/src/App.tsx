@@ -40,9 +40,11 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider defaultTheme="light" storageKey="industrial-hvac-theme">
           <TooltipProvider>
-            <ScrollToTop />
-            <Router />
-            <Toaster />
+            <div className="min-h-screen" style={{ background: 'linear-gradient(to top, #dfe9f3 0%, white 100%)' }}>
+              <ScrollToTop />
+              <Router />
+              <Toaster />
+            </div>
           </TooltipProvider>
         </ThemeProvider>
       </QueryClientProvider>

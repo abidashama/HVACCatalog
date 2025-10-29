@@ -248,7 +248,7 @@ export default function BrandShowcase({
     <section 
       id="brand-hero"
       ref={slideRef}
-      className="relative overflow-clip min-h-[620px] md:min-h-[calc(100dvh-80px)] xl:min-h-0 2xl:min-h-0 max-h-[780px] xl:max-h-[760px]"
+      className="relative overflow-clip min-h-[620px] md:min-h-[700px] lg:h-[100vh] xl:h-[780px]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
