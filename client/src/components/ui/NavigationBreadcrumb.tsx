@@ -13,6 +13,7 @@ import {
 const PRESSURE_SWITCHES_URL = '/products?category=Pressure%20Switches'
 const VALVES_URL = '/products?category=Valves'
 const PRESSURE_TRANSMITTERS_URL = '/products?category=Pressure%20Transmitters'
+const HEAT_EXCHANGERS_URL = '/products?category=Heat%20Exchangers'
 
 interface BreadcrumbItemData {
   label: string
@@ -33,7 +34,9 @@ const pathToLabel: Record<string, string> = {
   'product': 'Product',
   'pressure-switches': 'Pressure Switches',
   'valves': 'Valves',
-  'pressure-transmitters': 'Pressure Transmitters'
+  'pressure-transmitters': 'Pressure Transmitters',
+  'heat-exchangers': 'Heat Exchangers',
+  'bphe': 'BPHE Series'
 }
 
 function generateBreadcrumbItems(pathname: string): BreadcrumbItemData[] {
@@ -56,6 +59,8 @@ function generateBreadcrumbItems(pathname: string): BreadcrumbItemData[] {
       href = VALVES_URL
     } else if (segment === 'pressure-transmitters' && !isLast) {
       href = PRESSURE_TRANSMITTERS_URL
+    } else if (segment === 'heat-exchangers' && !isLast) {
+      href = HEAT_EXCHANGERS_URL
     }
     
     items.push({ label, href })

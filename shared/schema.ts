@@ -106,6 +106,12 @@ export const PRODUCT_CATEGORIES = [
     description: 'High-precision pressure transmitters with 4-20 mA output for industrial applications'
   },
   {
+    id: 'Heat Exchangers',
+    name: 'Heat Exchangers',
+    slug: 'heat-exchangers',
+    description: 'High-efficiency heat exchangers and BPHE for optimal thermal performance'
+  },
+  {
     id: 'Temperature Sensors',
     name: 'Temperature Sensors',
     slug: 'temperature-sensors', 

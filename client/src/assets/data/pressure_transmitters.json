@@ -10,7 +10,7 @@
                 }
             ],
             "image": "/assets/images/t2000_series.png",
-            "document": "/assets/documents/T2000_series.pdf"
+            "document": "/assets/documents/pressure_transmitters/T2000_series.pdf"
         },
         "t2800Series": {
             "name": "T2800 SERIES",
@@ -22,7 +22,7 @@
                 }
             ],
             "image": "/assets/images/t2800_series.png",
-            "document": "/assets/documents/T2800_series.pdf"
+            "document": "/assets/documents/pressure_transmitters/T2800_series.pdf"
         }
     }
 }

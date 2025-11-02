@@ -422,13 +422,21 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
             ? 'grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6'
             : 'space-y-4'
         } data-testid="container-products" ref={gridRef}>
-          {products.map((product: SelectProduct) => (
-            <ProductCard
-              key={product.id}
-              {...transformProduct(product)}
-              isCompact={viewMode === 'list'}
-            />
-          ))}
+          {products.map((product: SelectProduct) => {
+            const transformed = transformProduct(product)
+            // Heat exchangers should use the category-specific detail page
+            const customLink = product.category === 'Heat Exchangers' 
+              ? '/heat-exchangers/bphe' 
+              : undefined
+            return (
+              <ProductCard
+                key={product.id}
+                {...transformed}
+                customLink={customLink}
+                isCompact={viewMode === 'list'}
+              />
+            )
+          })}
         </div>
       )}
 

@@ -23,6 +23,8 @@ interface ProductCardProps {
     pressure?: string
     voltage?: string
     connection?: string
+    plates?: string | number
+    capacity?: string
   }
   isCompact?: boolean
   customLink?: string // Optional custom link for special routing
@@ -203,6 +205,18 @@ export default function ProductCard({
               <div className="flex justify-between text-xs">
                 <span className="text-muted-foreground">Working Temp:</span>
                 <span className="font-mono font-semibold text-foreground">{specifications.workingTemp}</span>
+              </div>
+            )}
+            {specifications.plates && (
+              <div className="flex justify-between text-xs">
+                <span className="text-muted-foreground">Plates:</span>
+                <span className="font-mono font-semibold text-foreground">{specifications.plates}</span>
+              </div>
+            )}
+            {specifications.capacity && (
+              <div className="flex justify-between text-xs">
+                <span className="text-muted-foreground">Capacity:</span>
+                <span className="font-mono font-semibold text-foreground">{specifications.capacity}</span>
               </div>
             )}
             {specifications.voltage && (

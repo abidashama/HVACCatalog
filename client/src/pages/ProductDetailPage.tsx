@@ -472,6 +472,44 @@ export default function ProductDetailPage() {
           <h2 className="text-2xl font-bold text-foreground mb-8">Product Details</h2>
           
           <div className="space-y-4">
+            {/* Heat Exchangers: Models Table */}
+            {product.category === 'Heat Exchangers' && Array.isArray((specifications as any).models) && (
+              <Card>
+                <CardHeader className="hover-elevate">
+                  <CardTitle className="text-left">Available Models</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm border border-border rounded-md">
+                      <thead className="bg-muted/50">
+                        <tr>
+                          <th className="text-left p-3 border-b border-border">Model</th>
+                          <th className="text-left p-3 border-b border-border">Plates</th>
+                          <th className="text-left p-3 border-b border-border">Capacity</th>
+                          <th className="text-left p-3 border-b border-border">Document</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {((specifications as any).models as Array<any>).map((m, idx) => (
+                          <tr key={`${m.model}-${idx}`} className="hover:bg-muted/30">
+                            <td className="p-3 border-b border-border font-mono">{m.model}</td>
+                            <td className="p-3 border-b border-border">{m.plates}</td>
+                            <td className="p-3 border-b border-border">{m.capacity}</td>
+                            <td className="p-3 border-b border-border">
+                              {m.document ? (
+                                <a className="text-primary underline" href={m.document} target="_blank" rel="noreferrer">PDF</a>
+                              ) : (
+                                <span className="text-muted-foreground">—</span>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
             {/* Technical Specifications */}
             <Collapsible open={openSections.specifications} onOpenChange={() => toggleSection('specifications')}>
               <Card>
@@ -488,12 +526,16 @@ export default function ProductDetailPage() {
                 <CollapsibleContent>
                   <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {Object.entries(specifications).map(([key, value]) => (
-                        <div key={key} className="flex justify-between items-center py-2 border-b border-border last:border-b-0">
-                          <span className="font-medium text-foreground">{key}:</span>
-                          <span className="text-muted-foreground text-right">{value}</span>
-                        </div>
-                      ))}
+                      {Object.entries(specifications)
+                        .filter(([key]) => key !== 'models')
+                        .map(([key, value]) => (
+                          <div key={key} className="flex justify-between items-center py-2 border-b border-border last:border-b-0">
+                            <span className="font-medium text-foreground">{key}:</span>
+                            <span className="text-muted-foreground text-right">
+                              {typeof value === 'string' || typeof value === 'number' ? value as any : Array.isArray(value) ? value.join(', ') : ''}
+                            </span>
+                          </div>
+                        ))}
                     </div>
                   </CardContent>
                 </CollapsibleContent>

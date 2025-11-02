@@ -55,6 +55,7 @@ export class MemStorage implements IStorage {
     // Load real data from JSON files
     this.loadPressureSwitchProducts();
     this.loadValveProducts();
+    this.loadHeatExchangerProducts();
   }
 
   private loadPressureSwitchProducts() {
@@ -401,6 +402,87 @@ export class MemStorage implements IStorage {
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error('Failed to load valve data:', err);
+    }
+  }
+
+  private loadHeatExchangerProducts() {
+    try {
+      const jsonPath = path.resolve(process.cwd(), 'client', 'src', 'assets', 'data', 'heat_exchangers.json');
+      if (!fs.existsSync(jsonPath)) {
+        // eslint-disable-next-line no-console
+        console.warn('Heat exchanger JSON file not found at:', jsonPath);
+        return;
+      }
+      const raw = fs.readFileSync(jsonPath, 'utf-8');
+      const data = JSON.parse(raw) as any;
+      const categories = data?.categories ?? {};
+
+      const addProduct = (p: Omit<SelectProduct, 'createdAt' | 'updatedAt'>) => {
+        const product: SelectProduct = { ...p, createdAt: new Date(), updatedAt: new Date() };
+        this.products.set(product.id, product);
+      };
+
+      // Helper to generate price in a stable but varied way based on model text
+      const priceFor = (model: string) => {
+        const hash = Array.from(model).reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+        const base = 300 + (hash % 500); // 300 - 799
+        return base.toFixed(2);
+      };
+
+      // Determine series from model
+      const seriesFromModel = (model: string): string => {
+        const upper = model.replace(/\s+/g, '').toUpperCase();
+        if (upper.includes('26-')) return '26 Series';
+        if (upper.includes('50-')) return '50 Series';
+        if (upper.includes('95-') || upper.includes('AX95')) return '95 Series';
+        return 'BPHE Series';
+      };
+
+      // Load heat exchanger category as a SINGLE aggregated product with models table
+      const heatExchangerCategory = categories.heatExchangerBPHE;
+      if (heatExchangerCategory?.products) {
+        const categoryImage = heatExchangerCategory.image || '/assets/images/heat_exchangers/heat_exchangers.png';
+        const models = (heatExchangerCategory.products as any[])
+          .filter((p) => !!p?.model)
+          .map((p) => ({
+            model: p.model,
+            plates: p.plates,
+            capacity: p.capacity,
+            document: p.document || null
+          }));
+
+        const representativeModel = models[0]?.model || 'AX Series';
+        const title = `${heatExchangerCategory.name}`;
+        const productId = `heat-exchangers-bphe`;
+
+        addProduct({
+          id: productId,
+          title,
+          modelNumber: representativeModel,
+          image: categoryImage,
+          price: priceFor(representativeModel),
+          originalPrice: null,
+          category: 'Heat Exchangers',
+          series: 'BPHE Series',
+          stockStatus: 'in_stock',
+          rating: '4.7',
+          reviewCount: Math.max(5, models.length),
+          specifications: JSON.stringify({
+            models // array of models for table rendering
+          }),
+          description: `${heatExchangerCategory.name} with multiple models. See table for options.`,
+          tags: JSON.stringify(['heat-exchanger', 'bphe'])
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(`Loaded 1 aggregated heat exchanger product with ${models.length} models`);
+      } else {
+        // eslint-disable-next-line no-console
+        console.warn('No heat exchanger products found in JSON data');
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to load heat exchanger data:', err);
     }
   }
 

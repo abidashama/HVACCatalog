@@ -42,7 +42,7 @@
             ],
             "connection": "G1/4",
             "image": "/assets/images/waterline.png",
-            "document": "/assets/documents/LF55.pdf"
+            "document": "/assets/documents/pressure_switches/LF55.pdf"
         },
         "lpHpRefrigerationSwitches": {
             "name": "LP & HP PRESSURE SWITCH FOR REFRIGERATION",
@@ -64,7 +64,7 @@
             ],
             "connection": "1/4 FLARE EXT",
             "image": "/assets/images/refrigeration.webp",
-            "document": "/assets/documents/LF55.pdf"
+            "document": "/assets/documents/pressure_switches/LF55.pdf"
         },
         "lpHpCombinedSwitches": {
             "name": "LP-HP COMBINED PRESSURE SWITCH",
@@ -100,7 +100,7 @@
             ],
             "connection": "7/16-20 UNF",
             "image": "/assets/images/dual_hp_lp.png",
-            "document": "/assets/documents/LF58.pdf"
+            "document": "/assets/documents/pressure_switches/LF58.pdf"
         },
         "smallFixDifferentialSwitches": {
             "name": "SMALL FIX DIFFERENTIAL PRESSURE SWITCH ( CARTRIDGE TYPE)",
@@ -158,7 +158,7 @@
             "connection": "1/4 FLARE & SOLDER",
             "refrigerants": "R134a,R404A/R407,R507,R22/R407C,R410A",
             "image": "/assets/images/small_fix.png",
-            "document": "/assets/documents/LF08.pdf"
+            "document": "/assets/documents/pressure_switches/LF08.pdf"
         },
         "oilDifferentialSwitches": {
             "name": "OIL DIFFERENTIAL PRESSURE SWITCH",
@@ -194,7 +194,7 @@
             ],
             "connection": "MALE G1/4, FLARE G1/4",
             "image": "/assets/images/oil_diffrential.png",
-            "document": "/assets/documents/LF5D.pdf"
+            "document": "/assets/documents/pressure_switches/LF5D.pdf"
         },
         "airDifferentialSwitches": {
             "name": "AIR DIFFERENTIAL PRESSURE SWITCH ",
@@ -215,7 +215,7 @@
             ],
             "certifications": ["UL", "CE", "REACH", "ROHS", "TSCA"],
             "image": "/assets/images/air_differential.png",
-            "document": "/assets/documents/LF32.pdf"
+            "document": "/assets/documents/pressure_switches/LF32.pdf"
         }
     }
 }

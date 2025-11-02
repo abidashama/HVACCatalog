@@ -10,6 +10,7 @@ import type { ProductFilters } from '@shared/schema'
 import pressureSwitchData from '@/assets/data/pressure-switch.json'
 import valveData from '@/assets/data/valves.json'
 import pressureTransmitterData from '@/assets/data/pressure_transmitters.json'
+import heatExchangerData from '@/assets/data/heat_exchangers.json'
 
 interface FilterSidebarProps {
   isOpen: boolean
@@ -70,14 +71,17 @@ const getPressureTransmitterCount = () => {
   return count
 }
 
+// Heat exchangers are shown as a single aggregated product
+const getHeatExchangerCount = () => 1
+
 // Filter data that matches backend category names exactly
 const filterData = {
   categories: [
     { id: 'Pressure Switches', name: 'Pressure Switches', count: getPressureSwitchCount() },
-    { id: 'Temperature Sensors', name: 'Temperature Sensors', count: 1 },
     { id: 'Valves', name: 'Valves', count: getValveCount() },
     { id: 'Pressure Transmitters', name: 'Pressure Transmitters', count: getPressureTransmitterCount() },
-    { id: 'Heat Exchangers', name: 'Heat Exchangers', count: 0 },
+    { id: 'Heat Exchangers', name: 'Heat Exchangers', count: getHeatExchangerCount() },
+    { id: 'Temperature Sensors', name: 'Temperature Sensors', count: 1 },
     { id: 'Refrigeration Components', name: 'Refrigeration Components', count: 0 }
   ]
 }

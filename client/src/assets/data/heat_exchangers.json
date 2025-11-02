@@ -1,0 +1,111 @@
+{
+    "categories": {
+        "heatExchangerBPHE": {
+            "name": "HEAT EXCHANGER/BPHE",
+            "products": [
+                {
+                    "model": "26-10 (1T-D)",
+                    "plates": "10",
+                    "capacity": "1 TR",
+                    "document": "/assets/documents/heat_exchangers/HGN2407132_1T-D.pdf"
+                },
+                {
+                    "model": "26-20 (2T-D)",
+                    "plates": "20",
+                    "capacity": "2 TR",
+                    "document": "/assets/documents/heat_exchangers/HGN2407137_2T-D.pdf"
+                },
+                {
+                    "model": "26-30 (3T-D)",
+                    "plates": "30",
+                    "capacity": "3 TR",
+                    "document": "/assets/documents/heat_exchangers/HGN2410152_3T-D.pdf"
+                },
+                {
+                    "model": "50-20 (4T-D)",
+                    "plates": "20",
+                    "capacity": "4 TR",
+                    "document": "/assets/documents/heat_exchangers/HGN2501079_4T-D.pdf"
+                },
+                {
+                    "model": "50-30 (5T-D)",
+                    "plates": "30",
+                    "capacity": "5 TR",
+                    "document": "/assets/documents/heat_exchangers/HGN2407139_5T-D.pdf"
+                },
+                {
+                    "model": "50-42 (7.5T-D)",
+                    "plates": "42",
+                    "capacity": "7.5 TR",
+                    "document": "/assets/documents/heat_exchangers/HGN2311099_7.5T-D.pdf"
+                },
+                {
+                    "model": "50-56 (10T-D)",
+                    "plates": "56",
+                    "capacity": "10 TR",
+                    "document": "/assets/documents/heat_exchangers/HGN2407133_10T-D.pdf"
+                },
+                {
+                    "model": "50-70 (12.5T-D)",
+                    "plates": "70",
+                    "capacity": "12.5 TR",
+                    "document": "/assets/documents/heat_exchangers/HGN2407134_12.5T-D-1.pdf"
+                },
+                {
+                    "model": "50-86 (15T-D)",
+                    "plates": "86",
+                    "capacity": "15 TR",
+                    "document": "/assets/documents/heat_exchangers/HGN2410154_15T-D-1.pdf"
+                },
+                {
+                    "model": "95-40 (15T-D) (BROADER)",
+                    "plates": "40",
+                    "capacity": "15 TR",
+                    "document": "/assets/documents/heat_exchangers/AX95-40_15Tr_Broader.pdf"
+                },
+                {
+                    "model": "95-54 (17.5T-D) (BROADER)",
+                    "plates": "54",
+                    "capacity": "17.5 TR",
+                    "document": "/assets/documents/heat_exchangers/AX95-54_17.5Tr_Broader.pdf"
+                },
+                {
+                    "model": "95-62 (20T-D) (BROADER)",
+                    "plates": "62",
+                    "capacity": "20 TR",
+                    "document": "/assets/documents/heat_exchangers/AX95-62_20Tr_Broader.pdf"
+                },
+                {
+                    "model": "95-70 (25-D) (BROADER)",
+                    "plates": "70",
+                    "capacity": "25 TR",
+                    "document": "/assets/documents/heat_exchangers/HGN2410153_25T-D-1.pdf"
+                },
+                {
+                    "model": "95-92 (30T-D) (BROADER)",
+                    "plates": "92",
+                    "capacity": "30 TR",
+                    "document": "/assets/documents/heat_exchangers/AX95-92_30Tr_Broader.pdf"
+                },
+                {
+                    "model": "95-112 (35T-D) (BROADER)",
+                    "plates": "112",
+                    "capacity": "35 TR",
+                    "document": "/assets/documents/heat_exchangers/AX95-112_35Tr_Broader.pdf"
+                },
+                {
+                    "model": "26-20 (2T-D FRONT AND BACK CONNECTION)",
+                    "plates": "20",
+                    "capacity": "2 TR",
+                    "document": "/assets/documents/heat_exchangers/HGN2407136_2T-D-1_front_and_back_connection.pdf"
+                },
+                {
+                    "model": "26-30 (3T-D FRONT AND BACK CONNECTION)",
+                    "plates": "30",
+                    "capacity": "3 TR"
+                }
+            ],
+            "image": "/assets/images/heat_exchangers/heat_exchangers.png"
+        }
+    }
+}
