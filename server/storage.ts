@@ -57,6 +57,7 @@ export class MemStorage implements IStorage {
     this.loadValveProducts();
     this.loadHeatExchangerProducts();
     this.loadAxeonValveProducts();
+    this.loadAccumulatorProducts();
   }
 
   private loadPressureSwitchProducts() {
@@ -584,6 +585,92 @@ export class MemStorage implements IStorage {
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error('Failed to load axeon valve data:', err);
+    }
+  }
+
+  private loadAccumulatorProducts() {
+    try {
+      const jsonPath = path.resolve(process.cwd(), 'client', 'src', 'assets', 'data', 'accumulator_oil_seperator_liquid_receiver.json');
+      if (!fs.existsSync(jsonPath)) {
+        // eslint-disable-next-line no-console
+        console.warn('Accumulator products JSON file not found at:', jsonPath);
+        return;
+      }
+      const raw = fs.readFileSync(jsonPath, 'utf-8');
+      const data = JSON.parse(raw) as any;
+      const categories = data?.categories ?? {};
+
+      const addProduct = (p: Omit<SelectProduct, 'createdAt' | 'updatedAt'>) => {
+        const product: SelectProduct = { ...p, createdAt: new Date(), updatedAt: new Date() };
+        this.products.set(product.id, product);
+      };
+
+      // Helper to generate price
+      const priceFor = (model: string) => {
+        const hash = Array.from(model).reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+        const base = 200 + (hash % 300); // 200 - 499
+        return base.toFixed(2);
+      };
+
+      // Create a SEPARATE product for EACH type
+      let totalProducts = 0;
+
+      // Load all categories as separate products
+      Object.entries(categories).forEach(([categoryKey, category]: [string, any]) => {
+        if (!category) return;
+
+        const categoryName = category.name;
+        const categoryImage = category.image || '/assets/images/liquid_accumulator.png';
+        
+        // Collect models for this specific category
+        const categoryModels: Array<{category: string, model: string, connection?: string, volume?: string}> = [];
+
+        // Handle categories with direct products
+        if (category.products) {
+          for (const product of category.products) {
+            categoryModels.push({
+              category: categoryName,
+              model: product.model,
+              connection: product.connection,
+              volume: product.volume
+            });
+          }
+        }
+
+        // Create a product for this type if it has models
+        if (categoryModels.length > 0) {
+          const representativeModel = categoryModels[0]?.model || 'SPLQ';
+          const productId = `accumulator-${categoryKey}`;
+          
+          addProduct({
+            id: productId,
+            title: categoryName,
+            modelNumber: representativeModel,
+            image: categoryImage,
+            price: priceFor(representativeModel),
+            originalPrice: null,
+            category: 'Accumulator/Oil Separator/Liquid Receiver',
+            series: categoryName,
+            stockStatus: 'in_stock',
+            rating: '4.7',
+            reviewCount: Math.max(5, categoryModels.length),
+            specifications: JSON.stringify({
+              models: categoryModels,
+              categoryData: category
+            }),
+            description: `${categoryName} - Professional grade components for industrial refrigeration and HVAC applications.`,
+            tags: JSON.stringify(['accumulator', 'refrigeration', categoryKey.toLowerCase()])
+          });
+
+          totalProducts++;
+        }
+      });
+
+      // eslint-disable-next-line no-console
+      console.log(`Loaded ${totalProducts} separate Accumulator/Oil Separator/Liquid Receiver products`);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to load accumulator products data:', err);
     }
   }
 

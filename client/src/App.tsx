@@ -17,6 +17,7 @@ import ValveDetailPage from "@/pages/ValveDetailPage";
 import PressureTransmitterDetailPage from "@/pages/PressureTransmitterDetailPage";
 import HeatExchangerDetailPage from "@/pages/HeatExchangerDetailPage";
 import AxeonValveDetailPage from "@/pages/AxeonValveDetailPage";
+import AccumulatorDetailPage from "@/pages/AccumulatorDetailPage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -30,6 +31,7 @@ function Router() {
       <Route path="/product/:slug" component={ProductDetailPage} />
       <Route path="/heat-exchangers/bphe" component={HeatExchangerDetailPage} />
       <Route path="/axeon-valves/:productId" component={AxeonValveDetailPage} />
+      <Route path="/accumulator/:productId" component={AccumulatorDetailPage} />
       <Route path="/pressure-switches/:subcategoryId" component={PressureSwitchDetailPage} />
       <Route path="/valves/:categoryId" component={ValveDetailPage} />
       <Route path="/pressure-transmitters/:subcategoryId" component={PressureTransmitterDetailPage} />

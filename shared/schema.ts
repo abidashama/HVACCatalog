@@ -116,6 +116,12 @@ export const PRODUCT_CATEGORIES = [
     name: 'Axeon Valves',
     slug: 'axeon-valves',
     description: 'Rotalock valves, hand shutoff valves, and angle valves for refrigeration systems'
+  },
+  {
+    id: 'Accumulator/Oil Separator/Liquid Receiver',
+    name: 'Accumulator/Oil Separator/Liquid Receiver',
+    slug: 'accumulator-oil-separator-liquid-receiver',
+    description: 'Liquid accumulators, oil separators, and liquid receivers for refrigeration systems'
   }
 ] as const
 

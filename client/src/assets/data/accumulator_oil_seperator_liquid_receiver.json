@@ -1,0 +1,78 @@
+{
+    "categories": {
+        "liquidAccumulator": {
+            "name": "LIQUID ACCUMULATOR",
+            "products": [
+                {
+                    "model": "SPLQ-384",
+                    "connection": "1/2"
+                },
+                {
+                    "model": "SPLQ-3105",
+                    "connection": "5/8\""
+                },
+                {
+                    "model": "SPLQ-3156",
+                    "connection": "3/4"
+                },
+                {
+                    "model": "SPLQ-597",
+                    "connection": "7/8\""
+                },
+                {
+                    "model": "SPLQ-5139",
+                    "connection": "1-1/8\""
+                },
+                {
+                    "model": "SPLQ-51711",
+                    "connection": "1-3/8\""
+                },
+                {
+                    "model": "SPLQ-62013",
+                    "connection": "1-5/8\""
+                }
+            ],
+            "image": "/assets/images/acc_oil_sep_liq_rec/accumulator.png"
+        },
+        "oilSeparator": {
+            "name": "OIL SEPERATOR",
+            "products": [
+                {
+                    "model": "SPLY-55824",
+                    "connection": "1/2\""
+                },
+                {
+                    "model": "SPLY-55855",
+                    "connection": "5/8\""
+                },
+                {
+                    "model": "SPLY-55877",
+                    "connection": "7/8\""
+                },
+                {
+                    "model": "SPLY-55889",
+                    "connection": "1-1/8\""
+                },
+                {
+                    "model": "SPLY-559011",
+                    "connection": "1-3/8\""
+                }
+            ],
+            "image": "/assets/images/acc_oil_sep_liq_rec/oil_seperator.png"
+        },
+        "liquidReceiver": {
+            "name": "LIQUID RECEIVER",
+            "products": [
+                {
+                    "model": "SPLC-M013",
+                    "volume": "2.2 LITERS"
+                },
+                {
+                    "model": "SPLC-M023",
+                    "volume": "3 LITERS"
+                }
+            ],
+            "image": "/assets/images/acc_oil_sep_liq_rec/liquid_receiver.png"
+        }
+    }
+}

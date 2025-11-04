@@ -12,6 +12,7 @@ import valveData from '@/assets/data/valves.json'
 import pressureTransmitterData from '@/assets/data/pressure_transmitters.json'
 import heatExchangerData from '@/assets/data/heat_exchangers.json'
 import axeonValveData from '@/assets/data/axeon_valves.json'
+import accumulatorData from '@/assets/data/accumulator_oil_seperator_liquid_receiver.json'
 
 interface FilterSidebarProps {
   isOpen: boolean
@@ -81,6 +82,12 @@ const getAxeonValvesCount = () => {
   return Object.keys(categories).length // 4 types: rotalock, hand shutoff, angle, solenoid
 }
 
+// Calculate Accumulator products count from JSON
+const getAccumulatorCount = () => {
+  const categories: any = accumulatorData.categories
+  return Object.keys(categories).length // 3 types: liquid accumulator, oil separator, liquid receiver
+}
+
 // Filter data that matches backend category names exactly
 const filterData = {
   categories: [
@@ -88,7 +95,8 @@ const filterData = {
     { id: 'Valves', name: 'Valves', count: getValveCount() },
     { id: 'Pressure Transmitters', name: 'Pressure Transmitters', count: getPressureTransmitterCount() },
     { id: 'Heat Exchangers', name: 'Heat Exchangers', count: getHeatExchangerCount() },
-    { id: 'Axeon Valves', name: 'Axeon Valves', count: getAxeonValvesCount() }
+    { id: 'Axeon Valves', name: 'Axeon Valves', count: getAxeonValvesCount() },
+    { id: 'Accumulator/Oil Separator/Liquid Receiver', name: 'Accumulator/Oil Separator/Liquid Receiver', count: getAccumulatorCount() }
   ]
 }
 
