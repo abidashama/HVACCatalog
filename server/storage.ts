@@ -56,6 +56,7 @@ export class MemStorage implements IStorage {
     this.loadPressureSwitchProducts();
     this.loadValveProducts();
     this.loadHeatExchangerProducts();
+    this.loadAxeonValveProducts();
   }
 
   private loadPressureSwitchProducts() {
@@ -483,6 +484,106 @@ export class MemStorage implements IStorage {
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error('Failed to load heat exchanger data:', err);
+    }
+  }
+
+  private loadAxeonValveProducts() {
+    try {
+      const jsonPath = path.resolve(process.cwd(), 'client', 'src', 'assets', 'data', 'axeon_valves.json');
+      if (!fs.existsSync(jsonPath)) {
+        // eslint-disable-next-line no-console
+        console.warn('Axeon valve JSON file not found at:', jsonPath);
+        return;
+      }
+      const raw = fs.readFileSync(jsonPath, 'utf-8');
+      const data = JSON.parse(raw) as any;
+      const categories = data?.categories ?? {};
+
+      const addProduct = (p: Omit<SelectProduct, 'createdAt' | 'updatedAt'>) => {
+        const product: SelectProduct = { ...p, createdAt: new Date(), updatedAt: new Date() };
+        this.products.set(product.id, product);
+      };
+
+      // Helper to generate price
+      const priceFor = (model: string) => {
+        const hash = Array.from(model).reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+        const base = 150 + (hash % 200); // 150 - 349
+        return base.toFixed(2);
+      };
+
+      // Create a SEPARATE product for EACH valve type
+      let totalProducts = 0;
+
+      // Load all axeon valve categories as separate products
+      Object.entries(categories).forEach(([categoryKey, category]: [string, any]) => {
+        if (!category) return;
+
+        const categoryName = category.name;
+        const categoryImage = category.image || '/assets/images/axeon_valves/rotalock_valve.png';
+        
+        // Collect models for this specific category
+        const categoryModels: Array<{category: string, model: string, connection?: string, subcategory?: string}> = [];
+
+        // Handle categories with subcategories (like Solenoid Valve Waterline)
+        if (category.subcategories) {
+          Object.entries(category.subcategories).forEach(([subKey, subcategory]: [string, any]) => {
+            if (subcategory?.products) {
+              for (const product of subcategory.products) {
+                categoryModels.push({
+                  category: categoryName,
+                  subcategory: subcategory.name,
+                  model: product.model,
+                  connection: product.connection
+                });
+              }
+            }
+          });
+        }
+        // Handle categories with direct products
+        else if (category.products) {
+          for (const product of category.products) {
+            categoryModels.push({
+              category: categoryName,
+              model: product.model,
+              connection: product.connection
+            });
+          }
+        }
+
+        // Create a product for this valve type if it has models
+        if (categoryModels.length > 0) {
+          const representativeModel = categoryModels[0]?.model || 'AX';
+          const productId = `axeon-${categoryKey}`;
+          
+          addProduct({
+            id: productId,
+            title: categoryName,  // Use exact name from JSON without prefix
+            modelNumber: representativeModel,
+            image: categoryImage,
+            price: priceFor(representativeModel),
+            originalPrice: null,
+            category: 'Axeon Valves',
+            series: categoryName,
+            stockStatus: 'in_stock',
+            rating: '4.8',
+            reviewCount: Math.max(5, categoryModels.length),
+            specifications: JSON.stringify({
+              models: categoryModels, // array of models for this specific type
+              categoryData: category // keep original category structure
+            }),
+            description: `${categoryName} - Professional grade valves for industrial refrigeration and HVAC applications.`,
+            tags: JSON.stringify(['axeon', 'valves', categoryKey.toLowerCase()])
+          });
+
+          totalProducts++;
+        }
+      });
+
+      // eslint-disable-next-line no-console
+      console.log(`Loaded ${totalProducts} separate Axeon valve products`);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to load axeon valve data:', err);
     }
   }
 

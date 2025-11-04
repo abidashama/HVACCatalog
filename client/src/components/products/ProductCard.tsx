@@ -6,6 +6,33 @@ import { useRef } from 'react'
 import { useLocation } from 'wouter'
 import type { SelectProduct } from '@shared/schema'
 
+// Helper function to convert text to proper title case
+const toTitleCase = (str: string): string => {
+  // Common acronyms that should stay uppercase
+  const acronyms = ['lp', 'hp', 'hvac', 'ac', 'dc', 'ul', 'ce', 'nc', 'no', 'yc', 'bphe']
+  
+  return str
+    .toLowerCase()
+    .split(' ')
+    .map((word) => {
+      // Keep acronyms in uppercase
+      if (acronyms.includes(word)) {
+        return word.toUpperCase()
+      }
+      
+      // Keep small words lowercase (unless they're the first word)
+      const lowercase = ['for', 'and', 'or', 'the', 'a', 'an', 'of', 'to', 'in', 'on', 'at', 'by', '&']
+      const isFirstWord = str.split(' ')[0].toLowerCase() === word
+      
+      if (lowercase.includes(word) && !isFirstWord) {
+        return word
+      }
+      
+      return word.charAt(0).toUpperCase() + word.slice(1)
+    })
+    .join(' ')
+}
+
 interface ProductCardProps {
   id: string
   title: string
@@ -192,7 +219,7 @@ export default function ProductCard({
               className="hover:text-[#00AEEF] transition-colors cursor-pointer"
               data-testid={`product-card-title`}
             >
-              {title}
+              {toTitleCase(title)}
             </a>
           </h3>
           <p className="text-sm text-muted-foreground" data-testid={`text-model-${id}`}>

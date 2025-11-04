@@ -25,7 +25,6 @@ interface ProductGridProps {
 export default function ProductGrid({ filters, searchQuery, onFiltersChange, onSearchChange }: ProductGridProps) {
   const [viewMode, setViewMode] = useState<ViewMode>('grid')
   const [sortBy, setSortBy] = useState<SortOption>('name')
-  const [currentPage, setCurrentPage] = useState(1)
   
   // Refs for GSAP animations
   const gridRef = useRef<HTMLDivElement>(null)
@@ -33,8 +32,8 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
   // Build query parameters for API
   const queryParams = useMemo(() => {
     const params: ProductFilters = {
-      page: currentPage,
-      limit: 12,
+      page: 1,
+      limit: 1000, // High limit to get all products without pagination
       sortBy,
       ...filters
     }
@@ -44,7 +43,7 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
     }
     
     return params
-  }, [currentPage, sortBy, filters, searchQuery])
+  }, [sortBy, filters, searchQuery])
   
   // Fetch products from API
   const {
@@ -74,6 +73,7 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
   })
   
   const apiProducts = productsResponse?.products || []
+  const totalProducts = productsResponse?.total || 0
 
   // Build local products from pressure-switch.json when category is Pressure Switches
   const pressureSwitchProducts = useMemo(() => {
@@ -229,9 +229,7 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
   const isPressureSwitchCategory = (filters?.category || '').toLowerCase() === 'pressure switches'.toLowerCase()
 
   const products = isPressureSwitchCategory ? pressureSwitchProducts : apiProducts
-  const totalProducts = isPressureSwitchCategory ? pressureSwitchProducts.length : (productsResponse?.total || 0)
-  const productsPerPage = 12
-  const totalPages = Math.ceil(totalProducts / productsPerPage)
+  const displayTotal = isPressureSwitchCategory ? pressureSwitchProducts.length : totalProducts
   
   // Convert API product data to component props format
   const transformProduct = (product: SelectProduct) => {
@@ -263,13 +261,6 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
 
   const handleSort = (value: SortOption) => {
     setSortBy(value)
-    setCurrentPage(1) // Reset to first page when sorting
-  }
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page)
-    // Scroll to top of product grid
-    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   // GSAP Stagger Animation for product cards
@@ -306,7 +297,7 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-card rounded-lg border">
         <div className="flex items-center gap-4">
           <span className="text-sm text-muted-foreground" data-testid="text-product-count">
-            {isLoading ? 'Loading products...' : `Showing ${Math.min((currentPage - 1) * productsPerPage + 1, totalProducts)}-${Math.min(currentPage * productsPerPage, totalProducts)} of ${totalProducts} products`}
+            {isLoading ? 'Loading products...' : `Showing ${displayTotal} ${displayTotal === 1 ? 'product' : 'products'}`}
           </span>
         </div>
         
@@ -374,7 +365,6 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
             onClick={() => {
               onFiltersChange?.({})
               onSearchChange?.('')
-              setCurrentPage(1)
             }}
             data-testid="button-clear-all-filters-grid"
           >
@@ -424,10 +414,14 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
         } data-testid="container-products" ref={gridRef}>
           {products.map((product: SelectProduct) => {
             const transformed = transformProduct(product)
-            // Heat exchangers should use the category-specific detail page
-            const customLink = product.category === 'Heat Exchangers' 
-              ? '/heat-exchangers/bphe' 
-              : undefined
+            // Heat exchangers and Axeon Valves should use their category-specific detail pages
+            let customLink: string | undefined
+            if (product.category === 'Heat Exchangers') {
+              customLink = '/heat-exchangers/bphe'
+            } else if (product.category === 'Axeon Valves') {
+              // Use the specific product ID for dynamic routing
+              customLink = `/axeon-valves/${product.id}`
+            }
             return (
               <ProductCard
                 key={product.id}
@@ -439,46 +433,6 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
           })}
         </div>
       )}
-
-      {/* Pagination */}
-      <div className="flex items-center justify-center gap-2 pt-8">
-        <Button
-          variant="outline"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1 || isLoading}
-          data-testid="button-prev-page"
-        >
-          Previous
-        </Button>
-        
-        {totalPages > 0 && [...Array(Math.min(totalPages, 10))].map((_, i) => {
-          const pageNum = i + 1
-          // Show first 5 pages, then ellipsis logic for large page counts
-          if (totalPages <= 10 || pageNum <= 5 || pageNum > totalPages - 5 || Math.abs(pageNum - currentPage) <= 2) {
-            return (
-              <Button
-                key={pageNum}
-                variant={currentPage === pageNum ? 'default' : 'outline'}
-                onClick={() => handlePageChange(pageNum)}
-                disabled={isLoading}
-                data-testid={`button-page-${pageNum}`}
-              >
-                {pageNum}
-              </Button>
-            )
-          }
-          return null
-        })}
-        
-        <Button
-          variant="outline"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages || isLoading || totalPages === 0}
-          data-testid="button-next-page"
-        >
-          Next
-        </Button>
-      </div>
     </div>
   )
 }

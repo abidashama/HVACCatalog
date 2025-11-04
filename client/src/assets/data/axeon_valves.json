@@ -1,0 +1,157 @@
+{
+    "categories": {
+        "rotalockValves": {
+            "name": "ROTALOCK VALVE",
+            "products": [
+                {
+                    "model": "AX-1",
+                    "connection": "1\"-14 UNS (1/4)"
+                },
+                {
+                    "model": "AX-2",
+                    "connection": "1\"-14 UNS (3/8)"
+                },
+                {
+                    "model": "AX-3",
+                    "connection": "1\"-14 UNS (1/2)"
+                },
+                {
+                    "model": "AX-4",
+                    "connection": "1\"-14 UNS (5/8)"
+                },
+                {
+                    "model": "AX-5",
+                    "connection": "1\"-14 UNS (3/4)"
+                },
+                {
+                    "model": "AX-6",
+                    "connection": "1-1/4\"-12UNF (1/2)"
+                },
+                {
+                    "model": "AX-7",
+                    "connection": "1-1/4\"-12UNF (5/8)"
+                },
+                {
+                    "model": "AX-8",
+                    "connection": "1-1/4\"-12UNF (3/4)"
+                },
+                {
+                    "model": "AX-9",
+                    "connection": "1-1/4\"-12UNF (3/4)"
+                },
+                {
+                    "model": "AX-10",
+                    "connection": "1-1/4\"-12UNF (7/8)"
+                },
+                {
+                    "model": "AX-11",
+                    "connection": "1-1/4\"-12UNF (1-1/8)"
+                },
+                {
+                    "model": "AX-13",
+                    "connection": "1-3/4\"-12UN (7/8)"
+                },
+                {
+                    "model": "AX-14",
+                    "connection": "1-3/4\"-12UN (1-1/8)"
+                },
+                {
+                    "model": "AX-15",
+                    "connection": "1-3/4\"-12UN (1-1/8)"
+                },
+                {
+                    "model": "AX-16",
+                    "connection": "1-3/4\"-12UN (1-3/8)"
+                },
+                {
+                    "model": "AX-18",
+                    "connection": "2-1/4\"-12UN (1-3/8)"
+                },
+                {
+                    "model": "AX-19",
+                    "connection": "2-1/4\"-12UN (1-5/8)"
+                }
+            ],
+            "image": "/assets/images/axeon_valves/rotalock_valve.png"
+        },
+        "handShutoffValves": {
+            "name": "HAND SHUTOFF VALVE",
+            "products": [
+                {
+                    "model": "HV01",
+                    "connection": "1/4\""
+                },
+                {
+                    "model": "HV02",
+                    "connection": "3/8\""
+                },
+                {
+                    "model": "HV03",
+                    "connection": "1/2\""
+                },
+                {
+                    "model": "HV04",
+                    "connection": "5/8'"
+                },
+                {
+                    "model": "HV05",
+                    "connection": "3/4\""
+                }
+            ],
+            "image": "/assets/images/axeon_valves/hand_shutoff_valve.png"
+        },
+        "angleValves": {
+            "name": "ANGLE VALVE",
+            "products": [
+                {
+                    "model": "SV12",
+                    "connection": "1/4 FLARE BY 1/4 NPT"
+                }
+            ],
+            "image": "/assets/images/axeon_valves/angle_valve.png"
+        },
+        "solenoidValvesWaterline": {
+            "name": "SOLENOID VALVE (WATERLINE)",
+            "subcategories": {
+                "ycBrass": {
+                    "name": "YC BRASS",
+                    "products": [
+                        {
+                            "model": "1/2 inch"
+                        },
+                        {
+                            "model": "1/4 inch"
+                        },
+                        {
+                            "model": "3/4 inch"
+                        },
+                        {
+                            "model": "1 inch"
+                        },
+                        {
+                            "model": "1.5 inch"
+                        }
+                    ]
+                },
+                "ycStainlessSteel": {
+                    "name": "YC STAINLESS STEEL",
+                    "products": [
+                        {
+                            "model": "1/2 inch"
+                        },
+                        {
+                            "model": "1 inch"
+                        },
+                        {
+                            "model": "3/4 inch"
+                        },
+                        {
+                            "model": "1.5 inch"
+                        }
+                    ]
+                }
+            },
+            "image": "/assets/images/axeon_valves/solenoid_valve.png"
+        }
+    }
+}

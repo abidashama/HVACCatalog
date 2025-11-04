@@ -11,6 +11,7 @@ import pressureSwitchData from '@/assets/data/pressure-switch.json'
 import valveData from '@/assets/data/valves.json'
 import pressureTransmitterData from '@/assets/data/pressure_transmitters.json'
 import heatExchangerData from '@/assets/data/heat_exchangers.json'
+import axeonValveData from '@/assets/data/axeon_valves.json'
 
 interface FilterSidebarProps {
   isOpen: boolean
@@ -74,6 +75,12 @@ const getPressureTransmitterCount = () => {
 // Heat exchangers are shown as a single aggregated product
 const getHeatExchangerCount = () => 1
 
+// Calculate Axeon Valves product count from JSON
+const getAxeonValvesCount = () => {
+  const categories: any = axeonValveData.categories
+  return Object.keys(categories).length // 4 types: rotalock, hand shutoff, angle, solenoid
+}
+
 // Filter data that matches backend category names exactly
 const filterData = {
   categories: [
@@ -81,8 +88,7 @@ const filterData = {
     { id: 'Valves', name: 'Valves', count: getValveCount() },
     { id: 'Pressure Transmitters', name: 'Pressure Transmitters', count: getPressureTransmitterCount() },
     { id: 'Heat Exchangers', name: 'Heat Exchangers', count: getHeatExchangerCount() },
-    { id: 'Temperature Sensors', name: 'Temperature Sensors', count: 1 },
-    { id: 'Refrigeration Components', name: 'Refrigeration Components', count: 0 }
+    { id: 'Axeon Valves', name: 'Axeon Valves', count: getAxeonValvesCount() }
   ]
 }
 

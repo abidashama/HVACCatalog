@@ -112,10 +112,10 @@ export const PRODUCT_CATEGORIES = [
     description: 'High-efficiency heat exchangers and BPHE for optimal thermal performance'
   },
   {
-    id: 'Temperature Sensors',
-    name: 'Temperature Sensors',
-    slug: 'temperature-sensors', 
-    description: 'High-accuracy temperature monitoring devices for industrial applications'
+    id: 'Axeon Valves',
+    name: 'Axeon Valves',
+    slug: 'axeon-valves',
+    description: 'Rotalock valves, hand shutoff valves, and angle valves for refrigeration systems'
   }
 ] as const
 
