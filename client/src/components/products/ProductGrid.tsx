@@ -10,6 +10,7 @@ import ProductCard from './ProductCard'
 import type { SelectProduct, ProductFilters } from '@shared/schema'
 import { gsap } from 'gsap'
 import pressureSwitchData from '@/assets/data/pressure-switch.json'
+import filterDrierData from '@/assets/data/filter_driers_filter_drier_shell.json'
 
 
 type ViewMode = 'grid' | 'list'
@@ -226,10 +227,106 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
     return out
   }, [])
 
-  const isPressureSwitchCategory = (filters?.category || '').toLowerCase() === 'pressure switches'.toLowerCase()
+  // Build local products from filter_driers_filter_drier_shell.json when category is Filter Driers
+  const filterDrierProducts = useMemo(() => {
+    const baseImage = '/assets/images/filter_driers/filter_drier.webp'
+    const out: Array<SelectProduct> = [] as any
+    const categories: any = (filterDrierData as any)?.categories || {}
 
-  const products = isPressureSwitchCategory ? pressureSwitchProducts : apiProducts
-  const displayTotal = isPressureSwitchCategory ? pressureSwitchProducts.length : totalProducts
+    const add = (p: Partial<SelectProduct> & { id: string }) => {
+      out.push({
+        id: p.id,
+        title: p.title ?? '',
+        modelNumber: p.modelNumber ?? '',
+        image: p.image ?? baseImage,
+        price: p.price ?? '99.00',
+        originalPrice: (p as any).originalPrice ?? null,
+        category: 'Filter Driers/Filter Drier Shell',
+        series: p.series ?? 'SEK Series',
+        stockStatus: p.stockStatus ?? 'in_stock',
+        rating: p.rating ?? '4.7',
+        reviewCount: p.reviewCount ?? 10,
+        specifications: p.specifications ?? null,
+        description: p.description ?? null,
+        tags: p.tags ?? null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })
+    }
+
+    const priceFor = (model: string): string => {
+      // Simple pricing logic based on model
+      if (model.includes('SEK-032') || model.includes('SEK-033')) return '45.00'
+      if (model.includes('SEK-053') || model.includes('SEK-083')) return '55.00'
+      if (model.includes('SEK-163') || model.includes('SEK-164')) return '65.00'
+      if (model.includes('SEK-165')) return '70.00'
+      if (model.includes('SEK-304') || model.includes('SEK-305')) return '80.00'
+      if (model.includes('SPL-487') || model.includes('SPL-489')) return '120.00'
+      if (model.includes('SPL-4811')) return '140.00'
+      if (model.includes('SPL-967') || model.includes('SPL-969')) return '180.00'
+      if (model.includes('SPL-9611')) return '200.00'
+      return '99.00'
+    }
+
+    const seriesFromModel = (model: string): string => {
+      if (model.startsWith('SEK')) return 'SEK Series'
+      if (model.startsWith('SPL')) return 'SPL Series'
+      return 'Standard Series'
+    }
+
+    // Filter Driers (SEK Series)
+    const filterDriers = categories.filterDriers
+    if (filterDriers?.products) {
+      for (const item of filterDriers.products as Array<{model: string, connection: string}>) {
+        const model = item.model as string
+        add({
+          id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          title: `${filterDriers.name} - ${model}`,
+          modelNumber: model,
+          image: filterDriers.image || baseImage,
+          price: priceFor(model),
+          series: seriesFromModel(model),
+          specifications: JSON.stringify({ 
+            connection: item.connection,
+            note: filterDriers.note
+          })
+        })
+      }
+    }
+
+    // Filter Drier Shell (SPL Series)
+    const filterDrierShell = categories.filterDrierShell
+    if (filterDrierShell?.products) {
+      for (const item of filterDrierShell.products as Array<{model: string, connection: string, height?: string, core?: string}>) {
+        const model = item.model as string
+        add({
+          id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          title: `${filterDrierShell.name} - ${model}`,
+          modelNumber: model,
+          image: filterDrierShell.image || baseImage,
+          price: priceFor(model),
+          series: seriesFromModel(model),
+          specifications: JSON.stringify({ 
+            connection: item.connection,
+            height: item.height,
+            core: item.core
+          })
+        })
+      }
+    }
+
+    return out
+  }, [])
+
+  const isPressureSwitchCategory = (filters?.category || '').toLowerCase() === 'pressure switches'.toLowerCase()
+  const isFilterDrierCategory = (filters?.category || '').toLowerCase() === 'filter driers/filter drier shell'.toLowerCase()
+
+  const products = isPressureSwitchCategory ? pressureSwitchProducts : 
+                  isFilterDrierCategory ? filterDrierProducts : 
+                  apiProducts
+  const displayTotal = isPressureSwitchCategory ? pressureSwitchProducts.length : 
+                       isFilterDrierCategory ? filterDrierProducts.length :
+                       totalProducts
   
   // Convert API product data to component props format
   const transformProduct = (product: SelectProduct) => {

@@ -14,6 +14,7 @@ import heatExchangerData from '@/assets/data/heat_exchangers.json'
 import axeonValveData from '@/assets/data/axeon_valves.json'
 import accumulatorData from '@/assets/data/accumulator_oil_seperator_liquid_receiver.json'
 import fanData from '@/assets/data/axial_fans_shaded_poles_small_fans.json'
+import filterDrierData from '@/assets/data/filter_driers_filter_drier_shell.json'
 
 interface FilterSidebarProps {
   isOpen: boolean
@@ -22,77 +23,60 @@ interface FilterSidebarProps {
   onFiltersChange?: (filters: Partial<ProductFilters>) => void
 }
 
-// Calculate pressure switch product count from JSON
+// Calculate pressure switch subcategory count from JSON
 const getPressureSwitchCount = () => {
   const categories: any = pressureSwitchData.categories
-  let count = 0
-  
-  // Count products in each category
-  if (categories.pressureSwitches?.products) count += categories.pressureSwitches.products.length
-  if (categories.lpHpRefrigerationSwitches?.products) count += categories.lpHpRefrigerationSwitches.products.length
-  if (categories.lpHpCombinedSwitches?.products) count += categories.lpHpCombinedSwitches.products.length
-  if (categories.smallFixDifferentialSwitches) count += 1 // Single model with multiple ranges
-  if (categories.oilDifferentialSwitches?.products) count += categories.oilDifferentialSwitches.products.length
-  if (categories.airDifferentialSwitches?.products) count += categories.airDifferentialSwitches.products.length
-  
-  return count
+  // Count subcategories: waterline, refrigeration, combined, differential, oil, air
+  return Object.keys(categories).length
 }
 
-// Calculate valve product count from JSON
+// Calculate valve subcategory count from JSON
 const getValveCount = () => {
   const categories: any = valveData.categories
-  let count = 0
-  
-  // Count products in each category
-  Object.values(categories).forEach((category: any) => {
-    if (category.products) {
-      count += category.products.length
-    } else if (category.subcategories) {
-      Object.values(category.subcategories).forEach((subcategory: any) => {
-        if (subcategory.products) {
-          count += subcategory.products.length
-        }
-      })
-    }
-  })
-  
-  return count
+  // Count subcategories: solenoid-lfsv-d, solenoid-lfsv-k, expansion, expansion-brazing, 
+  // solenoid-lffdf, bypass, ball, flow-switch, sight-glass
+  return Object.keys(categories).length
 }
 
-// Calculate pressure transmitter product count from JSON
+// Calculate pressure transmitter subcategory count from JSON
 const getPressureTransmitterCount = () => {
   const categories: any = pressureTransmitterData.categories
-  let count = 0
-  
-  // Count products in each category
-  Object.values(categories).forEach((category: any) => {
-    if (category.products) {
-      count += category.products.length
-    }
-  })
-  
-  return count
+  // Count subcategories: t2000-series, t2800-series
+  return Object.keys(categories).length
 }
 
-// Heat exchangers are shown as a single aggregated product
-const getHeatExchangerCount = () => 1
+// Calculate heat exchanger subcategory count from JSON
+const getHeatExchangerCount = () => {
+  const categories: any = heatExchangerData.categories
+  // Count subcategories: bphe
+  return Object.keys(categories).length
+}
 
-// Calculate Axeon Valves product count from JSON
+// Calculate Axeon Valves subcategory count from JSON
 const getAxeonValvesCount = () => {
   const categories: any = axeonValveData.categories
-  return Object.keys(categories).length // 4 types: rotalock, hand shutoff, angle, solenoid
+  // Count subcategories: rotalock, hand shutoff, angle, solenoid-waterline
+  return Object.keys(categories).length
 }
 
-// Calculate Accumulator products count from JSON
+// Calculate Accumulator subcategory count from JSON
 const getAccumulatorCount = () => {
   const categories: any = accumulatorData.categories
-  return Object.keys(categories).length // 3 types: liquid accumulator, oil separator, liquid receiver
+  // Count subcategories: accumulator, oil-separator, liquid-receiver
+  return Object.keys(categories).length
 }
 
-// Calculate Fan products count from JSON
+// Calculate Fan subcategory count from JSON
 const getFanCount = () => {
   const categories: any = fanData.categories
-  // Only 3 types: AXIAL FANS, SMALL FANS, SHADED POLE MOTOR
+  // Count subcategories: axial-fans, small-fans, shaded-pole-motor
+  return Object.keys(categories).length
+}
+
+// Calculate Filter Drier subcategory count from JSON
+const getFilterDrierCount = () => {
+  const categories: any = filterDrierData.categories
+  // Count subcategories: filter-driers, filter-drier-shell
   return Object.keys(categories).length
 }
 
@@ -105,7 +89,8 @@ const filterData = {
     { id: 'Heat Exchangers', name: 'Heat Exchangers', count: getHeatExchangerCount() },
     { id: 'Axeon Valves', name: 'Axeon Valves', count: getAxeonValvesCount() },
     { id: 'Accumulator/Oil Separator/Liquid Receiver', name: 'Accumulator/Oil Separator/Liquid Receiver', count: getAccumulatorCount() },
-    { id: 'Axial Fans/Shaded Pole Motor/Small Fans', name: 'Axial Fans/Shaded Pole Motor/Small Fans', count: getFanCount() }
+    { id: 'Axial Fans/Shaded Pole Motor/Small Fans', name: 'Axial Fans/Shaded Pole Motor/Small Fans', count: getFanCount() },
+    { id: 'Filter Driers/Filter Drier Shell', name: 'Filter Driers/Filter Drier Shell', count: getFilterDrierCount() }
   ]
 }
 

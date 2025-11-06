@@ -128,6 +128,12 @@ export const PRODUCT_CATEGORIES = [
     name: 'Axial Fans/Shaded Pole Motor/Small Fans',
     slug: 'axial-fans-shaded-pole-motor-small-fans',
     description: 'Axial fans, shaded pole motors, and small fans for HVAC ventilation systems'
+  },
+  {
+    id: 'Filter Driers/Filter Drier Shell',
+    name: 'Filter Driers/Filter Drier Shell',
+    slug: 'filter-driers',
+    description: 'Filter driers and filter drier shells for refrigeration moisture and contamination control'
   }
 ] as const
 

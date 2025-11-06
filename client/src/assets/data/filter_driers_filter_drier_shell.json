@@ -1,0 +1,89 @@
+{
+    "categories": {
+        "filterDriers": {
+            "name": "FILTER DRIERS",
+            "products": [
+                {
+                    "model": "Filter Drier SEK-032",
+                    "connection": "1/4\" (SMALL)"
+                },
+                {
+                    "model": "Filter Drier SEK-033",
+                    "connection": "3/8\" (SMALL)"
+                },
+                {
+                    "model": "Filter Drier SEK-053",
+                    "connection": "3/8\" (MEDIUM)"
+                },
+                {
+                    "model": "Filter Drier SEK-083",
+                    "connection": "3/8\" (MEDIUM)"
+                },
+                {
+                    "model": "Filter Drier SEK-163",
+                    "connection": "3/8\" (BIG)"
+                },
+                {
+                    "model": "Filter Drier SEK-164",
+                    "connection": "1/2\" (SMALL)"
+                },
+                {
+                    "model": "Filter Drier SEK-165",
+                    "connection": "5/8\" (SMALL)"
+                },
+                {
+                    "model": "Filter Drier SEK-304",
+                    "connection": "1/2\" (BIG)"
+                },
+                {
+                    "model": "Filter Drier SEK-305",
+                    "connection": "5/8\" (BIG)"
+                }
+            ],
+            "note": "FLARE & SOLDER BOTH CONNECTIONS AVAILABLE",
+            "image": "/assets/images/filter_driers/filter_drier.webp"
+        },
+        "filterDrierShell": {
+            "name": "FILTER DRIER SHELL",
+            "products": [
+                {
+                    "model": "SPL 487 T",
+                    "connection": "7/8\"",
+                    "height": "9.5\"",
+                    "core": "single core"
+                },
+                {
+                    "model": "SPL 489 T",
+                    "connection": "1-1/8\"",
+                    "height": "9.38\"",
+                    "core": "single core"
+                },
+                {
+                    "model": "SPL 4811 T",
+                    "connection": "1-3/8\"",
+                    "height": "9.75\"",
+                    "core": "single core"
+                },
+                {
+                    "model": "SPL 967 T",
+                    "connection": "7/8\"",
+                    "height": "15.13\"",
+                    "core": "double core"
+                },
+                {
+                    "model": "SPL 969 T",
+                    "connection": "1-1/8\"",
+                    "height": "15.19\"",
+                    "core": "double core"
+                },
+                {
+                    "model": "SPL 9611 T",
+                    "connection": "1-1/8\"",
+                    "height": "15.31\"",
+                    "core": "double core"
+                }
+            ],
+            "image": "/assets/images/filter_driers/filter_drier_shell.webp"
+        }
+    }
+}

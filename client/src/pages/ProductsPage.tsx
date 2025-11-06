@@ -20,6 +20,7 @@ import heatExchangerData from '@/assets/data/heat_exchangers.json'
 import axeonValveData from '@/assets/data/axeon_valves.json'
 import accumulatorData from '@/assets/data/accumulator_oil_seperator_liquid_receiver.json'
 import fansData from '@/assets/data/axial_fans_shaded_poles_small_fans.json'
+import filterDrierData from '@/assets/data/filter_driers_filter_drier_shell.json'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -43,7 +44,7 @@ export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [filters, setFilters] = useState<Partial<ProductFilters>>({})
   const [showSubcategories, setShowSubcategories] = useState(false)
-  const [subcategoryType, setSubcategoryType] = useState<'pressure-switches' | 'valves' | 'pressure-transmitters' | null>(null)
+  const [subcategoryType, setSubcategoryType] = useState<'pressure-switches' | 'valves' | 'pressure-transmitters' | 'filter-driers' | null>(null)
   
   // Refs for GSAP animations
   const containerRef = useRef<HTMLDivElement>(null)
@@ -335,6 +336,28 @@ export default function ProductsPage() {
       certifications: []
     }
   ]
+
+  // Build filter drier subcategories from JSON
+  const filterDrierSubcategories: PressureSwitchSubcategory[] = [
+    {
+      id: 'filter-driers',
+      name: 'Filter Driers',
+      description: 'High-quality filter driers with flare and solder connections',
+      image: (filterDrierData.categories.filterDriers as any).image,
+      modelNumber: 'SEK Series',
+      productCount: (filterDrierData.categories.filterDriers?.products as Array<any>)?.length || 0,
+      certifications: []
+    },
+    {
+      id: 'filter-drier-shell',
+      name: 'Filter Drier Shell',
+      description: 'Filter drier shells with single and double core options',
+      image: (filterDrierData.categories.filterDrierShell as any).image,
+      modelNumber: 'SPL Series',
+      productCount: (filterDrierData.categories.filterDrierShell?.products as Array<any>)?.length || 0,
+      certifications: []
+    }
+  ]
   
   // Parse URL parameters on component mount and when URL changes
   useEffect(() => {
@@ -350,17 +373,20 @@ export default function ProductsPage() {
       if (urlParams.get('category')) {
         const category = urlParams.get('category') || undefined
         initialFilters.category = category
-        // Show subcategories if Pressure Switches, Valves, or Pressure Transmitters is selected
+        // Show subcategories if Pressure Switches, Valves, Pressure Transmitters, or Filter Driers is selected
         const isPressureSwitches = category?.trim().toLowerCase() === 'pressure switches'
         const isValves = category?.trim().toLowerCase() === 'valves'
         const isPressureTransmitters = category?.trim().toLowerCase() === 'pressure transmitters'
-        setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters)
+        const isFilterDriers = category?.trim().toLowerCase() === 'filter driers/filter drier shell'
+        setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers)
         if (isPressureSwitches) {
           setSubcategoryType('pressure-switches')
         } else if (isValves) {
           setSubcategoryType('valves')
         } else if (isPressureTransmitters) {
           setSubcategoryType('pressure-transmitters')
+        } else if (isFilterDriers) {
+          setSubcategoryType('filter-driers')
         } else {
           setSubcategoryType(null)
         }
@@ -426,17 +452,20 @@ export default function ProductsPage() {
     const filtersWithReset = { ...newFilters, page: 1 }
     setFilters(filtersWithReset)
     
-    // Check if Pressure Switches, Valves, or Pressure Transmitters is selected
+    // Check if Pressure Switches, Valves, Pressure Transmitters, or Filter Driers is selected
     const isPressureSwitches = newFilters.category?.trim().toLowerCase() === 'pressure switches'
     const isValves = newFilters.category?.trim().toLowerCase() === 'valves'
     const isPressureTransmitters = newFilters.category?.trim().toLowerCase() === 'pressure transmitters'
-    setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters)
+    const isFilterDriers = newFilters.category?.trim().toLowerCase() === 'filter driers/filter drier shell'
+    setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers)
     if (isPressureSwitches) {
       setSubcategoryType('pressure-switches')
     } else if (isValves) {
       setSubcategoryType('valves')
     } else if (isPressureTransmitters) {
       setSubcategoryType('pressure-transmitters')
+    } else if (isFilterDriers) {
+      setSubcategoryType('filter-driers')
     } else {
       setSubcategoryType(null)
     }
@@ -463,6 +492,7 @@ export default function ProductsPage() {
       if (subcategories.find(s => s.id === subcategoryId)) return 'pressure-switches'
       if (valveSubcategories.find(s => s.id === subcategoryId)) return 'valves'
       if (pressureTransmitterSubcategories.find(s => s.id === subcategoryId)) return 'pressure-transmitters'
+      if (filterDrierSubcategories.find(s => s.id === subcategoryId)) return 'filter-driers'
       return subcategoryType
     })()
     
@@ -472,12 +502,16 @@ export default function ProductsPage() {
       setLocation(`/valves/${subcategoryId}`)
     } else if (type === 'pressure-transmitters') {
       setLocation(`/pressure-transmitters/${subcategoryId}`)
+    } else if (type === 'filter-driers') {
+      setLocation(`/filter-driers/${subcategoryId}`)
     } else if (subcategoryType === 'pressure-switches') {
       setLocation(`/pressure-switches/${subcategoryId}`)
     } else if (subcategoryType === 'valves') {
       setLocation(`/valves/${subcategoryId}`)
     } else if (subcategoryType === 'pressure-transmitters') {
       setLocation(`/pressure-transmitters/${subcategoryId}`)
+    } else if (subcategoryType === 'filter-driers') {
+      setLocation(`/filter-driers/${subcategoryId}`)
     }
   }
 
@@ -588,7 +622,8 @@ export default function ProductsPage() {
                     <h2 className="text-2xl font-bold">
                       {subcategoryType === 'pressure-switches' ? 'Pressure Switch Categories' : 
                        subcategoryType === 'valves' ? 'Valve Categories' : 
-                       subcategoryType === 'pressure-transmitters' ? 'Pressure Transmitter Categories' : 'Categories'}
+                       subcategoryType === 'pressure-transmitters' ? 'Pressure Transmitter Categories' : 
+                       subcategoryType === 'filter-driers' ? 'Filter Driers/Filter Drier Shell Categories' : 'Categories'}
                     </h2>
                     <p className="text-muted-foreground mt-1">Select a category to view products</p>
                   </div>
@@ -608,16 +643,20 @@ export default function ProductsPage() {
                 <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
                   {(subcategoryType === 'pressure-switches' ? subcategories : 
                     subcategoryType === 'valves' ? valveSubcategories : 
-                    subcategoryType === 'pressure-transmitters' ? pressureTransmitterSubcategories : []).map((subcategory) => {
+                    subcategoryType === 'pressure-transmitters' ? pressureTransmitterSubcategories : 
+                    subcategoryType === 'filter-driers' ? filterDrierSubcategories : []).map((subcategory) => {
                     const categoryName = subcategoryType === 'pressure-switches' ? 'Pressure Switches' : 
                                        subcategoryType === 'valves' ? 'Valves' : 
-                                       subcategoryType === 'pressure-transmitters' ? 'Pressure Transmitters' : 'Products'
+                                       subcategoryType === 'pressure-transmitters' ? 'Pressure Transmitters' : 
+                                       subcategoryType === 'filter-driers' ? 'Filter Driers/Filter Drier Shell' : 'Products'
                     const linkPath = subcategoryType === 'pressure-switches' 
                       ? `/pressure-switches/${subcategory.id}` 
                       : subcategoryType === 'valves'
                       ? `/valves/${subcategory.id}`
                       : subcategoryType === 'pressure-transmitters'
                       ? `/pressure-transmitters/${subcategory.id}`
+                      : subcategoryType === 'filter-driers'
+                      ? `/filter-driers/${subcategory.id}`
                       : `/products`
                     
                     return (
@@ -812,6 +851,29 @@ export default function ProductsPage() {
                         }}
                         customLink={`/fans/${subcategory.id}`}
                         onClick={() => setLocation(`/fans/${subcategory.id}`)}
+                      />
+                    ))}
+
+                    {/* Filter Driers Categories */}
+                    {filterDrierSubcategories.map((subcategory) => (
+                      <ProductCard
+                        key={`filter-drier-${subcategory.id}`}
+                        id={subcategory.id}
+                        title={subcategory.name}
+                        modelNumber={subcategory.modelNumber}
+                        image={subcategory.image}
+                        price={0}
+                        category="Filter Driers/Filter Drier Shell"
+                        series={subcategory.modelNumber}
+                        stockStatus="in_stock"
+                        rating={4.7}
+                        reviewCount={subcategory.productCount}
+                        specifications={{
+                          connection: subcategory.connection,
+                          pressure: `${subcategory.productCount} models available`
+                        }}
+                        customLink={`/filter-driers/${subcategory.id}`}
+                        onClick={() => handleSubcategoryClick(subcategory.id, 'filter-driers')}
                       />
                     ))}
                   </div>
