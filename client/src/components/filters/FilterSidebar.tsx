@@ -13,6 +13,7 @@ import pressureTransmitterData from '@/assets/data/pressure_transmitters.json'
 import heatExchangerData from '@/assets/data/heat_exchangers.json'
 import axeonValveData from '@/assets/data/axeon_valves.json'
 import accumulatorData from '@/assets/data/accumulator_oil_seperator_liquid_receiver.json'
+import fanData from '@/assets/data/axial_fans_shaded_poles_small_fans.json'
 
 interface FilterSidebarProps {
   isOpen: boolean
@@ -88,6 +89,13 @@ const getAccumulatorCount = () => {
   return Object.keys(categories).length // 3 types: liquid accumulator, oil separator, liquid receiver
 }
 
+// Calculate Fan products count from JSON
+const getFanCount = () => {
+  const categories: any = fanData.categories
+  // Only 3 types: AXIAL FANS, SMALL FANS, SHADED POLE MOTOR
+  return Object.keys(categories).length
+}
+
 // Filter data that matches backend category names exactly
 const filterData = {
   categories: [
@@ -96,7 +104,8 @@ const filterData = {
     { id: 'Pressure Transmitters', name: 'Pressure Transmitters', count: getPressureTransmitterCount() },
     { id: 'Heat Exchangers', name: 'Heat Exchangers', count: getHeatExchangerCount() },
     { id: 'Axeon Valves', name: 'Axeon Valves', count: getAxeonValvesCount() },
-    { id: 'Accumulator/Oil Separator/Liquid Receiver', name: 'Accumulator/Oil Separator/Liquid Receiver', count: getAccumulatorCount() }
+    { id: 'Accumulator/Oil Separator/Liquid Receiver', name: 'Accumulator/Oil Separator/Liquid Receiver', count: getAccumulatorCount() },
+    { id: 'Axial Fans/Shaded Pole Motor/Small Fans', name: 'Axial Fans/Shaded Pole Motor/Small Fans', count: getFanCount() }
   ]
 }
 

@@ -122,6 +122,12 @@ export const PRODUCT_CATEGORIES = [
     name: 'Accumulator/Oil Separator/Liquid Receiver',
     slug: 'accumulator-oil-separator-liquid-receiver',
     description: 'Liquid accumulators, oil separators, and liquid receivers for refrigeration systems'
+  },
+  {
+    id: 'Axial Fans/Shaded Pole Motor/Small Fans',
+    name: 'Axial Fans/Shaded Pole Motor/Small Fans',
+    slug: 'axial-fans-shaded-pole-motor-small-fans',
+    description: 'Axial fans, shaded pole motors, and small fans for HVAC ventilation systems'
   }
 ] as const
 

@@ -16,6 +16,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import pressureSwitchData from '@/assets/data/pressure-switch.json'
 import valveData from '@/assets/data/valves.json'
 import pressureTransmitterData from '@/assets/data/pressure_transmitters.json'
+import heatExchangerData from '@/assets/data/heat_exchangers.json'
+import axeonValveData from '@/assets/data/axeon_valves.json'
+import accumulatorData from '@/assets/data/accumulator_oil_seperator_liquid_receiver.json'
+import fansData from '@/assets/data/axial_fans_shaded_poles_small_fans.json'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -213,6 +217,121 @@ export default function ProductsPage() {
       image: (pressureTransmitterData.categories.t2800Series as any).image,
       modelNumber: 'T2800 Series',
       productCount: (pressureTransmitterData.categories.t2800Series?.products as Array<any>)?.length || 0,
+      certifications: []
+    }
+  ]
+
+  // Build heat exchanger subcategories from JSON
+  const heatExchangerSubcategories: PressureSwitchSubcategory[] = [
+    {
+      id: 'bphe',
+      name: 'Heat Exchanger/BPHE',
+      description: 'Brazed plate heat exchangers for HVAC and refrigeration systems',
+      image: (heatExchangerData.categories.heatExchangerBPHE as any).image,
+      modelNumber: 'BPHE Series',
+      productCount: (heatExchangerData.categories.heatExchangerBPHE?.products as Array<any>)?.length || 0,
+      certifications: []
+    }
+  ]
+
+  // Build axeon valve subcategories from JSON
+  const axeonValveSubcategories: PressureSwitchSubcategory[] = [
+    {
+      id: 'rotalock',
+      name: 'Rotalock Valve',
+      description: 'Rotalock service valves for refrigeration systems',
+      image: (axeonValveData.categories.rotalockValves as any).image,
+      modelNumber: 'AX Series',
+      productCount: (axeonValveData.categories.rotalockValves?.products as Array<any>)?.length || 0,
+      certifications: []
+    },
+    {
+      id: 'hand-shutoff',
+      name: 'Hand Shutoff Valve',
+      description: 'Manual shutoff valves for refrigeration lines',
+      image: (axeonValveData.categories.handShutoffValves as any).image,
+      modelNumber: 'HV Series',
+      productCount: (axeonValveData.categories.handShutoffValves?.products as Array<any>)?.length || 0,
+      certifications: []
+    },
+    {
+      id: 'angle',
+      name: 'Angle Valve',
+      description: 'Angle valves for refrigeration applications',
+      image: (axeonValveData.categories.angleValves as any).image,
+      modelNumber: 'SV Series',
+      productCount: (axeonValveData.categories.angleValves?.products as Array<any>)?.length || 0,
+      certifications: []
+    },
+    {
+      id: 'solenoid-waterline',
+      name: 'Solenoid Valve (Waterline)',
+      description: 'Solenoid valves for waterline applications',
+      image: (axeonValveData.categories.solenoidValvesWaterline as any).image,
+      modelNumber: 'YC Series',
+      productCount: Object.values((axeonValveData.categories.solenoidValvesWaterline as any).subcategories || {}).reduce((total: number, sub: any) => total + (sub.products?.length || 0), 0),
+      certifications: []
+    }
+  ]
+
+  // Build accumulator/oil separator/liquid receiver subcategories from JSON
+  const accumulatorSubcategories: PressureSwitchSubcategory[] = [
+    {
+      id: 'accumulator',
+      name: 'Liquid Accumulator',
+      description: 'Suction line accumulators for refrigeration systems',
+      image: (accumulatorData.categories.liquidAccumulator as any).image,
+      modelNumber: 'SPLQ Series',
+      productCount: (accumulatorData.categories.liquidAccumulator?.products as Array<any>)?.length || 0,
+      certifications: []
+    },
+    {
+      id: 'oil-separator',
+      name: 'Oil Separator',
+      description: 'Oil separators for refrigeration compressors',
+      image: (accumulatorData.categories.oilSeparator as any).image,
+      modelNumber: 'SPLY Series',
+      productCount: (accumulatorData.categories.oilSeparator?.products as Array<any>)?.length || 0,
+      certifications: []
+    },
+    {
+      id: 'liquid-receiver',
+      name: 'Liquid Receiver',
+      description: 'Liquid receivers for refrigeration systems',
+      image: (accumulatorData.categories.liquidReceiver as any).image,
+      modelNumber: 'SPLC Series',
+      productCount: (accumulatorData.categories.liquidReceiver?.products as Array<any>)?.length || 0,
+      certifications: []
+    }
+  ]
+
+  // Build fans subcategories from JSON
+  const fansSubcategories: PressureSwitchSubcategory[] = [
+    {
+      id: 'axial-fans',
+      name: 'Axial Fans',
+      description: 'High-performance axial fans for refrigeration and HVAC systems',
+      image: (fansData.categories.axialFans as any).image,
+      modelNumber: 'AX Series',
+      productCount: Object.values((fansData.categories.axialFans as any).subcategories || {}).reduce((total: number, sub: any) => total + (sub.products?.length || 0), 0),
+      certifications: []
+    },
+    {
+      id: 'small-fans',
+      name: 'Small Fans',
+      description: 'Compact fans for various cooling applications',
+      image: (fansData.categories.smallFans as any).image,
+      modelNumber: 'AX Series',
+      productCount: (fansData.categories.smallFans?.products as Array<any>)?.length || 0,
+      certifications: []
+    },
+    {
+      id: 'shaded-pole-motor',
+      name: 'Shaded Pole Motor',
+      description: 'Shaded pole motors for HVAC applications',
+      image: (fansData.categories.shadedPoleMotor as any).image,
+      modelNumber: 'AX Series',
+      productCount: (fansData.categories.shadedPoleMotor?.products as Array<any>)?.length || 0,
       certifications: []
     }
   ]
@@ -601,6 +720,98 @@ export default function ProductsPage() {
                         }}
                         customLink={`/pressure-transmitters/${subcategory.id}`}
                         onClick={() => handleSubcategoryClick(subcategory.id, 'pressure-transmitters')}
+                      />
+                    ))}
+
+                    {/* Heat Exchangers Categories */}
+                    {heatExchangerSubcategories.map((subcategory) => (
+                      <ProductCard
+                        key={`heat-exchanger-${subcategory.id}`}
+                        id={subcategory.id}
+                        title={subcategory.name}
+                        modelNumber={subcategory.modelNumber}
+                        image={subcategory.image}
+                        price={0}
+                        category="Heat Exchangers"
+                        series={subcategory.modelNumber}
+                        stockStatus="in_stock"
+                        rating={4.7}
+                        reviewCount={subcategory.productCount}
+                        specifications={{
+                          connection: subcategory.connection,
+                          pressure: `${subcategory.productCount} models available`
+                        }}
+                        customLink={`/heat-exchangers/${subcategory.id}`}
+                        onClick={() => setLocation(`/heat-exchangers/${subcategory.id}`)}
+                      />
+                    ))}
+
+                    {/* Axeon Valves Categories */}
+                    {axeonValveSubcategories.map((subcategory) => (
+                      <ProductCard
+                        key={`axeon-valve-${subcategory.id}`}
+                        id={subcategory.id}
+                        title={subcategory.name}
+                        modelNumber={subcategory.modelNumber}
+                        image={subcategory.image}
+                        price={0}
+                        category="Axeon Valves"
+                        series={subcategory.modelNumber}
+                        stockStatus="in_stock"
+                        rating={4.7}
+                        reviewCount={subcategory.productCount}
+                        specifications={{
+                          connection: subcategory.connection,
+                          pressure: `${subcategory.productCount} models available`
+                        }}
+                        customLink={`/axeon-valves/${subcategory.id}`}
+                        onClick={() => setLocation(`/axeon-valves/${subcategory.id}`)}
+                      />
+                    ))}
+
+                    {/* Accumulator/Oil Separator/Liquid Receiver Categories */}
+                    {accumulatorSubcategories.map((subcategory) => (
+                      <ProductCard
+                        key={`accumulator-${subcategory.id}`}
+                        id={subcategory.id}
+                        title={subcategory.name}
+                        modelNumber={subcategory.modelNumber}
+                        image={subcategory.image}
+                        price={0}
+                        category="Accumulator & Separators"
+                        series={subcategory.modelNumber}
+                        stockStatus="in_stock"
+                        rating={4.7}
+                        reviewCount={subcategory.productCount}
+                        specifications={{
+                          connection: subcategory.connection,
+                          pressure: `${subcategory.productCount} models available`
+                        }}
+                        customLink={`/accumulator/${subcategory.id}`}
+                        onClick={() => setLocation(`/accumulator/${subcategory.id}`)}
+                      />
+                    ))}
+
+                    {/* Fans Categories */}
+                    {fansSubcategories.map((subcategory) => (
+                      <ProductCard
+                        key={`fans-${subcategory.id}`}
+                        id={subcategory.id}
+                        title={subcategory.name}
+                        modelNumber={subcategory.modelNumber}
+                        image={subcategory.image}
+                        price={0}
+                        category="Fans & Motors"
+                        series={subcategory.modelNumber}
+                        stockStatus="in_stock"
+                        rating={4.7}
+                        reviewCount={subcategory.productCount}
+                        specifications={{
+                          connection: subcategory.connection,
+                          pressure: `${subcategory.productCount} models available`
+                        }}
+                        customLink={`/fans/${subcategory.id}`}
+                        onClick={() => setLocation(`/fans/${subcategory.id}`)}
                       />
                     ))}
                   </div>

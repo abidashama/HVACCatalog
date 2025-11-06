@@ -1,0 +1,311 @@
+{
+    "categories": {
+        "axialFans": {
+            "name": "AXIAL FANS",
+            "subcategories": {
+                "singlePhaseSuction": {
+                    "name": "SINGLE PHASE SUCTION",
+                    "products": [
+                        {
+                            "model": "AX 4E-200S",
+                            "size": "8",
+                            "sizeUnit": "inch",
+                            "speed": "1400",
+                            "speedUnit": "rpm",
+                            "airFlow": "500",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4E-250S",
+                            "size": "10",
+                            "sizeUnit": "inch",
+                            "speed": "1400",
+                            "speedUnit": "rpm",
+                            "airFlow": "860",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4E-300S",
+                            "size": "12",
+                            "sizeUnit": "inch",
+                            "speed": "1350",
+                            "speedUnit": "rpm",
+                            "airFlow": "1460",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4E-350S",
+                            "size": "14",
+                            "sizeUnit": "inch",
+                            "speed": "1380",
+                            "speedUnit": "rpm",
+                            "airFlow": "2450",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4E-400S",
+                            "size": "16",
+                            "sizeUnit": "inch",
+                            "speed": "1380",
+                            "speedUnit": "rpm",
+                            "airFlow": "3980",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4E-450S",
+                            "size": "18",
+                            "sizeUnit": "inch",
+                            "speed": "1350",
+                            "speedUnit": "rpm",
+                            "airFlow": "5380",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4E-500S",
+                            "size": "20",
+                            "sizeUnit": "inch",
+                            "speed": "1300",
+                            "speedUnit": "rpm",
+                            "airFlow": "7155",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4E-550S",
+                            "size": "22",
+                            "sizeUnit": "inch",
+                            "speed": "1300",
+                            "speedUnit": "rpm",
+                            "airFlow": "8550",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4E-600S",
+                            "size": "24",
+                            "sizeUnit": "inch",
+                            "speed": "1360",
+                            "speedUnit": "rpm",
+                            "airFlow": "10250",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4E-630S",
+                            "size": "25",
+                            "sizeUnit": "inch",
+                            "speed": "1360",
+                            "speedUnit": "rpm",
+                            "airFlow": "12560",
+                            "airFlowUnit": "cfm"
+                        }
+                    ]
+                },
+                "threePhaseSuction": {
+                    "name": "THREE PHASE SUCTION",
+                    "products": [
+                        {
+                            "model": "AX 4D-300S",
+                            "size": "12",
+                            "sizeUnit": "inch",
+                            "speed": "1380",
+                            "speedUnit": "rpm",
+                            "airFlow": "1600",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4D-350S",
+                            "size": "14",
+                            "sizeUnit": "inch",
+                            "speed": "1380",
+                            "speedUnit": "rpm",
+                            "airFlow": "2480",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4D-400S",
+                            "size": "16",
+                            "sizeUnit": "inch",
+                            "speed": "1380",
+                            "speedUnit": "rpm",
+                            "airFlow": "3960",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4D-450S",
+                            "size": "18",
+                            "sizeUnit": "inch",
+                            "speed": "1360",
+                            "speedUnit": "rpm",
+                            "airFlow": "5390",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4D-500S",
+                            "size": "20",
+                            "sizeUnit": "inch",
+                            "speed": "1300",
+                            "speedUnit": "rpm",
+                            "airFlow": "7190",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4D-550S",
+                            "size": "22",
+                            "sizeUnit": "inch",
+                            "speed": "1300",
+                            "speedUnit": "rpm",
+                            "airFlow": "8600",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4D-600S",
+                            "size": "24",
+                            "sizeUnit": "inch",
+                            "speed": "1350",
+                            "speedUnit": "rpm",
+                            "airFlow": "10230",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4D-630S",
+                            "size": "25",
+                            "sizeUnit": "inch",
+                            "speed": "1360",
+                            "speedUnit": "rpm",
+                            "airFlow": "12610",
+                            "airFlowUnit": "cfm"
+                        }
+                    ]
+                },
+                "highSpeedSuction": {
+                    "name": "HIGH SPEED SUCTION",
+                    "products": [
+                        {
+                            "model": "AX 2E-200S",
+                            "size": "8",
+                            "sizeUnit": "inch",
+                            "speed": "2500",
+                            "speedUnit": "rpm",
+                            "airFlow": "790",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 2E-250S",
+                            "size": "10",
+                            "sizeUnit": "inch",
+                            "speed": "2400",
+                            "speedUnit": "rpm",
+                            "airFlow": "1300",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 2E-300S",
+                            "size": "12",
+                            "sizeUnit": "inch",
+                            "speed": "2500",
+                            "speedUnit": "rpm",
+                            "airFlow": "2400",
+                            "airFlowUnit": "cfm"
+                        }
+                    ]
+                },
+                "singlePhaseBlowing": {
+                    "name": "SINGLE PHASE (BLOWING)",
+                    "products": [
+                        {
+                            "model": "AX 4E-250B",
+                            "size": "10",
+                            "sizeUnit": "inch",
+                            "speed": "1400",
+                            "speedUnit": "rpm",
+                            "airFlow": "860",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4E-300B",
+                            "size": "12",
+                            "sizeUnit": "inch",
+                            "speed": "1350",
+                            "speedUnit": "rpm",
+                            "airFlow": "1460",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4E-350B",
+                            "size": "14",
+                            "sizeUnit": "inch",
+                            "speed": "1380",
+                            "speedUnit": "rpm",
+                            "airFlow": "2450",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4E-400B",
+                            "size": "16",
+                            "sizeUnit": "inch",
+                            "speed": "1380",
+                            "speedUnit": "rpm",
+                            "airFlow": "3980",
+                            "airFlowUnit": "cfm"
+                        },
+                        {
+                            "model": "AX 4E-450B",
+                            "size": "18",
+                            "sizeUnit": "inch",
+                            "speed": "1350",
+                            "speedUnit": "rpm",
+                            "airFlow": "5380",
+                            "airFlowUnit": "cfm"
+                        }
+                    ]
+                }
+            },
+            "image": "/assets/images/fans_poles/axial_fan.png"
+        },
+        "smallFans": {
+            "name": "SMALL FANS",
+            "products": [
+                {
+                    "model": "AX-12038-220V",
+                    "size": "4 INCH",
+                    "speed": "2600",
+                    "speedUnit": "RPM",
+                    "bearing": "BALL BEARING"
+                },
+                {
+                    "model": "AX-17250-220V",
+                    "size": "6 INCH",
+                    "speed": "2500",
+                    "speedUnit": "RPM",
+                    "bearing": "SLEEVE BEARING"
+                }
+            ],
+            "image": "/assets/images/fans_poles/small_fan.png"
+        },
+        "shadedPoleMotor": {
+            "name": "SHADED POLE MOTOR",
+            "products": [
+                {
+                    "model": "AX 5W",
+                    "winding": "COPPER"
+                },
+                {
+                    "model": "AX 10W",
+                    "winding": "COPPER"
+                },
+                {
+                    "model": "AX 16W",
+                    "winding": "COPPER"
+                },
+                {
+                    "model": "AX 25W",
+                    "winding": "COPPER"
+                },
+                {
+                    "model": "AX 34W",
+                    "winding": "COPPER"
+                }
+            ],
+            "note": "FAN BLADE / BRACKETS AVAILABLE",
+            "image": "/assets/images/fans_poles/shaded_pole_motor.png"
+        }
+    }
+}

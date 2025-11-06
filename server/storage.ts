@@ -58,6 +58,7 @@ export class MemStorage implements IStorage {
     this.loadHeatExchangerProducts();
     this.loadAxeonValveProducts();
     this.loadAccumulatorProducts();
+    this.loadFanProducts();
   }
 
   private loadPressureSwitchProducts() {
@@ -671,6 +672,132 @@ export class MemStorage implements IStorage {
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error('Failed to load accumulator products data:', err);
+    }
+  }
+
+  private loadFanProducts() {
+    try {
+      const jsonPath = path.resolve(process.cwd(), 'client', 'src', 'assets', 'data', 'axial_fans_shaded_poles_small_fans.json');
+      if (!fs.existsSync(jsonPath)) {
+        // eslint-disable-next-line no-console
+        console.warn('Fan products JSON file not found at:', jsonPath);
+        return;
+      }
+      const raw = fs.readFileSync(jsonPath, 'utf-8');
+      const data = JSON.parse(raw) as any;
+      const categories = data?.categories ?? {};
+
+      const addProduct = (p: Omit<SelectProduct, 'createdAt' | 'updatedAt'>) => {
+        const product: SelectProduct = { ...p, createdAt: new Date(), updatedAt: new Date() };
+        this.products.set(product.id, product);
+      };
+
+      // Helper to generate price
+      const priceFor = (model: string) => {
+        const hash = Array.from(model).reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+        const base = 150 + (hash % 250); // 150 - 399
+        return base.toFixed(2);
+      };
+
+      // Create products - only 3 products total (AXIAL FANS, SMALL FANS, SHADED POLE MOTOR)
+      let totalProducts = 0;
+
+      Object.entries(categories).forEach(([categoryKey, category]: [string, any]) => {
+        if (!category) return;
+
+        const categoryName = category.name;
+        const categoryImage = category.image || '/assets/images/axial_fan.png';
+        const categoryModels: Array<{
+          category: string,
+          subcategory?: string,
+          model: string,
+          size?: string,
+          sizeUnit?: string,
+          speed?: string,
+          speedUnit?: string,
+          airFlow?: string,
+          airFlowUnit?: string,
+          power?: string,
+          current?: string,
+          capacitor?: string
+        }> = [];
+        
+        // Handle categories with subcategories (like AXIAL FANS - combine all subcategories into one product)
+        if (category.subcategories) {
+          Object.entries(category.subcategories).forEach(([subKey, subcategory]: [string, any]) => {
+            if (!subcategory?.products) return;
+
+            for (const product of subcategory.products) {
+              categoryModels.push({
+                category: categoryName,
+                subcategory: subcategory.name,
+                model: product.model,
+                size: product.size,
+                sizeUnit: product.sizeUnit,
+                speed: product.speed,
+                speedUnit: product.speedUnit,
+                airFlow: product.airFlow,
+                airFlowUnit: product.airFlowUnit,
+                power: product.power,
+                current: product.current,
+                capacitor: product.capacitor
+              });
+            }
+          });
+        }
+        // Handle categories with direct products (like SMALL FANS, SHADED POLE MOTOR)
+        else if (category.products) {
+          for (const product of category.products) {
+            categoryModels.push({
+              category: categoryName,
+              model: product.model,
+              size: product.size,
+              sizeUnit: product.sizeUnit,
+              speed: product.speed,
+              speedUnit: product.speedUnit,
+              airFlow: product.airFlow,
+              airFlowUnit: product.airFlowUnit,
+              power: product.power,
+              current: product.current,
+              capacitor: product.capacitor
+            });
+          }
+        }
+
+        // Create ONE product per category (not per subcategory)
+        if (categoryModels.length > 0) {
+          const representativeModel = categoryModels[0]?.model || 'FAN';
+          const productId = `fans-${categoryKey}`;
+          
+          addProduct({
+            id: productId,
+            title: categoryName,
+            modelNumber: representativeModel,
+            image: categoryImage,
+            price: priceFor(representativeModel),
+            originalPrice: null,
+            category: 'Axial Fans/Shaded Pole Motor/Small Fans',
+            series: categoryName,
+            stockStatus: 'in_stock',
+            rating: '4.6',
+            reviewCount: Math.max(5, categoryModels.length),
+            specifications: JSON.stringify({
+              models: categoryModels,
+              categoryData: category
+            }),
+            description: `${categoryName} - High-performance components for HVAC and refrigeration ventilation applications.`,
+            tags: JSON.stringify(['fans', 'ventilation', categoryKey.toLowerCase()])
+          });
+
+          totalProducts++;
+        }
+      });
+
+      // eslint-disable-next-line no-console
+      console.log(`Loaded ${totalProducts} separate Fan products`);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to load fan products data:', err);
     }
   }
 

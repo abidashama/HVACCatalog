@@ -414,7 +414,7 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
         } data-testid="container-products" ref={gridRef}>
           {products.map((product: SelectProduct) => {
             const transformed = transformProduct(product)
-            // Heat exchangers, Axeon Valves, and Accumulator products should use their category-specific detail pages
+            // Heat exchangers, Axeon Valves, Accumulator, and Fan products should use their category-specific detail pages
             let customLink: string | undefined
             if (product.category === 'Heat Exchangers') {
               customLink = '/heat-exchangers/bphe'
@@ -424,6 +424,9 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
             } else if (product.category === 'Accumulator/Oil Separator/Liquid Receiver') {
               // Use the specific product ID for dynamic routing
               customLink = `/accumulator/${product.id}`
+            } else if (product.category === 'Axial Fans/Shaded Pole Motor/Small Fans') {
+              // Use the specific product ID for dynamic routing
+              customLink = `/fans/${product.id}`
             }
             return (
               <ProductCard
