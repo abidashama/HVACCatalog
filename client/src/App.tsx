@@ -21,6 +21,7 @@ import AccumulatorDetailPage from "@/pages/AccumulatorDetailPage";
 import FansDetailPage from "@/pages/FansDetailPage";
 import FilterDrierDetailPage from "@/pages/FilterDrierDetailPage";
 import PressureGaugeDetailPage from "@/pages/PressureGaugeDetailPage";
+import TeflonTapeDetailPage from "@/pages/TeflonTapeDetailPage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -38,6 +39,7 @@ function Router() {
       <Route path="/fans/:productId" component={FansDetailPage} />
       <Route path="/filter-driers/:subcategoryId" component={FilterDrierDetailPage} />
       <Route path="/pressure-gauge/:subcategoryId" component={PressureGaugeDetailPage} />
+      <Route path="/teflon-tape/:subcategoryId" component={TeflonTapeDetailPage} />
       <Route path="/pressure-switches/:subcategoryId" component={PressureSwitchDetailPage} />
       <Route path="/valves/:categoryId" component={ValveDetailPage} />
       <Route path="/pressure-transmitters/:subcategoryId" component={PressureTransmitterDetailPage} />

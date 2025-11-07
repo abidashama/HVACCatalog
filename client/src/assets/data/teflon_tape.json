@@ -1,0 +1,30 @@
+{
+    "categories": {
+        "teflonTape": {
+            "name": "TEFLON TAPE",
+            "products": [
+                {
+                    "model": "AXEON PREMIUM (12 METER)",
+                    "weight": "6.3 GRAM"
+                },
+                {
+                    "model": "AXEON (10 METER)",
+                    "weight": "3.6 GRAM"
+                },
+                {
+                    "model": "AXEON (15 METER)",
+                    "weight": "5.4 GRAM"
+                },
+                {
+                    "model": "CHAMPIONS (10 METER)",
+                    "weight": "2.4 GRAM"
+                },
+                {
+                    "model": "CHAMPIONS (15 METER)",
+                    "weight": "3.6 GRAM"
+                }
+            ],
+            "image": "/assets/images/teflon_tape.png"
+        }
+    }
+}

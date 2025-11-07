@@ -16,6 +16,7 @@ import accumulatorData from '@/assets/data/accumulator_oil_seperator_liquid_rece
 import fanData from '@/assets/data/axial_fans_shaded_poles_small_fans.json'
 import filterDrierData from '@/assets/data/filter_driers_filter_drier_shell.json'
 import pressureGaugeData from '@/assets/data/pressure_gauge_manifold_gauge.json'
+import teflonTapeData from '@/assets/data/teflon_tape.json'
 
 interface FilterSidebarProps {
   isOpen: boolean
@@ -88,6 +89,13 @@ const getPressureGaugeCount = () => {
   return Object.keys(categories).length
 }
 
+// Calculate Teflon Tape subcategory count from JSON
+const getTeflonTapeCount = () => {
+  const categories: any = teflonTapeData.categories
+  // Count subcategories: teflon-tape
+  return Object.keys(categories).length
+}
+
 // Filter data that matches backend category names exactly
 const filterData = {
   categories: [
@@ -99,7 +107,8 @@ const filterData = {
     { id: 'Accumulator/Oil Separator/Liquid Receiver', name: 'Accumulator/Oil Separator/Liquid Receiver', count: getAccumulatorCount() },
     { id: 'Axial Fans/Shaded Pole Motor/Small Fans', name: 'Axial Fans/Shaded Pole Motor/Small Fans', count: getFanCount() },
     { id: 'Filter Driers/Filter Drier Shell', name: 'Filter Driers/Filter Drier Shell', count: getFilterDrierCount() },
-    { id: 'Pressure Gauge/Manifold Gauge', name: 'Pressure Gauge/Manifold Gauge', count: getPressureGaugeCount() }
+    { id: 'Pressure Gauge/Manifold Gauge', name: 'Pressure Gauge/Manifold Gauge', count: getPressureGaugeCount() },
+    { id: 'Teflon Tape', name: 'Teflon Tape', count: getTeflonTapeCount() }
   ]
 }
 

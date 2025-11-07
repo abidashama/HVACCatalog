@@ -12,6 +12,7 @@ import { gsap } from 'gsap'
 import pressureSwitchData from '@/assets/data/pressure-switch.json'
 import filterDrierData from '@/assets/data/filter_driers_filter_drier_shell.json'
 import pressureGaugeData from '@/assets/data/pressure_gauge_manifold_gauge.json'
+import teflonTapeData from '@/assets/data/teflon_tape.json'
 
 
 type ViewMode = 'grid' | 'list'
@@ -404,17 +405,86 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
     return out
   }, [])
 
+  // Build local products from teflon_tape.json when category is Teflon Tape
+  const teflonTapeProducts = useMemo(() => {
+    const baseImage = '/assets/images/teflon_tape.png'
+    const out: Array<SelectProduct> = [] as any
+    const categories: any = (teflonTapeData as any)?.categories || {}
+
+    const add = (p: Partial<SelectProduct> & { id: string }) => {
+      out.push({
+        id: p.id,
+        title: p.title ?? '',
+        modelNumber: p.modelNumber ?? '',
+        image: p.image ?? baseImage,
+        price: p.price ?? '99.00',
+        originalPrice: (p as any).originalPrice ?? null,
+        category: 'Teflon Tape',
+        series: p.series ?? 'Teflon Tape Series',
+        stockStatus: p.stockStatus ?? 'in_stock',
+        rating: p.rating ?? '4.7',
+        reviewCount: p.reviewCount ?? 10,
+        specifications: p.specifications ?? null,
+        description: p.description ?? null,
+        tags: p.tags ?? null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })
+    }
+
+    const priceFor = (model: string): string => {
+      // Simple pricing logic based on model
+      if (model.includes('PREMIUM')) return '8.00'
+      if (model.includes('AXEON') && model.includes('15')) return '6.00'
+      if (model.includes('AXEON') && model.includes('10')) return '5.00'
+      if (model.includes('CHAMPIONS') && model.includes('15')) return '4.50'
+      if (model.includes('CHAMPIONS') && model.includes('10')) return '3.50'
+      return '5.00'
+    }
+
+    const seriesFromModel = (model: string): string => {
+      if (model.includes('AXEON PREMIUM')) return 'Axeon Premium Series'
+      if (model.includes('AXEON')) return 'Axeon Series'
+      if (model.includes('CHAMPIONS')) return 'Champions Series'
+      return 'Teflon Tape Series'
+    }
+
+    // Teflon Tape
+    const teflonTape = categories.teflonTape
+    if (teflonTape?.products) {
+      for (const item of teflonTape.products as Array<{model: string, weight: string}>) {
+        const model = item.model as string
+        add({
+          id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          title: `${teflonTape.name} - ${model}`,
+          modelNumber: model,
+          image: teflonTape.image || baseImage,
+          price: priceFor(model),
+          series: seriesFromModel(model),
+          specifications: JSON.stringify({ 
+            weight: item.weight
+          })
+        })
+      }
+    }
+
+    return out
+  }, [])
+
   const isPressureSwitchCategory = (filters?.category || '').toLowerCase() === 'pressure switches'.toLowerCase()
   const isFilterDrierCategory = (filters?.category || '').toLowerCase() === 'filter driers/filter drier shell'.toLowerCase()
   const isPressureGaugeCategory = (filters?.category || '').toLowerCase() === 'pressure gauge/manifold gauge'.toLowerCase()
+  const isTeflonTapeCategory = (filters?.category || '').toLowerCase() === 'teflon tape'.toLowerCase()
 
   const products = isPressureSwitchCategory ? pressureSwitchProducts : 
                   isFilterDrierCategory ? filterDrierProducts : 
                   isPressureGaugeCategory ? pressureGaugeProducts :
+                  isTeflonTapeCategory ? teflonTapeProducts :
                   apiProducts
   const displayTotal = isPressureSwitchCategory ? pressureSwitchProducts.length : 
                        isFilterDrierCategory ? filterDrierProducts.length :
                        isPressureGaugeCategory ? pressureGaugeProducts.length :
+                       isTeflonTapeCategory ? teflonTapeProducts.length :
                        totalProducts
   
   // Convert API product data to component props format

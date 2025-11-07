@@ -140,6 +140,12 @@ export const PRODUCT_CATEGORIES = [
     name: 'Pressure Gauge/Manifold Gauge',
     slug: 'pressure-gauge',
     description: 'Pressure gauges and manifold gauges for accurate pressure measurement and monitoring'
+  },
+  {
+    id: 'Teflon Tape',
+    name: 'Teflon Tape',
+    slug: 'teflon-tape',
+    description: 'High-quality teflon tape for sealing and threading applications in HVAC systems'
   }
 ] as const
 

@@ -22,6 +22,7 @@ import accumulatorData from '@/assets/data/accumulator_oil_seperator_liquid_rece
 import fansData from '@/assets/data/axial_fans_shaded_poles_small_fans.json'
 import filterDrierData from '@/assets/data/filter_driers_filter_drier_shell.json'
 import pressureGaugeData from '@/assets/data/pressure_gauge_manifold_gauge.json'
+import teflonTapeData from '@/assets/data/teflon_tape.json'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -45,7 +46,7 @@ export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [filters, setFilters] = useState<Partial<ProductFilters>>({})
   const [showSubcategories, setShowSubcategories] = useState(false)
-  const [subcategoryType, setSubcategoryType] = useState<'pressure-switches' | 'valves' | 'pressure-transmitters' | 'filter-driers' | 'pressure-gauge' | null>(null)
+  const [subcategoryType, setSubcategoryType] = useState<'pressure-switches' | 'valves' | 'pressure-transmitters' | 'filter-driers' | 'pressure-gauge' | 'teflon-tape' | null>(null)
   
   // Refs for GSAP animations
   const containerRef = useRef<HTMLDivElement>(null)
@@ -381,6 +382,19 @@ export default function ProductsPage() {
       certifications: []
     }
   ]
+
+  // Build teflon tape subcategories from JSON
+  const teflonTapeSubcategories: PressureSwitchSubcategory[] = [
+    {
+      id: 'teflon-tape',
+      name: 'Teflon Tape',
+      description: 'High-quality teflon tape for sealing and threading applications',
+      image: (teflonTapeData.categories.teflonTape as any).image,
+      modelNumber: 'Teflon Tape Series',
+      productCount: (teflonTapeData.categories.teflonTape?.products as Array<any>)?.length || 0,
+      certifications: []
+    }
+  ]
   
   // Parse URL parameters on component mount and when URL changes
   useEffect(() => {
@@ -402,7 +416,8 @@ export default function ProductsPage() {
         const isPressureTransmitters = category?.trim().toLowerCase() === 'pressure transmitters'
         const isFilterDriers = category?.trim().toLowerCase() === 'filter driers/filter drier shell'
         const isPressureGauge = category?.trim().toLowerCase() === 'pressure gauge/manifold gauge'
-        setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers || isPressureGauge)
+        const isTeflonTape = category?.trim().toLowerCase() === 'teflon tape'
+        setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers || isPressureGauge || isTeflonTape)
         if (isPressureSwitches) {
           setSubcategoryType('pressure-switches')
         } else if (isValves) {
@@ -413,6 +428,8 @@ export default function ProductsPage() {
           setSubcategoryType('filter-driers')
         } else if (isPressureGauge) {
           setSubcategoryType('pressure-gauge')
+        } else if (isTeflonTape) {
+          setSubcategoryType('teflon-tape')
         } else {
           setSubcategoryType(null)
         }
@@ -484,7 +501,8 @@ export default function ProductsPage() {
     const isPressureTransmitters = newFilters.category?.trim().toLowerCase() === 'pressure transmitters'
     const isFilterDriers = newFilters.category?.trim().toLowerCase() === 'filter driers/filter drier shell'
     const isPressureGauge = newFilters.category?.trim().toLowerCase() === 'pressure gauge/manifold gauge'
-    setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers || isPressureGauge)
+    const isTeflonTape = newFilters.category?.trim().toLowerCase() === 'teflon tape'
+    setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers || isPressureGauge || isTeflonTape)
     if (isPressureSwitches) {
       setSubcategoryType('pressure-switches')
     } else if (isValves) {
@@ -495,6 +513,8 @@ export default function ProductsPage() {
       setSubcategoryType('filter-driers')
     } else if (isPressureGauge) {
       setSubcategoryType('pressure-gauge')
+    } else if (isTeflonTape) {
+      setSubcategoryType('teflon-tape')
     } else {
       setSubcategoryType(null)
     }
@@ -523,6 +543,7 @@ export default function ProductsPage() {
       if (pressureTransmitterSubcategories.find(s => s.id === subcategoryId)) return 'pressure-transmitters'
       if (filterDrierSubcategories.find(s => s.id === subcategoryId)) return 'filter-driers'
       if (pressureGaugeSubcategories.find(s => s.id === subcategoryId)) return 'pressure-gauge'
+      if (teflonTapeSubcategories.find(s => s.id === subcategoryId)) return 'teflon-tape'
       return subcategoryType
     })()
     
@@ -536,6 +557,8 @@ export default function ProductsPage() {
       setLocation(`/filter-driers/${subcategoryId}`)
     } else if (type === 'pressure-gauge') {
       setLocation(`/pressure-gauge/${subcategoryId}`)
+    } else if (type === 'teflon-tape') {
+      setLocation(`/teflon-tape/${subcategoryId}`)
     } else if (subcategoryType === 'pressure-switches') {
       setLocation(`/pressure-switches/${subcategoryId}`)
     } else if (subcategoryType === 'valves') {
@@ -546,6 +569,8 @@ export default function ProductsPage() {
       setLocation(`/filter-driers/${subcategoryId}`)
     } else if (subcategoryType === 'pressure-gauge') {
       setLocation(`/pressure-gauge/${subcategoryId}`)
+    } else if (subcategoryType === 'teflon-tape') {
+      setLocation(`/teflon-tape/${subcategoryId}`)
     }
   }
 
@@ -658,7 +683,8 @@ export default function ProductsPage() {
                        subcategoryType === 'valves' ? 'Valve Categories' : 
                        subcategoryType === 'pressure-transmitters' ? 'Pressure Transmitter Categories' : 
                        subcategoryType === 'filter-driers' ? 'Filter Driers/Filter Drier Shell Categories' : 
-                       subcategoryType === 'pressure-gauge' ? 'Pressure Gauge/Manifold Gauge Categories' : 'Categories'}
+                       subcategoryType === 'pressure-gauge' ? 'Pressure Gauge/Manifold Gauge Categories' : 
+                       subcategoryType === 'teflon-tape' ? 'Teflon Tape Categories' : 'Categories'}
                     </h2>
                     <p className="text-muted-foreground mt-1">Select a category to view products</p>
                   </div>
@@ -680,12 +706,14 @@ export default function ProductsPage() {
                     subcategoryType === 'valves' ? valveSubcategories : 
                     subcategoryType === 'pressure-transmitters' ? pressureTransmitterSubcategories : 
                     subcategoryType === 'filter-driers' ? filterDrierSubcategories : 
-                    subcategoryType === 'pressure-gauge' ? pressureGaugeSubcategories : []).map((subcategory) => {
+                    subcategoryType === 'pressure-gauge' ? pressureGaugeSubcategories : 
+                    subcategoryType === 'teflon-tape' ? teflonTapeSubcategories : []).map((subcategory) => {
                     const categoryName = subcategoryType === 'pressure-switches' ? 'Pressure Switches' : 
                                        subcategoryType === 'valves' ? 'Valves' : 
                                        subcategoryType === 'pressure-transmitters' ? 'Pressure Transmitters' : 
                                        subcategoryType === 'filter-driers' ? 'Filter Driers/Filter Drier Shell' : 
-                                       subcategoryType === 'pressure-gauge' ? 'Pressure Gauge/Manifold Gauge' : 'Products'
+                                       subcategoryType === 'pressure-gauge' ? 'Pressure Gauge/Manifold Gauge' : 
+                                       subcategoryType === 'teflon-tape' ? 'Teflon Tape' : 'Products'
                     const linkPath = subcategoryType === 'pressure-switches' 
                       ? `/pressure-switches/${subcategory.id}` 
                       : subcategoryType === 'valves'
@@ -696,6 +724,8 @@ export default function ProductsPage() {
                       ? `/filter-driers/${subcategory.id}`
                       : subcategoryType === 'pressure-gauge'
                       ? `/pressure-gauge/${subcategory.id}`
+                      : subcategoryType === 'teflon-tape'
+                      ? `/teflon-tape/${subcategory.id}`
                       : `/products`
                     
                     return (
@@ -936,6 +966,29 @@ export default function ProductsPage() {
                         }}
                         customLink={`/pressure-gauge/${subcategory.id}`}
                         onClick={() => handleSubcategoryClick(subcategory.id, 'pressure-gauge')}
+                      />
+                    ))}
+
+                    {/* Teflon Tape Categories */}
+                    {teflonTapeSubcategories.map((subcategory) => (
+                      <ProductCard
+                        key={`teflon-tape-${subcategory.id}`}
+                        id={subcategory.id}
+                        title={subcategory.name}
+                        modelNumber={subcategory.modelNumber}
+                        image={subcategory.image}
+                        price={0}
+                        category="Teflon Tape"
+                        series={subcategory.modelNumber}
+                        stockStatus="in_stock"
+                        rating={4.7}
+                        reviewCount={subcategory.productCount}
+                        specifications={{
+                          connection: subcategory.connection,
+                          pressure: `${subcategory.productCount} models available`
+                        }}
+                        customLink={`/teflon-tape/${subcategory.id}`}
+                        onClick={() => handleSubcategoryClick(subcategory.id, 'teflon-tape')}
                       />
                     ))}
                   </div>
