@@ -21,6 +21,7 @@ import axeonValveData from '@/assets/data/axeon_valves.json'
 import accumulatorData from '@/assets/data/accumulator_oil_seperator_liquid_receiver.json'
 import fansData from '@/assets/data/axial_fans_shaded_poles_small_fans.json'
 import filterDrierData from '@/assets/data/filter_driers_filter_drier_shell.json'
+import pressureGaugeData from '@/assets/data/pressure_gauge_manifold_gauge.json'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -44,7 +45,7 @@ export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [filters, setFilters] = useState<Partial<ProductFilters>>({})
   const [showSubcategories, setShowSubcategories] = useState(false)
-  const [subcategoryType, setSubcategoryType] = useState<'pressure-switches' | 'valves' | 'pressure-transmitters' | 'filter-driers' | null>(null)
+  const [subcategoryType, setSubcategoryType] = useState<'pressure-switches' | 'valves' | 'pressure-transmitters' | 'filter-driers' | 'pressure-gauge' | null>(null)
   
   // Refs for GSAP animations
   const containerRef = useRef<HTMLDivElement>(null)
@@ -358,6 +359,28 @@ export default function ProductsPage() {
       certifications: []
     }
   ]
+
+  // Build pressure gauge subcategories from JSON
+  const pressureGaugeSubcategories: PressureSwitchSubcategory[] = [
+    {
+      id: 'pressure-gauges',
+      name: 'Pressure Gauges',
+      description: 'High-precision pressure gauges with back and bottom connections',
+      image: (pressureGaugeData.categories.pressureGauges as any).image,
+      modelNumber: 'Pressure Gauge Series',
+      productCount: (pressureGaugeData.categories.pressureGauges?.products as Array<any>)?.length || 0,
+      certifications: []
+    },
+    {
+      id: 'manifold-gauges',
+      name: 'Manifold Gauges',
+      description: 'Single manifold gauges for refrigeration systems',
+      image: (pressureGaugeData.categories.manifoldGauges as any).image,
+      modelNumber: 'CT Series',
+      productCount: (pressureGaugeData.categories.manifoldGauges?.products as Array<any>)?.length || 0,
+      certifications: []
+    }
+  ]
   
   // Parse URL parameters on component mount and when URL changes
   useEffect(() => {
@@ -378,7 +401,8 @@ export default function ProductsPage() {
         const isValves = category?.trim().toLowerCase() === 'valves'
         const isPressureTransmitters = category?.trim().toLowerCase() === 'pressure transmitters'
         const isFilterDriers = category?.trim().toLowerCase() === 'filter driers/filter drier shell'
-        setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers)
+        const isPressureGauge = category?.trim().toLowerCase() === 'pressure gauge/manifold gauge'
+        setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers || isPressureGauge)
         if (isPressureSwitches) {
           setSubcategoryType('pressure-switches')
         } else if (isValves) {
@@ -387,6 +411,8 @@ export default function ProductsPage() {
           setSubcategoryType('pressure-transmitters')
         } else if (isFilterDriers) {
           setSubcategoryType('filter-driers')
+        } else if (isPressureGauge) {
+          setSubcategoryType('pressure-gauge')
         } else {
           setSubcategoryType(null)
         }
@@ -457,7 +483,8 @@ export default function ProductsPage() {
     const isValves = newFilters.category?.trim().toLowerCase() === 'valves'
     const isPressureTransmitters = newFilters.category?.trim().toLowerCase() === 'pressure transmitters'
     const isFilterDriers = newFilters.category?.trim().toLowerCase() === 'filter driers/filter drier shell'
-    setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers)
+    const isPressureGauge = newFilters.category?.trim().toLowerCase() === 'pressure gauge/manifold gauge'
+    setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers || isPressureGauge)
     if (isPressureSwitches) {
       setSubcategoryType('pressure-switches')
     } else if (isValves) {
@@ -466,6 +493,8 @@ export default function ProductsPage() {
       setSubcategoryType('pressure-transmitters')
     } else if (isFilterDriers) {
       setSubcategoryType('filter-driers')
+    } else if (isPressureGauge) {
+      setSubcategoryType('pressure-gauge')
     } else {
       setSubcategoryType(null)
     }
@@ -493,6 +522,7 @@ export default function ProductsPage() {
       if (valveSubcategories.find(s => s.id === subcategoryId)) return 'valves'
       if (pressureTransmitterSubcategories.find(s => s.id === subcategoryId)) return 'pressure-transmitters'
       if (filterDrierSubcategories.find(s => s.id === subcategoryId)) return 'filter-driers'
+      if (pressureGaugeSubcategories.find(s => s.id === subcategoryId)) return 'pressure-gauge'
       return subcategoryType
     })()
     
@@ -504,6 +534,8 @@ export default function ProductsPage() {
       setLocation(`/pressure-transmitters/${subcategoryId}`)
     } else if (type === 'filter-driers') {
       setLocation(`/filter-driers/${subcategoryId}`)
+    } else if (type === 'pressure-gauge') {
+      setLocation(`/pressure-gauge/${subcategoryId}`)
     } else if (subcategoryType === 'pressure-switches') {
       setLocation(`/pressure-switches/${subcategoryId}`)
     } else if (subcategoryType === 'valves') {
@@ -512,6 +544,8 @@ export default function ProductsPage() {
       setLocation(`/pressure-transmitters/${subcategoryId}`)
     } else if (subcategoryType === 'filter-driers') {
       setLocation(`/filter-driers/${subcategoryId}`)
+    } else if (subcategoryType === 'pressure-gauge') {
+      setLocation(`/pressure-gauge/${subcategoryId}`)
     }
   }
 
@@ -623,7 +657,8 @@ export default function ProductsPage() {
                       {subcategoryType === 'pressure-switches' ? 'Pressure Switch Categories' : 
                        subcategoryType === 'valves' ? 'Valve Categories' : 
                        subcategoryType === 'pressure-transmitters' ? 'Pressure Transmitter Categories' : 
-                       subcategoryType === 'filter-driers' ? 'Filter Driers/Filter Drier Shell Categories' : 'Categories'}
+                       subcategoryType === 'filter-driers' ? 'Filter Driers/Filter Drier Shell Categories' : 
+                       subcategoryType === 'pressure-gauge' ? 'Pressure Gauge/Manifold Gauge Categories' : 'Categories'}
                     </h2>
                     <p className="text-muted-foreground mt-1">Select a category to view products</p>
                   </div>
@@ -644,11 +679,13 @@ export default function ProductsPage() {
                   {(subcategoryType === 'pressure-switches' ? subcategories : 
                     subcategoryType === 'valves' ? valveSubcategories : 
                     subcategoryType === 'pressure-transmitters' ? pressureTransmitterSubcategories : 
-                    subcategoryType === 'filter-driers' ? filterDrierSubcategories : []).map((subcategory) => {
+                    subcategoryType === 'filter-driers' ? filterDrierSubcategories : 
+                    subcategoryType === 'pressure-gauge' ? pressureGaugeSubcategories : []).map((subcategory) => {
                     const categoryName = subcategoryType === 'pressure-switches' ? 'Pressure Switches' : 
                                        subcategoryType === 'valves' ? 'Valves' : 
                                        subcategoryType === 'pressure-transmitters' ? 'Pressure Transmitters' : 
-                                       subcategoryType === 'filter-driers' ? 'Filter Driers/Filter Drier Shell' : 'Products'
+                                       subcategoryType === 'filter-driers' ? 'Filter Driers/Filter Drier Shell' : 
+                                       subcategoryType === 'pressure-gauge' ? 'Pressure Gauge/Manifold Gauge' : 'Products'
                     const linkPath = subcategoryType === 'pressure-switches' 
                       ? `/pressure-switches/${subcategory.id}` 
                       : subcategoryType === 'valves'
@@ -657,6 +694,8 @@ export default function ProductsPage() {
                       ? `/pressure-transmitters/${subcategory.id}`
                       : subcategoryType === 'filter-driers'
                       ? `/filter-driers/${subcategory.id}`
+                      : subcategoryType === 'pressure-gauge'
+                      ? `/pressure-gauge/${subcategory.id}`
                       : `/products`
                     
                     return (
@@ -874,6 +913,29 @@ export default function ProductsPage() {
                         }}
                         customLink={`/filter-driers/${subcategory.id}`}
                         onClick={() => handleSubcategoryClick(subcategory.id, 'filter-driers')}
+                      />
+                    ))}
+
+                    {/* Pressure Gauge Categories */}
+                    {pressureGaugeSubcategories.map((subcategory) => (
+                      <ProductCard
+                        key={`pressure-gauge-${subcategory.id}`}
+                        id={subcategory.id}
+                        title={subcategory.name}
+                        modelNumber={subcategory.modelNumber}
+                        image={subcategory.image}
+                        price={0}
+                        category="Pressure Gauge/Manifold Gauge"
+                        series={subcategory.modelNumber}
+                        stockStatus="in_stock"
+                        rating={4.7}
+                        reviewCount={subcategory.productCount}
+                        specifications={{
+                          connection: subcategory.connection,
+                          pressure: `${subcategory.productCount} models available`
+                        }}
+                        customLink={`/pressure-gauge/${subcategory.id}`}
+                        onClick={() => handleSubcategoryClick(subcategory.id, 'pressure-gauge')}
                       />
                     ))}
                   </div>

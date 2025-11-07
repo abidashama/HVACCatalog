@@ -15,6 +15,7 @@ import axeonValveData from '@/assets/data/axeon_valves.json'
 import accumulatorData from '@/assets/data/accumulator_oil_seperator_liquid_receiver.json'
 import fanData from '@/assets/data/axial_fans_shaded_poles_small_fans.json'
 import filterDrierData from '@/assets/data/filter_driers_filter_drier_shell.json'
+import pressureGaugeData from '@/assets/data/pressure_gauge_manifold_gauge.json'
 
 interface FilterSidebarProps {
   isOpen: boolean
@@ -80,6 +81,13 @@ const getFilterDrierCount = () => {
   return Object.keys(categories).length
 }
 
+// Calculate Pressure Gauge subcategory count from JSON
+const getPressureGaugeCount = () => {
+  const categories: any = pressureGaugeData.categories
+  // Count subcategories: pressure-gauges, manifold-gauges
+  return Object.keys(categories).length
+}
+
 // Filter data that matches backend category names exactly
 const filterData = {
   categories: [
@@ -90,7 +98,8 @@ const filterData = {
     { id: 'Axeon Valves', name: 'Axeon Valves', count: getAxeonValvesCount() },
     { id: 'Accumulator/Oil Separator/Liquid Receiver', name: 'Accumulator/Oil Separator/Liquid Receiver', count: getAccumulatorCount() },
     { id: 'Axial Fans/Shaded Pole Motor/Small Fans', name: 'Axial Fans/Shaded Pole Motor/Small Fans', count: getFanCount() },
-    { id: 'Filter Driers/Filter Drier Shell', name: 'Filter Driers/Filter Drier Shell', count: getFilterDrierCount() }
+    { id: 'Filter Driers/Filter Drier Shell', name: 'Filter Driers/Filter Drier Shell', count: getFilterDrierCount() },
+    { id: 'Pressure Gauge/Manifold Gauge', name: 'Pressure Gauge/Manifold Gauge', count: getPressureGaugeCount() }
   ]
 }
 

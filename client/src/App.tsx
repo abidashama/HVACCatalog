@@ -20,6 +20,7 @@ import AxeonValveDetailPage from "@/pages/AxeonValveDetailPage";
 import AccumulatorDetailPage from "@/pages/AccumulatorDetailPage";
 import FansDetailPage from "@/pages/FansDetailPage";
 import FilterDrierDetailPage from "@/pages/FilterDrierDetailPage";
+import PressureGaugeDetailPage from "@/pages/PressureGaugeDetailPage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -36,6 +37,7 @@ function Router() {
       <Route path="/accumulator/:productId" component={AccumulatorDetailPage} />
       <Route path="/fans/:productId" component={FansDetailPage} />
       <Route path="/filter-driers/:subcategoryId" component={FilterDrierDetailPage} />
+      <Route path="/pressure-gauge/:subcategoryId" component={PressureGaugeDetailPage} />
       <Route path="/pressure-switches/:subcategoryId" component={PressureSwitchDetailPage} />
       <Route path="/valves/:categoryId" component={ValveDetailPage} />
       <Route path="/pressure-transmitters/:subcategoryId" component={PressureTransmitterDetailPage} />

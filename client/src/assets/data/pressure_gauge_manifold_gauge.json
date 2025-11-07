@@ -1,0 +1,51 @@
+{
+    "categories": {
+        "pressureGauges": {
+            "name": "PRESSURE GAUGES",
+            "products": [
+                {
+                    "model": "LOW PRESSURE GAUGE",
+                    "range": "18 BAR / 260PSI",
+                    "connection": "BACK CONNECTION"
+                },
+                {
+                    "model": "HIGH PRESSURE GAUGE",
+                    "range": "38 BAR / 550PSI",
+                    "connection": "BACK CONNECTION"
+                },
+                {
+                    "model": "HIGH PRESSURE GAUGE (R410A)",
+                    "range": "800PSI",
+                    "connection": "BACK CONNECTION"
+                },
+                {
+                    "model": "LOW PRESSURE GAUGE",
+                    "range": "18 BAR / 260PSI",
+                    "connection": "BOTTOM CONNECTION"
+                },
+                {
+                    "model": "HIGH PRESSURE GAUGE",
+                    "range": "38 BAR / 550PSI",
+                    "connection": "BOTTOM CONNECTION"
+                }
+            ],
+            "image": "/assets/images/pressure_gauge/pressure_gauge.webp"
+        },
+        "manifoldGauges": {
+            "name": "MANIFOLD GAUGES",
+            "products": [
+                {
+                    "model": "SINGLE MANIFOLD CT-466L",
+                    "range": "35 BAR/500 PSI",
+                    "connection": "MANIFOLD THREE WAY"
+                },
+                {
+                    "model": "SINGLE MANIFOLD CT-466H",
+                    "range": "55 BAR /800 PSI",
+                    "connection": "MANIFOLD THREE WAY"
+                }
+            ],
+            "image": "/assets/images/pressure_gauge/manifold_gauge.webp"
+        }
+    }
+}

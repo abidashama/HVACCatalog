@@ -134,6 +134,12 @@ export const PRODUCT_CATEGORIES = [
     name: 'Filter Driers/Filter Drier Shell',
     slug: 'filter-driers',
     description: 'Filter driers and filter drier shells for refrigeration moisture and contamination control'
+  },
+  {
+    id: 'Pressure Gauge/Manifold Gauge',
+    name: 'Pressure Gauge/Manifold Gauge',
+    slug: 'pressure-gauge',
+    description: 'Pressure gauges and manifold gauges for accurate pressure measurement and monitoring'
   }
 ] as const
 

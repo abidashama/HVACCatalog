@@ -11,6 +11,7 @@ import type { SelectProduct, ProductFilters } from '@shared/schema'
 import { gsap } from 'gsap'
 import pressureSwitchData from '@/assets/data/pressure-switch.json'
 import filterDrierData from '@/assets/data/filter_driers_filter_drier_shell.json'
+import pressureGaugeData from '@/assets/data/pressure_gauge_manifold_gauge.json'
 
 
 type ViewMode = 'grid' | 'list'
@@ -318,14 +319,102 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
     return out
   }, [])
 
+  // Build local products from pressure_gauge_manifold_gauge.json when category is Pressure Gauge/Manifold Gauge
+  const pressureGaugeProducts = useMemo(() => {
+    const baseImage = '/assets/images/pressure_gauge/pressure_gauge.webp'
+    const out: Array<SelectProduct> = [] as any
+    const categories: any = (pressureGaugeData as any)?.categories || {}
+
+    const add = (p: Partial<SelectProduct> & { id: string }) => {
+      out.push({
+        id: p.id,
+        title: p.title ?? '',
+        modelNumber: p.modelNumber ?? '',
+        image: p.image ?? baseImage,
+        price: p.price ?? '99.00',
+        originalPrice: (p as any).originalPrice ?? null,
+        category: 'Pressure Gauge/Manifold Gauge',
+        series: p.series ?? 'Gauge Series',
+        stockStatus: p.stockStatus ?? 'in_stock',
+        rating: p.rating ?? '4.7',
+        reviewCount: p.reviewCount ?? 10,
+        specifications: p.specifications ?? null,
+        description: p.description ?? null,
+        tags: p.tags ?? null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })
+    }
+
+    const priceFor = (model: string): string => {
+      // Simple pricing logic based on model
+      if (model.includes('LOW PRESSURE')) return '35.00'
+      if (model.includes('HIGH PRESSURE') && model.includes('R410A')) return '55.00'
+      if (model.includes('HIGH PRESSURE')) return '45.00'
+      if (model.includes('CT-466L')) return '120.00'
+      if (model.includes('CT-466H')) return '140.00'
+      return '99.00'
+    }
+
+    const seriesFromModel = (model: string): string => {
+      if (model.includes('CT-466')) return 'CT Series'
+      return 'Pressure Gauge Series'
+    }
+
+    // Pressure Gauges
+    const pressureGauges = categories.pressureGauges
+    if (pressureGauges?.products) {
+      for (const item of pressureGauges.products as Array<{model: string, range: string, connection: string}>) {
+        const model = item.model as string
+        add({
+          id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          title: `${pressureGauges.name} - ${model}`,
+          modelNumber: model,
+          image: pressureGauges.image || baseImage,
+          price: priceFor(model),
+          series: seriesFromModel(model),
+          specifications: JSON.stringify({ 
+            range: item.range,
+            connection: item.connection
+          })
+        })
+      }
+    }
+
+    // Manifold Gauges
+    const manifoldGauges = categories.manifoldGauges
+    if (manifoldGauges?.products) {
+      for (const item of manifoldGauges.products as Array<{model: string, range: string, connection: string}>) {
+        const model = item.model as string
+        add({
+          id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          title: `${manifoldGauges.name} - ${model}`,
+          modelNumber: model,
+          image: manifoldGauges.image || baseImage,
+          price: priceFor(model),
+          series: seriesFromModel(model),
+          specifications: JSON.stringify({ 
+            range: item.range,
+            connection: item.connection
+          })
+        })
+      }
+    }
+
+    return out
+  }, [])
+
   const isPressureSwitchCategory = (filters?.category || '').toLowerCase() === 'pressure switches'.toLowerCase()
   const isFilterDrierCategory = (filters?.category || '').toLowerCase() === 'filter driers/filter drier shell'.toLowerCase()
+  const isPressureGaugeCategory = (filters?.category || '').toLowerCase() === 'pressure gauge/manifold gauge'.toLowerCase()
 
   const products = isPressureSwitchCategory ? pressureSwitchProducts : 
                   isFilterDrierCategory ? filterDrierProducts : 
+                  isPressureGaugeCategory ? pressureGaugeProducts :
                   apiProducts
   const displayTotal = isPressureSwitchCategory ? pressureSwitchProducts.length : 
                        isFilterDrierCategory ? filterDrierProducts.length :
+                       isPressureGaugeCategory ? pressureGaugeProducts.length :
                        totalProducts
   
   // Convert API product data to component props format
