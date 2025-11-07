@@ -13,6 +13,7 @@ import pressureSwitchData from '@/assets/data/pressure-switch.json'
 import filterDrierData from '@/assets/data/filter_driers_filter_drier_shell.json'
 import pressureGaugeData from '@/assets/data/pressure_gauge_manifold_gauge.json'
 import teflonTapeData from '@/assets/data/teflon_tape.json'
+import axeonPumpsData from '@/assets/data/axeon_pumps.json'
 
 
 type ViewMode = 'grid' | 'list'
@@ -471,20 +472,112 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
     return out
   }, [])
 
+  // Build local products from axeon_pumps.json when category is Axeon Pumps
+  const axeonPumpsProducts = useMemo(() => {
+    const baseImage = '/assets/images/axeon_pumps/self_priming_pump.png'
+    const out: Array<SelectProduct> = [] as any
+    const categories: any = (axeonPumpsData as any)?.categories || {}
+
+    const add = (p: Partial<SelectProduct> & { id: string }) => {
+      out.push({
+        id: p.id,
+        title: p.title ?? '',
+        modelNumber: p.modelNumber ?? '',
+        image: p.image ?? baseImage,
+        price: p.price ?? '99.00',
+        originalPrice: (p as any).originalPrice ?? null,
+        category: 'Axeon Pumps',
+        series: p.series ?? 'Pump Series',
+        stockStatus: p.stockStatus ?? 'in_stock',
+        rating: p.rating ?? '4.7',
+        reviewCount: p.reviewCount ?? 10,
+        specifications: p.specifications ?? null,
+        description: p.description ?? null,
+        tags: p.tags ?? null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })
+    }
+
+    const priceFor = (model: string): string => {
+      // Simple pricing logic based on model
+      if (model.includes('1.5 HP')) return '15000.00'
+      if (model.includes('1HP') || model.includes('1 HP')) return '12000.00'
+      if (model.includes('0.5 HP')) return '10000.00'
+      if (model.includes('4-4')) return '18000.00'
+      if (model.includes('2-6')) return '14000.00'
+      if (model.includes('2-3')) return '12000.00'
+      return '10000.00'
+    }
+
+    const seriesFromModel = (model: string): string => {
+      if (model.includes('JETS')) return 'JETS Series'
+      if (model.includes('SP') || model.includes('TP')) return 'Multistage Series'
+      return 'Pump Series'
+    }
+
+    // Self Priming Pump SS
+    const selfPrimingPump = categories.selfPrimingPumpSS
+    if (selfPrimingPump?.subcategories) {
+      Object.values(selfPrimingPump.subcategories).forEach((subcategory: any) => {
+        if (subcategory.products) {
+          for (const item of subcategory.products as Array<{model: string, power?: string, phase?: string, voltage?: string}>) {
+            const model = item.model as string
+            add({
+              id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+              title: `${selfPrimingPump.name} - ${model}`,
+              modelNumber: model,
+              image: selfPrimingPump.image || baseImage,
+              price: priceFor(model),
+              series: seriesFromModel(model),
+              specifications: JSON.stringify({ 
+                power: item.power,
+                phase: item.phase,
+                voltage: item.voltage
+              })
+            })
+          }
+        }
+      })
+    }
+
+    // Multistage Pump
+    const multistagePump = categories.multistagePump
+    if (multistagePump?.products) {
+      for (const item of multistagePump.products as Array<{model: string}>) {
+        const model = item.model as string
+        add({
+          id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          title: `${multistagePump.name} - ${model}`,
+          modelNumber: model,
+          image: multistagePump.image || baseImage,
+          price: priceFor(model),
+          series: seriesFromModel(model),
+          specifications: JSON.stringify({})
+        })
+      }
+    }
+
+    return out
+  }, [])
+
   const isPressureSwitchCategory = (filters?.category || '').toLowerCase() === 'pressure switches'.toLowerCase()
   const isFilterDrierCategory = (filters?.category || '').toLowerCase() === 'filter driers/filter drier shell'.toLowerCase()
   const isPressureGaugeCategory = (filters?.category || '').toLowerCase() === 'pressure gauge/manifold gauge'.toLowerCase()
   const isTeflonTapeCategory = (filters?.category || '').toLowerCase() === 'teflon tape'.toLowerCase()
+  const isAxeonPumpsCategory = (filters?.category || '').toLowerCase() === 'axeon pumps'.toLowerCase()
 
   const products = isPressureSwitchCategory ? pressureSwitchProducts : 
                   isFilterDrierCategory ? filterDrierProducts : 
                   isPressureGaugeCategory ? pressureGaugeProducts :
                   isTeflonTapeCategory ? teflonTapeProducts :
+                  isAxeonPumpsCategory ? axeonPumpsProducts :
                   apiProducts
   const displayTotal = isPressureSwitchCategory ? pressureSwitchProducts.length : 
                        isFilterDrierCategory ? filterDrierProducts.length :
                        isPressureGaugeCategory ? pressureGaugeProducts.length :
                        isTeflonTapeCategory ? teflonTapeProducts.length :
+                       isAxeonPumpsCategory ? axeonPumpsProducts.length :
                        totalProducts
   
   // Convert API product data to component props format

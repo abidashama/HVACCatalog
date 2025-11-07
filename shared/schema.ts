@@ -146,6 +146,12 @@ export const PRODUCT_CATEGORIES = [
     name: 'Teflon Tape',
     slug: 'teflon-tape',
     description: 'High-quality teflon tape for sealing and threading applications in HVAC systems'
+  },
+  {
+    id: 'Axeon Pumps',
+    name: 'Axeon Pumps',
+    slug: 'axeon-pumps',
+    description: 'Self-priming and multistage pumps for water supply and industrial applications'
   }
 ] as const
 

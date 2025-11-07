@@ -17,6 +17,7 @@ import fanData from '@/assets/data/axial_fans_shaded_poles_small_fans.json'
 import filterDrierData from '@/assets/data/filter_driers_filter_drier_shell.json'
 import pressureGaugeData from '@/assets/data/pressure_gauge_manifold_gauge.json'
 import teflonTapeData from '@/assets/data/teflon_tape.json'
+import axeonPumpsData from '@/assets/data/axeon_pumps.json'
 
 interface FilterSidebarProps {
   isOpen: boolean
@@ -96,6 +97,13 @@ const getTeflonTapeCount = () => {
   return Object.keys(categories).length
 }
 
+// Calculate Axeon Pumps subcategory count from JSON
+const getAxeonPumpsCount = () => {
+  const categories: any = axeonPumpsData.categories
+  // Count subcategories: self-priming-pump-ss, multistage-pump
+  return Object.keys(categories).length
+}
+
 // Filter data that matches backend category names exactly
 const filterData = {
   categories: [
@@ -108,7 +116,8 @@ const filterData = {
     { id: 'Axial Fans/Shaded Pole Motor/Small Fans', name: 'Axial Fans/Shaded Pole Motor/Small Fans', count: getFanCount() },
     { id: 'Filter Driers/Filter Drier Shell', name: 'Filter Driers/Filter Drier Shell', count: getFilterDrierCount() },
     { id: 'Pressure Gauge/Manifold Gauge', name: 'Pressure Gauge/Manifold Gauge', count: getPressureGaugeCount() },
-    { id: 'Teflon Tape', name: 'Teflon Tape', count: getTeflonTapeCount() }
+    { id: 'Teflon Tape', name: 'Teflon Tape', count: getTeflonTapeCount() },
+    { id: 'Axeon Pumps', name: 'Axeon Pumps', count: getAxeonPumpsCount() }
   ]
 }
 

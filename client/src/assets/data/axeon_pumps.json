@@ -1,0 +1,66 @@
+{
+    "categories": {
+        "selfPrimingPumpSS": {
+            "name": "AXEON SELF PRIMING PUMP (SS)",
+            "subcategories": {
+                "jetSeriesPump": {
+                    "name": "JET SERIES PUMP",
+                    "products": [
+                        {
+                            "model": "Axeon JETS 0.5 HP Single Phase (220V)",
+                            "power": "0.5 HP",
+                            "phase": "Single Phase",
+                            "voltage": "220V"
+                        },
+                        {
+                            "model": "Axeon JETS 1HP Single Phase (220V)",
+                            "power": "1 HP",
+                            "phase": "Single Phase",
+                            "voltage": "220V"
+                        },
+                        {
+                            "model": "Axeon JETS 1.5 HP single phase (220V)",
+                            "power": "1.5 HP",
+                            "phase": "Single Phase",
+                            "voltage": "220V"
+                        },
+                        {
+                            "model": "Axeon JETS 0.5 HP Three Phase (380V)",
+                            "power": "0.5 HP",
+                            "phase": "Three Phase",
+                            "voltage": "380V"
+                        },
+                        {
+                            "model": "Axeon JETS 1HP Three Phase (380V)",
+                            "power": "1 HP",
+                            "phase": "Three Phase",
+                            "voltage": "380V"
+                        },
+                        {
+                            "model": "Axeon JETS 1.5 HP Three Phase (380V)",
+                            "power": "1.5 HP",
+                            "phase": "Three Phase",
+                            "voltage": "380V"
+                        }
+                    ]
+                }
+            },
+            "image": "/assets/images/axeon_pumps/self_priming_pump.png"
+        },
+        "multistagePump": {
+            "name": "MULTISTAGE PUMP",
+            "products": [
+                {
+                    "model": "2-3 SP (SINGLE PHASE)"
+                },
+                {
+                    "model": "2-6 SP (SINGLE PHASE)"
+                },
+                {
+                    "model": "4-4 TP (THREE PHASE)"
+                }
+            ],
+            "image": "/assets/images/axeon_pumps/multistage_pump.png"
+        }
+    }
+}

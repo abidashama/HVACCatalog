@@ -23,6 +23,7 @@ import fansData from '@/assets/data/axial_fans_shaded_poles_small_fans.json'
 import filterDrierData from '@/assets/data/filter_driers_filter_drier_shell.json'
 import pressureGaugeData from '@/assets/data/pressure_gauge_manifold_gauge.json'
 import teflonTapeData from '@/assets/data/teflon_tape.json'
+import axeonPumpsData from '@/assets/data/axeon_pumps.json'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -46,7 +47,7 @@ export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [filters, setFilters] = useState<Partial<ProductFilters>>({})
   const [showSubcategories, setShowSubcategories] = useState(false)
-  const [subcategoryType, setSubcategoryType] = useState<'pressure-switches' | 'valves' | 'pressure-transmitters' | 'filter-driers' | 'pressure-gauge' | 'teflon-tape' | null>(null)
+  const [subcategoryType, setSubcategoryType] = useState<'pressure-switches' | 'valves' | 'pressure-transmitters' | 'filter-driers' | 'pressure-gauge' | 'teflon-tape' | 'axeon-pumps' | null>(null)
   
   // Refs for GSAP animations
   const containerRef = useRef<HTMLDivElement>(null)
@@ -395,6 +396,28 @@ export default function ProductsPage() {
       certifications: []
     }
   ]
+
+  // Build axeon pumps subcategories from JSON
+  const axeonPumpsSubcategories: PressureSwitchSubcategory[] = [
+    {
+      id: 'self-priming-pump-ss',
+      name: 'Axeon Self Priming Pump (SS)',
+      description: 'Self-priming stainless steel pumps for water supply',
+      image: (axeonPumpsData.categories.selfPrimingPumpSS as any).image,
+      modelNumber: 'JETS Series',
+      productCount: Object.values((axeonPumpsData.categories.selfPrimingPumpSS as any).subcategories || {}).reduce((total: number, sub: any) => total + (sub.products?.length || 0), 0),
+      certifications: []
+    },
+    {
+      id: 'multistage-pump',
+      name: 'Multistage Pump',
+      description: 'High-performance multistage pumps for industrial use',
+      image: (axeonPumpsData.categories.multistagePump as any).image,
+      modelNumber: 'Multistage Series',
+      productCount: (axeonPumpsData.categories.multistagePump?.products as Array<any>)?.length || 0,
+      certifications: []
+    }
+  ]
   
   // Parse URL parameters on component mount and when URL changes
   useEffect(() => {
@@ -417,7 +440,8 @@ export default function ProductsPage() {
         const isFilterDriers = category?.trim().toLowerCase() === 'filter driers/filter drier shell'
         const isPressureGauge = category?.trim().toLowerCase() === 'pressure gauge/manifold gauge'
         const isTeflonTape = category?.trim().toLowerCase() === 'teflon tape'
-        setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers || isPressureGauge || isTeflonTape)
+        const isAxeonPumps = category?.trim().toLowerCase() === 'axeon pumps'
+        setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers || isPressureGauge || isTeflonTape || isAxeonPumps)
         if (isPressureSwitches) {
           setSubcategoryType('pressure-switches')
         } else if (isValves) {
@@ -430,6 +454,8 @@ export default function ProductsPage() {
           setSubcategoryType('pressure-gauge')
         } else if (isTeflonTape) {
           setSubcategoryType('teflon-tape')
+        } else if (isAxeonPumps) {
+          setSubcategoryType('axeon-pumps')
         } else {
           setSubcategoryType(null)
         }
@@ -502,7 +528,8 @@ export default function ProductsPage() {
     const isFilterDriers = newFilters.category?.trim().toLowerCase() === 'filter driers/filter drier shell'
     const isPressureGauge = newFilters.category?.trim().toLowerCase() === 'pressure gauge/manifold gauge'
     const isTeflonTape = newFilters.category?.trim().toLowerCase() === 'teflon tape'
-    setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers || isPressureGauge || isTeflonTape)
+    const isAxeonPumps = newFilters.category?.trim().toLowerCase() === 'axeon pumps'
+    setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers || isPressureGauge || isTeflonTape || isAxeonPumps)
     if (isPressureSwitches) {
       setSubcategoryType('pressure-switches')
     } else if (isValves) {
@@ -515,6 +542,8 @@ export default function ProductsPage() {
       setSubcategoryType('pressure-gauge')
     } else if (isTeflonTape) {
       setSubcategoryType('teflon-tape')
+    } else if (isAxeonPumps) {
+      setSubcategoryType('axeon-pumps')
     } else {
       setSubcategoryType(null)
     }
@@ -544,6 +573,7 @@ export default function ProductsPage() {
       if (filterDrierSubcategories.find(s => s.id === subcategoryId)) return 'filter-driers'
       if (pressureGaugeSubcategories.find(s => s.id === subcategoryId)) return 'pressure-gauge'
       if (teflonTapeSubcategories.find(s => s.id === subcategoryId)) return 'teflon-tape'
+      if (axeonPumpsSubcategories.find(s => s.id === subcategoryId)) return 'axeon-pumps'
       return subcategoryType
     })()
     
@@ -559,6 +589,8 @@ export default function ProductsPage() {
       setLocation(`/pressure-gauge/${subcategoryId}`)
     } else if (type === 'teflon-tape') {
       setLocation(`/teflon-tape/${subcategoryId}`)
+    } else if (type === 'axeon-pumps') {
+      setLocation(`/axeon-pumps/${subcategoryId}`)
     } else if (subcategoryType === 'pressure-switches') {
       setLocation(`/pressure-switches/${subcategoryId}`)
     } else if (subcategoryType === 'valves') {
@@ -571,6 +603,8 @@ export default function ProductsPage() {
       setLocation(`/pressure-gauge/${subcategoryId}`)
     } else if (subcategoryType === 'teflon-tape') {
       setLocation(`/teflon-tape/${subcategoryId}`)
+    } else if (subcategoryType === 'axeon-pumps') {
+      setLocation(`/axeon-pumps/${subcategoryId}`)
     }
   }
 
@@ -684,7 +718,8 @@ export default function ProductsPage() {
                        subcategoryType === 'pressure-transmitters' ? 'Pressure Transmitter Categories' : 
                        subcategoryType === 'filter-driers' ? 'Filter Driers/Filter Drier Shell Categories' : 
                        subcategoryType === 'pressure-gauge' ? 'Pressure Gauge/Manifold Gauge Categories' : 
-                       subcategoryType === 'teflon-tape' ? 'Teflon Tape Categories' : 'Categories'}
+                       subcategoryType === 'teflon-tape' ? 'Teflon Tape Categories' : 
+                       subcategoryType === 'axeon-pumps' ? 'Axeon Pumps Categories' : 'Categories'}
                     </h2>
                     <p className="text-muted-foreground mt-1">Select a category to view products</p>
                   </div>
@@ -707,13 +742,15 @@ export default function ProductsPage() {
                     subcategoryType === 'pressure-transmitters' ? pressureTransmitterSubcategories : 
                     subcategoryType === 'filter-driers' ? filterDrierSubcategories : 
                     subcategoryType === 'pressure-gauge' ? pressureGaugeSubcategories : 
-                    subcategoryType === 'teflon-tape' ? teflonTapeSubcategories : []).map((subcategory) => {
+                    subcategoryType === 'teflon-tape' ? teflonTapeSubcategories : 
+                    subcategoryType === 'axeon-pumps' ? axeonPumpsSubcategories : []).map((subcategory) => {
                     const categoryName = subcategoryType === 'pressure-switches' ? 'Pressure Switches' : 
                                        subcategoryType === 'valves' ? 'Valves' : 
                                        subcategoryType === 'pressure-transmitters' ? 'Pressure Transmitters' : 
                                        subcategoryType === 'filter-driers' ? 'Filter Driers/Filter Drier Shell' : 
                                        subcategoryType === 'pressure-gauge' ? 'Pressure Gauge/Manifold Gauge' : 
-                                       subcategoryType === 'teflon-tape' ? 'Teflon Tape' : 'Products'
+                                       subcategoryType === 'teflon-tape' ? 'Teflon Tape' : 
+                                       subcategoryType === 'axeon-pumps' ? 'Axeon Pumps' : 'Products'
                     const linkPath = subcategoryType === 'pressure-switches' 
                       ? `/pressure-switches/${subcategory.id}` 
                       : subcategoryType === 'valves'
@@ -726,6 +763,8 @@ export default function ProductsPage() {
                       ? `/pressure-gauge/${subcategory.id}`
                       : subcategoryType === 'teflon-tape'
                       ? `/teflon-tape/${subcategory.id}`
+                      : subcategoryType === 'axeon-pumps'
+                      ? `/axeon-pumps/${subcategory.id}`
                       : `/products`
                     
                     return (
@@ -989,6 +1028,29 @@ export default function ProductsPage() {
                         }}
                         customLink={`/teflon-tape/${subcategory.id}`}
                         onClick={() => handleSubcategoryClick(subcategory.id, 'teflon-tape')}
+                      />
+                    ))}
+
+                    {/* Axeon Pumps Categories */}
+                    {axeonPumpsSubcategories.map((subcategory) => (
+                      <ProductCard
+                        key={`axeon-pumps-${subcategory.id}`}
+                        id={subcategory.id}
+                        title={subcategory.name}
+                        modelNumber={subcategory.modelNumber}
+                        image={subcategory.image}
+                        price={0}
+                        category="Axeon Pumps"
+                        series={subcategory.modelNumber}
+                        stockStatus="in_stock"
+                        rating={4.7}
+                        reviewCount={subcategory.productCount}
+                        specifications={{
+                          connection: subcategory.connection,
+                          pressure: `${subcategory.productCount} models available`
+                        }}
+                        customLink={`/axeon-pumps/${subcategory.id}`}
+                        onClick={() => handleSubcategoryClick(subcategory.id, 'axeon-pumps')}
                       />
                     ))}
                   </div>
