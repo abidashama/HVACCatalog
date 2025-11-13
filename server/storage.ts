@@ -59,6 +59,7 @@ export class MemStorage implements IStorage {
     this.loadAxeonValveProducts();
     this.loadAccumulatorProducts();
     this.loadFanProducts();
+    this.loadBrazingRodProducts();
   }
 
   private loadPressureSwitchProducts() {
@@ -798,6 +799,86 @@ export class MemStorage implements IStorage {
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error('Failed to load fan products data:', err);
+    }
+  }
+
+  private loadBrazingRodProducts() {
+    try {
+      const jsonPath = path.resolve(process.cwd(), 'client', 'src', 'assets', 'data', 'brazing_rod.json');
+      if (!fs.existsSync(jsonPath)) {
+        // eslint-disable-next-line no-console
+        console.warn('Brazing Rod products JSON file not found at:', jsonPath);
+        return;
+      }
+      const raw = fs.readFileSync(jsonPath, 'utf-8');
+      const data = JSON.parse(raw) as any;
+      const categories = data?.categories ?? {};
+
+      const addProduct = (p: Omit<SelectProduct, 'createdAt' | 'updatedAt'>) => {
+        const product: SelectProduct = { ...p, createdAt: new Date(), updatedAt: new Date() };
+        this.products.set(product.id, product);
+      };
+
+      // Helper to generate price
+      const priceFor = (model: string) => {
+        const hash = Array.from(model).reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+        const base = 80 + (hash % 120); // 80 - 199
+        return base.toFixed(2);
+      };
+
+      // Create products from categories
+      let totalProducts = 0;
+
+      Object.entries(categories).forEach(([categoryKey, category]: [string, any]) => {
+        if (!category) return;
+
+        const categoryName = category.name;
+        const categoryImage = category.image || '/assets/images/brazing_rod/brazing_rod.webp';
+        const categoryModels: Array<{ model: string }> = [];
+
+        // Handle categories with direct products
+        if (category.products) {
+          for (const product of category.products) {
+            categoryModels.push({
+              model: product.model
+            });
+          }
+        }
+
+        // Create a product for this category if it has models
+        if (categoryModels.length > 0) {
+          const representativeModel = categoryModels[0]?.model || 'BCUP-2';
+          const productId = `brazing-rod-${categoryKey}`;
+          
+          addProduct({
+            id: productId,
+            title: categoryName,
+            modelNumber: representativeModel,
+            image: categoryImage,
+            price: priceFor(representativeModel),
+            originalPrice: null,
+            category: 'Brazing Rod',
+            series: categoryName,
+            stockStatus: 'in_stock',
+            rating: '4.8',
+            reviewCount: Math.max(5, categoryModels.length),
+            specifications: JSON.stringify({
+              models: categoryModels,
+              categoryData: category
+            }),
+            description: `${categoryName} - High-quality brazing rods for joining metal components in HVAC and refrigeration systems.`,
+            tags: JSON.stringify(['brazing', 'welding', 'hvac', categoryKey.toLowerCase()])
+          });
+
+          totalProducts++;
+        }
+      });
+
+      // eslint-disable-next-line no-console
+      console.log(`✓ Loaded ${totalProducts} brazing rod products from JSON`);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to load brazing rod products data:', err);
     }
   }
 

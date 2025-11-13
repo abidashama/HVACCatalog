@@ -23,6 +23,10 @@ import FilterDrierDetailPage from "@/pages/FilterDrierDetailPage";
 import PressureGaugeDetailPage from "@/pages/PressureGaugeDetailPage";
 import TeflonTapeDetailPage from "@/pages/TeflonTapeDetailPage";
 import AxeonPumpsDetailPage from "@/pages/AxeonPumpsDetailPage";
+import VibrationEliminatorsDetailPage from "@/pages/VibrationEliminatorsDetailPage";
+import BrazingRodDetailPage from "@/pages/BrazingRodDetailPage";
+import RelayDetailPage from "@/pages/RelayDetailPage";
+import ScrollCompressorDetailPage from "@/pages/ScrollCompressorDetailPage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -42,6 +46,10 @@ function Router() {
       <Route path="/pressure-gauge/:subcategoryId" component={PressureGaugeDetailPage} />
       <Route path="/teflon-tape/:subcategoryId" component={TeflonTapeDetailPage} />
       <Route path="/axeon-pumps/:categoryId" component={AxeonPumpsDetailPage} />
+      <Route path="/vibration-eliminators/:subcategoryId" component={VibrationEliminatorsDetailPage} />
+      <Route path="/brazing-rod/:subcategoryId" component={BrazingRodDetailPage} />
+      <Route path="/relay/:subcategoryId" component={RelayDetailPage} />
+      <Route path="/scroll-compressors" component={ScrollCompressorDetailPage} />
       <Route path="/pressure-switches/:subcategoryId" component={PressureSwitchDetailPage} />
       <Route path="/valves/:categoryId" component={ValveDetailPage} />
       <Route path="/pressure-transmitters/:subcategoryId" component={PressureTransmitterDetailPage} />

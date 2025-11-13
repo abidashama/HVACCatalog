@@ -14,6 +14,9 @@ import filterDrierData from '@/assets/data/filter_driers_filter_drier_shell.json
 import pressureGaugeData from '@/assets/data/pressure_gauge_manifold_gauge.json'
 import teflonTapeData from '@/assets/data/teflon_tape.json'
 import axeonPumpsData from '@/assets/data/axeon_pumps.json'
+import vibrationEliminatorsData from '@/assets/data/vibration_eliminators.json'
+import brazingRodData from '@/assets/data/brazing_rod.json'
+import relayData from '@/assets/data/relay.json'
 
 
 type ViewMode = 'grid' | 'list'
@@ -561,23 +564,212 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
     return out
   }, [])
 
+  // Build local products from vibration_eliminators.json when category is Vibration Eliminators
+  const vibrationEliminatorsProducts = useMemo(() => {
+    const baseImage = '/assets/images/vibration_eliminators.png'
+    const out: Array<SelectProduct> = [] as any
+    const categories: any = (vibrationEliminatorsData as any)?.categories || {}
+
+    const add = (p: Partial<SelectProduct> & { id: string }) => {
+      out.push({
+        id: p.id,
+        title: p.title ?? '',
+        modelNumber: p.modelNumber ?? '',
+        image: p.image ?? baseImage,
+        price: p.price ?? '99.00',
+        originalPrice: (p as any).originalPrice ?? null,
+        category: 'Vibration Eliminators',
+        series: p.series ?? 'SVA Series',
+        stockStatus: p.stockStatus ?? 'in_stock',
+        rating: p.rating ?? '4.7',
+        reviewCount: p.reviewCount ?? 10,
+        specifications: p.specifications ?? null,
+        description: p.description ?? null,
+        tags: p.tags ?? null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })
+    }
+
+    const priceFor = (model: string): string => {
+      // Simple pricing logic based on model
+      if (model.includes('SVA-9') || model.includes('SVA-8')) return '450.00'
+      if (model.includes('SVA-7') || model.includes('SVA-6')) return '380.00'
+      if (model.includes('SVA-5')) return '320.00'
+      if (model.includes('SVA-3') || model.includes('SVA-2')) return '250.00'
+      if (model.includes('SVA-1')) return '200.00'
+      return '250.00'
+    }
+
+    const seriesFromModel = (model: string): string => {
+      if (model.startsWith('SVA')) return 'SVA Series'
+      return 'Vibration Eliminator Series'
+    }
+
+    // Vibration Eliminators
+    const vibrationEliminators = categories.vibrationEliminators
+    if (vibrationEliminators?.products) {
+      for (const item of vibrationEliminators.products as Array<{model: string, connection: string}>) {
+        const model = item.model as string
+        add({
+          id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          title: `${vibrationEliminators.name} - ${model}`,
+          modelNumber: model,
+          image: vibrationEliminators.image || baseImage,
+          price: priceFor(model),
+          series: seriesFromModel(model),
+          specifications: JSON.stringify({ 
+            connection: item.connection
+          })
+        })
+      }
+    }
+
+    return out
+  }, [])
+
+  // Build local products from brazing_rod.json when category is Brazing Rod
+  const brazingRodProducts = useMemo(() => {
+    const baseImage = '/assets/images/brazing_rod/brazing_rod.webp'
+    const out: Array<SelectProduct> = [] as any
+    const categories: any = (brazingRodData as any)?.categories || {}
+
+    const add = (p: Partial<SelectProduct> & { id: string }) => {
+      out.push({
+        id: p.id,
+        title: p.title ?? '',
+        modelNumber: p.modelNumber ?? '',
+        image: p.image ?? baseImage,
+        price: p.price ?? '99.00',
+        originalPrice: (p as any).originalPrice ?? null,
+        category: 'Brazing Rod',
+        series: p.series ?? 'AXEON Series',
+        stockStatus: p.stockStatus ?? 'in_stock',
+        rating: p.rating ?? '4.7',
+        reviewCount: p.reviewCount ?? 10,
+        specifications: p.specifications ?? null,
+        description: p.description ?? null,
+        tags: p.tags ?? null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })
+    }
+
+    const priceFor = (model: string): string => {
+      // Simple pricing logic based on model
+      if (model.includes('BCUP-2')) return '150.00'
+      return '150.00'
+    }
+
+    const seriesFromModel = (model: string): string => {
+      if (model.startsWith('AXEON')) return 'AXEON Series'
+      return 'Brazing Rod Series'
+    }
+
+    // Brazing Rod
+    const brazingRod = categories.brazingRod
+    if (brazingRod?.products) {
+      for (const item of brazingRod.products as Array<{model: string}>) {
+        const model = item.model as string
+        add({
+          id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          title: `${brazingRod.name} - ${model}`,
+          modelNumber: model,
+          image: brazingRod.image || baseImage,
+          price: priceFor(model),
+          series: seriesFromModel(model),
+          specifications: JSON.stringify({})
+        })
+      }
+    }
+
+    return out
+  }, [])
+
+  // Build local products from relay.json when category is Relay
+  const relayProducts = useMemo(() => {
+    const baseImage = '/assets/images/relay/relay.webp'
+    const out: Array<SelectProduct> = [] as any
+    const categories: any = (relayData as any)?.categories || {}
+
+    const add = (p: Partial<SelectProduct> & { id: string }) => {
+      out.push({
+        id: p.id,
+        title: p.title ?? '',
+        modelNumber: p.modelNumber ?? '',
+        image: p.image ?? baseImage,
+        price: p.price ?? '99.00',
+        originalPrice: (p as any).originalPrice ?? null,
+        category: 'Relay',
+        series: p.series ?? 'GR Series',
+        stockStatus: p.stockStatus ?? 'in_stock',
+        rating: p.rating ?? '4.7',
+        reviewCount: p.reviewCount ?? 10,
+        specifications: p.specifications ?? null,
+        description: p.description ?? null,
+        tags: p.tags ?? null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })
+    }
+
+    const priceFor = (model: string): string => {
+      // Simple pricing logic based on model
+      if (model.includes('GR3800')) return '180.00'
+      return '180.00'
+    }
+
+    const seriesFromModel = (model: string): string => {
+      if (model.startsWith('GR')) return 'GR Series'
+      return 'Relay Series'
+    }
+
+    // Relay
+    const relay = categories.relay
+    if (relay?.products) {
+      for (const item of relay.products as Array<{model: string}>) {
+        const model = item.model as string
+        add({
+          id: model.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          title: `${relay.name} - ${model}`,
+          modelNumber: model,
+          image: relay.image || baseImage,
+          price: priceFor(model),
+          series: seriesFromModel(model),
+          specifications: JSON.stringify({})
+        })
+      }
+    }
+
+    return out
+  }, [])
+
   const isPressureSwitchCategory = (filters?.category || '').toLowerCase() === 'pressure switches'.toLowerCase()
   const isFilterDrierCategory = (filters?.category || '').toLowerCase() === 'filter driers/filter drier shell'.toLowerCase()
   const isPressureGaugeCategory = (filters?.category || '').toLowerCase() === 'pressure gauge/manifold gauge'.toLowerCase()
   const isTeflonTapeCategory = (filters?.category || '').toLowerCase() === 'teflon tape'.toLowerCase()
   const isAxeonPumpsCategory = (filters?.category || '').toLowerCase() === 'axeon pumps'.toLowerCase()
+  const isVibrationEliminatorsCategory = (filters?.category || '').toLowerCase() === 'vibration eliminators'.toLowerCase()
+  const isBrazingRodCategory = (filters?.category || '').toLowerCase() === 'brazing rod'.toLowerCase()
+  const isRelayCategory = (filters?.category || '').toLowerCase() === 'relay'.toLowerCase()
 
   const products = isPressureSwitchCategory ? pressureSwitchProducts : 
                   isFilterDrierCategory ? filterDrierProducts : 
                   isPressureGaugeCategory ? pressureGaugeProducts :
                   isTeflonTapeCategory ? teflonTapeProducts :
                   isAxeonPumpsCategory ? axeonPumpsProducts :
+                  isVibrationEliminatorsCategory ? vibrationEliminatorsProducts :
+                  isBrazingRodCategory ? brazingRodProducts :
+                  isRelayCategory ? relayProducts :
                   apiProducts
   const displayTotal = isPressureSwitchCategory ? pressureSwitchProducts.length : 
                        isFilterDrierCategory ? filterDrierProducts.length :
                        isPressureGaugeCategory ? pressureGaugeProducts.length :
                        isTeflonTapeCategory ? teflonTapeProducts.length :
                        isAxeonPumpsCategory ? axeonPumpsProducts.length :
+                       isVibrationEliminatorsCategory ? vibrationEliminatorsProducts.length :
+                       isBrazingRodCategory ? brazingRodProducts.length :
+                       isRelayCategory ? relayProducts.length :
                        totalProducts
   
   // Convert API product data to component props format

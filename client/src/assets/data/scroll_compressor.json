@@ -1,0 +1,69 @@
+{
+    "categories": {
+        "scrollCompressors": {
+            "name": "SCROLL COMPRESSORS",
+            "brand": "INVOTECH SCROLL COMPRESSOR",
+            "subcategories": {
+                "chiller": {
+                    "name": "CHILLER",
+                    "products": [
+                        {
+                            "model": "YH175T1-100",
+                            "capacity": "5 TR",
+                            "refrigerant": "R22,R407C",
+                            "document": "/assets/documents/scroll_compressors/YH175T1-100 DATA SHEET ( INVOTECH SCROLL COMPRESSOR ).pdf"
+                        },
+                        {
+                            "model": "YH266T1-100",
+                            "capacity": "7.5 TR",
+                            "refrigerant": "R22,R407C",
+                            "document": "/assets/documents/scroll_compressors/YH266T1-100 DATA SHEET ( INVOTECH SCROLL COMPRESSOR ).pdf"
+                        },
+                        {
+                            "model": "YH355T1-100",
+                            "capacity": "10 TR",
+                            "refrigerant": "R22,R407C",
+                            "document": "/assets/documents/scroll_compressors/YH355T1-100 DATA SHEET ( INVOTECH SCROLL COMPRESSOR ).pdf"
+                        },
+                        {
+                            "model": "YH610T1S-100",
+                            "capacity": "15 TR",
+                            "refrigerant": "R22,R407C",
+                            "document": "/assets/documents/scroll_compressors/YH610T1-100 DATA SHEET ( INVOTECH SCROLL COMPRESSOR ).pdf"
+                        },
+                        {
+                            "model": "YH720T1S-100",
+                            "capacity": "20 TR",
+                            "refrigerant": "R22,R407C",
+                            "document": "/assets/documents/scroll_compressors/YH720T1S-100 DATA SHEET ( INVOTECH SCROLL COMPRESSOR ).pdf"
+                        },
+                        {
+                            "model": "YM115E1G-100",
+                            "capacity": "6 TR",
+                            "refrigerant": "R404A",
+                            "document": "/assets/documents/scroll_compressors/YM115E1G-100 DATA SHEET ( INVOTECH SCROLL COMPRESSOR ).pdf"
+                        }
+                    ]
+                },
+                "heatPump": {
+                    "name": "HEAT PUMP",
+                    "products": [
+                        {
+                            "model": "YW135T-100",
+                            "capacity": "5 TR",
+                            "refrigerant": "R22,R407C",
+                            "document": "/assets/documents/scroll_compressors/YW135T1-100 DATA SHEET ( INVOTECH SCROLL COMPRESSOR ).pdf"
+                        },
+                        {
+                            "model": "YW185T-100",
+                            "capacity": "7 TR",
+                            "refrigerant": "R22,R407C",
+                            "document": "/assets/documents/scroll_compressors/YW185T1-100 DATA SHEET ( INVOTECH SCROLL COMPRESSOR ).pdf"
+                        }
+                    ]
+                }
+            },
+            "image": "/assets/images/scroll_compressors/scroll_compressor.webp"
+        }
+    }
+}

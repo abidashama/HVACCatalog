@@ -45,7 +45,7 @@
                     ]
                 }
             },
-            "image": "/assets/images/axeon_pumps/self_priming_pump.png"
+            "image": "/assets/images/axeon_pumps/jets_pump.webp"
         },
         "multistagePump": {
             "name": "MULTISTAGE PUMP",
@@ -60,7 +60,7 @@
                     "model": "4-4 TP (THREE PHASE)"
                 }
             ],
-            "image": "/assets/images/axeon_pumps/multistage_pump.png"
+            "image": "/assets/images/axeon_pumps/multistage_pump.webp"
         }
     }
 }

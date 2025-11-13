@@ -24,6 +24,10 @@ import filterDrierData from '@/assets/data/filter_driers_filter_drier_shell.json
 import pressureGaugeData from '@/assets/data/pressure_gauge_manifold_gauge.json'
 import teflonTapeData from '@/assets/data/teflon_tape.json'
 import axeonPumpsData from '@/assets/data/axeon_pumps.json'
+import vibrationEliminatorsData from '@/assets/data/vibration_eliminators.json'
+import brazingRodData from '@/assets/data/brazing_rod.json'
+import relayData from '@/assets/data/relay.json'
+import scrollCompressorData from '@/assets/data/scroll_compressor.json'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -47,7 +51,7 @@ export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [filters, setFilters] = useState<Partial<ProductFilters>>({})
   const [showSubcategories, setShowSubcategories] = useState(false)
-  const [subcategoryType, setSubcategoryType] = useState<'pressure-switches' | 'valves' | 'pressure-transmitters' | 'filter-driers' | 'pressure-gauge' | 'teflon-tape' | 'axeon-pumps' | null>(null)
+  const [subcategoryType, setSubcategoryType] = useState<'pressure-switches' | 'valves' | 'pressure-transmitters' | 'filter-driers' | 'pressure-gauge' | 'teflon-tape' | 'axeon-pumps' | 'vibration-eliminators' | 'brazing-rod' | 'relay' | 'scroll-compressors' | null>(null)
   
   // Refs for GSAP animations
   const containerRef = useRef<HTMLDivElement>(null)
@@ -418,6 +422,55 @@ export default function ProductsPage() {
       certifications: []
     }
   ]
+
+  // Build vibration eliminators subcategories from JSON
+  const vibrationEliminatorsSubcategories: PressureSwitchSubcategory[] = [
+    {
+      id: 'vibration-eliminators',
+      name: 'Vibration Eliminators',
+      description: 'High-quality vibration eliminators for noise and vibration reduction',
+      image: (vibrationEliminatorsData.categories.vibrationEliminators as any).image,
+      modelNumber: 'SVA Series',
+      productCount: (vibrationEliminatorsData.categories.vibrationEliminators?.products as Array<any>)?.length || 0,
+      certifications: []
+    }
+  ]
+
+  const brazingRodSubcategories: PressureSwitchSubcategory[] = [
+    {
+      id: 'brazing-rod',
+      name: 'Brazing Rod',
+      description: 'High-quality brazing rods for joining metal components',
+      image: (brazingRodData.categories.brazingRod as any).image,
+      modelNumber: 'AXEON-0 BCUP-2',
+      productCount: (brazingRodData.categories.brazingRod?.products as Array<any>)?.length || 0,
+      certifications: []
+    }
+  ]
+
+  const relaySubcategories: PressureSwitchSubcategory[] = [
+    {
+      id: 'relay',
+      name: 'Relay',
+      description: 'High-performance relays for electrical control and switching',
+      image: (relayData.categories.relay as any).image,
+      modelNumber: 'GR3800-3F3C-4',
+      productCount: (relayData.categories.relay?.products as Array<any>)?.length || 0,
+      certifications: []
+    }
+  ]
+
+  // Build scroll compressor single category from JSON
+  const scrollCompressorCategory: PressureSwitchSubcategory = {
+    id: 'scroll-compressors',
+    name: 'Scroll Compressors',
+    description: 'High-efficiency scroll compressors for chiller and heat pump applications',
+    image: (scrollCompressorData.categories.scrollCompressors as any).image,
+    modelNumber: 'INVOTECH',
+    productCount: (((scrollCompressorData.categories.scrollCompressors as any).subcategories.chiller?.products as Array<any>)?.length || 0) + 
+                  (((scrollCompressorData.categories.scrollCompressors as any).subcategories.heatPump?.products as Array<any>)?.length || 0),
+    certifications: []
+  }
   
   // Parse URL parameters on component mount and when URL changes
   useEffect(() => {
@@ -433,6 +486,7 @@ export default function ProductsPage() {
       if (urlParams.get('category')) {
         const category = urlParams.get('category') || undefined
         initialFilters.category = category
+        
         // Show subcategories if Pressure Switches, Valves, Pressure Transmitters, or Filter Driers is selected
         const isPressureSwitches = category?.trim().toLowerCase() === 'pressure switches'
         const isValves = category?.trim().toLowerCase() === 'valves'
@@ -441,7 +495,11 @@ export default function ProductsPage() {
         const isPressureGauge = category?.trim().toLowerCase() === 'pressure gauge/manifold gauge'
         const isTeflonTape = category?.trim().toLowerCase() === 'teflon tape'
         const isAxeonPumps = category?.trim().toLowerCase() === 'axeon pumps'
-        setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers || isPressureGauge || isTeflonTape || isAxeonPumps)
+        const isVibrationEliminators = category?.trim().toLowerCase() === 'vibration eliminators'
+        const isBrazingRod = category?.trim().toLowerCase() === 'brazing rod'
+        const isRelay = category?.trim().toLowerCase() === 'relay'
+        const isScrollCompressors = category?.trim().toLowerCase() === 'scroll compressors'
+        setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers || isPressureGauge || isTeflonTape || isAxeonPumps || isVibrationEliminators || isBrazingRod || isRelay || isScrollCompressors)
         if (isPressureSwitches) {
           setSubcategoryType('pressure-switches')
         } else if (isValves) {
@@ -456,6 +514,14 @@ export default function ProductsPage() {
           setSubcategoryType('teflon-tape')
         } else if (isAxeonPumps) {
           setSubcategoryType('axeon-pumps')
+        } else if (isVibrationEliminators) {
+          setSubcategoryType('vibration-eliminators')
+        } else if (isBrazingRod) {
+          setSubcategoryType('brazing-rod')
+        } else if (isRelay) {
+          setSubcategoryType('relay')
+        } else if (isScrollCompressors) {
+          setSubcategoryType('scroll-compressors')
         } else {
           setSubcategoryType(null)
         }
@@ -529,7 +595,11 @@ export default function ProductsPage() {
     const isPressureGauge = newFilters.category?.trim().toLowerCase() === 'pressure gauge/manifold gauge'
     const isTeflonTape = newFilters.category?.trim().toLowerCase() === 'teflon tape'
     const isAxeonPumps = newFilters.category?.trim().toLowerCase() === 'axeon pumps'
-    setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers || isPressureGauge || isTeflonTape || isAxeonPumps)
+    const isVibrationEliminators = newFilters.category?.trim().toLowerCase() === 'vibration eliminators'
+    const isBrazingRod = newFilters.category?.trim().toLowerCase() === 'brazing rod'
+    const isRelay = newFilters.category?.trim().toLowerCase() === 'relay'
+    const isScrollCompressors = newFilters.category?.trim().toLowerCase() === 'scroll compressors'
+    setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers || isPressureGauge || isTeflonTape || isAxeonPumps || isVibrationEliminators || isBrazingRod || isRelay || isScrollCompressors)
     if (isPressureSwitches) {
       setSubcategoryType('pressure-switches')
     } else if (isValves) {
@@ -544,6 +614,14 @@ export default function ProductsPage() {
       setSubcategoryType('teflon-tape')
     } else if (isAxeonPumps) {
       setSubcategoryType('axeon-pumps')
+    } else if (isVibrationEliminators) {
+      setSubcategoryType('vibration-eliminators')
+    } else if (isBrazingRod) {
+      setSubcategoryType('brazing-rod')
+    } else if (isRelay) {
+      setSubcategoryType('relay')
+    } else if (isScrollCompressors) {
+      setSubcategoryType('scroll-compressors')
     } else {
       setSubcategoryType(null)
     }
@@ -574,6 +652,9 @@ export default function ProductsPage() {
       if (pressureGaugeSubcategories.find(s => s.id === subcategoryId)) return 'pressure-gauge'
       if (teflonTapeSubcategories.find(s => s.id === subcategoryId)) return 'teflon-tape'
       if (axeonPumpsSubcategories.find(s => s.id === subcategoryId)) return 'axeon-pumps'
+      if (vibrationEliminatorsSubcategories.find(s => s.id === subcategoryId)) return 'vibration-eliminators'
+      if (brazingRodSubcategories.find(s => s.id === subcategoryId)) return 'brazing-rod'
+      if (relaySubcategories.find(s => s.id === subcategoryId)) return 'relay'
       return subcategoryType
     })()
     
@@ -591,6 +672,8 @@ export default function ProductsPage() {
       setLocation(`/teflon-tape/${subcategoryId}`)
     } else if (type === 'axeon-pumps') {
       setLocation(`/axeon-pumps/${subcategoryId}`)
+    } else if (type === 'vibration-eliminators') {
+      setLocation(`/vibration-eliminators/${subcategoryId}`)
     } else if (subcategoryType === 'pressure-switches') {
       setLocation(`/pressure-switches/${subcategoryId}`)
     } else if (subcategoryType === 'valves') {
@@ -605,6 +688,8 @@ export default function ProductsPage() {
       setLocation(`/teflon-tape/${subcategoryId}`)
     } else if (subcategoryType === 'axeon-pumps') {
       setLocation(`/axeon-pumps/${subcategoryId}`)
+    } else if (subcategoryType === 'vibration-eliminators') {
+      setLocation(`/vibration-eliminators/${subcategoryId}`)
     }
   }
 
@@ -719,7 +804,9 @@ export default function ProductsPage() {
                        subcategoryType === 'filter-driers' ? 'Filter Driers/Filter Drier Shell Categories' : 
                        subcategoryType === 'pressure-gauge' ? 'Pressure Gauge/Manifold Gauge Categories' : 
                        subcategoryType === 'teflon-tape' ? 'Teflon Tape Categories' : 
-                       subcategoryType === 'axeon-pumps' ? 'Axeon Pumps Categories' : 'Categories'}
+                       subcategoryType === 'axeon-pumps' ? 'Axeon Pumps Categories' : 
+                       subcategoryType === 'vibration-eliminators' ? 'Vibration Eliminators Categories' : 
+                       subcategoryType === 'scroll-compressors' ? 'Scroll Compressors' : 'Categories'}
                     </h2>
                     <p className="text-muted-foreground mt-1">Select a category to view products</p>
                   </div>
@@ -743,14 +830,22 @@ export default function ProductsPage() {
                     subcategoryType === 'filter-driers' ? filterDrierSubcategories : 
                     subcategoryType === 'pressure-gauge' ? pressureGaugeSubcategories : 
                     subcategoryType === 'teflon-tape' ? teflonTapeSubcategories : 
-                    subcategoryType === 'axeon-pumps' ? axeonPumpsSubcategories : []).map((subcategory) => {
+                    subcategoryType === 'axeon-pumps' ? axeonPumpsSubcategories : 
+                    subcategoryType === 'vibration-eliminators' ? vibrationEliminatorsSubcategories : 
+                    subcategoryType === 'brazing-rod' ? brazingRodSubcategories : 
+                    subcategoryType === 'relay' ? relaySubcategories : 
+                    subcategoryType === 'scroll-compressors' ? [scrollCompressorCategory] : []).map((subcategory) => {
                     const categoryName = subcategoryType === 'pressure-switches' ? 'Pressure Switches' : 
                                        subcategoryType === 'valves' ? 'Valves' : 
                                        subcategoryType === 'pressure-transmitters' ? 'Pressure Transmitters' : 
                                        subcategoryType === 'filter-driers' ? 'Filter Driers/Filter Drier Shell' : 
                                        subcategoryType === 'pressure-gauge' ? 'Pressure Gauge/Manifold Gauge' : 
                                        subcategoryType === 'teflon-tape' ? 'Teflon Tape' : 
-                                       subcategoryType === 'axeon-pumps' ? 'Axeon Pumps' : 'Products'
+                                       subcategoryType === 'axeon-pumps' ? 'Axeon Pumps' : 
+                                       subcategoryType === 'vibration-eliminators' ? 'Vibration Eliminators' : 
+                                       subcategoryType === 'brazing-rod' ? 'Brazing Rod' : 
+                                       subcategoryType === 'relay' ? 'Relay' : 
+                                       subcategoryType === 'scroll-compressors' ? 'Scroll Compressors' : 'Products'
                     const linkPath = subcategoryType === 'pressure-switches' 
                       ? `/pressure-switches/${subcategory.id}` 
                       : subcategoryType === 'valves'
@@ -765,6 +860,14 @@ export default function ProductsPage() {
                       ? `/teflon-tape/${subcategory.id}`
                       : subcategoryType === 'axeon-pumps'
                       ? `/axeon-pumps/${subcategory.id}`
+                      : subcategoryType === 'vibration-eliminators'
+                      ? `/vibration-eliminators/${subcategory.id}`
+                      : subcategoryType === 'brazing-rod'
+                      ? `/brazing-rod/${subcategory.id}`
+                      : subcategoryType === 'relay'
+                      ? `/relay/${subcategory.id}`
+                      : subcategoryType === 'scroll-compressors'
+                      ? `/scroll-compressors`
                       : `/products`
                     
                     return (
@@ -1053,6 +1156,91 @@ export default function ProductsPage() {
                         onClick={() => handleSubcategoryClick(subcategory.id, 'axeon-pumps')}
                       />
                     ))}
+
+                    {/* Vibration Eliminators Categories */}
+                    {vibrationEliminatorsSubcategories.map((subcategory) => (
+                      <ProductCard
+                        key={`vibration-eliminators-${subcategory.id}`}
+                        id={subcategory.id}
+                        title={subcategory.name}
+                        modelNumber={subcategory.modelNumber}
+                        image={subcategory.image}
+                        price={0}
+                        category="Vibration Eliminators"
+                        series={subcategory.modelNumber}
+                        stockStatus="in_stock"
+                        rating={4.7}
+                        reviewCount={subcategory.productCount}
+                        specifications={{
+                          connection: subcategory.connection,
+                          pressure: `${subcategory.productCount} models available`
+                        }}
+                        customLink={`/vibration-eliminators/${subcategory.id}`}
+                        onClick={() => handleSubcategoryClick(subcategory.id, 'vibration-eliminators')}
+                      />
+                    ))}
+
+                    {brazingRodSubcategories.map((subcategory) => (
+                      <ProductCard
+                        key={`brazing-rod-${subcategory.id}`}
+                        id={subcategory.id}
+                        title={subcategory.name}
+                        modelNumber={subcategory.modelNumber}
+                        image={subcategory.image}
+                        price={0}
+                        category="Brazing Rod"
+                        series={subcategory.modelNumber}
+                        stockStatus="in_stock"
+                        rating={4.7}
+                        reviewCount={subcategory.productCount}
+                        specifications={{
+                          pressure: `${subcategory.productCount} models available`
+                        }}
+                        customLink={`/brazing-rod/${subcategory.id}`}
+                        onClick={() => handleSubcategoryClick(subcategory.id, 'brazing-rod')}
+                      />
+                    ))}
+
+                    {relaySubcategories.map((subcategory) => (
+                      <ProductCard
+                        key={`relay-${subcategory.id}`}
+                        id={subcategory.id}
+                        title={subcategory.name}
+                        modelNumber={subcategory.modelNumber}
+                        image={subcategory.image}
+                        price={0}
+                        category="Relay"
+                        series={subcategory.modelNumber}
+                        stockStatus="in_stock"
+                        rating={4.7}
+                        reviewCount={subcategory.productCount}
+                        specifications={{
+                          pressure: `${subcategory.productCount} models available`
+                        }}
+                        customLink={`/relay/${subcategory.id}`}
+                        onClick={() => handleSubcategoryClick(subcategory.id, 'relay')}
+                      />
+                    ))}
+
+                    {/* Scroll Compressors Category */}
+                    <ProductCard
+                      key="scroll-compressors"
+                      id={scrollCompressorCategory.id}
+                      title={scrollCompressorCategory.name}
+                      modelNumber={scrollCompressorCategory.modelNumber}
+                      image={scrollCompressorCategory.image}
+                      price={0}
+                      category="Scroll Compressors"
+                      series={scrollCompressorCategory.modelNumber}
+                      stockStatus="in_stock"
+                      rating={4.7}
+                      reviewCount={scrollCompressorCategory.productCount}
+                      specifications={{
+                        pressure: `${scrollCompressorCategory.productCount} models available`
+                      }}
+                      customLink="/scroll-compressors"
+                      onClick={() => setLocation('/scroll-compressors')}
+                    />
                   </div>
                 </div>
               ) : (

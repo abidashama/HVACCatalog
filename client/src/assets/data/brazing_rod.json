@@ -1,0 +1,13 @@
+{
+    "categories": {
+        "brazingRod": {
+            "name": "BRAZING ROD",
+            "products": [
+                {
+                    "model": "AXEON-0 BCUP-2"
+                }
+            ],
+            "image": "/assets/images/brazing_rod/brazing_rod.webp"
+        }
+    }
+}

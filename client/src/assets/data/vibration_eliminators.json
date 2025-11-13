@@ -1,0 +1,42 @@
+{
+    "categories": {
+        "vibrationEliminators": {
+            "name": "VIBRATION ELIMINATORS",
+            "products": [
+                {
+                    "model": "SVA-1",
+                    "connection": "3/8\""
+                },
+                {
+                    "model": "SVA-2",
+                    "connection": "1/2\""
+                },
+                {
+                    "model": "SVA-3",
+                    "connection": "5/8\""
+                },
+                {
+                    "model": "SVA-5",
+                    "connection": "7/8\""
+                },
+                {
+                    "model": "SVA-6",
+                    "connection": "1-1/8\""
+                },
+                {
+                    "model": "SVA-7",
+                    "connection": "1-3/8\""
+                },
+                {
+                    "model": "SVA-8",
+                    "connection": "1-5/8\""
+                },
+                {
+                    "model": "SVA-9",
+                    "connection": "2-1/8\""
+                }
+            ],
+            "image": "/assets/images/vibration_eliminators/vibration_eliminators.webp"
+        }
+    }
+}

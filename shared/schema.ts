@@ -152,6 +152,30 @@ export const PRODUCT_CATEGORIES = [
     name: 'Axeon Pumps',
     slug: 'axeon-pumps',
     description: 'Self-priming and multistage pumps for water supply and industrial applications'
+  },
+  {
+    id: 'Vibration Eliminators',
+    name: 'Vibration Eliminators',
+    slug: 'vibration-eliminators',
+    description: 'Vibration eliminators for reducing noise and vibration in HVAC and refrigeration systems'
+  },
+  {
+    id: 'Brazing Rod',
+    name: 'Brazing Rod',
+    slug: 'brazing-rod',
+    description: 'High-quality brazing rods for joining metal components in HVAC and refrigeration systems'
+  },
+  {
+    id: 'Relay',
+    name: 'Relay',
+    slug: 'relay',
+    description: 'High-performance relays for electrical control and switching in HVAC and refrigeration systems'
+  },
+  {
+    id: 'Scroll Compressors',
+    name: 'Scroll Compressors',
+    slug: 'scroll-compressors',
+    description: 'High-efficiency scroll compressors for HVAC and refrigeration applications'
   }
 ] as const
 

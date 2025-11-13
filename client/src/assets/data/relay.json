@@ -1,0 +1,13 @@
+{
+    "categories": {
+        "relay": {
+            "name": "RELAY",
+            "products": [
+                {
+                    "model": "GR3800-3F3C-4"
+                }
+            ],
+            "image": "/assets/images/relay/relay.webp"
+        }
+    }
+}

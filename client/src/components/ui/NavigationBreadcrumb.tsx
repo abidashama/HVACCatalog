@@ -15,6 +15,14 @@ const VALVES_URL = '/products?category=Valves'
 const PRESSURE_TRANSMITTERS_URL = '/products?category=Pressure%20Transmitters'
 const HEAT_EXCHANGERS_URL = '/products?category=Heat%20Exchangers'
 const AXEON_VALVES_URL = '/products?category=Axeon%20Valves'
+const FILTER_DRIERS_URL = '/products?category=Filter%20Driers%2FFilter%20Drier%20Shell'
+const PRESSURE_GAUGE_URL = '/products?category=Pressure%20Gauge%2FManifold%20Gauge'
+const TEFLON_TAPE_URL = '/products?category=Teflon%20Tape'
+const AXEON_PUMPS_URL = '/products?category=Axeon%20Pumps'
+const VIBRATION_ELIMINATORS_URL = '/products?category=Vibration%20Eliminators'
+const BRAZING_ROD_URL = '/products?category=Brazing%20Rod'
+const RELAY_URL = '/products?category=Relay'
+const SCROLL_COMPRESSORS_URL = '/products?category=Scroll%20Compressors'
 
 interface BreadcrumbItemData {
   label: string
@@ -39,7 +47,17 @@ const pathToLabel: Record<string, string> = {
   'heat-exchangers': 'Heat Exchangers',
   'bphe': 'BPHE Series',
   'axeon-valves': 'Axeon Valves',
-  'axeon-series': 'Axeon Series'
+  'axeon-series': 'Axeon Series',
+  'filter-driers': 'Filter Driers',
+  'pressure-gauge': 'Pressure Gauge',
+  'teflon-tape': 'Teflon Tape',
+  'axeon-pumps': 'Axeon Pumps',
+  'vibration-eliminators': 'Vibration Eliminators',
+  'brazing-rod': 'Brazing Rod',
+  'relay': 'Relay',
+  'scroll-compressors': 'Scroll Compressors',
+  'chiller': 'Chiller',
+  'heat-pump': 'Heat Pump'
 }
 
 function generateBreadcrumbItems(pathname: string): BreadcrumbItemData[] {
@@ -66,6 +84,22 @@ function generateBreadcrumbItems(pathname: string): BreadcrumbItemData[] {
       href = HEAT_EXCHANGERS_URL
     } else if (segment === 'axeon-valves' && !isLast) {
       href = AXEON_VALVES_URL
+    } else if (segment === 'filter-driers' && !isLast) {
+      href = FILTER_DRIERS_URL
+    } else if (segment === 'pressure-gauge' && !isLast) {
+      href = PRESSURE_GAUGE_URL
+    } else if (segment === 'teflon-tape' && !isLast) {
+      href = TEFLON_TAPE_URL
+    } else if (segment === 'axeon-pumps' && !isLast) {
+      href = AXEON_PUMPS_URL
+    } else if (segment === 'vibration-eliminators' && !isLast) {
+      href = VIBRATION_ELIMINATORS_URL
+    } else if (segment === 'brazing-rod' && !isLast) {
+      href = BRAZING_ROD_URL
+    } else if (segment === 'relay' && !isLast) {
+      href = RELAY_URL
+    } else if (segment === 'scroll-compressors' && !isLast) {
+      href = SCROLL_COMPRESSORS_URL
     }
     
     items.push({ label, href })

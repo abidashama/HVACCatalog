@@ -18,6 +18,10 @@ import filterDrierData from '@/assets/data/filter_driers_filter_drier_shell.json
 import pressureGaugeData from '@/assets/data/pressure_gauge_manifold_gauge.json'
 import teflonTapeData from '@/assets/data/teflon_tape.json'
 import axeonPumpsData from '@/assets/data/axeon_pumps.json'
+import vibrationEliminatorsData from '@/assets/data/vibration_eliminators.json'
+import brazingRodData from '@/assets/data/brazing_rod.json'
+import relayData from '@/assets/data/relay.json'
+import scrollCompressorData from '@/assets/data/scroll_compressor.json'
 
 interface FilterSidebarProps {
   isOpen: boolean
@@ -104,6 +108,34 @@ const getAxeonPumpsCount = () => {
   return Object.keys(categories).length
 }
 
+// Calculate Vibration Eliminators subcategory count from JSON
+const getVibrationEliminatorsCount = () => {
+  const categories: any = vibrationEliminatorsData.categories
+  // Count subcategories: vibration-eliminators
+  return Object.keys(categories).length
+}
+
+// Calculate Brazing Rod subcategory count from JSON
+const getBrazingRodCount = () => {
+  const categories: any = brazingRodData.categories
+  // Count subcategories: brazingRod
+  return Object.keys(categories).length
+}
+
+// Calculate Relay subcategory count from JSON
+const getRelayCount = () => {
+  const categories: any = relayData.categories
+  // Count subcategories: relay
+  return Object.keys(categories).length
+}
+
+// Calculate Scroll Compressor subcategory count from JSON
+const getScrollCompressorCount = () => {
+  const categories: any = scrollCompressorData.categories.scrollCompressors
+  // Count subcategories: chiller, heatPump
+  return Object.keys(categories.subcategories || {}).length
+}
+
 // Filter data that matches backend category names exactly
 const filterData = {
   categories: [
@@ -117,7 +149,11 @@ const filterData = {
     { id: 'Filter Driers/Filter Drier Shell', name: 'Filter Driers/Filter Drier Shell', count: getFilterDrierCount() },
     { id: 'Pressure Gauge/Manifold Gauge', name: 'Pressure Gauge/Manifold Gauge', count: getPressureGaugeCount() },
     { id: 'Teflon Tape', name: 'Teflon Tape', count: getTeflonTapeCount() },
-    { id: 'Axeon Pumps', name: 'Axeon Pumps', count: getAxeonPumpsCount() }
+    { id: 'Axeon Pumps', name: 'Axeon Pumps', count: getAxeonPumpsCount() },
+    { id: 'Vibration Eliminators', name: 'Vibration Eliminators', count: getVibrationEliminatorsCount() },
+    { id: 'Brazing Rod', name: 'Brazing Rod', count: getBrazingRodCount() },
+    { id: 'Relay', name: 'Relay', count: getRelayCount() },
+    { id: 'Scroll Compressors', name: 'Scroll Compressors', count: getScrollCompressorCount() }
   ]
 }
 
