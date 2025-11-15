@@ -129,11 +129,10 @@ const getRelayCount = () => {
   return Object.keys(categories).length
 }
 
-// Calculate Scroll Compressor subcategory count from JSON
+// Calculate Scroll Compressor count - returns 1 since it's a single category
 const getScrollCompressorCount = () => {
-  const categories: any = scrollCompressorData.categories.scrollCompressors
-  // Count subcategories: chiller, heatPump
-  return Object.keys(categories.subcategories || {}).length
+  // Scroll Compressors is displayed as a single category with subcategories inside
+  return 1
 }
 
 // Filter data that matches backend category names exactly

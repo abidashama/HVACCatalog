@@ -258,7 +258,7 @@
                     ]
                 }
             },
-            "image": "/assets/images/fans_poles/axial_fan.png"
+            "image": "/assets/images/fans_poles/axial_fan.webp"
         },
         "smallFans": {
             "name": "SMALL FANS",
@@ -278,7 +278,7 @@
                     "bearing": "SLEEVE BEARING"
                 }
             ],
-            "image": "/assets/images/fans_poles/small_fan.png"
+            "image": "/assets/images/fans_poles/small_fan.webp"
         },
         "shadedPoleMotor": {
             "name": "SHADED POLE MOTOR",
@@ -305,7 +305,7 @@
                 }
             ],
             "note": "FAN BLADE / BRACKETS AVAILABLE",
-            "image": "/assets/images/fans_poles/shaded_pole_motor.png"
+            "image": "/assets/images/fans_poles/shaded_pole_motor.webp"
         }
     }
 }

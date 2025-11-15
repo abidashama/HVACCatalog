@@ -1,5 +1,7 @@
 import ProductCard from '../products/ProductCard'
-import pressureSwitchImage from '@assets/generated_images/Pressure_switch_product_photo_6632abba.png'
+
+// Use actual product image from public folder
+const pressureSwitchImage = '/assets/images/pressure_switch/refrigeration.webp'
 
 export default function ProductCardExample() {
   return (

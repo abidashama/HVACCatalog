@@ -3,7 +3,9 @@ import { ArrowRight, Shield, Truck, Award, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useLocation } from 'wouter'
 import { useFadeIn, useStaggerAnimation, useCountAnimation } from '@/hooks/useGSAPAnimations'
-import heroImage from '@assets/generated_images/Industrial_HVAC_facility_hero_6fd485c8.png'
+
+// Use a generic HVAC image for hero (or you can create a custom hero image)
+const heroImage = '/assets/images/heat_exchangers/heat_exchangers.webp'
 
 const stats = [
   { label: 'Products', value: '2500+' },

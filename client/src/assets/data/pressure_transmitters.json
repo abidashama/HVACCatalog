@@ -9,7 +9,7 @@
                     "output": "4-20 ma"
                 }
             ],
-            "image": "/assets/images/t2000_series.png",
+            "image": "/assets/images/pressure_transmitters/t2000_series.webp",
             "document": "/assets/documents/pressure_transmitters/T2000_series.pdf"
         },
         "t2800Series": {
@@ -21,7 +21,7 @@
                     "output": "4-20 ma"
                 }
             ],
-            "image": "/assets/images/t2800_series.png",
+            "image": "/assets/images/pressure_transmitters/t2800_series.webp",
             "document": "/assets/documents/pressure_transmitters/T2800_series.pdf"
         }
     }

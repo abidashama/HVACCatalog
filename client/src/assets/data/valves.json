@@ -101,7 +101,7 @@
                     ]
                 }
             },
-            "image": "/assets/images/solenoid_valve_lfsv_d.png",
+            "image": "/assets/images/valves/solenoid_valve_lfsv_d.webp",
             "document": "/assets/documents/valves/lfsv-d_solenoid_valve.pdf"
         },
         "solenoidValvesLFSVK": {
@@ -183,7 +183,7 @@
                     ]
                 }
             },
-            "image": "/assets/images/solenoid_valve_lfsv_k.png",
+            "image": "/assets/images/valves/solenoid_valve_lfsv_k.webp",
             "document": "/assets/documents/valves/lfsv-k_solenoid_valve.pdf"
         },
         "expansionValves": {
@@ -231,7 +231,7 @@
                 }
             ],
             "note": "ORIFICE AVAILABLE",
-            "image": "/assets/images/expansion_valve.png",
+            "image": "/assets/images/valves/expansion_valve.webp",
             "document": "/assets/documents/valves/expansion_valve.pdf"
         },
         "expansionValvesBrazing": {
@@ -273,7 +273,7 @@
                     "refrigerant": "R22/R407"
                 }
             ],
-            "image": "/assets/images/expansion_valve_brazing.png"
+            "image": "/assets/images/valves/expansion_valve_brazing.png"
         },
         "solenoidValvesLFFDF": {
             "name": "SOLENOID VALVE LFFDF",
@@ -287,7 +287,7 @@
                     "connection": "5/16"
                 }
             ],
-            "image": "/assets/images/solenoid_valve_lffdf.png",
+            "image": "/assets/images/valves/solenoid_valve_lffdf.webp",
             "document": "/assets/documents/valves/solenoid_valve.pdf"
         },
         "bypassValves": {
@@ -312,7 +312,7 @@
                     "model": "LFDBV NO-5"
                 }
             ],
-            "image": "/assets/images/bypass_valve.png",
+            "image": "/assets/images/valves/bypass_valve.webp",
             "document": "/assets/documents/valves/bypass_valve.pdf"
         },
         "ballValves": {
@@ -393,7 +393,7 @@
                 "UL",
                 "CE"
             ],
-            "image": "/assets/images/ball_valve.png",
+            "image": "/assets/images/valves/ball_valve.webp",
             "document": "/assets/documents/valves/ball_valve.pdf"
         },
         "flowSwitches": {
@@ -416,7 +416,7 @@
             "certifications": [
                 "CE"
             ],
-            "image": "/assets/images/flow_switch.png",
+            "image": "/assets/images/valves/flow_switch.webp",
             "document": "/assets/documents/valves/flow_switch.pdf"
         },
         "sightGlass": {
@@ -465,7 +465,7 @@
                 "UL",
                 "CE"
             ],
-            "image": "/assets/images/sight_glass.png",
+            "image": "/assets/images/valves/sight_glass.webp",
             "document": "/assets/documents/valves/sight_glass.pdf"
         }
     }

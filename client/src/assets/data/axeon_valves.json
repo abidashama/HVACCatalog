@@ -72,7 +72,7 @@
                     "connection": "2-1/4\"-12UN (1-5/8)"
                 }
             ],
-            "image": "/assets/images/axeon_valves/rotalock_valve.png"
+            "image": "/assets/images/axeon_valves/rotalock_valve.webp"
         },
         "handShutoffValves": {
             "name": "HAND SHUTOFF VALVE",
@@ -98,7 +98,7 @@
                     "connection": "3/4\""
                 }
             ],
-            "image": "/assets/images/axeon_valves/hand_shutoff_valve.png"
+            "image": "/assets/images/axeon_valves/hand_shutoff_valve.webp"
         },
         "angleValves": {
             "name": "ANGLE VALVE",
@@ -108,7 +108,7 @@
                     "connection": "1/4 FLARE BY 1/4 NPT"
                 }
             ],
-            "image": "/assets/images/axeon_valves/angle_valve.png"
+            "image": "/assets/images/axeon_valves/angle_valve.webp"
         },
         "solenoidValvesWaterline": {
             "name": "SOLENOID VALVE (WATERLINE)",
@@ -151,7 +151,7 @@
                     ]
                 }
             },
-            "image": "/assets/images/axeon_valves/solenoid_valve.png"
+            "image": "/assets/images/axeon_valves/solenoid_valve.webp"
         }
     }
 }

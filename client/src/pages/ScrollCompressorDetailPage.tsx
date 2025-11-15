@@ -93,7 +93,13 @@ export default function ScrollCompressorDetailPage() {
       {/* Breadcrumb */}
       <div className="bg-muted/30 py-4 px-4">
         <div className="max-w-7xl mx-auto">
-          <NavigationBreadcrumb />
+          <NavigationBreadcrumb 
+            items={[
+              { label: 'Home', href: '/' },
+              { label: 'Products', href: '/products' },
+              { label: 'Scroll Compressors', href: '/scroll-compressors' }
+            ]}
+          />
         </div>
       </div>
 

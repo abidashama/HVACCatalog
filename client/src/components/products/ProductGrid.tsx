@@ -84,7 +84,7 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
 
   // Build local products from pressure-switch.json when category is Pressure Switches
   const pressureSwitchProducts = useMemo(() => {
-    const baseImage = '/assets/generated_images/Pressure_switch_product_photo_6632abba.png'
+    const baseImage = '/assets/images/pressure_switch/refrigeration.webp'
     const out: Array<SelectProduct> = [] as any
     const categories: any = (pressureSwitchData as any)?.categories || {}
 

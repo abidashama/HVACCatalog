@@ -11,9 +11,11 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import type { ProductFilters } from '@shared/schema'
-import pressureSwitchImage from '@assets/generated_images/Pressure_switch_product_photo_6632abba.png'
-import heatExchangerImage from '@assets/generated_images/Heat_exchanger_product_photo_ba077dc1.png'
-import compressorImage from '@assets/generated_images/Refrigeration_compressor_photo_e9d26f6e.png'
+
+// Use actual product images from public folder
+const pressureSwitchImage = '/assets/images/pressure_switch/refrigeration.webp'
+const heatExchangerImage = '/assets/images/heat_exchangers/heat_exchangers.webp'
+const compressorImage = '/assets/images/scroll_compressors/scroll_compressor.webp'
 
 // Category data and featured products
 const categoryData = {
