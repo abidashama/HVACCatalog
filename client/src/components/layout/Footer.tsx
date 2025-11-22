@@ -42,71 +42,121 @@ export default function Footer() {
   }
 
   return (
-    <footer className="text-primary-foreground" style={{ background: 'linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%)' }}>
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="space-y-4">
+    <footer className="bg-slate-900 text-slate-200 relative overflow-hidden">
+      {/* Decorative top border/gradient */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 opacity-80" />
+      
+      <div className="max-w-7xl mx-auto px-4 pt-20 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+          {/* Company Info Column */}
+          <div className="space-y-6">
             <div className="flex items-center gap-2">
               <img 
                 src="/assets/images/axeon-logo.svg" 
                 alt="Axeon Corporation Logo" 
-                className="h-10"
+                className="h-10 brightness-0 invert opacity-90"
               />
             </div>
             
-            <p className="text-primary-foreground/90 leading-relaxed">
+            <p className="text-slate-400 leading-relaxed text-sm max-w-xs">
               Your trusted partner for premium HVAC and refrigeration equipment. 
               Serving professionals with quality Axeon & Lefoo products since 1998.
             </p>
+
+            <div className="flex gap-3 pt-2">
+              {[Facebook, Twitter, Linkedin, Youtube].map((Icon, i) => (
+                <Button 
+                  key={i}
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-10 w-10 rounded-full bg-slate-800/50 text-slate-400 hover:text-white hover:bg-gradient-to-r hover:from-blue-600 hover:to-cyan-500 hover:scale-110 transition-all duration-300 border border-slate-700/50 hover:border-transparent shadow-sm hover:shadow-lg hover:shadow-cyan-500/20"
+                >
+                  <Icon className="w-5 h-5" />
+                </Button>
+              ))}
+            </div>
           </div>
 
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Contact Info</h3>
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <Phone className="w-4 h-4" />
-                <span className="text-sm">+91 9096354646</span>
+          {/* Contact Info Column */}
+          <div className="space-y-6">
+            <h3 className="text-lg font-bold text-white tracking-wide relative inline-block after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-12 after:h-1 after:bg-blue-500 after:rounded-full">
+              Contact Info
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-start gap-4 group">
+                <div className="p-2 rounded-lg bg-blue-500/10 text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors duration-300 mt-1">
+                  <Phone className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-0.5">Call Us</div>
+                  <a href="tel:+919096354646" className="text-slate-300 hover:text-blue-400 transition-colors font-medium block">
+                    +91 9096354646
+                  </a>
+                </div>
               </div>
-              <div className="flex items-center gap-3">
-                <Mail className="w-4 h-4" />
-                <span className="text-sm">axeoncorporation@gmail.com</span>
+              
+              <div className="flex items-start gap-4 group">
+                <div className="p-2 rounded-lg bg-blue-500/10 text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors duration-300 mt-1">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-0.5">Email Us</div>
+                  <a href="mailto:axeoncorporation@gmail.com" className="text-slate-300 hover:text-blue-400 transition-colors font-medium block break-all">
+                    axeoncorporation@gmail.com
+                  </a>
+                </div>
               </div>
-              <div className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 mt-1 flex-shrink-0" />
-                <div className="text-sm">
-                  <div>Axeon Corporation</div>
-                  <div>Gajanan Colony, Cs. no. 6629, Old Kupwad Road</div>
-                  <div>Sangli - 416416</div>
+
+              <div className="flex items-start gap-4 group">
+                <div className="p-2 rounded-lg bg-blue-500/10 text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-colors duration-300 mt-1">
+                  <MapPin className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-0.5">Visit Us</div>
+                  <div className="text-slate-300 text-sm leading-relaxed">
+                    Gajanan Colony, Cs. no. 6629,<br/>
+                    Old Kupwad Road, Sangli - 416416
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="flex gap-2 pt-2">
-              <Button variant="ghost" size="icon" className="text-primary-foreground hover:text-primary hover:bg-primary-foreground">
-                <Facebook className="w-4 h-4" />
-              </Button>
-              <Button variant="ghost" size="icon" className="text-primary-foreground hover:text-primary hover:bg-primary-foreground">
-                <Twitter className="w-4 h-4" />
-              </Button>
-              <Button variant="ghost" size="icon" className="text-primary-foreground hover:text-primary hover:bg-primary-foreground">
-                <Linkedin className="w-4 h-4" />
-              </Button>
-              <Button variant="ghost" size="icon" className="text-primary-foreground hover:text-primary hover:bg-primary-foreground">
-                <Youtube className="w-4 h-4" />
-              </Button>
-            </div>
           </div>
 
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Quick Links</h3>
-            <ul className="space-y-2">
+          {/* Products Links */}
+          <div className="space-y-6">
+            <h3 className="text-lg font-bold text-white tracking-wide relative inline-block after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-12 after:h-1 after:bg-blue-500 after:rounded-full">
+              Products
+            </h3>
+            <ul className="space-y-3">
+              {safeFooterLinks.products.map((link) => (
+                <li key={link.name}>
+                  <Link 
+                    href={link.href}
+                    className="text-slate-400 hover:text-blue-400 text-sm transition-all duration-200 flex items-center gap-2 group"
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full bg-blue-500/50 group-hover:bg-blue-400 group-hover:scale-125 transition-all" />
+                    <span className="group-hover:translate-x-1 transition-transform">{link.name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Quick Links */}
+          <div className="space-y-6">
+            <h3 className="text-lg font-bold text-white tracking-wide relative inline-block after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-12 after:h-1 after:bg-blue-500 after:rounded-full">
+              Quick Links
+            </h3>
+            <ul className="space-y-3">
               {safeFooterLinks.quickLinks.map((link) => (
                 <li key={link.name}>
                   <Link 
                     href={link.href}
-                    className="text-primary-foreground/80 hover:text-primary-foreground text-sm transition-colors"
+                    className="text-slate-400 hover:text-blue-400 text-sm transition-all duration-200 flex items-center gap-2 group"
                     data-testid={`footer-quick-link-${link.name.toLowerCase().replace(/\s+/g, '-')}`}
                   >
-                    {link.name}
+                    <span className="h-1.5 w-1.5 rounded-full bg-blue-500/50 group-hover:bg-blue-400 group-hover:scale-125 transition-all" />
+                    <span className="group-hover:translate-x-1 transition-transform">{link.name}</span>
                   </Link>
                 </li>
               ))}
@@ -115,19 +165,24 @@ export default function Footer() {
         </div>
       </div>
 
-      <Separator className="bg-primary-foreground/20" />
+      <Separator className="bg-slate-800" />
 
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm text-primary-foreground/80">
-          <div className="flex justify-center md:justify-start">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-sm text-slate-500">
+          <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
             <span>&copy; 2025 Axeon Corporation. All rights reserved.</span>
+            <span className="hidden sm:inline text-slate-700">|</span>
+            <div className="flex gap-4">
+              <Link href="/privacy" className="hover:text-blue-400 transition-colors">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-blue-400 transition-colors">Terms of Service</Link>
+            </div>
           </div>
 
           <div className="flex items-center gap-4">
-            <span>Authorized dealer:</span>
-            <div className="flex gap-2">
-              <span className="px-2 py-1 bg-primary-foreground/10 rounded text-xs font-medium">AXEON</span>
-              <span className="px-2 py-1 bg-primary-foreground/10 rounded text-xs font-medium">LEFOO</span>
+            <span className="text-slate-400 uppercase text-xs font-bold tracking-wider">Authorized Dealer:</span>
+            <div className="flex gap-3">
+              <span className="px-3 py-1 bg-slate-800 rounded border border-slate-700 text-xs font-bold text-slate-300 tracking-widest">AXEON</span>
+              <span className="px-3 py-1 bg-slate-800 rounded border border-slate-700 text-xs font-bold text-slate-300 tracking-widest">LEFOO</span>
             </div>
           </div>
         </div>

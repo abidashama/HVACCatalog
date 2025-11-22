@@ -72,8 +72,11 @@ app.use((req, res, next) => {
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
   const port = parseInt(process.env.PORT || '5000', 10);
-  // Windows does not support reusePort on HTTP server.listen
-  server.listen(port, "0.0.0.0", () => {
-    log(`serving on port ${port}`);
+  const host = process.env.HOST || '0.0.0.0';
+
+  server.listen(port, host, () => {
+    const addr = server.address();
+    const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr?.port;
+    log(`serving on ${bind} (bound to ${host})`);
   });
 })();

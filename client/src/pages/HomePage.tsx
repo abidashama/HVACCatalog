@@ -185,18 +185,25 @@ export default function HomePage() {
       <BrandShowcase />
 
       {/* Featured Products Section */}
-      <section id="featured-products" className="py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+      <section id="featured-products" className="py-24 px-4 relative overflow-hidden">
+        {/* Vivid background for Glassmorphism context */}
+        <div className="absolute inset-0 bg-slate-50">
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-400/20 blur-[100px]" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-cyan-400/20 blur-[100px]" />
+          <div className="absolute top-[40%] left-[50%] translate-x-[-50%] w-[50%] h-[50%] rounded-full bg-indigo-400/10 blur-[120px]" />
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
               Featured Products
             </h2>
-            <p className="text-lg text-muted-foreground">
-              Discover our most popular HVAC and refrigeration components
+            <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-medium">
+              Discover our most popular HVAC and refrigeration components engineered for performance and reliability.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {featuredCategories.map((category, index) => {
               const categoryType = index === 0 ? 'pressure-switches' : index === 1 ? 'valves' : 'pressure-transmitters'
               const linkPath = index === 0 
@@ -206,28 +213,34 @@ export default function HomePage() {
                 : `/pressure-transmitters/${category.id}`
               
               return (
-                <ProductCard
-                  key={category.id}
-                  id={category.id}
-                  title={category.title}
-                  modelNumber={category.modelNumber}
-                  image={category.image}
-                  price={category.price}
-                  category={category.category}
-                  series={category.series}
-                  stockStatus={category.stockStatus}
-                  rating={category.rating}
-                  reviewCount={category.reviewCount}
-                  specifications={category.specifications}
-                  customLink={linkPath}
-                  onClick={() => handleCategoryClick(category.id, categoryType)}
-                />
+                <div key={category.id} className="h-full">
+                  <ProductCard
+                    id={category.id}
+                    title={category.title}
+                    modelNumber={category.modelNumber}
+                    image={category.image}
+                    price={category.price}
+                    category={category.category}
+                    series={category.series}
+                    stockStatus={category.stockStatus}
+                    rating={category.rating}
+                    reviewCount={category.reviewCount}
+                    specifications={category.specifications}
+                    customLink={linkPath}
+                    onClick={() => handleCategoryClick(category.id, categoryType)}
+                  />
+                </div>
               )
             })}
           </div>
 
           <div className="text-center">
-            <Button size="lg" onClick={handleViewAllProducts} data-testid="button-view-all-products">
+            <Button 
+              size="lg" 
+              onClick={handleViewAllProducts} 
+              className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:from-blue-700 hover:to-cyan-600 hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/30 px-8 py-6 rounded-full font-bold transition-all duration-300"
+              data-testid="button-view-all-products"
+            >
               View All Products
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
@@ -239,28 +252,38 @@ export default function HomePage() {
       <CategoryGrid />
 
       {/* Why Choose Us Section */}
-      <section className="py-16 px-4 bg-muted/50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+      <section className="py-24 px-4 relative overflow-hidden">
+        {/* Vivid background for Glassmorphism context (Alternating Pattern) */}
+        <div className="absolute inset-0 bg-slate-50">
+          <div className="absolute top-[10%] right-[-5%] w-[35%] h-[35%] rounded-full bg-cyan-400/15 blur-[100px]" />
+          <div className="absolute bottom-[10%] left-[-5%] w-[35%] h-[35%] rounded-full bg-blue-400/15 blur-[100px]" />
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
               Why Choose Industrial HVAC?
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-medium">
               We're committed to providing the highest quality equipment and service to HVAC professionals worldwide.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {whyChooseUs.map((feature, index) => (
-              <Card key={feature.title} className="text-center hover-elevate">
-                <CardContent className="p-6">
-                  <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto mb-4">
-                    <feature.icon className="w-8 h-8" />
+              <Card 
+                key={feature.title} 
+                className="text-center hover:-translate-y-2 hover:shadow-2xl transition-all duration-500 border border-white/40 bg-white/60 backdrop-blur-xl rounded-2xl group overflow-hidden relative"
+              >
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-cyan-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                <CardContent className="p-8">
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-50 to-slate-100 text-blue-600 rounded-2xl rotate-3 flex items-center justify-center mx-auto mb-6 group-hover:rotate-6 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-inner group-hover:shadow-lg">
+                    <feature.icon className="w-10 h-10 transform -rotate-3 group-hover:-rotate-6 transition-transform duration-300" />
                   </div>
-                  <h3 className="text-xl font-semibold text-foreground mb-3">
+                  <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-700 transition-colors">
                     {feature.title}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed">
+                  <p className="text-slate-600 leading-relaxed text-sm">
                     {feature.description}
                   </p>
                 </CardContent>
@@ -271,51 +294,58 @@ export default function HomePage() {
       </section>
 
       {/* Customer Testimonials Section */}
-      <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+      <section className="py-24 px-4 bg-white relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-blue-50/50 to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-1/3 h-full bg-gradient-to-r from-blue-50/50 to-transparent pointer-events-none" />
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-wider mb-4">
+              <Award className="w-3 h-3" /> Testimonials
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
               Trusted by HVAC Professionals
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-medium">
               See what our customers say about our products and service quality.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {customerTestimonials.map((testimonial) => (
-              <Card key={testimonial.id} className="hover-elevate">
-                <CardContent className="p-6">
-                  <div className="flex items-center mb-4">
-                    <Quote className="w-8 h-8 text-primary mr-3" />
-                    <div className="flex">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+              <Card key={testimonial.id} className="hover:shadow-2xl hover:-translate-y-1 hover:border-blue-200 transition-all duration-500 border-slate-100 bg-white h-full flex flex-col rounded-2xl">
+                <CardContent className="p-8 flex-1 flex flex-col">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star 
+                          key={i} 
+                          className={`w-4 h-4 ${i < testimonial.rating ? 'text-amber-400 fill-current' : 'text-slate-200'}`} 
+                        />
                       ))}
                     </div>
+                    <Quote className="w-10 h-10 text-blue-50 fill-current" />
                   </div>
                   
-                  <p className="text-muted-foreground leading-relaxed mb-6 italic">
+                  <p className="text-slate-700 leading-relaxed mb-8 flex-1 italic font-medium">
                     "{testimonial.content}"
                   </p>
                   
-                  <div className="border-t pt-4">
-                    <h4 className="font-semibold text-foreground text-lg">
-                      {testimonial.name}
-                    </h4>
-                    <p className="text-sm text-muted-foreground">
-                      {testimonial.title}
-                    </p>
-                    <p className="text-sm font-medium text-primary">
-                      {testimonial.company}
-                    </p>
-                    <div className="flex justify-between items-center mt-2">
-                      <span className="text-xs text-muted-foreground">
-                        {testimonial.location}
-                      </span>
-                      <span className="text-xs bg-muted text-muted-foreground px-2 py-1 rounded">
-                        {testimonial.projectType}
-                      </span>
+                  <div className="flex items-center gap-4 pt-6 border-t border-slate-100 mt-auto">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">
+                      {testimonial.name.charAt(0)}
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-900 text-sm leading-tight">
+                        {testimonial.name}
+                      </h4>
+                      <p className="text-xs text-slate-500 mb-0.5">
+                        {testimonial.title}
+                      </p>
+                      <p className="text-xs font-semibold text-blue-600">
+                        {testimonial.company}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -326,19 +356,21 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-primary text-primary-foreground">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Need Custom Solutions or Technical Support?
+      <section className="py-24 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900" />
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-5" />
+        
+        <div className="max-w-5xl mx-auto text-center relative z-10">
+          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white leading-tight">
+            Need Custom Solutions or <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Technical Support?</span>
           </h2>
-          <p className="text-xl mb-8 text-primary-foreground/90">
+          <p className="text-xl mb-10 text-blue-100 max-w-2xl mx-auto leading-relaxed font-light">
             Our team of certified engineers is ready to help you find the perfect equipment for your specific requirements.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-5 justify-center">
             <Button 
               size="lg" 
-              variant="outline"
-              className="border-[#0086cd] text-white hover:bg-[#0086cd] hover:text-white hover:border-[#0086cd] bg-[#0086cd]/10 backdrop-blur-sm transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="bg-white text-blue-900 hover:bg-blue-50 hover:text-blue-800 font-bold px-8 py-6 text-lg shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 rounded-full"
               onClick={handleContactUs}
               data-testid="button-contact-us"
             >
@@ -347,7 +379,7 @@ export default function HomePage() {
             <Button 
               size="lg" 
               variant="outline"
-              className="border-[#0086cd] text-white hover:bg-[#0086cd] hover:text-white hover:border-[#0086cd] bg-[#0086cd]/10 backdrop-blur-sm transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="border-2 border-blue-400 text-blue-100 hover:bg-blue-400/20 hover:text-white hover:border-blue-300 px-8 py-6 text-lg backdrop-blur-sm transition-all duration-300 rounded-full"
               onClick={() => setLocation('/contact')}
             >
               Request Quote
@@ -355,9 +387,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Section Separator */}
-      <Separator className="bg-primary-foreground/20" />
 
       <Footer />
     </div>

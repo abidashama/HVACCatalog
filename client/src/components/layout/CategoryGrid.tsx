@@ -72,50 +72,50 @@ export default function CategoryGrid() {
   }
 
   return (
-    <section className="py-16 px-4">
+    <section className="py-24 px-4 bg-white relative">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div ref={headerRef} className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+        <div ref={headerRef} className="text-center mb-16">
+          <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
             Shop by Category
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-medium">
             Find the right industrial equipment for your HVAC and refrigeration needs
           </p>
         </div>
 
         {/* Categories Grid */}
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((category) => (
             <Card 
               key={category.id}
-              className="group hover-elevate transition-all duration-300 cursor-pointer overflow-hidden"
+              className="group border-slate-100 bg-white hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 cursor-pointer overflow-hidden rounded-2xl hover:border-blue-100/50"
               onClick={() => handleCategoryClick(category.href, category.name)}
               data-testid={`card-category-${category.id}`}
             >
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div className={`p-3 rounded-lg ${category.color} text-white`}>
-                    <category.icon className="w-6 h-6" />
+              <CardContent className="p-8">
+                <div className="flex items-start justify-between mb-6">
+                  <div className={`p-4 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-md`}>
+                    <category.icon className="w-7 h-7" />
                   </div>
                 </div>
                 
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                    <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
                       {category.name}
                     </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
+                    <p className="text-slate-500 text-sm leading-relaxed">
                       {category.description}
                     </p>
                   </div>
                   
-                  <div className="flex items-center justify-between pt-2">
-                    <span className="text-sm font-medium text-muted-foreground">
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                    <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
                       {category.productCount} products
                     </span>
-                    <div className="flex items-center text-primary group-hover:translate-x-1 transition-transform">
-                      <span className="text-sm font-medium mr-1">Shop Now</span>
+                    <div className="flex items-center text-blue-600 font-bold text-sm group-hover:translate-x-1 transition-transform">
+                      <span className="mr-1">Shop Now</span>
                       <ArrowRight className="w-4 h-4" />
                     </div>
                   </div>
@@ -126,15 +126,24 @@ export default function CategoryGrid() {
         </div>
 
         {/* CTA Section */}
-        <div className="text-center mt-12">
-          <p className="text-muted-foreground mb-6">
+        <div className="text-center mt-16">
+          <p className="text-slate-600 mb-8 text-lg">
             Can't find what you're looking for? We have thousands of specialized components.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" onClick={() => handleCategoryClick('/products', 'All Products')}>
+          <div className="flex flex-col sm:flex-row gap-5 justify-center">
+            <Button 
+              size="lg" 
+              onClick={() => handleCategoryClick('/products', 'All Products')}
+              className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:from-blue-700 hover:to-cyan-600 hover:-translate-y-1 hover:shadow-lg hover:shadow-cyan-500/30 px-8 py-6 rounded-full font-bold transition-all duration-300"
+            >
               View All Products
             </Button>
-            <Button variant="outline" size="lg" onClick={() => setLocation('/contact')}>
+            <Button 
+              variant="outline" 
+              size="lg" 
+              onClick={() => setLocation('/contact')}
+              className="border-2 border-slate-200 text-slate-700 hover:border-blue-500 hover:text-blue-600 px-8 py-6 rounded-full font-bold text-lg transition-all duration-300"
+            >
               Request Custom Quote
             </Button>
           </div>

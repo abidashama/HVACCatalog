@@ -146,54 +146,47 @@ export default function ProductCard({
   return (
     <Card 
       ref={cardRef} 
-      className="group border-0 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden h-full flex flex-col bg-card rounded-xl" 
+      className="group relative overflow-hidden h-full flex flex-col rounded-2xl border border-white/40 bg-white/60 backdrop-blur-xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2" 
       data-testid={`product-card-${id}`}
     >
+      {/* Glass reflection shine effect */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-transparent to-transparent opacity-50 pointer-events-none" />
+
       <div 
-        className="relative overflow-hidden bg-gradient-to-br from-[#F5F6F8] via-white to-[#F5F6F8] cursor-pointer"
+        className="relative aspect-square p-6 flex items-center justify-center cursor-pointer overflow-hidden bg-gradient-to-br from-white/40 to-transparent"
         onClick={handleQuickView}
       >
-        <div className="aspect-square p-4 flex items-center justify-center relative">
-          {/* Background pattern with brand colors */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(0,174,239,0.05),rgba(255,255,255,0))]" />
-          
+        {/* Product Image container - Ensure high Z-index and no blur */}
+        <div className="relative w-full h-full flex items-center justify-center z-30">
           <img 
             src={image} 
             alt={title}
-            className="w-4/5 h-4/5 object-contain transition-all duration-500 group-hover:scale-110 relative z-10 drop-shadow-lg"
+            className="w-[85%] h-[85%] object-contain transition-transform duration-500 ease-out group-hover:scale-110 drop-shadow-xl"
           />
         </div>
         
-        {/* Hover overlay with eye icon - Desktop */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#002C5C]/95 via-[#002C5C]/85 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-end justify-center pb-8 hidden md:flex">
+        {/* Hover overlay with eye icon */}
+        <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-40">
           <Button 
             size="icon" 
-            className="bg-[#00AEEF] hover:bg-[#0096D1] shadow-lg hover:scale-110 transition-transform" 
+            className="bg-white text-cyan-600 hover:text-white hover:bg-gradient-to-r hover:from-blue-500 hover:to-cyan-500 shadow-lg scale-90 hover:scale-100 transition-all duration-300 h-12 w-12 rounded-full border border-white/50" 
             onClick={(e) => {
-              e.stopPropagation() // Prevent triggering the parent onClick
+              e.stopPropagation()
               handleQuickView()
             }} 
-            data-testid={`button-quickview-${id}`}
             title="Quick View"
           >
-            <Eye className="w-4 h-4" />
+            <Eye className="w-5 h-5" />
           </Button>
         </div>
 
-        {/* Mobile quick view action */}
-        <div className="md:hidden absolute top-3 right-3">
-          <Button size="icon" variant="secondary" className="h-9 w-9 shadow-md" onClick={handleQuickView} data-testid={`button-mobile-quickview-${id}`}>
-            <Eye className="w-4 h-4" />
-          </Button>
-        </div>
-
-        {/* Stock status badge with brand colors */}
+        {/* Stock badge */}
         {stockStatus !== 'in_stock' && (
-          <div className="absolute top-3 left-3">
-            <span className={`px-3 py-1 rounded-full text-xs font-semibold shadow-sm ${
-              stockStatus === 'out_of_stock' ? 'bg-[#D62828] text-white' :
-              stockStatus === 'low_stock' ? 'bg-[#FF9500] text-white' :
-              'bg-[#00AEEF] text-white'
+          <div className="absolute top-4 left-4 z-20">
+            <span className={`px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm backdrop-blur-md ${
+              stockStatus === 'out_of_stock' ? 'bg-red-500/90 text-white' :
+              stockStatus === 'low_stock' ? 'bg-amber-500/90 text-white' :
+              'bg-blue-500/90 text-white'
             }`}>
               {stockStatus === 'out_of_stock' ? 'Out of Stock' :
                stockStatus === 'low_stock' ? 'Low Stock' : 'On Order'}
@@ -202,12 +195,12 @@ export default function ProductCard({
         )}
       </div>
 
-      <CardContent className="p-5 space-y-3 flex-1">
-        <div className="text-xs uppercase tracking-wider text-[#002C5C] font-bold">
-          {category}
-        </div>
-        <div>
-          <h3 className="font-bold text-lg text-foreground leading-tight mb-1.5">
+      <CardContent className="p-6 space-y-4 flex-1 relative z-10">
+        <div className="space-y-1">
+          <div className="text-[10px] font-bold uppercase tracking-widest text-cyan-600 mb-1">
+            {category}
+          </div>
+          <h3 className="font-bold text-xl text-slate-900 leading-tight group-hover:text-blue-600 transition-colors">
             <a 
               href={productLink}
               onClick={(e) => {
@@ -216,55 +209,59 @@ export default function ProductCard({
                   onClick()
                 }
               }}
-              className="hover:text-[#00AEEF] transition-colors cursor-pointer"
-              data-testid={`product-card-title`}
             >
               {toTitleCase(title)}
             </a>
           </h3>
-          <p className="text-sm text-muted-foreground" data-testid={`text-model-${id}`}>
-            <span className="font-semibold">Model:</span> <span className="font-mono">{modelNumber}</span>
+          <p className="text-sm text-slate-500 font-medium">
+            Model: <span className="font-mono text-slate-700">{modelNumber}</span>
           </p>
         </div>
+
         {!isCompact && (
-          <div className="space-y-2 pt-2 border-t border-border">
+          <div className="space-y-2.5 pt-4 border-t border-slate-200/50">
             {specifications.workingTemp && (
-              <div className="flex justify-between text-xs">
-                <span className="text-muted-foreground">Working Temp:</span>
-                <span className="font-mono font-semibold text-foreground">{specifications.workingTemp}</span>
+              <div className="flex justify-between text-xs items-center">
+                <span className="text-slate-500 font-medium">Working Temp</span>
+                <span className="px-2 py-0.5 rounded bg-slate-100/50 text-slate-700 font-mono font-semibold">{specifications.workingTemp}</span>
               </div>
             )}
             {specifications.plates && (
-              <div className="flex justify-between text-xs">
-                <span className="text-muted-foreground">Plates:</span>
-                <span className="font-mono font-semibold text-foreground">{specifications.plates}</span>
+              <div className="flex justify-between text-xs items-center">
+                <span className="text-slate-500 font-medium">Plates</span>
+                <span className="px-2 py-0.5 rounded bg-slate-100/50 text-slate-700 font-mono font-semibold">{specifications.plates}</span>
               </div>
             )}
             {specifications.capacity && (
-              <div className="flex justify-between text-xs">
-                <span className="text-muted-foreground">Capacity:</span>
-                <span className="font-mono font-semibold text-foreground">{specifications.capacity}</span>
+              <div className="flex justify-between text-xs items-center">
+                <span className="text-slate-500 font-medium">Capacity</span>
+                <span className="px-2 py-0.5 rounded bg-slate-100/50 text-slate-700 font-mono font-semibold">{specifications.capacity}</span>
               </div>
             )}
             {specifications.voltage && (
-              <div className="flex justify-between text-xs">
-                <span className="text-muted-foreground">Voltage:</span>
-                <span className="font-mono font-semibold text-foreground">{specifications.voltage}</span>
+              <div className="flex justify-between text-xs items-center">
+                <span className="text-slate-500 font-medium">Voltage</span>
+                <span className="px-2 py-0.5 rounded bg-slate-100/50 text-slate-700 font-mono font-semibold">{specifications.voltage}</span>
               </div>
             )}
           </div>
         )}
       </CardContent>
 
-      <CardFooter className="p-5 pt-0 flex items-center justify-between">
+      <CardFooter className="p-6 pt-0 relative z-10">
         <Button 
           onClick={handleRequestQuote}
           disabled={stockStatus === 'out_of_stock'}
-          size={isCompact ? "sm" : "default"}
-          className={`${isCompact ? "text-xs px-3" : "w-full"} font-semibold shadow-sm hover:shadow-md transition-all`}
+          className={`w-full font-bold shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 h-11 rounded-full ${
+            isCompact ? "text-xs px-3" : "text-sm"
+          } ${
+            stockStatus === 'out_of_stock' 
+              ? 'bg-slate-100 text-slate-400' 
+              : 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:from-blue-700 hover:to-cyan-600 hover:-translate-y-0.5'
+          }`}
           data-testid={`button-quote-${id}`}
         >
-          <MessageSquare className={`${isCompact ? "w-3 h-3" : "w-4 h-4"} mr-2`} />
+          <MessageSquare className="w-4 h-4 mr-2" />
           Request Quote
         </Button>
       </CardFooter>
