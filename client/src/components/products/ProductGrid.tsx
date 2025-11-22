@@ -833,11 +833,11 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
   }, [isLoading, products.length])
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 bg-card rounded-lg border">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-100 shadow-sm">
         <div className="flex items-center gap-4">
-          <span className="text-sm text-muted-foreground" data-testid="text-product-count">
+          <span className="text-base text-slate-600 font-medium" data-testid="text-product-count">
             {isLoading ? 'Loading products...' : `Showing ${displayTotal} ${displayTotal === 1 ? 'product' : 'products'}`}
           </span>
         </div>
@@ -845,8 +845,8 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
         <div className="flex items-center gap-3">
           {/* Sort Dropdown */}
           <Select value={sortBy} onValueChange={handleSort}>
-            <SelectTrigger className="w-48" data-testid="select-sort">
-              <SortDesc className="w-4 h-4 mr-2" />
+            <SelectTrigger className="w-48 h-11 bg-white border-slate-200 focus:ring-blue-500/20 rounded-lg" data-testid="select-sort">
+              <SortDesc className="w-4 h-4 mr-2 text-slate-500" />
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
@@ -859,11 +859,12 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
           </Select>
 
           {/* View Mode Toggle */}
-          <div className="flex border rounded-md">
+          <div className="flex bg-slate-100 p-1 rounded-lg">
             <Button 
               variant={viewMode === 'grid' ? 'default' : 'ghost'} 
               size="sm"
               onClick={() => setViewMode('grid')}
+              className={`h-9 px-3 rounded-md transition-all ${viewMode === 'grid' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'}`}
               data-testid="button-view-grid"
             >
               <Grid className="w-4 h-4" />
@@ -872,6 +873,7 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
               variant={viewMode === 'list' ? 'default' : 'ghost'} 
               size="sm"
               onClick={() => setViewMode('list')}
+              className={`h-9 px-3 rounded-md transition-all ${viewMode === 'list' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'}`}
               data-testid="button-view-list"
             >
               <List className="w-4 h-4" />
@@ -882,27 +884,30 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
 
       {/* Active Filters */}
       {(filters?.category || filters?.series || filters?.search || searchQuery) && (
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-sm text-muted-foreground">Active filters:</span>
+        <div className="flex items-center gap-3 flex-wrap p-4 bg-blue-50/50 rounded-xl border border-blue-100/50">
+          <span className="text-sm font-semibold text-blue-700">Active filters:</span>
           {filters?.category && (
-            <Badge variant="outline" className="cursor-pointer hover:bg-destructive hover:text-destructive-foreground">
+            <Badge variant="secondary" className="cursor-pointer bg-white text-blue-700 border border-blue-200 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors px-3 py-1.5 text-sm" onClick={() => onFiltersChange?.({ ...filters, category: undefined })}>
               Category: {filters.category} ✕
             </Badge>
           )}
           {filters?.series && (
-            <Badge variant="outline" className="cursor-pointer hover:bg-destructive hover:text-destructive-foreground">
+            <Badge variant="secondary" className="cursor-pointer bg-white text-blue-700 border border-blue-200 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors px-3 py-1.5 text-sm" onClick={() => onFiltersChange?.({ ...filters, series: undefined })}>
               Series: {filters.series} ✕
             </Badge>
           )}
           {(filters?.search || searchQuery) && (
-            <Badge variant="outline" className="cursor-pointer hover:bg-destructive hover:text-destructive-foreground">
+            <Badge variant="secondary" className="cursor-pointer bg-white text-blue-700 border border-blue-200 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors px-3 py-1.5 text-sm" onClick={() => {
+              onSearchChange?.('')
+              onFiltersChange?.({ ...filters, search: undefined })
+            }}>
               Search: {filters?.search || searchQuery} ✕
             </Badge>
           )}
           <Button 
             variant="ghost" 
             size="sm" 
-            className="text-primary" 
+            className="text-slate-500 hover:text-red-600 hover:bg-red-50 ml-auto" 
             onClick={() => {
               onFiltersChange?.({})
               onSearchChange?.('')
@@ -916,11 +921,11 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
 
       {/* Error State */}
       {error && (
-        <Alert className="mb-6" data-testid="alert-products-error">
+        <Alert variant="destructive" className="mb-8 bg-red-50 border-red-200 text-red-800" data-testid="alert-products-error">
           <AlertCircle className="h-4 w-4" />
-          <AlertDescription>
+          <AlertDescription className="flex items-center justify-between">
             Failed to load products. 
-            <Button variant="ghost" onClick={() => refetch()} className="ml-2 p-0 h-auto" data-testid="button-retry-products">
+            <Button variant="outline" size="sm" onClick={() => refetch()} className="bg-white border-red-200 hover:bg-red-100 text-red-700" data-testid="button-retry-products">
               Try again
             </Button>
           </AlertDescription>
@@ -929,29 +934,46 @@ export default function ProductGrid({ filters, searchQuery, onFiltersChange, onS
       
       {/* Products Grid/List */}
       {isLoading ? (
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-8">
           {[...Array(8)].map((_, i) => (
-            <div key={`skeleton-${i}`} className="space-y-4">
-              <Skeleton className="h-48 w-full" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-3/4" />
+            <div key={`skeleton-${i}`} className="space-y-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+              <Skeleton className="h-56 w-full rounded-xl" />
+              <div className="space-y-3">
+                <Skeleton className="h-6 w-3/4" />
                 <Skeleton className="h-4 w-1/2" />
-                <Skeleton className="h-6 w-1/4" />
+                <div className="flex justify-between items-center pt-2">
+                  <Skeleton className="h-8 w-1/3" />
+                  <Skeleton className="h-10 w-1/3 rounded-full" />
+                </div>
               </div>
             </div>
           ))}
         </div>
       ) : (!isLoading && products.length === 0) ? (
-        <div className="text-center py-12" data-testid="message-no-products">
-          <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-lg font-semibold mb-2">No products found</h3>
-          <p className="text-muted-foreground">Try adjusting your search or filter criteria.</p>
+        <div className="text-center py-24 bg-white/80 backdrop-blur-sm rounded-3xl border border-slate-200 shadow-sm" data-testid="message-no-products">
+          <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <AlertCircle className="h-10 w-10 text-slate-400" />
+          </div>
+          <h3 className="text-2xl font-bold text-slate-900 mb-3">No products found</h3>
+          <p className="text-slate-500 text-lg max-w-md mx-auto">
+            We couldn't find any products matching your criteria. Try adjusting your filters or search terms.
+          </p>
+          <Button 
+            variant="outline" 
+            className="mt-8 border-slate-300 text-slate-700 hover:bg-slate-50"
+            onClick={() => {
+              onFiltersChange?.({})
+              onSearchChange?.('')
+            }}
+          >
+            Clear Filters
+          </Button>
         </div>
       ) : (
         <div className={
           viewMode === 'grid' 
-            ? 'grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6'
-            : 'space-y-4'
+            ? 'grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-8'
+            : 'space-y-6'
         } data-testid="container-products" ref={gridRef}>
           {products.map((product: SelectProduct) => {
             const transformed = transformProduct(product)

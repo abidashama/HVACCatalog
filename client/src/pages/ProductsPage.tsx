@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useLocation } from 'wouter'
-import { Filter, Search } from 'lucide-react'
+import { Filter } from 'lucide-react'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import FilterSidebar from '@/components/filters/FilterSidebar'
@@ -56,7 +56,6 @@ export default function ProductsPage() {
   // Refs for GSAP animations
   const containerRef = useRef<HTMLDivElement>(null)
   const heroRef = useRef<HTMLDivElement>(null)
-  const searchRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
 
   // Build subcategories from JSON as product-like objects - directly reading image from JSON
@@ -721,12 +720,6 @@ export default function ProductsPage() {
         { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }
       )
 
-      // Search bar animation
-      gsap.fromTo(searchRef.current,
-        { opacity: 0, scale: 0.95 },
-        { opacity: 1, scale: 1, duration: 0.6, delay: 0.2, ease: "power2.out" }
-      )
-
       // Main content animation
       gsap.fromTo(contentRef.current,
         { opacity: 0, y: 40 },
@@ -742,43 +735,29 @@ export default function ProductsPage() {
       <Header />
       
       {/* Page Header */}
-      <div ref={heroRef} className="bg-muted py-12 px-4">
-        <div className="max-w-7xl mx-auto">
-          <NavigationBreadcrumb className="mb-6" />
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            HVAC & Refrigeration Products
-          </h1>
-          <p className="text-lg text-muted-foreground mb-6">
-            Professional equipment for contractors, technicians, and engineers
-          </p>
-          
-          {/* Search Bar */}
-          <div ref={searchRef} className="max-w-2xl">
-            <div className="relative flex items-center">
-              <Input
-                type="search"
-                placeholder="Search products, model numbers, specifications..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-4 pr-14 h-12 text-base"
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                data-testid="input-product-search"
-              />
-              <Button 
-                size="icon" 
-                className="absolute right-2 -translate-x-1/2 h-12 w-12 bg-primary hover:bg-primary/90 z-10"
-                onClick={handleSearch}
-                data-testid="button-product-search"
-              >
-                <Search className="w-4 h-4 text-white" />
-              </Button>
-            </div>
+      <div ref={heroRef} className="relative py-24 px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-slate-50">
+          <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-blue-400/20 blur-[100px]" />
+          <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-cyan-400/20 blur-[100px]" />
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <NavigationBreadcrumb className="mb-8" />
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 tracking-tight">
+              HVAC & Refrigeration <span className="text-blue-600">Products</span>
+            </h1>
+            <p className="text-xl text-slate-600 mb-10 leading-relaxed font-medium">
+              Professional equipment for contractors, technicians, and engineers. Browse our extensive catalog of premium components.
+            </p>
+            
+            {/* Search Bar Removed */}
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div ref={contentRef} className="max-w-7xl mx-auto px-4 py-8">
+      <div ref={contentRef} className="max-w-7xl mx-auto px-4 py-12 relative z-10">
         <div className="flex gap-8 relative">
           {/* Filter Sidebar - LEFT SIDE - Always visible */}
           <SectionErrorBoundary fallbackTitle="Filters Unavailable">
@@ -794,10 +773,10 @@ export default function ProductsPage() {
           <div className="flex-1 min-w-0 lg:ml-0">
             {showSubcategories ? (
               /* Subcategory Cards - Using ProductCard component */
-              <div className="space-y-6">
-                <div className="flex items-center justify-between mb-6">
+              <div className="space-y-8">
+                <div className="flex items-center justify-between mb-8 bg-white/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-100 shadow-sm">
                   <div>
-                    <h2 className="text-2xl font-bold">
+                    <h2 className="text-3xl font-bold text-slate-900">
                       {subcategoryType === 'pressure-switches' ? 'Pressure Switch Categories' : 
                        subcategoryType === 'valves' ? 'Valve Categories' : 
                        subcategoryType === 'pressure-transmitters' ? 'Pressure Transmitter Categories' : 
@@ -808,10 +787,11 @@ export default function ProductsPage() {
                        subcategoryType === 'vibration-eliminators' ? 'Vibration Eliminators Categories' : 
                        subcategoryType === 'scroll-compressors' ? 'Scroll Compressors' : 'Categories'}
                     </h2>
-                    <p className="text-muted-foreground mt-1">Select a category to view products</p>
+                    <p className="text-slate-500 mt-2 text-lg">Select a category to view products</p>
                   </div>
                   <Button
                     variant="outline"
+                    className="border-slate-200 hover:bg-slate-50 text-slate-700"
                     onClick={() => {
                       setFilters({})
                       setShowSubcategories(false)
@@ -823,7 +803,7 @@ export default function ProductsPage() {
                   </Button>
                 </div>
 
-                <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
+                <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-8">
                   {(subcategoryType === 'pressure-switches' ? subcategories : 
                     subcategoryType === 'valves' ? valveSubcategories : 
                     subcategoryType === 'pressure-transmitters' ? pressureTransmitterSubcategories : 
@@ -897,13 +877,13 @@ export default function ProductsPage() {
             ) : (
               /* Show all categories when no filters are applied */
               !filters.category && !searchQuery ? (
-                <div className="space-y-6">
-                  <div>
-                    <h2 className="text-2xl font-bold">Browse by Category</h2>
-                    <p className="text-muted-foreground mt-1">Select a category to view products</p>
+                <div className="space-y-8">
+                  <div className="bg-white/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-100 shadow-sm">
+                    <h2 className="text-3xl font-bold text-slate-900">Browse by Category</h2>
+                    <p className="text-slate-500 mt-2 text-lg">Select a category to view products</p>
                   </div>
 
-                  <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
+                  <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-8">
                     {/* Pressure Switches Categories */}
                     {subcategories.map((subcategory) => (
                       <ProductCard
@@ -1261,13 +1241,13 @@ export default function ProductsPage() {
           </div>
 
           {/* Mobile Filter Button - Always visible */}
-          <div className="lg:hidden fixed bottom-6 right-6 z-40">
+          <div className="lg:hidden fixed bottom-8 right-8 z-50">
             <Button
               onClick={() => setFilterSidebarOpen(true)}
-              className="rounded-full shadow-lg h-12 px-6 active-elevate-2"
+              className="rounded-full shadow-2xl h-14 px-8 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold tracking-wide active:scale-95 transition-all duration-300"
               data-testid="button-mobile-filter"
             >
-              <Filter className="w-4 h-4 mr-2" />
+              <Filter className="w-5 h-5 mr-2" />
               Filters
             </Button>
           </div>
