@@ -273,69 +273,74 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-slate-50 relative overflow-x-hidden">
+      {/* Background Blobs */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-blue-400/10 blur-[100px]" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-cyan-400/10 blur-[100px]" />
+      </div>
+
       <Header />
       
       {/* Breadcrumb */}
-      <div className="bg-muted/30 py-4 px-4">
+      <div className="relative z-10 py-6 px-4">
         <div className="max-w-7xl mx-auto">
           <NavigationBreadcrumb />
         </div>
       </div>
       
       {/* Product Content */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-8 relative z-10">
         <div className="max-w-7xl mx-auto">
-          <nav className="text-sm text-muted-foreground">
-            <span>Home</span> / <span>Products</span> / <span>{product.category}</span> / <span className="text-foreground">{product.title}</span>
+          <nav className="text-sm text-slate-500">
+            <span>Home</span> / <span>Products</span> / <span>{product.category}</span> / <span className="text-blue-600 font-medium">{product.title}</span>
           </nav>
         </div>
       </div>
 
       {/* Product Detail */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+      <div className="max-w-7xl mx-auto px-4 py-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Product Images */}
-          <div className="space-y-4" ref={galleryRef}>
+          <div className="space-y-6" ref={galleryRef}>
             <div 
-              className="relative rounded-lg border overflow-hidden shadow-lg"
-              style={{ background: 'radial-gradient(circle, white 15%, rgb(221 221 221) 70%)' }}
+              className="relative rounded-2xl border border-slate-100 overflow-hidden shadow-2xl bg-white p-8"
             >
               <img
                 src={images[currentImageIndex]}
                 alt={product.title}
-                className="w-full h-96 object-contain p-6 transition-transform duration-300 hover:scale-105"
+                className="w-full h-[500px] object-contain transition-transform duration-500 hover:scale-105"
                 data-testid="product-main-image"
               />
               {images.length > 1 && (
                 <>
                   <Button
                     variant="outline"
-                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-background/80 backdrop-blur-sm min-h-[44px] min-w-[44px]"
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 backdrop-blur-sm min-h-[44px] min-w-[44px] rounded-full border-slate-200 hover:bg-white hover:text-blue-600"
                     onClick={handlePreviousImage}
                     data-testid="button-previous-image"
                   >
-                    <ChevronLeft className="w-4 h-4" />
+                    <ChevronLeft className="w-5 h-5" />
                   </Button>
                   <Button
                     variant="outline"
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-background/80 backdrop-blur-sm min-h-[44px] min-w-[44px]"
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 backdrop-blur-sm min-h-[44px] min-w-[44px] rounded-full border-slate-200 hover:bg-white hover:text-blue-600"
                     onClick={handleNextImage}
                     data-testid="button-next-image"
                   >
-                    <ChevronRight className="w-4 h-4" />
+                    <ChevronRight className="w-5 h-5" />
                   </Button>
                 </>
               )}
             </div>
             {images.length > 1 && (
-              <div className="flex gap-2">
+              <div className="flex gap-3 overflow-x-auto pb-2">
                 {images.map((image, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`w-20 h-20 rounded-md border-2 overflow-hidden ${
-                      currentImageIndex === index ? 'border-primary' : 'border-border'
+                    className={`w-24 h-24 rounded-xl border-2 overflow-hidden transition-all ${
+                      currentImageIndex === index ? 'border-blue-500 ring-2 ring-blue-500/20' : 'border-slate-200 hover:border-blue-300'
                     }`}
                     data-testid={`thumbnail-${index}`}
                   >
@@ -347,72 +352,74 @@ export default function ProductDetailPage() {
           </div>
 
           {/* Product Information */}
-          <div className="space-y-6" ref={productInfoRef}>
+          <div className="space-y-8" ref={productInfoRef}>
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <Badge variant="outline">{product.series}</Badge>
-                <Badge variant="outline">{product.category}</Badge>
+              <div className="flex items-center gap-3 mb-4">
+                <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1 text-sm">{product.series}</Badge>
+                <Badge variant="outline" className="bg-slate-50 text-slate-700 border-slate-200 px-3 py-1 text-sm">{product.category}</Badge>
               </div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">{product.title}</h1>
-              <p className="text-muted-foreground mb-2">Model: {product.modelNumber}</p>
+              <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight leading-tight">{product.title}</h1>
+              <p className="text-slate-500 font-medium mb-4 text-lg">Model: <span className="font-mono text-slate-700">{product.modelNumber}</span></p>
               
-              <p className="text-muted-foreground leading-relaxed mb-6">{product.description}</p>
+              <p className="text-slate-600 leading-relaxed mb-8 text-lg">{product.description}</p>
             </div>
 
             {/* Pricing */}
-            <div className="border rounded-lg p-6">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="text-3xl font-bold text-foreground">${price.toFixed(2)}</div>
+            <div className="border border-slate-200 rounded-2xl p-8 bg-white/80 backdrop-blur-sm shadow-sm">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="text-4xl font-bold text-slate-900">${price.toFixed(2)}</div>
                 {originalPrice && (
-                  <div className="text-lg text-muted-foreground line-through">${originalPrice.toFixed(2)}</div>
+                  <div className="text-xl text-slate-400 line-through font-medium">${originalPrice.toFixed(2)}</div>
                 )}
                 {originalPrice && (
-                  <Badge variant="destructive">
+                  <Badge variant="destructive" className="bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1">
                     Save ${(originalPrice - price).toFixed(2)}
                   </Badge>
                 )}
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-5">
                 <div className="flex items-center gap-4">
-                  <Badge className={stockConfig.color} variant="outline">
+                  <Badge className={`${stockConfig.color} px-3 py-1 border-0`} variant="outline">
                     {stockConfig.label}
                   </Badge>
                   {product.stockStatus === 'in_stock' && (
-                    <span className="text-sm text-muted-foreground">Available</span>
+                    <span className="text-sm text-green-700 font-medium flex items-center gap-1">
+                      <CheckCircle2 className="w-4 h-4" /> Available
+                    </span>
                   )}
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <Truck className="w-4 h-4 text-primary" />
-                  <span className="text-sm text-muted-foreground">Ships in 1-2 business days</span>
+                  <Truck className="w-5 h-5 text-blue-600" />
+                  <span className="text-sm text-slate-600 font-medium">Ships in 1-2 business days</span>
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-primary" />
-                  <span className="text-sm text-muted-foreground">2 years manufacturer warranty</span>
+                  <Shield className="w-5 h-5 text-blue-600" />
+                  <span className="text-sm text-slate-600 font-medium">2 years manufacturer warranty</span>
                 </div>
               </div>
 
-              <Separator className="my-6" />
+              <Separator className="my-8 bg-slate-100" />
 
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <label className="text-sm font-medium">Quantity:</label>
-                  <div className="flex items-center gap-2">
+              <div className="space-y-6">
+                <div className="flex items-center gap-6">
+                  <label className="text-base font-semibold text-slate-700">Quantity:</label>
+                  <div className="flex items-center gap-3 bg-slate-50 rounded-full p-1 border border-slate-200">
                     <Button
-                      variant="outline"
-                      className="min-h-[44px] min-w-[44px]"
+                      variant="ghost"
+                      className="h-10 w-10 rounded-full hover:bg-white hover:shadow-sm text-slate-600"
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
                       disabled={quantity <= 1}
                       data-testid="button-quantity-decrease"
                     >
                       -
                     </Button>
-                    <span className="w-12 text-center" data-testid="text-quantity">{quantity}</span>
+                    <span className="w-12 text-center font-bold text-slate-900 text-lg" data-testid="text-quantity">{quantity}</span>
                     <Button
-                      variant="outline"
-                      className="min-h-[44px] min-w-[44px]"
+                      variant="ghost"
+                      className="h-10 w-10 rounded-full hover:bg-white hover:shadow-sm text-slate-600"
                       onClick={() => setQuantity(quantity + 1)}
                       data-testid="button-quantity-increase"
                     >
@@ -421,45 +428,44 @@ export default function ProductDetailPage() {
                   </div>
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex gap-3">
                   <Button 
                     size="lg" 
-                    className="flex-1 min-h-[44px]"
+                    className="flex-1 h-14 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-lg font-bold shadow-lg transition-all hover:-translate-y-0.5"
                     onClick={handleAddToCart}
                     disabled={product.stockStatus === 'out_of_stock'}
                     data-testid="button-add-to-cart"
                   >
-                    <ShoppingCart className="mr-2 w-4 h-4" />
+                    <ShoppingCart className="mr-2 w-5 h-5" />
                     Add to Cart
                   </Button>
                   <Button
                     variant="outline"
                     size="lg"
-                    className="min-h-[44px] min-w-[44px]"
+                    className="h-14 w-14 rounded-full border-2 border-slate-200 hover:border-red-200 hover:bg-red-50 hover:text-red-500 p-0"
                     onClick={handleToggleFavorite}
                     data-testid="button-toggle-favorite"
                   >
-                    <Heart className={`w-4 h-4 ${isFavorited ? 'fill-current text-red-500' : ''}`} />
+                    <Heart className={`w-6 h-6 ${isFavorited ? 'fill-current text-red-500' : ''}`} />
                   </Button>
                   <Button
                     variant="outline"
                     size="lg"
-                    className="min-h-[44px] min-w-[44px]"
+                    className="h-14 w-14 rounded-full border-2 border-slate-200 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 p-0"
                     onClick={handleShare}
                     data-testid="button-share"
                   >
-                    <Share2 className="w-4 h-4" />
+                    <Share2 className="w-6 h-6" />
                   </Button>
                 </div>
 
                 <Button 
-                  variant="outline" 
+                  className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 rounded-full text-lg h-14" 
                   size="lg" 
-                  className="w-full min-h-[44px]" 
                   data-testid="button-request-quote"
                   onClick={() => setLocation('/contact')}
                 >
-                  <Phone className="mr-2 w-4 h-4" />
+                  <Phone className="mr-2 w-5 h-5" />
                   Request Quote
                 </Button>
               </div>
@@ -468,38 +474,38 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Product Details Accordions */}
-        <div className="mt-16" ref={detailsRef}>
-          <h2 className="text-2xl font-bold text-foreground mb-8">Product Details</h2>
+        <div className="mt-20" ref={detailsRef}>
+          <h2 className="text-3xl font-bold text-slate-900 mb-8">Product Details</h2>
           
-          <div className="space-y-4">
+          <div className="space-y-6">
             {/* Heat Exchangers: Models Table */}
             {product.category === 'Heat Exchangers' && Array.isArray((specifications as any).models) && (
-              <Card>
-                <CardHeader className="hover-elevate">
-                  <CardTitle className="text-left">Available Models</CardTitle>
+              <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
+                <CardHeader className="bg-slate-50/50 border-b border-slate-100">
+                  <CardTitle className="text-xl font-bold text-slate-900">Available Models</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-0">
                   <div className="overflow-x-auto">
-                    <table className="w-full text-sm border border-border rounded-md">
-                      <thead className="bg-muted/50">
+                    <table className="w-full text-sm">
+                      <thead className="bg-slate-50">
                         <tr>
-                          <th className="text-left p-3 border-b border-border">Model</th>
-                          <th className="text-left p-3 border-b border-border">Plates</th>
-                          <th className="text-left p-3 border-b border-border">Capacity</th>
-                          <th className="text-left p-3 border-b border-border">Document</th>
+                          <th className="text-left p-4 border-b border-slate-100 font-semibold text-slate-600">Model</th>
+                          <th className="text-left p-4 border-b border-slate-100 font-semibold text-slate-600">Plates</th>
+                          <th className="text-left p-4 border-b border-slate-100 font-semibold text-slate-600">Capacity</th>
+                          <th className="text-left p-4 border-b border-slate-100 font-semibold text-slate-600">Document</th>
                         </tr>
                       </thead>
                       <tbody>
                         {((specifications as any).models as Array<any>).map((m, idx) => (
-                          <tr key={`${m.model}-${idx}`} className="hover:bg-muted/30">
-                            <td className="p-3 border-b border-border font-mono">{m.model}</td>
-                            <td className="p-3 border-b border-border">{m.plates}</td>
-                            <td className="p-3 border-b border-border">{m.capacity}</td>
-                            <td className="p-3 border-b border-border">
+                          <tr key={`${m.model}-${idx}`} className="hover:bg-blue-50/30 transition-colors border-b border-slate-50 last:border-0">
+                            <td className="p-4 font-mono font-medium text-slate-900">{m.model}</td>
+                            <td className="p-4 text-slate-600">{m.plates}</td>
+                            <td className="p-4 text-slate-600">{m.capacity}</td>
+                            <td className="p-4">
                               {m.document ? (
-                                <a className="text-primary underline" href={m.document} target="_blank" rel="noreferrer">PDF</a>
+                                <a className="text-blue-600 hover:text-blue-700 font-medium underline decoration-blue-200 hover:decoration-blue-600 transition-all" href={m.document} target="_blank" rel="noreferrer">PDF</a>
                               ) : (
-                                <span className="text-muted-foreground">—</span>
+                                <span className="text-slate-400">—</span>
                               )}
                             </td>
                           </tr>
@@ -512,26 +518,31 @@ export default function ProductDetailPage() {
             )}
             {/* Technical Specifications */}
             <Collapsible open={openSections.specifications} onOpenChange={() => toggleSection('specifications')}>
-              <Card>
+              <Card className="border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden bg-white">
                 <CollapsibleTrigger className="w-full" data-testid="toggle-specifications">
-                  <CardHeader className="hover-elevate">
+                  <CardHeader className="bg-slate-50/50 border-b border-slate-100 py-4">
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-left">Technical Specifications</CardTitle>
-                      <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${
+                      <CardTitle className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <FileText className="w-5 h-5 text-blue-500" />
+                        Technical Specifications
+                      </CardTitle>
+                      <div className={`bg-white p-1.5 rounded-full shadow-sm border border-slate-100 transition-transform duration-300 ${
                         openSections.specifications ? 'transform rotate-180' : ''
-                      }`} />
+                      }`}>
+                        <ChevronDown className="w-5 h-5 text-slate-500" />
+                      </div>
                     </div>
                   </CardHeader>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <CardContent className="p-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
                       {Object.entries(specifications)
                         .filter(([key]) => key !== 'models')
                         .map(([key, value]) => (
-                          <div key={key} className="flex justify-between items-center py-2 border-b border-border last:border-b-0">
-                            <span className="font-medium text-foreground">{key}:</span>
-                            <span className="text-muted-foreground text-right">
+                          <div key={key} className="flex justify-between items-center py-3 border-b border-slate-100 last:border-b-0">
+                            <span className="font-semibold text-slate-700">{key}:</span>
+                            <span className="text-slate-600 text-right font-medium">
                               {typeof value === 'string' || typeof value === 'number' ? value as any : Array.isArray(value) ? value.join(', ') : ''}
                             </span>
                           </div>
@@ -544,24 +555,31 @@ export default function ProductDetailPage() {
 
             {/* Key Features */}
             <Collapsible open={openSections.features} onOpenChange={() => toggleSection('features')}>
-              <Card>
+              <Card className="border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden bg-white">
                 <CollapsibleTrigger className="w-full" data-testid="toggle-features">
-                  <CardHeader className="hover-elevate">
+                  <CardHeader className="bg-slate-50/50 border-b border-slate-100 py-4">
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-left">Key Features</CardTitle>
-                      <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${
+                      <CardTitle className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <Zap className="w-5 h-5 text-yellow-500" />
+                        Key Features
+                      </CardTitle>
+                      <div className={`bg-white p-1.5 rounded-full shadow-sm border border-slate-100 transition-transform duration-300 ${
                         openSections.features ? 'transform rotate-180' : ''
-                      }`} />
+                      }`}>
+                        <ChevronDown className="w-5 h-5 text-slate-500" />
+                      </div>
                     </div>
                   </CardHeader>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
-                  <CardContent>
-                    <ul className="space-y-3">
+                  <CardContent className="p-6">
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {features.map((feature, index) => (
-                        <li key={index} className="flex items-start gap-3">
-                          <Zap className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                          <span className="text-foreground">{feature}</span>
+                        <li key={index} className="flex items-start gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                          <div className="bg-white p-1 rounded-full shadow-sm mt-0.5">
+                            <CheckCircle2 className="w-4 h-4 text-green-500" />
+                          </div>
+                          <span className="text-slate-700 font-medium">{feature}</span>
                         </li>
                       ))}
                     </ul>
@@ -572,24 +590,29 @@ export default function ProductDetailPage() {
 
             {/* Typical Applications */}
             <Collapsible open={openSections.applications} onOpenChange={() => toggleSection('applications')}>
-              <Card>
+              <Card className="border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden bg-white">
                 <CollapsibleTrigger className="w-full" data-testid="toggle-applications">
-                  <CardHeader className="hover-elevate">
+                  <CardHeader className="bg-slate-50/50 border-b border-slate-100 py-4">
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-left">Typical Applications</CardTitle>
-                      <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${
+                      <CardTitle className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <Truck className="w-5 h-5 text-indigo-500" />
+                        Typical Applications
+                      </CardTitle>
+                      <div className={`bg-white p-1.5 rounded-full shadow-sm border border-slate-100 transition-transform duration-300 ${
                         openSections.applications ? 'transform rotate-180' : ''
-                      }`} />
+                      }`}>
+                        <ChevronDown className="w-5 h-5 text-slate-500" />
+                      </div>
                     </div>
                   </CardHeader>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
-                  <CardContent>
+                  <CardContent className="p-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {applications.map((application, index) => (
-                        <div key={index} className="flex items-center gap-3 p-3 bg-muted rounded-md">
-                          <div className="w-2 h-2 bg-primary rounded-full"></div>
-                          <span className="text-foreground">{application}</span>
+                        <div key={index} className="flex items-center gap-3 p-4 bg-white border border-slate-100 rounded-xl shadow-sm">
+                          <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
+                          <span className="text-slate-700 font-medium">{application}</span>
                         </div>
                       ))}
                     </div>
@@ -600,32 +623,39 @@ export default function ProductDetailPage() {
 
             {/* Documentation & Downloads */}
             <Collapsible open={openSections.downloads} onOpenChange={() => toggleSection('downloads')}>
-              <Card>
+              <Card className="border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 rounded-2xl overflow-hidden bg-white">
                 <CollapsibleTrigger className="w-full" data-testid="toggle-downloads">
-                  <CardHeader className="hover-elevate">
+                  <CardHeader className="bg-slate-50/50 border-b border-slate-100 py-4">
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-left">Documentation & Downloads</CardTitle>
-                      <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${
+                      <CardTitle className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <Download className="w-5 h-5 text-blue-600" />
+                        Documentation & Downloads
+                      </CardTitle>
+                      <div className={`bg-white p-1.5 rounded-full shadow-sm border border-slate-100 transition-transform duration-300 ${
                         openSections.downloads ? 'transform rotate-180' : ''
-                      }`} />
+                      }`}>
+                        <ChevronDown className="w-5 h-5 text-slate-500" />
+                      </div>
                     </div>
                   </CardHeader>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
-                  <CardContent>
+                  <CardContent className="p-6">
                     <div className="space-y-4">
                       {downloads.map((download, index) => (
-                        <div key={index} className="flex items-center justify-between p-4 border rounded-md hover-elevate">
-                          <div className="flex items-center gap-3">
-                            <FileText className="w-5 h-5 text-primary" />
+                        <div key={index} className="flex items-center justify-between p-4 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors group">
+                          <div className="flex items-center gap-4">
+                            <div className="bg-red-50 p-3 rounded-lg">
+                              <FileText className="w-6 h-6 text-red-500" />
+                            </div>
                             <div>
-                              <h4 className="font-medium text-foreground">{download.name}</h4>
-                              <p className="text-sm text-muted-foreground">{download.type} • {download.size}</p>
+                              <h4 className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors">{download.name}</h4>
+                              <p className="text-sm text-slate-500 font-medium">{download.type} • {download.size}</p>
                             </div>
                           </div>
                           <Button
                             variant="outline"
-                            className="min-h-[44px] min-w-[44px]"
+                            className="border-slate-200 text-slate-600 hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50 rounded-full"
                             onClick={() => handleDownload(download.name)}
                             data-testid={`button-download-${index}`}
                           >
@@ -643,11 +673,11 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Related Products - See TODO.md for implementation plan */}
-        <div className="mt-16">
-          <h2 className="text-2xl font-bold text-foreground mb-8">Related Products</h2>
-          <div className="text-center py-8">
-            <p className="text-muted-foreground mb-4">Explore more products in our catalog</p>
-            <Button asChild>
+        <div className="mt-20">
+          <h2 className="text-2xl font-bold text-slate-900 mb-8">Related Products</h2>
+          <div className="text-center py-12 bg-slate-50 rounded-2xl border border-slate-100">
+            <p className="text-slate-500 mb-6 text-lg">Explore more products in our catalog</p>
+            <Button asChild className="bg-slate-900 hover:bg-slate-800 text-white rounded-full h-12 px-8">
               <a href="/products">View All Products</a>
             </Button>
           </div>

@@ -120,81 +120,90 @@ export default function HeatExchangerDetailPage() {
   const productImage = product.image
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-slate-50 relative overflow-x-hidden">
+      {/* Background Blobs */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-blue-400/10 blur-[100px]" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-cyan-400/10 blur-[100px]" />
+      </div>
+
       <Header />
       
       {/* Breadcrumb */}
-      <div className="bg-muted/30 py-4 px-4">
+      <div className="relative z-10 py-6 px-4">
         <div className="max-w-7xl mx-auto">
           <NavigationBreadcrumb />
         </div>
       </div>
 
       {/* Product Detail Section */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
         <Button
           variant="ghost"
           onClick={() => setLocation(HEAT_EXCHANGERS_URL)}
-          className="mb-6"
+          className="mb-8 hover:bg-blue-50 text-slate-600 hover:text-blue-600 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Categories
         </Button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Product Image - Left Side */}
-          <div className="space-y-4" ref={galleryRef}>
+          <div className="space-y-6" ref={galleryRef}>
             <div 
-              className="relative rounded-lg border overflow-hidden shadow-lg"
-              style={{ background: 'radial-gradient(circle, white 15%, rgb(221 221 221) 70%)' }}
+              className="relative rounded-2xl border border-slate-100 overflow-hidden shadow-2xl bg-white p-8"
             >
               <img
                 src={productImage}
                 alt={product.title}
-                className="w-full h-96 object-contain p-6 transition-transform duration-300 hover:scale-105"
+                className="w-full h-[500px] object-contain transition-transform duration-500 hover:scale-105"
               />
             </div>
           </div>
 
           {/* Product Information - Right Side */}
-          <div className="space-y-6" ref={productInfoRef}>
+          <div className="space-y-8" ref={productInfoRef}>
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <Badge variant="outline">Heat Exchangers</Badge>
+              <div className="flex items-center gap-3 mb-4">
+                <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1 text-sm">Heat Exchangers</Badge>
               </div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">{product.title}</h1>
-              <p className="text-muted-foreground mb-2">
+              <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight leading-tight">{product.title}</h1>
+              <p className="text-blue-600 font-medium mb-4 text-lg">
                 {modelCount} {modelCount === 1 ? 'Model' : 'Models'} Available
               </p>
               
-              <div className="flex items-center gap-4 mb-4">
-                <div className="flex items-center gap-2">
-                  <Package className="w-5 h-5 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="flex items-center gap-2 bg-green-50 px-3 py-1.5 rounded-full border border-green-100">
+                  <Package className="w-4 h-4 text-green-600" />
+                  <span className="text-sm font-semibold text-green-700">
                     Professional Grade
                   </span>
                 </div>
               </div>
 
-              <p className="text-muted-foreground leading-relaxed mb-6">
+              <p className="text-slate-600 leading-relaxed mb-8 text-lg">
                 {product.description || 'High-efficiency heat exchangers designed for industrial HVAC and refrigeration applications. Built with durable materials for long-lasting performance in demanding environments.'}
               </p>
             </div>
 
             {/* Specifications Card */}
-            <div className="border rounded-lg p-6">
-              <h3 className="font-semibold text-lg mb-4">Technical Specifications</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between py-2">
-                  <span className="text-muted-foreground">Available Models</span>
-                  <span className="font-medium">{modelCount} {modelCount === 1 ? 'Model' : 'Models'}</span>
+            <div className="border border-slate-200 rounded-2xl p-8 bg-white/80 backdrop-blur-sm shadow-sm">
+              <h3 className="font-bold text-xl text-slate-900 mb-6">Technical Specifications</h3>
+              <div className="space-y-4">
+                <div className="flex justify-between py-3">
+                  <span className="text-slate-500 font-medium">Available Models</span>
+                  <span className="font-bold text-slate-900">{modelCount} {modelCount === 1 ? 'Model' : 'Models'}</span>
                 </div>
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="space-y-3">
-              <Button className="w-full" size="lg">
+            <div className="space-y-4 pt-4">
+              <Button 
+                className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 rounded-full text-lg h-14" 
+                size="lg"
+                onClick={() => setLocation('/contact')}
+              >
                 Request Quote
               </Button>
             </div>
@@ -202,10 +211,10 @@ export default function HeatExchangerDetailPage() {
         </div>
 
         {/* Product Models Table - Below the main content */}
-        <div ref={detailsRef} className="mt-12">
-          <Card className="specs-table-card">
-            <CardContent className="pt-6">
-              <h2 className="text-2xl font-bold mb-6">Available Models & Specifications</h2>
+        <div ref={detailsRef} className="mt-16">
+          <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
+            <CardContent className="p-8 md:p-12">
+              <h2 className="text-3xl font-bold text-slate-900 mb-8">Available Models & Specifications</h2>
               
               {models.length > 0 ? (
                 <Table className="premium-specs-table">
