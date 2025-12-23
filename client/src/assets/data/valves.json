@@ -273,7 +273,7 @@
                     "refrigerant": "R22/R407"
                 }
             ],
-            "image": "/assets/images/valves/expansion_valve_brazing.png"
+            "image": "/assets/images/valves/expansion_valve_brazing.webp"
         },
         "solenoidValvesLFFDF": {
             "name": "SOLENOID VALVE LFFDF",

@@ -233,13 +233,12 @@ export default function ScrollCompressorDetailPage() {
                               >
                                 <a
                                   href={product.document}
-                                  download={product.document.split('/').pop()}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="flex items-center gap-2"
                                 >
                                   <Download className="w-3 h-3" />
-                                  Download
+                                  View
                                 </a>
                               </Button>
                             ) : (
@@ -287,13 +286,12 @@ export default function ScrollCompressorDetailPage() {
                               >
                                 <a
                                   href={product.document}
-                                  download={product.document.split('/').pop()}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="flex items-center gap-2"
                                 >
                                   <Download className="w-3 h-3" />
-                                  Download
+                                  View
                                 </a>
                               </Button>
                             ) : (

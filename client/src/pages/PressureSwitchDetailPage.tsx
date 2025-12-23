@@ -187,7 +187,7 @@ export default function PressureSwitchDetailPage() {
     1
 
   return (
-    <div className="min-h-screen bg-slate-50 relative overflow-x-hidden">
+    <div className="flex flex-col min-h-screen bg-slate-50 relative overflow-x-hidden">
       {/* Background Blobs */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-blue-400/10 blur-[100px]" />
@@ -203,8 +203,9 @@ export default function PressureSwitchDetailPage() {
         </div>
       </div>
 
-      {/* Product Detail Section - Same layout as ProductDetailPage */}
-      <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
+      <div className="flex-1">
+        {/* Product Detail Section - Same layout as ProductDetailPage */}
+        <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
         <Button
           variant="ghost"
           onClick={() => setLocation(PRESSURE_SWITCHES_URL)}
@@ -309,15 +310,14 @@ export default function PressureSwitchDetailPage() {
                   size="lg"
                   asChild
                 >
-                  <a 
-                    href={currentSubcategory.document} 
-                    download={currentSubcategory.document.split('/').pop()}
+                  <a
+                    href={currentSubcategory.document}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2"
                   >
                     <Download className="w-5 h-5" />
-                    Download Technical Document
+                    View Technical Document
                   </a>
                 </Button>
               )}
@@ -430,6 +430,7 @@ export default function PressureSwitchDetailPage() {
             </CardContent>
           </Card>
         </div>
+      </div>
       </div>
 
       <Footer />

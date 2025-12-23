@@ -232,15 +232,14 @@ export default function TeflonTapeDetailPage() {
                   size="lg"
                   asChild
                 >
-                  <a 
-                    href={currentSubcategory.document} 
-                    download={currentSubcategory.document.split('/').pop()}
+                  <a
+                    href={currentSubcategory.document}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2"
                   >
                     <Download className="w-5 h-5" />
-                    Download Technical Document
+                    View Technical Document
                   </a>
                 </Button>
               )}

@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertProductInquirySchema, productFiltersSchema } from "@shared/schema";
+import { sendInquiryEmail } from "./email";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Products API routes
@@ -58,16 +59,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/inquiries", async (req, res) => {
     try {
       const inquiryData = insertProductInquirySchema.parse(req.body);
-      
+
       // Only verify the product exists if productId is provided (for product-specific inquiries)
+      let product = null;
       if (inquiryData.productId) {
-        const product = await storage.getProduct(inquiryData.productId);
+        product = await storage.getProduct(inquiryData.productId);
         if (!product) {
           return res.status(404).json({ error: "Product not found" });
         }
       }
 
+      // Save inquiry to database
       const inquiry = await storage.createInquiry(inquiryData);
+
+      // Send email notification (async, don't block response)
+      try {
+        await sendInquiryEmail({
+          name: inquiryData.name,
+          email: inquiryData.email,
+          company: inquiryData.company,
+          phone: inquiryData.phone,
+          message: inquiryData.message,
+          productId: inquiryData.productId,
+          productTitle: product?.title,
+          productModel: product?.modelNumber,
+        });
+      } catch (emailError) {
+        // Log email error but don't fail the request
+        console.error('Failed to send email notification:', emailError);
+        // Could optionally return a warning to the client
+      }
+
       res.status(201).json(inquiry);
     } catch (error) {
       console.error("Error creating inquiry:", error);

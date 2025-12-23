@@ -250,15 +250,14 @@ export default function AxeonPumpsDetailPage() {
                   size="lg"
                   asChild
                 >
-                  <a 
-                    href={currentCategory.document} 
-                    download={currentCategory.document.split('/').pop()}
+                  <a
+                    href={currentCategory.document}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2"
                   >
                     <Download className="w-5 h-5" />
-                    Download Technical Document
+                    View Technical Document
                   </a>
                 </Button>
               )}

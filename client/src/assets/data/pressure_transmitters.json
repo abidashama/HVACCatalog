@@ -9,6 +9,9 @@
                     "output": "4-20 ma"
                 }
             ],
+            "certifications": [
+                "REACH", "CE", "RoHS"
+            ],
             "image": "/assets/images/pressure_transmitters/t2000_series.webp",
             "document": "/assets/documents/pressure_transmitters/T2000_series.pdf"
         },
@@ -20,6 +23,9 @@
                     "range": "ALL RANGE FROM NEGATIVE 1-0 BAR UPTO 0-600 BAR",
                     "output": "4-20 ma"
                 }
+            ],
+            "certifications": [
+                "CE", "RoHS"
             ],
             "image": "/assets/images/pressure_transmitters/t2800_series.webp",
             "document": "/assets/documents/pressure_transmitters/T2800_series.pdf"

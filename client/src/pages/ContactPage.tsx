@@ -40,7 +40,7 @@ const contactMethods = [
     primary: 'axeoncorporation@gmail.com',
     secondary: 'Primary Contact',
     description: 'Send detailed technical inquiries',
-    hours: 'Response within 2 hours',
+    hours: 'Mon-Fri: 9:00 AM - 6:00 PM IST',
     badge: 'Technical Documentation'
   },
   {
@@ -92,7 +92,7 @@ export default function ContactPage() {
     onSuccess: () => {
       toast({
         title: "Message Sent Successfully",
-        description: "We'll respond to your inquiry within 2 hours during business hours.",
+        description: "We'll respond to your inquiry as soon as possible during business hours.",
       })
       
       // Reset form
@@ -173,16 +173,6 @@ export default function ContactPage() {
             Get technical support, product information, or custom solutions from our certified HVAC professionals. 
             We're here to help with your project requirements.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Badge variant="outline" className="text-base py-2 px-4 bg-white/50 backdrop-blur-sm border-blue-200 text-blue-700 rounded-full shadow-sm">
-              <CheckCircle className="mr-2 w-4 h-4 text-green-500" />
-              2-Hour Response Time
-            </Badge>
-            <Badge variant="outline" className="text-base py-2 px-4 bg-white/50 backdrop-blur-sm border-blue-200 text-blue-700 rounded-full shadow-sm">
-              <CheckCircle className="mr-2 w-4 h-4 text-green-500" />
-              24/7 Emergency Support
-            </Badge>
-          </div>
         </div>
       </section>
 
@@ -195,7 +185,7 @@ export default function ContactPage() {
               <CardHeader className="p-8">
                 <CardTitle className="text-3xl font-bold text-slate-900">Send Us a Message</CardTitle>
                 <p className="text-slate-500 text-lg">
-                  Fill out the form below and our technical team will respond within 2 hours during business hours.
+                  Fill out the form below and our technical team will respond as soon as possible during business hours.
                 </p>
               </CardHeader>
               <CardContent className="p-8 pt-0">
