@@ -58,6 +58,7 @@ interface SubcategoryData {
   name: string
   image: string
   document?: string
+  description?: string
   products?: ProductModel[]
   model?: string
   highPressureRanges?: RangeItem[]
@@ -253,8 +254,9 @@ export default function PressureSwitchDetailPage() {
               </div>
 
               <p className="text-slate-600 leading-relaxed mb-8 text-lg">
-                High-precision {toTitleCase(currentSubcategory.name).toLowerCase()} designed for industrial HVAC and refrigeration applications. 
-                Built with durable materials for long-lasting performance in demanding environments.
+                {currentSubcategory.description ||
+                  `High-precision ${toTitleCase(currentSubcategory.name).toLowerCase()} designed for industrial HVAC and refrigeration applications. Built with durable materials for long-lasting performance in demanding environments.`
+                }
               </p>
             </div>
 

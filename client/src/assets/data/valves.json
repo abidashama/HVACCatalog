@@ -188,6 +188,7 @@
         },
         "expansionValves": {
             "name": "EXPANSION VALVE",
+            "description": "The LEFOO Expansion Valve provides accurate and reliable control of refrigerant flow in refrigeration and HVAC systems. It ensures consistent superheat and optimal system efficiency under varying load conditions. Constructed with durable, high-quality materials, it delivers long-lasting performance and dependable operation. Ideal for commercial, industrial, and residential cooling applications.",
             "products": [
                 {
                     "model": "TX2",
@@ -236,6 +237,7 @@
         },
         "expansionValvesBrazing": {
             "name": "EXPANSION VALVE BRAZING TYPE",
+            "description": "The LEFOO Brazing Type Expansion Valve is designed for precise control of refrigerant flow in refrigeration and air-conditioning systems. Its brazing connection ensures a secure, leak-free installation for long-term reliability. The valve maintains optimal superheat and system efficiency under varying load conditions. Built with high-quality materials, it delivers stable performance and durability for commercial and industrial applications.",
             "products": [
                 {
                     "model": "LFTGEX3",
@@ -398,26 +400,59 @@
         },
         "flowSwitches": {
             "name": "FLOW SWITCH",
-            "products": [
-                {
-                    "model": "FS52",
-                    "type": "Standard"
-                },
-                {
-                    "model": "FS51-11",
-                    "type": "Standard"
-                },
-                {
-                    "model": "FS51-ECO",
-                    "type": "ECO"
-                }
-            ],
-            "connection": "1\" NPT BOTTOM CONNECTION",
-            "certifications": [
-                "CE"
-            ],
             "image": "/assets/images/valves/flow_switch.webp",
-            "document": "/assets/documents/valves/flow_switch.pdf"
+            "document": "/assets/documents/valves/flow_switch.pdf",
+            "description": "The LEFOO Flow Switch is a precision-engineered device for monitoring liquid flow in HVAC, water, and industrial systems. It provides reliable detection of flow deviations, ensuring system protection, optimal performance, and long-term operational stability.",
+            "subcategories": {
+                "ecoFlowSwitch": {
+                    "name": "ECO FLOW SWITCH",
+                    "products": [
+                        {
+                            "model": "FS51-ECO",
+                            "type": "ECO"
+                        }
+                    ],
+                    "connection": "1\" NPT BOTTOM CONNECTION",
+                    "certifications": [
+                        "CE"
+                    ],
+                    "image": "/assets/images/valves/flow_switch.webp",
+                    "document": "/assets/documents/valves/flow_switch.pdf",
+                    "description": "The LEFOO Flow Switch ensures accurate monitoring of liquid flow in industrial, HVAC, and water systems. It protects equipment by detecting low or high flow conditions and provides reliable, long-term"
+                },
+                "fs5111": {
+                    "name": "FS51-11 FLOW SWITCH",
+                    "products": [
+                        {
+                            "model": "FS51-11",
+                            "type": "Standard"
+                        }
+                    ],
+                    "connection": "1\" NPT BOTTOM CONNECTION",
+                    "certifications": [
+                        "CE"
+                    ],
+                    "image": "/assets/images/valves/flow_switch.webp",
+                    "document": "/assets/documents/valves/flow_switch.pdf",
+                    "description": "The LEFOO Flow Switch ensures accurate monitoring of liquid flow in industrial, HVAC, and water systems. It protects equipment by detecting low or high flow conditions and provides reliable, long-term"
+                },
+                "fs52": {
+                    "name": "FS52 FLOW SWITCH",
+                    "products": [
+                        {
+                            "model": "FS52",
+                            "type": "Standard"
+                        }
+                    ],
+                    "connection": "1\" NPT BOTTOM CONNECTION",
+                    "certifications": [
+                        "CE"
+                    ],
+                    "image": "/assets/images/valves/flow_switch.webp",
+                    "document": "/assets/documents/valves/flow_switch.pdf",
+                    "description": "The LEFOO FS52 Flow Switch is a precision-engineered device for monitoring liquid flow in HVAC, water, and industrial systems. It provides reliable detection of flow deviations, ensuring system protection, optimal performance, and long-term operational stability."
+                }
+            }
         },
         "sightGlass": {
             "name": "SIGHT GLASS",

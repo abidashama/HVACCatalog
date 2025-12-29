@@ -2,6 +2,7 @@
     "categories": {
         "pressureSwitches": {
             "name": "PRESSURE SWITCH FOR WATERLINE",
+            "description": "The LEFOO LF55 G1/4 Pressure Control is designed for reliable pressure regulation in waterline applications. It ensures accurate pressure monitoring to protect pumps and water systems from overpressure conditions. The compact and robust design allows easy installation in limited spaces. Built with high-quality components for long-term and stable performance.",
             "products": [
                 {
                     "model": "LF5503",
@@ -46,6 +47,7 @@
         },
         "lpHpRefrigerationSwitches": {
             "name": "LP & HP PRESSURE SWITCH FOR REFRIGERATION",
+            "description": "The LEFOO LF55 1/4 Flare External Pressure Control is designed for precise pressure monitoring in refrigeration and air-conditioning systems. It helps protect compressors by maintaining safe operating pressure levels. The 1/4 flare external connection ensures easy installation and a secure fit. Built for durability, it offers consistent performance and long-term reliability in refrigeration applications.",
             "products": [
                 {
                     "model": "LF5508 - LOW PRESSURE",
@@ -68,10 +70,11 @@
         },
         "lpHpCombinedSwitches": {
             "name": "LP-HP COMBINED PRESSURE SWITCH",
+            "description": "The LEFOO LF5832 Pressure Control is a precision-engineered pressure switch designed for refrigeration and HVAC systems. It provides accurate and stable pressure control to protect compressors from abnormal operating conditions. The 7/16-20 UNF connection ensures a secure and leak-free installation. Built with robust materials, it delivers reliable performance and long service life in demanding refrigeration environments.",
             "products": [
                 {
                     "model": "LF5832",
-                    "range": "LP RANGE -0.2 TO 7.5 BAR HP 5 TO 32 BAR",
+                    "range": "LP RANGE -0.2 TO 7.5 BAR HP 8 TO 32 BAR",
                     "resetOption": {
                         "LP": "AUTO RESET",
                         "HP": "AUTO RESET"
@@ -105,6 +108,7 @@
         "smallFixDifferentialSwitches": {
             "name": "SMALL FIX DIFFERENTIAL PRESSURE SWITCH ( CARTRIDGE TYPE)",
             "model": "LF08",
+            "description": "The LEFOO LF08 Small Fixed Differential Pressure Switch is designed for accurate and reliable pressure control in compact systems. With a fixed differential, it ensures stable switching performance and consistent operation. Its small, space-saving design allows easy installation in tight or confined applications. Built with high-quality components, it delivers long service life and dependable performance across industrial and HVAC systems.",
             "highPressureRanges": [
                 {
                     "range": "LF08 (190-260)PSI",
@@ -147,6 +151,14 @@
                 {
                     "range": "LF08 (50-35) PSI",
                     "contactSwitch": "NO"
+                },
+                {
+                    "range": "LF08 (80-100) PSI (FLARE NC)",
+                    "contactSwitch": "NC"
+                },
+                {
+                    "range": "LF08 (80-100) PSI (SOLDER NO)",
+                    "contactSwitch": "NO"
                 }
             ],
             "certifications": [
@@ -162,6 +174,7 @@
         },
         "oilDifferentialSwitches": {
             "name": "OIL DIFFERENTIAL PRESSURE SWITCH",
+            "description": "The LEFOO LF5D Oil Differential Pressure Switch is designed to monitor and control oil pressure differences in industrial systems. It ensures reliable protection of compressors and machinery by detecting abnormal pressure conditions. Built with durable components, it offers stable performance in demanding operating environments. Ideal for lubrication and oil circulation monitoring",
             "products": [
                 {
                     "model": "LF5D2",
@@ -198,6 +211,7 @@
         },
         "airDifferentialSwitches": {
             "name": "AIR DIFFERENTIAL PRESSURE SWITCH ",
+            "description": "The LEFOO LF32 Air Differential Pressure Switch is engineered for accurate monitoring of air pressure differences. It is commonly used in HVAC and ventilation systems to ensure proper airflow and filter status. The compact and reliable design provides consistent switching performance. Suitable for clean air and low-pressure applications.",
             "products": [
                 {
                     "model": "LF32",

@@ -54,12 +54,18 @@ interface ProductModel {
 interface Subcategory {
   name: string
   products: ProductModel[]
+  image?: string
+  document?: string
+  description?: string
+  connection?: string
+  certifications?: string[]
 }
 
 interface ValveCategory {
   name: string
   image: string
   document?: string
+  description?: string
   products?: ProductModel[]
   subcategories?: Record<string, Subcategory>
   certifications?: string[]
@@ -222,8 +228,9 @@ export default function ValveDetailPage() {
               </div>
 
               <p className="text-slate-600 leading-relaxed mb-8 text-lg">
-                High-precision {toTitleCase(currentCategory.name).toLowerCase()} designed for industrial HVAC and refrigeration applications. 
-                Built with durable materials for long-lasting performance in demanding environments.
+                {currentCategory.description ||
+                  `High-precision ${toTitleCase(currentCategory.name).toLowerCase()} designed for industrial HVAC and refrigeration applications. Built with durable materials for long-lasting performance in demanding environments.`
+                }
               </p>
             </div>
 
