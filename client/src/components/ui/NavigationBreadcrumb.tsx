@@ -23,6 +23,7 @@ const VIBRATION_ELIMINATORS_URL = '/products?category=Vibration%20Eliminators'
 const BRAZING_ROD_URL = '/products?category=Brazing%20Rod'
 const RELAY_URL = '/products?category=Relay'
 const SCROLL_COMPRESSORS_URL = '/products?category=Scroll%20Compressors'
+const FLOW_SWITCHES_URL = '/products?category=Flow%20Switches'
 
 interface BreadcrumbItemData {
   label: string
@@ -43,6 +44,7 @@ const pathToLabel: Record<string, string> = {
   'product': 'Product',
   'pressure-switches': 'Pressure Switches',
   'valves': 'Valves',
+  'flow-switches': 'Flow Switches',
   'pressure-transmitters': 'Pressure Transmitters',
   'heat-exchangers': 'Heat Exchangers',
   'bphe': 'BPHE Series',
@@ -78,6 +80,8 @@ function generateBreadcrumbItems(pathname: string): BreadcrumbItemData[] {
       href = PRESSURE_SWITCHES_URL
     } else if (segment === 'valves' && !isLast) {
       href = VALVES_URL
+    } else if (segment === 'flow-switches' && !isLast) {
+      href = FLOW_SWITCHES_URL
     } else if (segment === 'pressure-transmitters' && !isLast) {
       href = PRESSURE_TRANSMITTERS_URL
     } else if (segment === 'heat-exchangers' && !isLast) {

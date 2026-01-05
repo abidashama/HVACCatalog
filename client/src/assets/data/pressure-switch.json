@@ -82,7 +82,7 @@
                 },
                 {
                     "model": "LF5832 HM",
-                    "range": "LP RANGE -0.2 TO 7.5 BAR HP 8 TO 42 BAR",
+                    "range": "LP RANGE -0.2 TO 7.5 BAR HP 8 TO 32 BAR",
                     "resetOption": {
                         "LP": "AUTO RESET",
                         "HP": "MANUAL RESET"
@@ -90,7 +90,7 @@
                 },
                 {
                     "model": "LF5832 HLM",
-                    "range": "LP RANGE -0.2 TO 7.5 BAR HP 8 TO 42 BAR",
+                    "range": "LP RANGE -0.2 TO 7.5 BAR HP 8 TO 32 BAR",
                     "resetOption": {
                         "LP": "MANUAL RESET",
                         "HP": "MANUAL RESET"

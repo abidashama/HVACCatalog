@@ -14,6 +14,7 @@ import ProductDetailPage from "@/pages/ProductDetailPage";
 import CategoryPage from "@/pages/CategoryPage";
 import PressureSwitchDetailPage from "@/pages/PressureSwitchDetailPage";
 import ValveDetailPage from "@/pages/ValveDetailPage";
+import FlowSwitchDetailPage from "@/pages/FlowSwitchDetailPage";
 import PressureTransmitterDetailPage from "@/pages/PressureTransmitterDetailPage";
 import HeatExchangerDetailPage from "@/pages/HeatExchangerDetailPage";
 import AxeonValveDetailPage from "@/pages/AxeonValveDetailPage";
@@ -52,6 +53,7 @@ function Router() {
       <Route path="/scroll-compressors" component={ScrollCompressorDetailPage} />
       <Route path="/pressure-switches/:subcategoryId" component={PressureSwitchDetailPage} />
       <Route path="/valves/:categoryId" component={ValveDetailPage} />
+      <Route path="/flow-switches/:subcategoryId" component={FlowSwitchDetailPage} />
       <Route path="/pressure-transmitters/:subcategoryId" component={PressureTransmitterDetailPage} />
       <Route component={NotFound} />
     </Switch>

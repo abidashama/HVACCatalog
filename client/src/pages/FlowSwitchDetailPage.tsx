@@ -8,34 +8,31 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { NavigationBreadcrumb } from '@/components/ui/NavigationBreadcrumb'
-import pressureTransmitterData from '@/assets/data/pressure_transmitters.json'
+import flowSwitchData from '@/assets/data/flow_switch.json'
 import { gsap } from 'gsap'
 
 // Constant for consistent URL encoding
-const PRESSURE_TRANSMITTERS_URL = '/products?category=Pressure%20Transmitters'
+const FLOW_SWITCHES_URL = '/products?category=Flow%20Switches'
 
-// Helper function to convert text to proper title case
+// Helper function for title case
 const toTitleCase = (str: string): string => {
-  // Common acronyms that should stay uppercase
-  const acronyms = ['lp', 'hp', 'hvac', 'ac', 'dc', 'ul', 'ce', 'nc', 'no', 'ma']
-  
+  const acronyms = ['lp', 'hp', 'hvac', 'ac', 'dc', 'ul', 'ce', 'nc', 'no', 'eco', 'fs', 'npt']
+
   return str
     .toLowerCase()
     .split(' ')
     .map((word) => {
-      // Keep acronyms in uppercase
       if (acronyms.includes(word)) {
         return word.toUpperCase()
       }
-      
-      // Keep small words lowercase (unless they're the first word)
+
       const lowercase = ['for', 'and', 'or', 'the', 'a', 'an', 'of', 'to', 'in', 'on', 'at', 'by', '&']
       const isFirstWord = str.split(' ')[0].toLowerCase() === word
-      
+
       if (lowercase.includes(word) && !isFirstWord) {
         return word
       }
-      
+
       return word.charAt(0).toUpperCase() + word.slice(1)
     })
     .join(' ')
@@ -43,39 +40,51 @@ const toTitleCase = (str: string): string => {
 
 interface ProductModel {
   model: string
-  range: string
-  output: string
+  type?: string
 }
 
-interface SubcategoryData {
+interface Subcategory {
   name: string
-  image: string
-  document?: string
   products: ProductModel[]
+  image?: string
+  document?: string
+  description?: string
+  connection?: string
   certifications?: string[]
 }
 
-export default function PressureTransmitterDetailPage() {
-  const [, params] = useRoute('/pressure-transmitters/:subcategoryId')
+interface FlowSwitchCategory {
+  name: string
+  image: string
+  document?: string
+  description?: string
+  subcategories?: Record<string, Subcategory>
+  certifications?: string[]
+  connection?: string
+}
+
+export default function FlowSwitchDetailPage() {
+  const [, params] = useRoute('/flow-switches/:subcategoryId')
   const [, setLocation] = useLocation()
-  
+
   const galleryRef = useRef<HTMLDivElement>(null)
   const productInfoRef = useRef<HTMLDivElement>(null)
   const detailsRef = useRef<HTMLDivElement>(null)
 
   const subcategoryId = params?.subcategoryId
-  const categories = pressureTransmitterData.categories as Record<string, SubcategoryData>
+  const categories = flowSwitchData.categories as Record<string, FlowSwitchCategory>
 
   // Map subcategory IDs to data
-  const subcategoryMap: Record<string, SubcategoryData> = {
-    't2000-series': categories.t2000Series,
-    't2800-series': categories.t2800Series
+  const subcategoryMap: Record<string, Subcategory> = {
+    'eco': (categories.flowSwitches?.subcategories?.ecoFlowSwitch as Subcategory),
+    'fs51-11': (categories.flowSwitches?.subcategories?.fs5111 as Subcategory),
+    'fs52': (categories.flowSwitches?.subcategories?.fs52 as Subcategory)
   }
 
   const currentSubcategory = subcategoryId ? subcategoryMap[subcategoryId] : null
 
+  // GSAP animations
   useEffect(() => {
-    // Scroll to top when component mounts or subcategory changes
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
 
     if (!currentSubcategory || !galleryRef.current || !productInfoRef.current || !detailsRef.current) {
@@ -115,7 +124,7 @@ export default function PressureTransmitterDetailPage() {
         <div className="max-w-7xl mx-auto px-4 py-12">
           <p className="text-center text-muted-foreground">Subcategory not found</p>
           <div className="flex justify-center mt-6">
-            <Button onClick={() => setLocation(PRESSURE_TRANSMITTERS_URL)}>
+            <Button onClick={() => setLocation(FLOW_SWITCHES_URL)}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Categories
             </Button>
@@ -126,9 +135,7 @@ export default function PressureTransmitterDetailPage() {
     )
   }
 
-  // Get the image from the current subcategory data
   const productImage = currentSubcategory.image
-
   const productCount = currentSubcategory.products?.length || 1
 
   return (
@@ -140,7 +147,7 @@ export default function PressureTransmitterDetailPage() {
       </div>
 
       <Header />
-      
+
       {/* Breadcrumb */}
       <div className="relative z-10 py-6 px-4">
         <div className="max-w-7xl mx-auto">
@@ -148,11 +155,11 @@ export default function PressureTransmitterDetailPage() {
         </div>
       </div>
 
-      {/* Product Detail Section - Same layout as ProductDetailPage */}
+      {/* Product Detail Section */}
       <div className="max-w-7xl mx-auto px-4 py-12 relative z-10">
         <Button
           variant="ghost"
-          onClick={() => setLocation(PRESSURE_TRANSMITTERS_URL)}
+          onClick={() => setLocation(FLOW_SWITCHES_URL)}
           className="mb-8 hover:bg-blue-50 text-slate-600 hover:text-blue-600 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
@@ -162,7 +169,7 @@ export default function PressureTransmitterDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Product Image - Left Side */}
           <div className="space-y-6" ref={galleryRef}>
-            <div 
+            <div
               className="relative rounded-2xl border border-slate-100 overflow-hidden shadow-2xl bg-white p-8"
             >
               <img
@@ -177,13 +184,13 @@ export default function PressureTransmitterDetailPage() {
           <div className="space-y-8" ref={productInfoRef}>
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1 text-sm">Pressure Transmitters</Badge>
+                <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1 text-sm">Flow Switches</Badge>
               </div>
               <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight leading-tight">{toTitleCase(currentSubcategory.name)}</h1>
               <p className="text-blue-600 font-medium mb-4 text-lg">
                 {productCount} {productCount === 1 ? 'Model' : 'Models'} Available
               </p>
-              
+
               <div className="flex items-center gap-4 mb-6">
                 <div className="flex items-center gap-2 bg-green-50 px-3 py-1.5 rounded-full border border-green-100">
                   <Package className="w-4 h-4 text-green-600" />
@@ -194,25 +201,22 @@ export default function PressureTransmitterDetailPage() {
               </div>
 
               <p className="text-slate-600 leading-relaxed mb-8 text-lg">
-                High-precision {toTitleCase(currentSubcategory.name).toLowerCase()} designed for industrial HVAC and refrigeration applications. 
-                Built with durable materials for long-lasting performance in demanding environments.
+                {currentSubcategory.description ||
+                  `High-precision ${toTitleCase(currentSubcategory.name).toLowerCase()} designed for industrial HVAC and refrigeration applications. Built with durable materials for long-lasting performance in demanding environments.`
+                }
               </p>
             </div>
 
-            {/* Specifications Card - Matching ProductDetailPage style */}
+            {/* Specifications Card */}
             <div className="border border-slate-200 rounded-2xl p-8 bg-white/80 backdrop-blur-sm shadow-sm">
               <h3 className="font-bold text-xl text-slate-900 mb-6">Technical Specifications</h3>
               <div className="space-y-4">
-                <div className="flex justify-between py-3 border-b border-slate-100">
-                  <span className="text-slate-500 font-medium">Output Signal</span>
-                  <span className="font-semibold text-slate-900 font-mono">4-20 mA</span>
-                </div>
-                <div className="flex justify-between py-3 border-b border-slate-100">
-                  <span className="text-slate-500 font-medium">Pressure Range</span>
-                  <span className="font-semibold text-slate-900 font-mono">
-                    {currentSubcategory.name.includes('T2000') ? '0-6 BAR to 0-600 BAR' : 'Negative 1-0 BAR to 0-600 BAR'}
-                  </span>
-                </div>
+                {currentSubcategory.connection && (
+                  <div className="flex justify-between py-3 border-b border-slate-100">
+                    <span className="text-slate-500 font-medium">Connection Type</span>
+                    <span className="font-semibold text-slate-900 font-mono">{currentSubcategory.connection}</span>
+                  </div>
+                )}
                 {currentSubcategory.certifications && currentSubcategory.certifications.length > 0 && (
                   <div className="flex justify-between py-3 border-b border-slate-100 items-center">
                     <span className="text-slate-500 font-medium">Certifications</span>
@@ -233,19 +237,19 @@ export default function PressureTransmitterDetailPage() {
               </div>
             </div>
 
-            {/* Action Buttons - Matching ProductDetailPage style */}
+            {/* Action Buttons */}
             <div className="space-y-4 pt-4">
-              <Button 
-                className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 rounded-full text-lg h-14" 
+              <Button
+                className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 rounded-full text-lg h-14"
                 size="lg"
                 onClick={() => setLocation('/contact')}
               >
                 Request Quote
               </Button>
               {currentSubcategory.document && (
-                <Button 
-                  variant="outline" 
-                  className="w-full border-2 border-slate-200 hover:border-blue-500 text-slate-700 hover:text-blue-600 font-bold rounded-full text-lg h-14 transition-all duration-300 bg-transparent" 
+                <Button
+                  variant="outline"
+                  className="w-full border-2 border-slate-200 hover:border-blue-500 text-slate-700 hover:text-blue-600 font-bold rounded-full text-lg h-14 transition-all duration-300 bg-transparent"
                   size="lg"
                   asChild
                 >
@@ -264,36 +268,31 @@ export default function PressureTransmitterDetailPage() {
           </div>
         </div>
 
-        {/* Product Models Table - Below the main content */}
+        {/* Product Models Table */}
         <div ref={detailsRef} className="mt-16">
           <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
             <CardContent className="p-8 md:p-12">
               <h2 className="text-3xl font-bold text-slate-900 mb-8">Available Models & Specifications</h2>
-              
-              {/* Handle products array */}
+
               {currentSubcategory.products && Array.isArray(currentSubcategory.products) && (
                 <Table className="premium-specs-table">
                   <TableHeader>
                     <TableRow>
                       <TableHead className="specs-table-header">Model</TableHead>
-                      <TableHead className="specs-table-header">Range</TableHead>
-                      <TableHead className="specs-table-header">Output</TableHead>
+                      {currentSubcategory.products.some((p) => p.type) && (
+                        <TableHead className="specs-table-header">Type</TableHead>
+                      )}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {currentSubcategory.products.map((product: ProductModel, index: number) => (
+                    {currentSubcategory.products.map((product, index) => (
                       <TableRow key={index} className="specs-table-row" style={{'--row-index': index} as React.CSSProperties}>
                         <TableCell className="specs-table-cell model-cell">
                           <span className="model-badge">{product.model}</span>
                         </TableCell>
-                        <TableCell className="specs-table-cell range-cell">
-                          <span className="range-text">{product.range}</span>
-                        </TableCell>
-                        <TableCell className="specs-table-cell">
-                          <Badge variant="outline" className="font-mono">
-                            {product.output}
-                          </Badge>
-                        </TableCell>
+                        {currentSubcategory.products!.some((p) => p.type) && (
+                          <TableCell className="specs-table-cell">{product.type || '-'}</TableCell>
+                        )}
                       </TableRow>
                     ))}
                   </TableBody>

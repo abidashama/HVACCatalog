@@ -9,6 +9,7 @@ import { Separator } from '@/components/ui/separator'
 import type { ProductFilters } from '@shared/schema'
 import pressureSwitchData from '@/assets/data/pressure-switch.json'
 import valveData from '@/assets/data/valves.json'
+import flowSwitchData from '@/assets/data/flow_switch.json'
 import pressureTransmitterData from '@/assets/data/pressure_transmitters.json'
 import heatExchangerData from '@/assets/data/heat_exchangers.json'
 import axeonValveData from '@/assets/data/axeon_valves.json'
@@ -40,9 +41,16 @@ const getPressureSwitchCount = () => {
 // Calculate valve subcategory count from JSON
 const getValveCount = () => {
   const categories: any = valveData.categories
-  // Count subcategories: solenoid-lfsv-d, solenoid-lfsv-k, expansion, expansion-brazing, 
-  // solenoid-lffdf, bypass, ball, flow-switch, sight-glass
+  // Count subcategories: solenoid-lfsv-d, solenoid-lfsv-k, expansion, expansion-brazing,
+  // solenoid-lffdf, bypass, ball, sight-glass (flow-switch moved to separate category)
   return Object.keys(categories).length
+}
+
+// Calculate flow switch subcategory count from JSON
+const getFlowSwitchCount = () => {
+  const categories: any = flowSwitchData.categories
+  // Count subcategories in flowSwitches
+  return Object.keys((categories.flowSwitches as any).subcategories || {}).length
 }
 
 // Calculate pressure transmitter subcategory count from JSON
@@ -140,6 +148,7 @@ const filterData = {
   categories: [
     { id: 'Pressure Switches', name: 'Pressure Switches', count: getPressureSwitchCount() },
     { id: 'Valves', name: 'Valves', count: getValveCount() },
+    { id: 'Flow Switches', name: 'Flow Switches', count: getFlowSwitchCount() },
     { id: 'Pressure Transmitters', name: 'Pressure Transmitters', count: getPressureTransmitterCount() },
     { id: 'Heat Exchangers', name: 'Heat Exchangers', count: getHeatExchangerCount() },
     { id: 'Axeon Valves', name: 'Axeon Valves', count: getAxeonValvesCount() },

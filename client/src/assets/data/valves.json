@@ -2,6 +2,7 @@
     "categories": {
         "solenoidValvesLFSVD": {
             "name": "SOLENOID VALVE & COIL LFSV-D",
+            "description": "The LEFOO LFSV-D Solenoid Valve is a high-performance valve designed for dependable flow control in refrigeration and HVAC systems. It ensures fast and accurate opening and closing to maintain optimal system operation. Built with precision-engineered components, it offers excellent sealing performance and long service life. Suitable for demanding industrial and commercial applications.",
             "subcategories": {
                 "smallBodyODF": {
                     "name": "SMALL BODY (ODF/SOLDER TYPE)",
@@ -106,6 +107,7 @@
         },
         "solenoidValvesLFSVK": {
             "name": "SOLENOID VALVE LFSV-K",
+            "description": "The LEFOO LFSV-K Solenoid Valve is designed for precise and reliable control of fluid and refrigerant flow in industrial systems. It offers fast response and stable operation to ensure efficient system performance. The robust construction provides excellent durability and long-term reliability. Ideal for refrigeration, HVAC, and other demanding industrial applications.",
             "subcategories": {
                 "smallBodyODF": {
                     "name": "SMALL BODY (ODF/SOLDER)",
@@ -279,6 +281,7 @@
         },
         "solenoidValvesLFFDF": {
             "name": "SOLENOID VALVE LFFDF",
+            "description": "The LEFOO LFFDF Solenoid Valve provides precise and efficient flow control for refrigerants and fluids in industrial and HVAC systems. Its quick response and stable operation help maintain optimal system performance. Built with durable, high-quality components, it offers long-lasting reliability and leak-free operation. Suitable for commercial refrigeration, air-conditioning, and other industrial applications.",
             "products": [
                 {
                     "model": "LFFDF-4A-001",
@@ -294,6 +297,7 @@
         },
         "bypassValves": {
             "name": "BYPASS VALVE LFDBV",
+            "description": "The LEFOO LFDBV Bypass Valve is a precision-engineered component designed to control and redirect refrigerant or fluid flow in HVAC and refrigeration systems. It ensures accurate pressure relief and protects compressors from overpressure conditions. Featuring a durable construction with high-quality materials, it provides stable operation under varying load conditions. Ideal for industrial, commercial, and high-performance cooling applications.",
             "products": [
                 {
                     "model": "LFDBV NO-0.5"
@@ -319,6 +323,7 @@
         },
         "ballValves": {
             "name": "BALL VALVE",
+            "description": "The LEFOO LFBV Ball Valve is a precision-engineered component designed to control and redirect refrigerant or fluid flow in HVAC and refrigeration systems. It ensures accurate pressure relief and protects compressors from overpressure conditions. Featuring a durable construction with high-quality materials, it provides stable operation under varying load conditions. Ideal for industrial, commercial, and high-performance cooling applications.",
             "subcategories": {
                 "withPort": {
                     "name": "WITH PORT SERIES",
@@ -398,64 +403,9 @@
             "image": "/assets/images/valves/ball_valve.webp",
             "document": "/assets/documents/valves/ball_valve.pdf"
         },
-        "flowSwitches": {
-            "name": "FLOW SWITCH",
-            "image": "/assets/images/valves/flow_switch.webp",
-            "document": "/assets/documents/valves/flow_switch.pdf",
-            "description": "The LEFOO Flow Switch is a precision-engineered device for monitoring liquid flow in HVAC, water, and industrial systems. It provides reliable detection of flow deviations, ensuring system protection, optimal performance, and long-term operational stability.",
-            "subcategories": {
-                "ecoFlowSwitch": {
-                    "name": "ECO FLOW SWITCH",
-                    "products": [
-                        {
-                            "model": "FS51-ECO",
-                            "type": "ECO"
-                        }
-                    ],
-                    "connection": "1\" NPT BOTTOM CONNECTION",
-                    "certifications": [
-                        "CE"
-                    ],
-                    "image": "/assets/images/valves/flow_switch.webp",
-                    "document": "/assets/documents/valves/flow_switch.pdf",
-                    "description": "The LEFOO Flow Switch ensures accurate monitoring of liquid flow in industrial, HVAC, and water systems. It protects equipment by detecting low or high flow conditions and provides reliable, long-term"
-                },
-                "fs5111": {
-                    "name": "FS51-11 FLOW SWITCH",
-                    "products": [
-                        {
-                            "model": "FS51-11",
-                            "type": "Standard"
-                        }
-                    ],
-                    "connection": "1\" NPT BOTTOM CONNECTION",
-                    "certifications": [
-                        "CE"
-                    ],
-                    "image": "/assets/images/valves/flow_switch.webp",
-                    "document": "/assets/documents/valves/flow_switch.pdf",
-                    "description": "The LEFOO Flow Switch ensures accurate monitoring of liquid flow in industrial, HVAC, and water systems. It protects equipment by detecting low or high flow conditions and provides reliable, long-term"
-                },
-                "fs52": {
-                    "name": "FS52 FLOW SWITCH",
-                    "products": [
-                        {
-                            "model": "FS52",
-                            "type": "Standard"
-                        }
-                    ],
-                    "connection": "1\" NPT BOTTOM CONNECTION",
-                    "certifications": [
-                        "CE"
-                    ],
-                    "image": "/assets/images/valves/flow_switch.webp",
-                    "document": "/assets/documents/valves/flow_switch.pdf",
-                    "description": "The LEFOO FS52 Flow Switch is a precision-engineered device for monitoring liquid flow in HVAC, water, and industrial systems. It provides reliable detection of flow deviations, ensuring system protection, optimal performance, and long-term operational stability."
-                }
-            }
-        },
         "sightGlass": {
             "name": "SIGHT GLASS",
+            "description": "The LEFOO LFSG Sight Glass provides clear visual monitoring of refrigerant or fluid flow in HVAC and refrigeration systems. It allows operators to quickly check system conditions, detect contaminants, and ensure proper fluid circulation. Built with durable, high-quality materials, it offers long-lasting performance and reliability. Ideal for industrial, commercial, and residential applications.",
             "subcategories": {
                 "odfSolder": {
                     "name": "ODF/SOLDER CONNECTION",

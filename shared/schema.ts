@@ -100,6 +100,12 @@ export const PRODUCT_CATEGORIES = [
     description: 'Flow control valves and fittings for HVAC and refrigeration systems'
   },
   {
+    id: 'Flow Switches',
+    name: 'Flow Switches',
+    slug: 'flow-switches',
+    description: 'Precision flow switches for monitoring liquid flow in HVAC and industrial systems'
+  },
+  {
     id: 'Pressure Transmitters',
     name: 'Pressure Transmitters',
     slug: 'pressure-transmitters',

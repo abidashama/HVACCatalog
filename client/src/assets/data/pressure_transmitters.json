@@ -2,6 +2,7 @@
     "categories": {
         "t2000Series": {
             "name": "T2000 SERIES",
+            "description": "The LEFOO T2000 Pressure Transmitter is designed for accurate and reliable pressure measurement in industrial, HVAC, and refrigeration systems. It converts pressure signals into standardized electrical outputs for seamless monitoring and control. Built with high-quality materials and precision sensors, it ensures stable performance, long-term reliability, and easy integration into automation systems. Ideal for demanding commercial and industrial applications.",
             "products": [
                 {
                     "model": "T2000",
@@ -17,6 +18,7 @@
         },
         "t2800Series": {
             "name": "T2800 SERIES",
+            "description": "The LEFOO T2800 Pressure Transmitter is a high-precision device designed for accurate pressure measurement in industrial, HVAC, and refrigeration systems. It converts pressure into standardized electrical signals for reliable monitoring and control. Constructed with durable, high-quality materials, it delivers stable performance, long-term reliability, and seamless integration with automation systems. Ideal for demanding commercial and industrial applications.",
             "products": [
                 {
                     "model": "T2800",

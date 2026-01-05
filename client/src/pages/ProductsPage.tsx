@@ -15,6 +15,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import pressureSwitchData from '@/assets/data/pressure-switch.json'
 import valveData from '@/assets/data/valves.json'
+import flowSwitchData from '@/assets/data/flow_switch.json'
 import pressureTransmitterData from '@/assets/data/pressure_transmitters.json'
 import heatExchangerData from '@/assets/data/heat_exchangers.json'
 import axeonValveData from '@/assets/data/axeon_valves.json'
@@ -51,7 +52,7 @@ export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [filters, setFilters] = useState<Partial<ProductFilters>>({})
   const [showSubcategories, setShowSubcategories] = useState(false)
-  const [subcategoryType, setSubcategoryType] = useState<'pressure-switches' | 'valves' | 'pressure-transmitters' | 'filter-driers' | 'pressure-gauge' | 'teflon-tape' | 'axeon-pumps' | 'vibration-eliminators' | 'brazing-rod' | 'relay' | 'scroll-compressors' | null>(null)
+  const [subcategoryType, setSubcategoryType] = useState<'pressure-switches' | 'valves' | 'flow-switches' | 'pressure-transmitters' | 'filter-driers' | 'pressure-gauge' | 'teflon-tape' | 'axeon-pumps' | 'vibration-eliminators' | 'brazing-rod' | 'relay' | 'scroll-compressors' | null>(null)
   
   // Refs for GSAP animations
   const containerRef = useRef<HTMLDivElement>(null)
@@ -187,15 +188,6 @@ export default function ProductsPage() {
       certifications: (valveData.categories.ballValves as any).certifications || []
     },
     {
-      id: 'flow-switch',
-      name: 'Flow Switch',
-      description: 'Flow switches for monitoring water flow in HVAC systems',
-      image: (valveData.categories.flowSwitches as any).image,
-      modelNumber: 'FS Series',
-      productCount: (valveData.categories.flowSwitches?.products as Array<any>)?.length || 0,
-      certifications: (valveData.categories.flowSwitches as any).certifications || []
-    },
-    {
       id: 'sight-glass',
       name: 'Sight Glass',
       description: 'Sight glasses for visual refrigerant inspection',
@@ -203,6 +195,40 @@ export default function ProductsPage() {
       modelNumber: 'LFSG Series',
       productCount: Object.values((valveData.categories.sightGlass as any).subcategories || {}).reduce((total: number, sub: any) => total + (sub.products?.length || 0), 0),
       certifications: (valveData.categories.sightGlass as any).certifications || []
+    }
+  ]
+
+  // Build flow switch subcategories from JSON
+  const flowSwitchSubcategories: PressureSwitchSubcategory[] = [
+    {
+      id: 'eco',
+      name: 'ECO Flow Switch',
+      description: 'ECO series flow switches for cost-effective monitoring',
+      image: ((flowSwitchData.categories.flowSwitches as any)?.subcategories?.ecoFlowSwitch as any)?.image,
+      modelNumber: 'FS51-ECO',
+      productCount: ((flowSwitchData.categories.flowSwitches as any)?.subcategories?.ecoFlowSwitch?.products as Array<any>)?.length || 0,
+      certifications: ((flowSwitchData.categories.flowSwitches as any)?.subcategories?.ecoFlowSwitch as any)?.certifications || [],
+      connection: ((flowSwitchData.categories.flowSwitches as any)?.subcategories?.ecoFlowSwitch as any)?.connection
+    },
+    {
+      id: 'fs51-11',
+      name: 'FS51-11 Flow Switch',
+      description: 'Standard flow switches for reliable flow monitoring',
+      image: ((flowSwitchData.categories.flowSwitches as any)?.subcategories?.fs5111 as any)?.image,
+      modelNumber: 'FS51-11',
+      productCount: ((flowSwitchData.categories.flowSwitches as any)?.subcategories?.fs5111?.products as Array<any>)?.length || 0,
+      certifications: ((flowSwitchData.categories.flowSwitches as any)?.subcategories?.fs5111 as any)?.certifications || [],
+      connection: ((flowSwitchData.categories.flowSwitches as any)?.subcategories?.fs5111 as any)?.connection
+    },
+    {
+      id: 'fs52',
+      name: 'FS52 Flow Switch',
+      description: 'Advanced flow switches with enhanced precision',
+      image: ((flowSwitchData.categories.flowSwitches as any)?.subcategories?.fs52 as any)?.image,
+      modelNumber: 'FS52',
+      productCount: ((flowSwitchData.categories.flowSwitches as any)?.subcategories?.fs52?.products as Array<any>)?.length || 0,
+      certifications: ((flowSwitchData.categories.flowSwitches as any)?.subcategories?.fs52 as any)?.certifications || [],
+      connection: ((flowSwitchData.categories.flowSwitches as any)?.subcategories?.fs52 as any)?.connection
     }
   ]
 
@@ -215,7 +241,7 @@ export default function ProductsPage() {
       image: (pressureTransmitterData.categories.t2000Series as any).image,
       modelNumber: 'T2000 Series',
       productCount: (pressureTransmitterData.categories.t2000Series?.products as Array<any>)?.length || 0,
-      certifications: []
+      certifications: (pressureTransmitterData.categories.t2000Series as any).certifications || []
     },
     {
       id: 't2800-series',
@@ -224,7 +250,7 @@ export default function ProductsPage() {
       image: (pressureTransmitterData.categories.t2800Series as any).image,
       modelNumber: 'T2800 Series',
       productCount: (pressureTransmitterData.categories.t2800Series?.products as Array<any>)?.length || 0,
-      certifications: []
+      certifications: (pressureTransmitterData.categories.t2800Series as any).certifications || []
     }
   ]
 
@@ -486,9 +512,10 @@ export default function ProductsPage() {
         const category = urlParams.get('category') || undefined
         initialFilters.category = category
         
-        // Show subcategories if Pressure Switches, Valves, Pressure Transmitters, or Filter Driers is selected
+        // Show subcategories if Pressure Switches, Valves, Flow Switches, Pressure Transmitters, or Filter Driers is selected
         const isPressureSwitches = category?.trim().toLowerCase() === 'pressure switches'
         const isValves = category?.trim().toLowerCase() === 'valves'
+        const isFlowSwitches = category?.trim().toLowerCase() === 'flow switches'
         const isPressureTransmitters = category?.trim().toLowerCase() === 'pressure transmitters'
         const isFilterDriers = category?.trim().toLowerCase() === 'filter driers/filter drier shell'
         const isPressureGauge = category?.trim().toLowerCase() === 'pressure gauge/manifold gauge'
@@ -498,11 +525,13 @@ export default function ProductsPage() {
         const isBrazingRod = category?.trim().toLowerCase() === 'brazing rod'
         const isRelay = category?.trim().toLowerCase() === 'relay'
         const isScrollCompressors = category?.trim().toLowerCase() === 'scroll compressors'
-        setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers || isPressureGauge || isTeflonTape || isAxeonPumps || isVibrationEliminators || isBrazingRod || isRelay || isScrollCompressors)
+        setShowSubcategories(isPressureSwitches || isValves || isFlowSwitches || isPressureTransmitters || isFilterDriers || isPressureGauge || isTeflonTape || isAxeonPumps || isVibrationEliminators || isBrazingRod || isRelay || isScrollCompressors)
         if (isPressureSwitches) {
           setSubcategoryType('pressure-switches')
         } else if (isValves) {
           setSubcategoryType('valves')
+        } else if (isFlowSwitches) {
+          setSubcategoryType('flow-switches')
         } else if (isPressureTransmitters) {
           setSubcategoryType('pressure-transmitters')
         } else if (isFilterDriers) {
@@ -586,9 +615,10 @@ export default function ProductsPage() {
     const filtersWithReset = { ...newFilters, page: 1 }
     setFilters(filtersWithReset)
     
-    // Check if Pressure Switches, Valves, Pressure Transmitters, or Filter Driers is selected
+    // Check if Pressure Switches, Valves, Flow Switches, Pressure Transmitters, or Filter Driers is selected
     const isPressureSwitches = newFilters.category?.trim().toLowerCase() === 'pressure switches'
     const isValves = newFilters.category?.trim().toLowerCase() === 'valves'
+    const isFlowSwitches = newFilters.category?.trim().toLowerCase() === 'flow switches'
     const isPressureTransmitters = newFilters.category?.trim().toLowerCase() === 'pressure transmitters'
     const isFilterDriers = newFilters.category?.trim().toLowerCase() === 'filter driers/filter drier shell'
     const isPressureGauge = newFilters.category?.trim().toLowerCase() === 'pressure gauge/manifold gauge'
@@ -598,11 +628,13 @@ export default function ProductsPage() {
     const isBrazingRod = newFilters.category?.trim().toLowerCase() === 'brazing rod'
     const isRelay = newFilters.category?.trim().toLowerCase() === 'relay'
     const isScrollCompressors = newFilters.category?.trim().toLowerCase() === 'scroll compressors'
-    setShowSubcategories(isPressureSwitches || isValves || isPressureTransmitters || isFilterDriers || isPressureGauge || isTeflonTape || isAxeonPumps || isVibrationEliminators || isBrazingRod || isRelay || isScrollCompressors)
+    setShowSubcategories(isPressureSwitches || isValves || isFlowSwitches || isPressureTransmitters || isFilterDriers || isPressureGauge || isTeflonTape || isAxeonPumps || isVibrationEliminators || isBrazingRod || isRelay || isScrollCompressors)
     if (isPressureSwitches) {
       setSubcategoryType('pressure-switches')
     } else if (isValves) {
       setSubcategoryType('valves')
+    } else if (isFlowSwitches) {
+      setSubcategoryType('flow-switches')
     } else if (isPressureTransmitters) {
       setSubcategoryType('pressure-transmitters')
     } else if (isFilterDriers) {
@@ -646,6 +678,7 @@ export default function ProductsPage() {
     const type = categoryType || (() => {
       if (subcategories.find(s => s.id === subcategoryId)) return 'pressure-switches'
       if (valveSubcategories.find(s => s.id === subcategoryId)) return 'valves'
+      if (flowSwitchSubcategories.find(s => s.id === subcategoryId)) return 'flow-switches'
       if (pressureTransmitterSubcategories.find(s => s.id === subcategoryId)) return 'pressure-transmitters'
       if (filterDrierSubcategories.find(s => s.id === subcategoryId)) return 'filter-driers'
       if (pressureGaugeSubcategories.find(s => s.id === subcategoryId)) return 'pressure-gauge'
@@ -661,6 +694,8 @@ export default function ProductsPage() {
       setLocation(`/pressure-switches/${subcategoryId}`)
     } else if (type === 'valves') {
       setLocation(`/valves/${subcategoryId}`)
+    } else if (type === 'flow-switches') {
+      setLocation(`/flow-switches/${subcategoryId}`)
     } else if (type === 'pressure-transmitters') {
       setLocation(`/pressure-transmitters/${subcategoryId}`)
     } else if (type === 'filter-driers') {
@@ -777,8 +812,9 @@ export default function ProductsPage() {
                 <div className="flex items-center justify-between mb-8 bg-white/50 backdrop-blur-sm p-6 rounded-2xl border border-slate-100 shadow-sm">
                   <div>
                     <h2 className="text-3xl font-bold text-slate-900">
-                      {subcategoryType === 'pressure-switches' ? 'Pressure Switch Categories' : 
-                       subcategoryType === 'valves' ? 'Valve Categories' : 
+                      {subcategoryType === 'pressure-switches' ? 'Pressure Switch Categories' :
+                       subcategoryType === 'valves' ? 'Valve Categories' :
+                       subcategoryType === 'flow-switches' ? 'Flow Switch Categories' :
                        subcategoryType === 'pressure-transmitters' ? 'Pressure Transmitter Categories' : 
                        subcategoryType === 'filter-driers' ? 'Filter Driers/Filter Drier Shell Categories' : 
                        subcategoryType === 'pressure-gauge' ? 'Pressure Gauge/Manifold Gauge Categories' : 
@@ -804,8 +840,9 @@ export default function ProductsPage() {
                 </div>
 
                 <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-8">
-                  {(subcategoryType === 'pressure-switches' ? subcategories : 
-                    subcategoryType === 'valves' ? valveSubcategories : 
+                  {(subcategoryType === 'pressure-switches' ? subcategories :
+                    subcategoryType === 'valves' ? valveSubcategories :
+                    subcategoryType === 'flow-switches' ? flowSwitchSubcategories :
                     subcategoryType === 'pressure-transmitters' ? pressureTransmitterSubcategories : 
                     subcategoryType === 'filter-driers' ? filterDrierSubcategories : 
                     subcategoryType === 'pressure-gauge' ? pressureGaugeSubcategories : 
@@ -815,8 +852,9 @@ export default function ProductsPage() {
                     subcategoryType === 'brazing-rod' ? brazingRodSubcategories : 
                     subcategoryType === 'relay' ? relaySubcategories : 
                     subcategoryType === 'scroll-compressors' ? [scrollCompressorCategory] : []).map((subcategory) => {
-                    const categoryName = subcategoryType === 'pressure-switches' ? 'Pressure Switches' : 
-                                       subcategoryType === 'valves' ? 'Valves' : 
+                    const categoryName = subcategoryType === 'pressure-switches' ? 'Pressure Switches' :
+                                       subcategoryType === 'valves' ? 'Valves' :
+                                       subcategoryType === 'flow-switches' ? 'Flow Switches' :
                                        subcategoryType === 'pressure-transmitters' ? 'Pressure Transmitters' : 
                                        subcategoryType === 'filter-driers' ? 'Filter Driers/Filter Drier Shell' : 
                                        subcategoryType === 'pressure-gauge' ? 'Pressure Gauge/Manifold Gauge' : 
@@ -826,10 +864,12 @@ export default function ProductsPage() {
                                        subcategoryType === 'brazing-rod' ? 'Brazing Rod' : 
                                        subcategoryType === 'relay' ? 'Relay' : 
                                        subcategoryType === 'scroll-compressors' ? 'Scroll Compressors' : 'Products'
-                    const linkPath = subcategoryType === 'pressure-switches' 
-                      ? `/pressure-switches/${subcategory.id}` 
+                    const linkPath = subcategoryType === 'pressure-switches'
+                      ? `/pressure-switches/${subcategory.id}`
                       : subcategoryType === 'valves'
                       ? `/valves/${subcategory.id}`
+                      : subcategoryType === 'flow-switches'
+                      ? `/flow-switches/${subcategory.id}`
                       : subcategoryType === 'pressure-transmitters'
                       ? `/pressure-transmitters/${subcategory.id}`
                       : subcategoryType === 'filter-driers'

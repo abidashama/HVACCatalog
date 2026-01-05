@@ -1,0 +1,60 @@
+{
+  "categories": {
+    "flowSwitches": {
+      "name": "FLOW SWITCH",
+      "image": "/assets/images/flow_switch/fs51.webp",
+      "document": "/assets/documents/valves/flow_switch.pdf",
+      "description": "The LEFOO Flow Switch is a precision-engineered device for monitoring liquid flow in HVAC, water, and industrial systems. It provides reliable detection of flow deviations, ensuring system protection, optimal performance, and long-term operational stability.",
+      "subcategories": {
+        "ecoFlowSwitch": {
+          "name": "ECO FLOW SWITCH",
+          "products": [
+            {
+              "model": "FS51-ECO",
+              "type": "ECO"
+            }
+          ],
+          "connection": "1\" NPT BOTTOM CONNECTION",
+          "certifications": [
+            "CE"
+          ],
+          "image": "/assets/images/flow_switch/fs51-eco.webp",
+          "document": "/assets/documents/valves/flow_switch.pdf",
+          "description": "The LEFOO Flow Switch ensures accurate monitoring of liquid flow in industrial, HVAC, and water systems. It protects equipment by detecting low or high flow conditions and provides reliable, long-term performance."
+        },
+        "fs5111": {
+          "name": "FS51-11 FLOW SWITCH",
+          "products": [
+            {
+              "model": "FS51-11",
+              "type": "Standard"
+            }
+          ],
+          "connection": "1\" NPT BOTTOM CONNECTION",
+          "certifications": [
+            "CE"
+          ],
+          "image": "/assets/images/flow_switch/fs51.webp",
+          "document": "/assets/documents/valves/flow_switch.pdf",
+          "description": "The LEFOO Flow Switch ensures accurate monitoring of liquid flow in industrial, HVAC, and water systems. It protects equipment by detecting low or high flow conditions and provides reliable, long-term performance."
+        },
+        "fs52": {
+          "name": "FS52 FLOW SWITCH",
+          "products": [
+            {
+              "model": "FS52",
+              "type": "Standard"
+            }
+          ],
+          "connection": "1\" NPT BOTTOM CONNECTION",
+          "certifications": [
+            "CE"
+          ],
+          "image": "/assets/images/flow_switch/fs52.webp",
+          "document": "/assets/documents/valves/flow_switch.pdf",
+          "description": "The LEFOO FS52 Flow Switch is a precision-engineered device for monitoring liquid flow in HVAC, water, and industrial systems. It provides reliable detection of flow deviations, ensuring system protection, optimal performance, and long-term operational stability."
+        }
+      }
+    }
+  }
+}

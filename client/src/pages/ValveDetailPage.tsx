@@ -93,7 +93,6 @@ export default function ValveDetailPage() {
     'solenoid-lffdf': categories.solenoidValvesLFFDF,
     'bypass': categories.bypassValves,
     'ball': categories.ballValves,
-    'flow-switch': categories.flowSwitches,
     'sight-glass': categories.sightGlass
   }
 
